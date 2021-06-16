@@ -1,0 +1,10 @@
+node_modules/
+
+# generated files
+public/dist/
+
+# npm lock
+package-lock.json
+
+# vscode settings
+.vscode/
