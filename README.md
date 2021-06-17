@@ -6,8 +6,14 @@
 npm install
 ```
 
-## Build (watch mode)
+## Build
 
 ```
-npm run watch
+npm run build
+```
+
+## Serve
+
+```
+npm run serve
 ```

@@ -1,8 +1,7 @@
-const { VueLoaderPlugin } = require("vue-loader");
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/index.jsx",
   mode: "development",
   devtool: "eval-source-map",
   output: {
@@ -12,19 +11,24 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.vue$/,
-        loader: "vue-loader",
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: "babel-loader",
+        options: { presets: ["@babel/env"] },
       },
       {
         test: /\.css$/,
-        use: ["vue-style-loader", "css-loader"],
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
   resolve: {
-    alias: {
-      vue: "vue/dist/vue.esm-bundler.js",
-    },
+    extensions: ["*", ".js", ".jsx"],
   },
-  plugins: [new VueLoaderPlugin()],
+  devServer: {
+    contentBase: path.join(__dirname, "public"),
+    port: 8080,
+    publicPath: "/dist/",
+    writeToDisk: true,
+  },
 };
