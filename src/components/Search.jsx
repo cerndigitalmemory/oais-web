@@ -41,16 +41,16 @@ export class SearchForm extends React.Component {
       source: props.sources[0],
     };
 
-    this.handleChangeQuery = this.handleChangeQuery.bind(this);
-    this.handleChangeSource = this.handleChangeSource.bind(this);
+    this.handleQueryChange = this.handleQueryChange.bind(this);
+    this.handleSourceChange = this.handleSourceChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChangeQuery(event) {
+  handleQueryChange(event) {
     this.setState({ query: event.target.value });
   }
 
-  handleChangeSource(event) {
+  handleSourceChange(event) {
     this.setState({ source: event.target.value });
   }
 
@@ -67,12 +67,12 @@ export class SearchForm extends React.Component {
           <input
             type="text"
             value={this.state.query}
-            onChange={this.handleChangeQuery}
+            onChange={this.handleQueryChange}
           />
         </label>
         <label>
           Source:
-          <select value={this.state.source} onChange={this.handleChangeSource}>
+          <select value={this.state.source} onChange={this.handleSourceChange}>
             {this.props.sources.map((source, i) => (
               <option key={i} value={source}>
                 {source}
