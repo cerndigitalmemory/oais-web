@@ -24,24 +24,24 @@ class API {
     return this.client.get(url, options).then((res) => res.data);
   }
 
-  _post(url, data, options = {}) {
+  _post(url, data = {}, options = {}) {
     options = addAuthorizationHeader(options);
     return this.client.post(url, data, options).then((res) => res.data);
   }
 
   login(username, password) {
-    return this._post("/auth", {
+    return this._post("/auth/", {
       username: username,
       password: password,
     });
   }
 
   search(source, query) {
-    return this._get(`/search/${source}`, { params: { q: query } });
+    return this._get(`/search/${source}/`, { params: { q: query } });
   }
 
   harvest(source, recid) {
-    return this._get(`/harvest/${recid}/${source}`);
+    return this._post(`/harvest/${recid}/${source}/`);
   }
 }
 
