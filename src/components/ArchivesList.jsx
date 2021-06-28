@@ -32,10 +32,6 @@ const STATUS = [
 ];
 
 class Archive extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {}
   render() {
     const { archive } = this.props;
     return (
