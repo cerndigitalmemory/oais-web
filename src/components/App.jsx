@@ -4,6 +4,7 @@ import { getToken, setToken, removeToken } from "../storage.js";
 import { AppContext } from "./AppContext.js";
 import { Login } from "./Login.jsx";
 import { Navbar } from "./Navbar.jsx";
+import { ProtectedRoute } from "./ProtectedRoute.jsx";
 import { Search } from "./Search.jsx";
 
 export class App extends React.Component {
@@ -36,9 +37,9 @@ export class App extends React.Component {
           <Navbar />
           <div id="content">
             <Switch>
-              <Route path="/search">
+              <ProtectedRoute path="/search">
                 <Search />
-              </Route>
+              </ProtectedRoute>
               <Route path="/login">
                 <Login />
               </Route>

@@ -32,7 +32,9 @@ export class Login extends React.Component {
 
   render() {
     if (this.context.isLoggedIn()) {
-      return <Redirect to="/" />;
+      const params = new URLSearchParams(this.props.location.search);
+      const redirectURL = params.get("redirect") ?? "/";
+      return <Redirect to={redirectURL} />;
     }
 
     return (
