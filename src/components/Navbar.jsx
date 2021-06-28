@@ -16,6 +16,11 @@ export class Navbar extends React.Component {
           loggedIn: true,
         },
         {
+          value: "Logout",
+          to: "/logout",
+          loggedIn: true,
+        },
+        {
           value: "Login",
           to: "/login",
           loggedIn: false,
