@@ -43,6 +43,10 @@ class API {
   harvest(source, recid) {
     return this._post(`/harvest/${recid}/${source}/`);
   }
+
+  archives() {
+    return this._get("/archives/");
+  }
 }
 
 export const api = new API({

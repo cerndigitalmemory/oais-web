@@ -40,3 +40,21 @@
   grid-column: 2;
   place-self: center;
 }
+
+.archive-table {
+  border-collapse: collapse;
+}
+
+.archive-table-row {
+  border-color: #dddddd;
+  border-width: 1px;
+  border-style: solid none;
+}
+
+.archive-table-row td {
+  padding: 0.2em 1em;
+}
+
+.archive-table-row .center-col {
+  text-align: center;
+}

@@ -1,7 +1,8 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { getToken, setToken, removeToken } from "../storage.js";
+import { getToken, removeToken, setToken } from "../storage.js";
 import { AppContext } from "./AppContext.js";
+import { Archives } from "./Archives.jsx";
 import { Login } from "./Login.jsx";
 import { Logout } from "./Logout.jsx";
 import { Navbar } from "./Navbar.jsx";
@@ -39,6 +40,7 @@ export class App extends React.Component {
           <div id="content">
             <Switch>
               <ProtectedRoute path="/search" component={Search} />
+              <ProtectedRoute path="/archives" component={Archives} />
               <Route path="/logout" component={Logout} />
               <Route path="/login" component={Login} />
               <Route path="/">
