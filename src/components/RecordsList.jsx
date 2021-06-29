@@ -1,5 +1,5 @@
+import { api } from "@/api.js";
 import React from "react";
-import { api } from "../api.js";
 
 export class RecordsList extends React.Component {
   render() {

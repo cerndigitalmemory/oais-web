@@ -1,6 +1,6 @@
+import { AppContext } from "@/AppContext.js";
 import React from "react";
 import { Link } from "react-router-dom";
-import { AppContext } from "./AppContext.js";
 
 export class Navbar extends React.Component {
   static contextType = AppContext;

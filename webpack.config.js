@@ -22,6 +22,11 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    alias: {
+      "@": path.resolve("src"),
+    },
+  },
   devServer: {
     contentBase: path.join(__dirname, "public"),
     port: 8080,

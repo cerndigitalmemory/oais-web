@@ -1,6 +1,6 @@
 import React from "react";
-import { api } from "../api.js";
-import { RecordsList } from "./RecordsList.jsx";
+import { api } from "@/api.js";
+import { RecordsList } from "@/components/RecordsList.jsx";
 
 export class Search extends React.Component {
   constructor(props) {

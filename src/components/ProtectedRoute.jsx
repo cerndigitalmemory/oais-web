@@ -1,6 +1,6 @@
+import { AppContext } from "@/AppContext.js";
 import React from "react";
 import { Redirect, Route } from "react-router";
-import { AppContext } from "./AppContext.js";
 
 export class ProtectedRoute extends React.Component {
   static contextType = AppContext;

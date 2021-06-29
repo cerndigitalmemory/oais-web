@@ -1,6 +1,6 @@
 import React from "react";
-import { api } from "../api.js";
-import { ArchivesList } from "./ArchivesList.jsx";
+import { api } from "@/api.js";
+import { ArchivesList } from "@/components/ArchivesList.jsx";
 
 export class Archives extends React.Component {
   constructor(props) {

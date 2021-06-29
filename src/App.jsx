@@ -1,13 +1,13 @@
+import { AppContext } from "@/AppContext.js";
+import { Navbar } from "@/components/Navbar.jsx";
+import { ProtectedRoute } from "@/components/ProtectedRoute.jsx";
+import { Archives } from "@/pages/Archives.jsx";
+import { Login } from "@/pages/Login.jsx";
+import { Logout } from "@/pages/Logout.jsx";
+import { Search } from "@/pages/Search.jsx";
+import { getToken, removeToken, setToken } from "@/storage.js";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { getToken, removeToken, setToken } from "../storage.js";
-import { AppContext } from "./AppContext.js";
-import { Archives } from "./Archives.jsx";
-import { Login } from "./Login.jsx";
-import { Logout } from "./Logout.jsx";
-import { Navbar } from "./Navbar.jsx";
-import { ProtectedRoute } from "./ProtectedRoute.jsx";
-import { Search } from "./Search.jsx";
 
 export class App extends React.Component {
   constructor(props) {

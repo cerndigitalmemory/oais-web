@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router";
-import { api } from "../api.js";
-import { AppContext } from "./AppContext.js";
+import { api } from "@/api.js";
+import { AppContext } from "@/AppContext.js";
 
 export class Login extends React.Component {
   static contextType = AppContext;
