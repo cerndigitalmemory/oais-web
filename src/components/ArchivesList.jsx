@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export class ArchivesList extends React.Component {
   render() {
@@ -38,7 +39,9 @@ class Archive extends React.Component {
       <tr className="archive-table-row">
         <td>{archive.id}</td>
         <td>
-          {archive.record.recid} ({archive.record.source})
+          <Link to={`/records/${archive.record.id}`}>
+            {archive.record.recid} ({archive.record.source})
+          </Link>
         </td>
         <td>{archive.creator.username}</td>
         <td>{archive.creation_date}</td>

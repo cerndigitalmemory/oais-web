@@ -4,6 +4,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute.jsx";
 import { Archives } from "@/pages/Archives.jsx";
 import { Login } from "@/pages/Login.jsx";
 import { Logout } from "@/pages/Logout.jsx";
+import { RecordDetail } from "@/pages/RecordDetail.jsx";
 import { Search } from "@/pages/Search.jsx";
 import { getToken, removeToken, setToken } from "@/storage.js";
 import React from "react";
@@ -41,6 +42,7 @@ export class App extends React.Component {
             <Switch>
               <ProtectedRoute path="/search" component={Search} />
               <ProtectedRoute path="/archives" component={Archives} />
+              <ProtectedRoute path="/records/:id" component={RecordDetail} />
               <Route path="/logout" component={Logout} />
               <Route path="/login" component={Login} />
               <Route path="/">

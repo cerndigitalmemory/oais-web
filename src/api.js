@@ -47,6 +47,14 @@ class API {
   archives() {
     return this._get("/archives/");
   }
+
+  archivesByRecord(id) {
+    return this._get(`/records/${id}/archives/`);
+  }
+
+  record(id) {
+    return this._get(`/records/${id}/`);
+  }
 }
 
 export const api = new API({
