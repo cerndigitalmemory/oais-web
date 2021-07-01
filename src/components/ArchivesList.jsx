@@ -43,7 +43,11 @@ class Archive extends React.Component {
             {archive.record.recid} ({archive.record.source})
           </Link>
         </td>
-        <td>{archive.creator.username}</td>
+        <td>
+          <Link to={`/users/${archive.creator.id}`}>
+            {archive.creator.username}
+          </Link>
+        </td>
         <td>{archive.creation_date}</td>
         <td className="center-col">{STATUS[archive.status]}</td>
       </tr>

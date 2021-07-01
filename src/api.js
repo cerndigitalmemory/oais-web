@@ -52,8 +52,16 @@ class API {
     return this._get(`/records/${id}/archives/`);
   }
 
+  archivesByUser(id) {
+    return this._get(`/users/${id}/archives/`);
+  }
+
   record(id) {
     return this._get(`/records/${id}/`);
+  }
+
+  user(id) {
+    return this._get(`/users/${id}/`);
   }
 }
 
