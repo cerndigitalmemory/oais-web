@@ -21,6 +21,7 @@ export class UserDetail extends React.Component {
   }
 
   render() {
+    const { id } = this.props.match.params;
     const { user } = this.state;
     return (
       <React.Fragment>
@@ -28,7 +29,7 @@ export class UserDetail extends React.Component {
           User {user.id} ({user.username})
         </h1>
         <Pagination
-          data={(page) => api.archivesByUser(user.id, page)}
+          data={(page) => api.archivesByUser(id, page)}
           render={({ results }) => <ArchivesList archives={results} />}
         />
       </React.Fragment>

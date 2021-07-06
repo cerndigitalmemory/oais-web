@@ -21,6 +21,7 @@ export class RecordDetail extends React.Component {
   }
 
   render() {
+    const { id } = this.props.match.params;
     const { record } = this.state;
     return (
       <React.Fragment>
@@ -29,7 +30,7 @@ export class RecordDetail extends React.Component {
           Record {record.recid} from {record.source}
         </h2>
         <Pagination
-          data={(page) => api.archivesByRecord(record.id, page)}
+          data={(page) => api.archivesByRecord(id, page)}
           render={({ results }) => <ArchivesList archives={results} />}
         />
       </React.Fragment>
