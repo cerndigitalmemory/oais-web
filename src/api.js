@@ -44,16 +44,16 @@ class API {
     return this._post(`/harvest/${recid}/${source}/`);
   }
 
-  archives() {
-    return this._get("/archives/");
+  archives(page = 1) {
+    return this._get("/archives/", { params: { page } });
   }
 
-  archivesByRecord(id) {
-    return this._get(`/records/${id}/archives/`);
+  archivesByRecord(id, page = 1) {
+    return this._get(`/records/${id}/archives/`, { params: { page } });
   }
 
-  archivesByUser(id) {
-    return this._get(`/users/${id}/archives/`);
+  archivesByUser(id, page = 1) {
+    return this._get(`/users/${id}/archives/`, { params: { page } });
   }
 
   record(id) {

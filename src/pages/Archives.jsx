@@ -1,27 +1,17 @@
-import React from "react";
 import { api } from "@/api.js";
 import { ArchivesList } from "@/components/ArchivesList.jsx";
+import { Pagination } from "@/components/Pagination.jsx";
+import React from "react";
 
 export class Archives extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      archives: [],
-    };
-  }
-
-  componentDidMount() {
-    api.archives().then((archives) => {
-      this.setState({ archives: archives.results });
-    });
-  }
-
   render() {
     return (
       <React.Fragment>
         <h1>Archives</h1>
-        <ArchivesList archives={this.state.archives} />
+        <Pagination
+          data={(page) => api.archives(page)}
+          render={({ results }) => <ArchivesList archives={results} />}
+        />
       </React.Fragment>
     );
   }

@@ -1,5 +1,6 @@
 import { api } from "@/api.js";
 import { ArchivesList } from "@/components/ArchivesList.jsx";
+import { Pagination } from "@/components/Pagination.jsx";
 import React from "react";
 
 export class UserDetail extends React.Component {
@@ -7,7 +8,6 @@ export class UserDetail extends React.Component {
     super(props);
     this.state = {
       user: {},
-      archives: [],
     };
   }
 
@@ -18,21 +18,19 @@ export class UserDetail extends React.Component {
         user: user,
       });
     });
-    api.archivesByUser(id).then((res) => {
-      this.setState({
-        archives: res.results,
-      });
-    });
   }
 
   render() {
-    const { user, archives } = this.state;
+    const { user } = this.state;
     return (
       <React.Fragment>
         <h1>
           User {user.id} ({user.username})
         </h1>
-        <ArchivesList archives={archives} />
+        <Pagination
+          data={(page) => api.archivesByUser(user.id, page)}
+          render={({ results }) => <ArchivesList archives={results} />}
+        />
       </React.Fragment>
     );
   }

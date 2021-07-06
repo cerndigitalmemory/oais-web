@@ -1,5 +1,6 @@
 import { api } from "@/api.js";
 import { ArchivesList } from "@/components/ArchivesList.jsx";
+import { Pagination } from "@/components/Pagination.jsx";
 import React from "react";
 
 export class RecordDetail extends React.Component {
@@ -7,7 +8,6 @@ export class RecordDetail extends React.Component {
     super(props);
     this.state = {
       record: {},
-      archives: [],
     };
   }
 
@@ -18,22 +18,20 @@ export class RecordDetail extends React.Component {
         record: record,
       });
     });
-    api.archivesByRecord(id).then((res) => {
-      this.setState({
-        archives: res.results,
-      });
-    });
   }
 
   render() {
-    const { record, archives } = this.state;
+    const { record } = this.state;
     return (
       <React.Fragment>
         <h1>Record {record.id}</h1>
         <h2>
           Record {record.recid} from {record.source}
         </h2>
-        <ArchivesList archives={archives} />
+        <Pagination
+          data={(page) => api.archivesByRecord(record.id, page)}
+          render={({ results }) => <ArchivesList archives={results} />}
+        />
       </React.Fragment>
     );
   }
