@@ -1,3 +1,5 @@
+import { api } from "@/api.js";
+import { ArchiveStatus, ArchiveStatusLabel } from "@/utils.js";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -12,6 +14,7 @@ export class ArchivesList extends React.Component {
             <th>Creator</th>
             <th>Creation Date</th>
             <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -24,17 +27,41 @@ export class ArchivesList extends React.Component {
   }
 }
 
-const STATUS = [
-  "",
-  /* 1 */ "Pending",
-  /* 2 */ "In progress",
-  /* 3 */ "Failed",
-  /* 4 */ "Completed",
-];
-
 class Archive extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      archive: props.archive,
+    };
+    this.approve = this.approve.bind(this);
+    this.reject = this.reject.bind(this);
+  }
+
+  approve() {
+    const { archive } = this.state;
+    api
+      .approveArchive(archive.id)
+      .then((archive) => this.setState({ archive }));
+  }
+
+  reject() {
+    const { archive } = this.state;
+    api.rejectArchive(archive.id).then((archive) => this.setState({ archive }));
+  }
+
   render() {
-    const { archive } = this.props;
+    const { archive } = this.state;
+
+    let actions = null;
+    if (archive.status === ArchiveStatus.WAITING_APPROVAL) {
+      actions = (
+        <div>
+          <button onClick={() => this.approve()}>Approve</button>
+          <button onClick={() => this.reject()}>Reject</button>
+        </div>
+      );
+    }
+
     return (
       <tr className="archive-table-row">
         <td>{archive.id}</td>
@@ -49,7 +76,8 @@ class Archive extends React.Component {
           </Link>
         </td>
         <td>{archive.creation_date}</td>
-        <td className="center-col">{STATUS[archive.status]}</td>
+        <td className="center-col">{ArchiveStatusLabel[archive.status]}</td>
+        <td>{actions}</td>
       </tr>
     );
   }

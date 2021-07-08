@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getToken } from "./storage.js";
+import { ArchiveStatus } from "./utils.js";
 
 const API_URL = "/";
 
@@ -27,6 +28,11 @@ class API {
   _post(url, data = {}, options = {}) {
     options = addAuthorizationHeader(options);
     return this.client.post(url, data, options).then((res) => res.data);
+  }
+
+  _patch(url, data = {}, options = {}) {
+    options = addAuthorizationHeader(options);
+    return this.client.patch(url, data, options).then((res) => res.data);
   }
 
   login(username, password) {
@@ -62,6 +68,18 @@ class API {
 
   user(id) {
     return this._get(`/users/${id}/`);
+  }
+
+  patchArchive(id, data) {
+    return this._patch(`/archives/${id}/`, data);
+  }
+
+  approveArchive(id) {
+    return this.patchArchive(id, { status: ArchiveStatus.PENDING });
+  }
+
+  rejectArchive(id) {
+    return this.patchArchive(id, { status: ArchiveStatus.REJECTED });
   }
 }
 
