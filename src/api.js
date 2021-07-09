@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getToken } from "./storage.js";
-import { ArchiveStatus } from "./utils.js";
 
 const API_URL = "/";
 
@@ -70,16 +69,12 @@ class API {
     return this._get(`/users/${id}/`);
   }
 
-  patchArchive(id, data) {
-    return this._patch(`/archives/${id}/`, data);
-  }
-
   approveArchive(id) {
-    return this.patchArchive(id, { status: ArchiveStatus.PENDING });
+    return this._post(`/archives/${id}/actions/approve/`);
   }
 
   rejectArchive(id) {
-    return this.patchArchive(id, { status: ArchiveStatus.REJECTED });
+    return this._post(`/archives/${id}/actions/reject/`);
   }
 }
 
