@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 export class ArchivesList extends React.Component {
   render() {
+    const { archives, onArchiveUpdate } = this.props;
     return (
       <table className="archive-table">
         <thead>
@@ -18,8 +19,12 @@ export class ArchivesList extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {this.props.archives.map((archive, i) => (
-            <Archive key={i} archive={archive} />
+          {archives.map((archive) => (
+            <Archive
+              key={archive.id}
+              archive={archive}
+              onArchiveUpdate={onArchiveUpdate}
+            />
           ))}
         </tbody>
       </table>
@@ -28,29 +33,18 @@ export class ArchivesList extends React.Component {
 }
 
 class Archive extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      archive: props.archive,
-    };
-    this.approve = this.approve.bind(this);
-    this.reject = this.reject.bind(this);
-  }
+  approve = () => {
+    const { archive, onArchiveUpdate } = this.props;
+    api.approveArchive(archive.id).then((archive) => onArchiveUpdate(archive));
+  };
 
-  approve() {
-    const { archive } = this.state;
-    api
-      .approveArchive(archive.id)
-      .then((archive) => this.setState({ archive }));
-  }
-
-  reject() {
-    const { archive } = this.state;
-    api.rejectArchive(archive.id).then((archive) => this.setState({ archive }));
-  }
+  reject = () => {
+    const { archive, onArchiveUpdate } = this.props;
+    api.rejectArchive(archive.id).then((archive) => onArchiveUpdate(archive));
+  };
 
   render() {
-    const { archive } = this.state;
+    const { archive } = this.props;
 
     let actions = null;
     if (archive.status === ArchiveStatus.WAITING_APPROVAL) {

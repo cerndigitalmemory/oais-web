@@ -1,6 +1,5 @@
 import { api } from "@/api.js";
-import { ArchivesList } from "@/components/ArchivesList.jsx";
-import { Pagination } from "@/components/Pagination.jsx";
+import { PaginatedArchivesList } from "@/components/PaginatedArchivesList.jsx";
 import React from "react";
 
 export class Archives extends React.Component {
@@ -8,10 +7,7 @@ export class Archives extends React.Component {
     return (
       <React.Fragment>
         <h1>Archives</h1>
-        <Pagination
-          data={(page) => api.archives(page)}
-          render={({ results }) => <ArchivesList archives={results} />}
-        />
+        <PaginatedArchivesList getArchives={(page) => api.archives(page)} />
       </React.Fragment>
     );
   }

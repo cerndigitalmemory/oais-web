@@ -1,6 +1,5 @@
 import { api } from "@/api.js";
-import { ArchivesList } from "@/components/ArchivesList.jsx";
-import { Pagination } from "@/components/Pagination.jsx";
+import { PaginatedArchivesList } from "@/components/PaginatedArchivesList.jsx";
 import React from "react";
 
 export class UserDetail extends React.Component {
@@ -28,9 +27,8 @@ export class UserDetail extends React.Component {
         <h1>
           User {user.id} ({user.username})
         </h1>
-        <Pagination
-          data={(page) => api.archivesByUser(id, page)}
-          render={({ results }) => <ArchivesList archives={results} />}
+        <PaginatedArchivesList
+          getArchives={(page) => api.archivesByUser(id, page)}
         />
       </React.Fragment>
     );
