@@ -15,3 +15,8 @@ export const ArchiveStatusLabel = {
   [ArchiveStatus.WAITING_APPROVAL]: "Waiting for Approval",
   [ArchiveStatus.REJECTED]: "Rejected",
 };
+
+export const Permissions = {
+  CAN_APPROVE_ARCHIVE: "oais.can_approve_archive",
+  CAN_REJECT_ARCHIVE: "oais.can_reject_archive",
+};

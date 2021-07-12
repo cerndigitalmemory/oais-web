@@ -1,5 +1,6 @@
 import { api } from "@/api.js";
-import { ArchiveStatus, ArchiveStatusLabel } from "@/utils.js";
+import { AppContext } from "@/AppContext.js";
+import { ArchiveStatus, ArchiveStatusLabel, Permissions } from "@/utils.js";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -33,6 +34,8 @@ export class ArchivesList extends React.Component {
 }
 
 class Archive extends React.Component {
+  static contextType = AppContext;
+
   approve = () => {
     const { archive, onArchiveUpdate } = this.props;
     api.approveArchive(archive.id).then((archive) => onArchiveUpdate(archive));
@@ -45,13 +48,21 @@ class Archive extends React.Component {
 
   render() {
     const { archive } = this.props;
+    const canApprove = this.context.hasPermission(
+      Permissions.CAN_APPROVE_ARCHIVE
+    );
+    const canReject = this.context.hasPermission(
+      Permissions.CAN_REJECT_ARCHIVE
+    );
 
     let actions = null;
     if (archive.status === ArchiveStatus.WAITING_APPROVAL) {
       actions = (
         <div>
-          <button onClick={() => this.approve()}>Approve</button>
-          <button onClick={() => this.reject()}>Reject</button>
+          {canApprove && (
+            <button onClick={() => this.approve()}>Approve</button>
+          )}
+          {canReject && <button onClick={() => this.reject()}>Reject</button>}
         </div>
       );
     }

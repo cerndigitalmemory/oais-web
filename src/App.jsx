@@ -27,6 +27,9 @@ export class App extends React.Component {
       user: getUser(),
 
       isLoggedIn: () => this.state.token !== null,
+      hasPermission: (permission) => {
+        return this.state.user?.permissions.includes(permission) ?? false;
+      },
 
       login: (token, user) => {
         setToken(token);
