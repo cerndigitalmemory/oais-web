@@ -1,7 +1,8 @@
-import React from "react";
-import { Redirect } from "react-router";
 import { api } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
+import { setToken } from "@/storage.js";
+import React from "react";
+import { Redirect } from "react-router";
 
 export class Login extends React.Component {
   static contextType = AppContext;
@@ -25,9 +26,13 @@ export class Login extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    api
-      .login(this.state.username, this.state.password)
-      .then(({ token }) => this.context.setToken(token));
+    api.login(this.state.username, this.state.password).then(({ token }) => {
+      // set the token so that it can be used to call the API
+      setToken(token);
+      return api.me().then((user) => {
+        this.context.login(token, user);
+      });
+    });
   };
 
   render() {

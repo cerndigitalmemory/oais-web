@@ -7,7 +7,14 @@ import { Logout } from "@/pages/Logout.jsx";
 import { RecordDetail } from "@/pages/RecordDetail.jsx";
 import { Search } from "@/pages/Search.jsx";
 import { UserDetail } from "@/pages/UserDetail.jsx";
-import { getToken, removeToken, setToken } from "@/storage.js";
+import {
+  getToken,
+  getUser,
+  removeToken,
+  removeUser,
+  setToken,
+  setUser,
+} from "@/storage.js";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
@@ -17,18 +24,21 @@ export class App extends React.Component {
 
     this.state = {
       token: getToken(),
+      user: getUser(),
+
       isLoggedIn: () => this.state.token !== null,
 
-      setToken: (token) => {
+      login: (token, user) => {
         setToken(token);
-        this.setState({
-          token: token,
-        });
+        setUser(user);
+        this.setState({ token, user });
       },
-      removeToken: () => {
+      logout: () => {
         removeToken();
+        removeUser();
         this.setState({
           token: null,
+          user: null,
         });
       },
     };

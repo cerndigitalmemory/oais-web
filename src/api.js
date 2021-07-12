@@ -76,6 +76,10 @@ class API {
   rejectArchive(id) {
     return this._post(`/archives/${id}/actions/reject/`);
   }
+
+  me() {
+    return this._get(`/me/`);
+  }
 }
 
 export const api = new API({
