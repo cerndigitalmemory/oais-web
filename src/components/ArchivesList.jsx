@@ -37,14 +37,16 @@ export class ArchivesList extends React.Component {
 class Archive extends React.Component {
   static contextType = AppContext;
 
-  approve = () => {
+  approve = async () => {
     const { archive, onArchiveUpdate } = this.props;
-    api.approveArchive(archive.id).then(onArchiveUpdate);
+    const updatedArchive = await api.approveArchive(archive.id);
+    onArchiveUpdate(updatedArchive);
   };
 
-  reject = () => {
+  reject = async () => {
     const { archive, onArchiveUpdate } = this.props;
-    api.rejectArchive(archive.id).then(onArchiveUpdate);
+    const updatedArchive = await api.rejectArchive(archive.id);
+    onArchiveUpdate(updatedArchive);
   };
 
   render() {

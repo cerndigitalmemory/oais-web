@@ -10,13 +10,10 @@ export class RecordDetail extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { id } = this.props.match.params;
-    api.record(id).then((record) => {
-      this.setState({
-        record: record,
-      });
-    });
+    const record = await api.record(id);
+    this.setState({ record });
   }
 
   render() {

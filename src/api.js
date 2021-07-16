@@ -19,66 +19,69 @@ class API {
     this.client = axios.create(config);
   }
 
-  _get(url, options = {}) {
+  async _get(url, options = {}) {
     options = addAuthorizationHeader(options);
-    return this.client.get(url, options).then((res) => res.data);
+    const { data } = await this.client.get(url, options);
+    return data;
   }
 
-  _post(url, data = {}, options = {}) {
+  async _post(url, data = {}, options = {}) {
     options = addAuthorizationHeader(options);
-    return this.client.post(url, data, options).then((res) => res.data);
+    const { data: response } = await this.client.post(url, data, options);
+    return response;
   }
 
-  _patch(url, data = {}, options = {}) {
+  async _patch(url, data = {}, options = {}) {
     options = addAuthorizationHeader(options);
-    return this.client.patch(url, data, options).then((res) => res.data);
+    const { data: response } = await this.client.patch(url, data, options);
+    return response;
   }
 
-  login(username, password) {
-    return this._post("/auth/", {
+  async login(username, password) {
+    return await this._post("/auth/", {
       username: username,
       password: password,
     });
   }
 
-  search(source, query) {
-    return this._get(`/search/${source}/`, { params: { q: query } });
+  async search(source, query) {
+    return await this._get(`/search/${source}/`, { params: { q: query } });
   }
 
-  harvest(source, recid) {
-    return this._post(`/harvest/${recid}/${source}/`);
+  async harvest(source, recid) {
+    return await this._post(`/harvest/${recid}/${source}/`);
   }
 
-  archives(page = 1) {
-    return this._get("/archives/", { params: { page } });
+  async archives(page = 1) {
+    return await this._get("/archives/", { params: { page } });
   }
 
-  archivesByRecord(id, page = 1) {
-    return this._get(`/records/${id}/archives/`, { params: { page } });
+  async archivesByRecord(id, page = 1) {
+    return await this._get(`/records/${id}/archives/`, { params: { page } });
   }
 
-  archivesByUser(id, page = 1) {
-    return this._get(`/users/${id}/archives/`, { params: { page } });
+  async archivesByUser(id, page = 1) {
+    return await this._get(`/users/${id}/archives/`, { params: { page } });
   }
 
-  record(id) {
-    return this._get(`/records/${id}/`);
+  async record(id) {
+    return await this._get(`/records/${id}/`);
   }
 
-  user(id) {
-    return this._get(`/users/${id}/`);
+  async user(id) {
+    return await this._get(`/users/${id}/`);
   }
 
-  approveArchive(id) {
-    return this._post(`/archives/${id}/actions/approve/`);
+  async approveArchive(id) {
+    return await this._post(`/archives/${id}/actions/approve/`);
   }
 
-  rejectArchive(id) {
-    return this._post(`/archives/${id}/actions/reject/`);
+  async rejectArchive(id) {
+    return await this._post(`/archives/${id}/actions/reject/`);
   }
 
-  me() {
-    return this._get(`/me/`);
+  async me() {
+    return await this._get(`/me/`);
   }
 }
 

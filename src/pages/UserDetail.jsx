@@ -10,13 +10,10 @@ export class UserDetail extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { id } = this.props.match.params;
-    api.user(id).then((user) => {
-      this.setState({
-        user: user,
-      });
-    });
+    const user = await api.user(id);
+    this.setState({ user });
   }
 
   render() {

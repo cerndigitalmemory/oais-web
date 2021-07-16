@@ -11,10 +11,9 @@ export class Search extends React.Component {
     };
   }
 
-  handleSearch = (source, query) => {
-    api.search(source, query).then((results) => {
-      this.setState({ results });
-    });
+  handleSearch = async (source, query) => {
+    const results = await api.search(source, query);
+    this.setState({ results });
   };
 
   render() {

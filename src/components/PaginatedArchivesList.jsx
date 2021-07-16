@@ -22,10 +22,9 @@ export class PaginatedArchivesList extends React.Component {
     this.setState({ archives });
   };
 
-  loadArchives = (page = 1) => {
-    Promise.resolve(this.props.getArchives(page)).then(({ results }) =>
-      this.setState({ archives: results, page })
-    );
+  loadArchives = async (page = 1) => {
+    const { results: archives } = await this.props.getArchives(page);
+    this.setState({ archives, page });
   };
 
   componentDidMount() {

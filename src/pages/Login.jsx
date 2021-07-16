@@ -25,15 +25,13 @@ export class Login extends React.Component {
     this.setState({ password: event.target.value });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    api.login(this.state.username, this.state.password).then(({ token }) => {
-      // set the token so that it can be used to call the API
-      setToken(token);
-      return api.me().then((user) => {
-        this.context.login(token, user);
-      });
-    });
+    const { token } = await api.login(this.state.username, this.state.password);
+    // set the token so that it can be used to call the API
+    setToken(token);
+    const user = await api.me();
+    this.context.login(token, user);
   };
 
   render() {

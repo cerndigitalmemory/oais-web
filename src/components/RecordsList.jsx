@@ -22,9 +22,11 @@ class Record extends React.Component {
     };
   }
 
-  handleHarvest = () => {
+  handleHarvest = async () => {
     const { record } = this.props;
-    api.harvest(record.source, record.recid).then(console.log);
+    const archive = await api.harvest(record.source, record.recid);
+    // TODO: show the new archive to the user
+    console.log(archive);
   };
 
   toggleCollapse = () => {
