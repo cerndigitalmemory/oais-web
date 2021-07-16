@@ -2,6 +2,7 @@ import { api } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
 import { setToken } from "@/storage.js";
 import React from "react";
+import { Button, Form } from "react-bootstrap";
 import { Redirect } from "react-router";
 
 export class Login extends React.Component {
@@ -43,25 +44,25 @@ export class Login extends React.Component {
     }
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Username:
-          <input
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Group className="mb-3" controlId="formUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
             type="text"
             value={this.state.username}
             onChange={this.handleUsernameChange}
           />
-        </label>
-        <label>
-          Password:
-          <input
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             type="password"
             value={this.state.password}
             onChange={this.handlePasswordChange}
           />
-        </label>
-        <input type="submit" value="Login" />
-      </form>
+        </Form.Group>
+        <Button type="submit">Login</Button>
+      </Form>
     );
   }
 }

@@ -1,33 +1,32 @@
-import React from "react";
 import { api } from "@/api.js";
 import { RecordsList } from "@/components/RecordsList.jsx";
+import React from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
 
 export class Search extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       results: [],
     };
-
-    this.handleSearch = this.handleSearch.bind(this);
   }
 
-  handleSearch(source, query) {
-    api.search(source, query).then((res) => {
-      this.setState({ results: res });
+  handleSearch = (source, query) => {
+    api.search(source, query).then((results) => {
+      this.setState({ results });
     });
-  }
+  };
 
   render() {
     return (
-      <div>
+      <React.Fragment>
+        <h1>Search</h1>
         <SearchForm
           sources={["cds-test", "cds"]}
           onSearch={this.handleSearch}
         />
         <RecordsList records={this.state.results} />
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -35,53 +34,69 @@ export class Search extends React.Component {
 export class SearchForm extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       query: "",
       source: props.sources[0],
     };
-
-    this.handleQueryChange = this.handleQueryChange.bind(this);
-    this.handleSourceChange = this.handleSourceChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleQueryChange(event) {
+  handleQueryChange = (event) => {
     this.setState({ query: event.target.value });
-  }
+  };
 
-  handleSourceChange(event) {
+  handleSourceChange = (event) => {
     this.setState({ source: event.target.value });
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     this.props.onSearch(this.state.source, this.state.query);
-  }
+  };
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Query:
-          <input
-            type="text"
-            value={this.state.query}
-            onChange={this.handleQueryChange}
-          />
-        </label>
-        <label>
-          Source:
-          <select value={this.state.source} onChange={this.handleSourceChange}>
-            {this.props.sources.map((source, i) => (
-              <option key={i} value={source}>
-                {source}
-              </option>
-            ))}
-          </select>
-        </label>
-        <input type="submit" value="Search" />
-      </form>
+      <Form onSubmit={this.handleSubmit} className="mb-3">
+        <Row>
+          <Col xs="12" lg="7">
+            <Form.Group as={Row} className="mb-3" controlId="formQuery">
+              <Form.Label column xs="2" lg="auto">
+                Query
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  type="text"
+                  value={this.state.query}
+                  onChange={this.handleQueryChange}
+                />
+              </Col>
+            </Form.Group>
+          </Col>
+
+          <Col xs="12" lg="3">
+            <Form.Group as={Row} className="mb-3" controlId="formSource">
+              <Form.Label column xs="2" lg="auto">
+                Source
+              </Form.Label>
+              <Col>
+                <Form.Select
+                  value={this.state.source}
+                  onChange={this.handleSourceChange}
+                >
+                  {this.props.sources.map((source) => (
+                    <option key={source} value={source}>
+                      {source}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Col>
+            </Form.Group>
+          </Col>
+
+          <Col xs="12" lg="2" className="text-center">
+            <Button type="submit">Search</Button>
+          </Col>
+        </Row>
+      </Form>
     );
   }
 }

@@ -1,14 +1,15 @@
 import { api } from "@/api.js";
 import React from "react";
+import { Button, ButtonGroup, ListGroup } from "react-bootstrap";
 
 export class RecordsList extends React.Component {
   render() {
     return (
-      <div className="records-list">
-        {this.props.records.map((x, i) => (
-          <Record key={i} record={x} />
+      <ListGroup>
+        {this.props.records.map((record, i) => (
+          <Record key={i} record={record} />
         ))}
-      </div>
+      </ListGroup>
     );
   }
 }
@@ -16,35 +17,83 @@ export class RecordsList extends React.Component {
 class Record extends React.Component {
   constructor(props) {
     super(props);
-    this.handleHarvest = this.handleHarvest.bind(this);
-  }
-  get record() {
-    return this.props.record;
+    this.state = {
+      collapsed: true,
+    };
   }
 
-  handleHarvest() {
-    api
-      .harvest(this.record.source, this.record.recid)
-      .then((res) => console.log(res));
-  }
+  handleHarvest = () => {
+    const { record } = this.props;
+    api.harvest(record.source, record.recid).then(console.log);
+  };
+
+  toggleCollapse = () => {
+    this.setState((state) => ({
+      collapsed: !state.collapsed,
+    }));
+  };
 
   render() {
-    return (
-      <div className="record">
-        <div className="record-title">
-          <a href={this.record.url}>{this.record.title}</a>
-        </div>
-        <div className="record-authors">
-          {this.record.authors.map((author, i) => (
-            <span key={i} className="record-author">
+    const { record } = this.props;
+    const { collapsed } = this.state;
+
+    let details = null;
+    if (!collapsed) {
+      details = (
+        <div>
+          {record.authors.map((author, i) => (
+            <small className="me-3 d-inline-block" key={i}>
               {author}
-            </span>
+            </small>
           ))}
         </div>
-        <div className="record-actions">
-          <button onClick={this.handleHarvest}>Harvest</button>
+      );
+    }
+
+    const detailsButton = (
+      <Button
+        active={!collapsed}
+        variant="outline-primary"
+        onClick={this.toggleCollapse}
+        title="Show details"
+      >
+        <i className="bi-info-lg" />
+      </Button>
+    );
+
+    const harvestButton = (
+      <Button
+        variant="outline-primary"
+        onClick={this.handleHarvest}
+        title="Harvest"
+      >
+        <i className="bi-cloud-download" />
+      </Button>
+    );
+
+    const sourceURLButton = (
+      <Button
+        variant="outline-primary"
+        href={record.url}
+        title="Source URL"
+        target="_blank"
+      >
+        <i className="bi-box-arrow-up-right" />
+      </Button>
+    );
+
+    return (
+      <ListGroup.Item>
+        <div className="d-flex justify-content-between">
+          <div className="fw-bold me-3 align-self-center">{record.title}</div>
+          <ButtonGroup size="sm" className="text-nowrap align-self-center">
+            {detailsButton}
+            {harvestButton}
+            {sourceURLButton}
+          </ButtonGroup>
         </div>
-      </div>
+        {details}
+      </ListGroup.Item>
     );
   }
 }

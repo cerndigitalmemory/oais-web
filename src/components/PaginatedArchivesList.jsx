@@ -35,13 +35,15 @@ export class PaginatedArchivesList extends React.Component {
   render() {
     const { archives, page } = this.state;
     return (
-      <React.Fragment>
+      <div>
         <ArchivesList
           archives={archives}
           onArchiveUpdate={this.handleArchiveUpdate}
         />
-        <PageControls page={page} onChange={this.loadArchives} />
-      </React.Fragment>
+        <div className="d-flex justify-content-center">
+          <PageControls page={page} onChange={this.loadArchives} />
+        </div>
+      </div>
     );
   }
 }

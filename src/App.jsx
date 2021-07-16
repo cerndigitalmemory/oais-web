@@ -1,5 +1,5 @@
 import { AppContext } from "@/AppContext.js";
-import { Navbar } from "@/components/Navbar.jsx";
+import { NavigationBar } from "@/components/NavigationBar.jsx";
 import { ProtectedRoute } from "@/components/ProtectedRoute.jsx";
 import { Archives } from "@/pages/Archives.jsx";
 import { Login } from "@/pages/Login.jsx";
@@ -16,6 +16,7 @@ import {
   setUser,
 } from "@/storage.js";
 import React from "react";
+import { Container } from "react-bootstrap";
 import { Route, Switch } from "react-router-dom";
 
 export class App extends React.Component {
@@ -51,8 +52,8 @@ export class App extends React.Component {
     return (
       <AppContext.Provider value={this.state}>
         <div id="app">
-          <Navbar />
-          <div id="content">
+          <NavigationBar />
+          <Container className="mt-3">
             <Switch>
               <ProtectedRoute path="/search" component={Search} />
               <ProtectedRoute path="/archives" component={Archives} />
@@ -64,7 +65,7 @@ export class App extends React.Component {
                 <div>Hello!</div>
               </Route>
             </Switch>
-          </div>
+          </Container>
         </div>
       </AppContext.Provider>
     );

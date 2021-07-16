@@ -2,13 +2,14 @@ import { api } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
 import { ArchiveStatus, ArchiveStatusLabel, Permissions } from "@/utils.js";
 import React from "react";
+import { Button, ButtonGroup, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export class ArchivesList extends React.Component {
   render() {
     const { archives, onArchiveUpdate } = this.props;
     return (
-      <table className="archive-table">
+      <Table size="sm" hover className="text-center align-middle">
         <thead>
           <tr>
             <th>ID</th>
@@ -28,7 +29,7 @@ export class ArchivesList extends React.Component {
             />
           ))}
         </tbody>
-      </table>
+      </Table>
     );
   }
 }
@@ -38,12 +39,12 @@ class Archive extends React.Component {
 
   approve = () => {
     const { archive, onArchiveUpdate } = this.props;
-    api.approveArchive(archive.id).then((archive) => onArchiveUpdate(archive));
+    api.approveArchive(archive.id).then(onArchiveUpdate);
   };
 
   reject = () => {
     const { archive, onArchiveUpdate } = this.props;
-    api.rejectArchive(archive.id).then((archive) => onArchiveUpdate(archive));
+    api.rejectArchive(archive.id).then(onArchiveUpdate);
   };
 
   render() {
@@ -58,17 +59,23 @@ class Archive extends React.Component {
     let actions = null;
     if (archive.status === ArchiveStatus.WAITING_APPROVAL) {
       actions = (
-        <div>
+        <ButtonGroup size="sm">
           {canApprove && (
-            <button onClick={() => this.approve()}>Approve</button>
+            <Button onClick={this.approve} variant="success" title="Approve">
+              <i className="bi-check-lg" />
+            </Button>
           )}
-          {canReject && <button onClick={() => this.reject()}>Reject</button>}
-        </div>
+          {canReject && (
+            <Button onClick={this.reject} variant="danger" title="Reject">
+              <i className="bi-x-lg" />
+            </Button>
+          )}
+        </ButtonGroup>
       );
     }
 
     return (
-      <tr className="archive-table-row">
+      <tr>
         <td>{archive.id}</td>
         <td>
           <Link to={`/records/${archive.record.id}`}>
@@ -81,7 +88,7 @@ class Archive extends React.Component {
           </Link>
         </td>
         <td>{archive.creation_date}</td>
-        <td className="center-col">{ArchiveStatusLabel[archive.status]}</td>
+        <td>{ArchiveStatusLabel[archive.status]}</td>
         <td>{actions}</td>
       </tr>
     );
