@@ -1,5 +1,6 @@
 import { api } from "@/api.js";
 import { PaginatedArchivesList } from "@/components/PaginatedArchivesList.jsx";
+import { sendNotification } from "@/utils.js";
 import React from "react";
 
 export class UserDetail extends React.Component {
@@ -12,8 +13,12 @@ export class UserDetail extends React.Component {
 
   async componentDidMount() {
     const { id } = this.props.match.params;
-    const user = await api.user(id);
-    this.setState({ user });
+    try {
+      const user = await api.user(id);
+      this.setState({ user });
+    } catch (e) {
+      sendNotification("Error while fetching user details", e.message);
+    }
   }
 
   render() {

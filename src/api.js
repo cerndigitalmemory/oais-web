@@ -19,21 +19,42 @@ class API {
     this.client = axios.create(config);
   }
 
+  static async handleError(request) {
+    try {
+      return await request();
+    } catch (e) {
+      let detail = e.message;
+      const response = e.response?.data;
+      if (response?.detail) {
+        detail = response.detail;
+      } else if (response?.non_field_errors) {
+        detail = response.non_field_errors.join("\n");
+      }
+      throw new Error(detail);
+    }
+  }
+
   async _get(url, options = {}) {
     options = addAuthorizationHeader(options);
-    const { data } = await this.client.get(url, options);
-    return data;
+    const { data: response } = await API.handleError(
+      async () => await this.client.get(url, options)
+    );
+    return response;
   }
 
   async _post(url, data = {}, options = {}) {
     options = addAuthorizationHeader(options);
-    const { data: response } = await this.client.post(url, data, options);
+    const { data: response } = await API.handleError(
+      async () => await this.client.post(url, data, options)
+    );
     return response;
   }
 
   async _patch(url, data = {}, options = {}) {
     options = addAuthorizationHeader(options);
-    const { data: response } = await this.client.patch(url, data, options);
+    const { data: response } = await API.handleError(
+      async () => await this.client.patch(url, data, options)
+    );
     return response;
   }
 

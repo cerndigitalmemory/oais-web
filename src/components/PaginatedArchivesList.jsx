@@ -1,5 +1,6 @@
 import { ArchivesList } from "@/components/ArchivesList.jsx";
 import { PageControls } from "@/components/PageControls.jsx";
+import { sendNotification } from "@/utils.js";
 import React from "react";
 
 export class PaginatedArchivesList extends React.Component {
@@ -23,8 +24,12 @@ export class PaginatedArchivesList extends React.Component {
   };
 
   loadArchives = async (page = 1) => {
-    const { results: archives } = await this.props.getArchives(page);
-    this.setState({ archives, page });
+    try {
+      const { results: archives } = await this.props.getArchives(page);
+      this.setState({ archives, page });
+    } catch (e) {
+      sendNotification("Error while fetching archives", e.message);
+    }
   };
 
   componentDidMount() {

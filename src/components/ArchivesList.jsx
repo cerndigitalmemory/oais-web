@@ -5,6 +5,7 @@ import {
   ArchiveStatusLabel,
   hasPermission,
   Permissions,
+  sendNotification,
 } from "@/utils.js";
 import React from "react";
 import { Button, ButtonGroup, Table } from "react-bootstrap";
@@ -44,14 +45,22 @@ class Archive extends React.Component {
 
   approve = async () => {
     const { archive, onArchiveUpdate } = this.props;
-    const updatedArchive = await api.approveArchive(archive.id);
-    onArchiveUpdate(updatedArchive);
+    try {
+      const updatedArchive = await api.approveArchive(archive.id);
+      onArchiveUpdate(updatedArchive);
+    } catch (e) {
+      sendNotification("Error while approving archive", e.message);
+    }
   };
 
   reject = async () => {
     const { archive, onArchiveUpdate } = this.props;
-    const updatedArchive = await api.rejectArchive(archive.id);
-    onArchiveUpdate(updatedArchive);
+    try {
+      const updatedArchive = await api.rejectArchive(archive.id);
+      onArchiveUpdate(updatedArchive);
+    } catch (e) {
+      sendNotification("Error while rejecting archive", e.message);
+    }
   };
 
   render() {

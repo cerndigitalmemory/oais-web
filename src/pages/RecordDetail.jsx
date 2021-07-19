@@ -1,5 +1,6 @@
 import { api } from "@/api.js";
 import { PaginatedArchivesList } from "@/components/PaginatedArchivesList.jsx";
+import { sendNotification } from "@/utils.js";
 import React from "react";
 
 export class RecordDetail extends React.Component {
@@ -12,8 +13,12 @@ export class RecordDetail extends React.Component {
 
   async componentDidMount() {
     const { id } = this.props.match.params;
-    const record = await api.record(id);
-    this.setState({ record });
+    try {
+      const record = await api.record(id);
+      this.setState({ record });
+    } catch (e) {
+      sendNotification("Error while fetching record details", e.message);
+    }
   }
 
   render() {

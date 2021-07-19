@@ -1,4 +1,5 @@
 import { api } from "@/api.js";
+import { sendNotification } from "@/utils.js";
 import React from "react";
 import { Button, ButtonGroup, ListGroup } from "react-bootstrap";
 
@@ -24,9 +25,13 @@ class Record extends React.Component {
 
   handleHarvest = async () => {
     const { record } = this.props;
-    const archive = await api.harvest(record.source, record.recid);
-    // TODO: show the new archive to the user
-    console.log(archive);
+    try {
+      const archive = await api.harvest(record.source, record.recid);
+      // TODO: show the new archive to the user
+      console.log(archive);
+    } catch (e) {
+      sendNotification("Error while harvesting", e.message);
+    }
   };
 
   toggleCollapse = () => {

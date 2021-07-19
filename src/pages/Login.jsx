@@ -1,5 +1,6 @@
 import { api } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
+import { sendNotification } from "@/utils.js";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { Redirect } from "react-router";
@@ -26,11 +27,18 @@ export class Login extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    const { token } = await api.login(this.state.username, this.state.password);
-    // set the token so that it can be used to call the API
-    AppContext.setToken(token);
-    const user = await api.me();
-    AppContext.setUser(user);
+    try {
+      const { token } = await api.login(
+        this.state.username,
+        this.state.password
+      );
+      // set the token so that it can be used to call the API
+      AppContext.setToken(token);
+      const user = await api.me();
+      AppContext.setUser(user);
+    } catch (e) {
+      sendNotification("Error while logging in", e.message);
+    }
   };
 
   render() {

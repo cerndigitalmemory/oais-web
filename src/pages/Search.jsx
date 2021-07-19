@@ -1,5 +1,6 @@
 import { api } from "@/api.js";
 import { RecordsList } from "@/components/RecordsList.jsx";
+import { sendNotification } from "@/utils.js";
 import React from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
@@ -12,8 +13,12 @@ export class Search extends React.Component {
   }
 
   handleSearch = async (source, query) => {
-    const results = await api.search(source, query);
-    this.setState({ results });
+    try {
+      const results = await api.search(source, query);
+      this.setState({ results });
+    } catch (e) {
+      sendNotification("Error while searching", e.message);
+    }
   };
 
   render() {
