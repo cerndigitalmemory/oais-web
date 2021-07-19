@@ -1,6 +1,11 @@
 import { api } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
-import { ArchiveStatus, ArchiveStatusLabel, Permissions } from "@/utils.js";
+import {
+  ArchiveStatus,
+  ArchiveStatusLabel,
+  hasPermission,
+  Permissions,
+} from "@/utils.js";
 import React from "react";
 import { Button, ButtonGroup, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -35,7 +40,7 @@ export class ArchivesList extends React.Component {
 }
 
 class Archive extends React.Component {
-  static contextType = AppContext;
+  static contextType = AppContext.Context;
 
   approve = async () => {
     const { archive, onArchiveUpdate } = this.props;
@@ -51,12 +56,10 @@ class Archive extends React.Component {
 
   render() {
     const { archive } = this.props;
-    const canApprove = this.context.hasPermission(
-      Permissions.CAN_APPROVE_ARCHIVE
-    );
-    const canReject = this.context.hasPermission(
-      Permissions.CAN_REJECT_ARCHIVE
-    );
+    const { user } = this.context;
+
+    const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE);
+    const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE);
 
     let actions = null;
     if (archive.status === ArchiveStatus.WAITING_APPROVAL) {

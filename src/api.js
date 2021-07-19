@@ -1,10 +1,10 @@
+import { Storage } from "@/storage.js";
 import axios from "axios";
-import { getToken } from "./storage.js";
 
 const API_URL = "/";
 
 function addAuthorizationHeader(options) {
-  const token = getToken();
+  const token = Storage.getToken();
   if (token !== null) {
     if (options.headers === undefined) {
       options.headers = {};

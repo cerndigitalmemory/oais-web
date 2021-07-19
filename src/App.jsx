@@ -7,14 +7,6 @@ import { Logout } from "@/pages/Logout.jsx";
 import { RecordDetail } from "@/pages/RecordDetail.jsx";
 import { Search } from "@/pages/Search.jsx";
 import { UserDetail } from "@/pages/UserDetail.jsx";
-import {
-  getToken,
-  getUser,
-  removeToken,
-  removeUser,
-  setToken,
-  setUser,
-} from "@/storage.js";
 import React from "react";
 import { Container } from "react-bootstrap";
 import { Route, Switch } from "react-router-dom";
@@ -22,35 +14,16 @@ import { Route, Switch } from "react-router-dom";
 export class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {};
+  }
 
-    this.state = {
-      token: getToken(),
-      user: getUser(),
-
-      isLoggedIn: () => this.state.token !== null,
-      hasPermission: (permission) => {
-        return this.state.user?.permissions.includes(permission) ?? false;
-      },
-
-      login: (token, user) => {
-        setToken(token);
-        setUser(user);
-        this.setState({ token, user });
-      },
-      logout: () => {
-        removeToken();
-        removeUser();
-        this.setState({
-          token: null,
-          user: null,
-        });
-      },
-    };
+  componentDidMount() {
+    AppContext.init(this.setState.bind(this));
   }
 
   render() {
     return (
-      <AppContext.Provider value={this.state}>
+      <AppContext.Context.Provider value={this.state}>
         <div id="app">
           <NavigationBar />
           <Container className="mt-3">
@@ -67,7 +40,7 @@ export class App extends React.Component {
             </Switch>
           </Container>
         </div>
-      </AppContext.Provider>
+      </AppContext.Context.Provider>
     );
   }
 }

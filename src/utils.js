@@ -20,3 +20,7 @@ export const Permissions = {
   CAN_APPROVE_ARCHIVE: "oais.can_approve_archive",
   CAN_REJECT_ARCHIVE: "oais.can_reject_archive",
 };
+
+export function hasPermission(user, permission) {
+  return user?.permissions.includes(permission) ?? false;
+}

@@ -1,23 +1,25 @@
-export function getToken() {
-  return localStorage.getItem("token");
-}
+export class Storage {
+  static getToken() {
+    return localStorage.getItem("token");
+  }
 
-export function setToken(token) {
-  localStorage.setItem("token", token);
-}
+  static setToken(token) {
+    localStorage.setItem("token", token);
+  }
 
-export function removeToken() {
-  localStorage.removeItem("token");
-}
+  static removeToken() {
+    localStorage.removeItem("token");
+  }
 
-export function getUser() {
-  return JSON.parse(localStorage.getItem("user"));
-}
+  static getUser() {
+    return JSON.parse(localStorage.getItem("user"));
+  }
 
-export function setUser(user) {
-  localStorage.setItem("user", JSON.stringify(user));
-}
+  static setUser(user) {
+    localStorage.setItem("user", JSON.stringify(user));
+  }
 
-export function removeUser() {
-  localStorage.removeItem("user");
+  static removeUser() {
+    localStorage.removeItem("user");
+  }
 }

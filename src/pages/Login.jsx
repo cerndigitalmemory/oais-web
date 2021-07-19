@@ -1,12 +1,11 @@
 import { api } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
-import { setToken } from "@/storage.js";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { Redirect } from "react-router";
 
 export class Login extends React.Component {
-  static contextType = AppContext;
+  static contextType = AppContext.Context;
 
   constructor(props) {
     super(props);
@@ -29,13 +28,15 @@ export class Login extends React.Component {
     event.preventDefault();
     const { token } = await api.login(this.state.username, this.state.password);
     // set the token so that it can be used to call the API
-    setToken(token);
+    AppContext.setToken(token);
     const user = await api.me();
-    this.context.login(token, user);
+    AppContext.setUser(user);
   };
 
   render() {
-    if (this.context.isLoggedIn()) {
+    const { isLoggedIn } = this.context;
+
+    if (isLoggedIn) {
       const params = new URLSearchParams(this.props.location.search);
       const redirectURL = params.get("redirect") ?? "/";
       return <Redirect to={redirectURL} />;

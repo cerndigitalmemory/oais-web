@@ -3,10 +3,12 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 export class Logout extends React.Component {
-  static contextType = AppContext;
+  static contextType = AppContext.Context;
+
   componentDidMount() {
-    this.context.logout();
+    AppContext.logout();
   }
+
   render() {
     return <Redirect to="/" />;
   }

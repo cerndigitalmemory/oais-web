@@ -4,7 +4,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export class NavigationBar extends React.Component {
-  static contextType = AppContext;
+  static contextType = AppContext.Context;
 
   constructor(props) {
     super(props);
@@ -45,8 +45,7 @@ export class NavigationBar extends React.Component {
   }
 
   render() {
-    const isLoggedIn = this.context.isLoggedIn();
-
+    const { isLoggedIn } = this.context;
     return (
       <Navbar bg="dark" variant="dark">
         <Container>

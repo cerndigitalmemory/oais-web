@@ -12,7 +12,7 @@ export class PaginatedArchivesList extends React.Component {
   }
 
   handleArchiveUpdate = (newArchive) => {
-    const archives = this.state.archives.slice().map((archive) => {
+    const archives = this.state.archives.map((archive) => {
       if (archive.id === newArchive.id) {
         return newArchive;
       } else {

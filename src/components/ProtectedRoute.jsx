@@ -3,14 +3,15 @@ import React from "react";
 import { Redirect, Route } from "react-router";
 
 export class ProtectedRoute extends React.Component {
-  static contextType = AppContext;
+  static contextType = AppContext.Context;
   render() {
+    const { isLoggedIn } = this.context;
     const { component, render, children, ...rest } = this.props;
     return (
       <Route
         {...rest}
         render={(routeProps) => {
-          if (!this.context.isLoggedIn()) {
+          if (!isLoggedIn) {
             // Pass the current URL as a query parameter.
             // After the login, the user will be redirected to the current page.
             const { location } = routeProps;
