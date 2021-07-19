@@ -15,7 +15,12 @@ class Context {
     const user = Storage.getUser();
     const token = Storage.getToken();
     const isLoggedIn = !!user;
-    updateContext({ user, token, isLoggedIn });
+    updateContext({
+      user,
+      token,
+      isLoggedIn,
+      notifications: [],
+    });
   }
 
   setToken(token) {
@@ -26,6 +31,21 @@ class Context {
   setUser(user) {
     Storage.setUser(user);
     this.updateContext({ user, isLoggedIn: true });
+  }
+
+  addNotification(notification) {
+    this.updateContext((ctx) => {
+      const notifications = ctx.notifications.slice();
+      notifications.push(notification);
+      return { notifications };
+    });
+  }
+
+  removeNotification(notification) {
+    this.updateContext((ctx) => {
+      const notifications = ctx.notifications.filter((n) => n !== notification);
+      return { notifications };
+    });
   }
 
   logout() {

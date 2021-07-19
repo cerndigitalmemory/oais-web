@@ -1,5 +1,6 @@
 import { AppContext } from "@/AppContext.js";
 import { NavigationBar } from "@/components/NavigationBar.jsx";
+import { Notifications } from "@/components/Notifications.jsx";
 import { ProtectedRoute } from "@/components/ProtectedRoute.jsx";
 import { Archives } from "@/pages/Archives.jsx";
 import { Login } from "@/pages/Login.jsx";
@@ -22,10 +23,12 @@ export class App extends React.Component {
   }
 
   render() {
+    const { notifications } = this.state;
     return (
       <AppContext.Context.Provider value={this.state}>
         <div id="app">
           <NavigationBar />
+          <Notifications notifications={notifications ?? []} />
           <Container className="mt-3">
             <Switch>
               <ProtectedRoute path="/search" component={Search} />

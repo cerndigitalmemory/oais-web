@@ -1,0 +1,10 @@
+.notifications-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+}
+
+.notifications-container > .toast {
+  background-color: white;
+}

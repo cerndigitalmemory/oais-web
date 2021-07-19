@@ -1,3 +1,5 @@
+import { AppContext } from "@/AppContext.js";
+
 export const ArchiveStatus = {
   PENDING: 1,
   IN_PROGRESS: 2,
@@ -23,4 +25,10 @@ export const Permissions = {
 
 export function hasPermission(user, permission) {
   return user?.permissions.includes(permission) ?? false;
+}
+
+export function sendNotification(title, body, duration = 5000) {
+  const notification = { title, body };
+  AppContext.addNotification(notification);
+  setTimeout(() => AppContext.removeNotification(notification), duration);
 }
