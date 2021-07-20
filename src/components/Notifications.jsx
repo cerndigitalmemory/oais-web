@@ -1,8 +1,14 @@
 import { AppContext } from "@/AppContext";
+import { notificationType } from "@/types.js";
+import PropTypes from "prop-types";
 import React from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
 
 export class Notifications extends React.Component {
+  static propTypes = {
+    notifications: PropTypes.arrayOf(notificationType).isRequired,
+  };
+
   handleClose(notification) {
     AppContext.removeNotification(notification);
   }

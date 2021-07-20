@@ -1,9 +1,16 @@
 import { api } from "@/api.js";
 import { PaginatedArchivesList } from "@/components/PaginatedArchivesList.jsx";
 import { sendNotification } from "@/utils.js";
+import PropTypes from "prop-types";
 import React from "react";
 
 export class RecordDetail extends React.Component {
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
+    }).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {

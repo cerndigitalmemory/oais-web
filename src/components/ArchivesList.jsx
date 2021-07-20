@@ -1,5 +1,6 @@
 import { api } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
+import { archiveType } from "@/types.js";
 import {
   ArchiveStatus,
   ArchiveStatusLabel,
@@ -7,11 +8,17 @@ import {
   Permissions,
   sendNotification,
 } from "@/utils.js";
+import PropTypes from "prop-types";
 import React from "react";
 import { Button, ButtonGroup, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export class ArchivesList extends React.Component {
+  static propTypes = {
+    archives: PropTypes.arrayOf(archiveType).isRequired,
+    onArchiveUpdate: PropTypes.func.isRequired,
+  };
+
   render() {
     const { archives, onArchiveUpdate } = this.props;
     return (
@@ -41,6 +48,11 @@ export class ArchivesList extends React.Component {
 }
 
 class Archive extends React.Component {
+  static propTypes = {
+    archive: archiveType.isRequired,
+    onArchiveUpdate: PropTypes.func.isRequired,
+  };
+
   static contextType = AppContext.Context;
 
   approve = async () => {

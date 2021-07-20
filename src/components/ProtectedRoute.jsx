@@ -1,9 +1,17 @@
 import { AppContext } from "@/AppContext.js";
+import PropTypes from "prop-types";
 import React from "react";
 import { Redirect, Route } from "react-router";
 
 export class ProtectedRoute extends React.Component {
+  static propTypes = {
+    component: PropTypes.elementType,
+    render: PropTypes.func,
+    children: PropTypes.node,
+  };
+
   static contextType = AppContext.Context;
+
   render() {
     const { isLoggedIn } = this.context;
     const { component, render, children, ...rest } = this.props;

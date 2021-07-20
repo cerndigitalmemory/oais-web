@@ -1,9 +1,14 @@
 import { ArchivesList } from "@/components/ArchivesList.jsx";
 import { PageControls } from "@/components/PageControls.jsx";
 import { sendNotification } from "@/utils.js";
+import PropTypes from "prop-types";
 import React from "react";
 
 export class PaginatedArchivesList extends React.Component {
+  static propTypes = {
+    getArchives: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {

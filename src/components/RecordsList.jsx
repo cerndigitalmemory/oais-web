@@ -1,9 +1,15 @@
 import { api } from "@/api.js";
+import { recordType } from "@/types.js";
 import { sendNotification } from "@/utils.js";
+import PropTypes from "prop-types";
 import React from "react";
 import { Button, ButtonGroup, ListGroup } from "react-bootstrap";
 
 export class RecordsList extends React.Component {
+  static propTypes = {
+    records: PropTypes.arrayOf(recordType).isRequired,
+  };
+
   render() {
     return (
       <ListGroup>
@@ -16,6 +22,10 @@ export class RecordsList extends React.Component {
 }
 
 class Record extends React.Component {
+  static propTypes = {
+    record: recordType.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {

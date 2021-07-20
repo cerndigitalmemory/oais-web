@@ -1,6 +1,7 @@
 import { api } from "@/api.js";
 import { RecordsList } from "@/components/RecordsList.jsx";
 import { sendNotification } from "@/utils.js";
+import PropTypes from "prop-types";
 import React from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
@@ -36,6 +37,11 @@ export class Search extends React.Component {
 }
 
 export class SearchForm extends React.Component {
+  static propTypes = {
+    sources: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onSearch: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {

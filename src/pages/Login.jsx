@@ -1,11 +1,17 @@
 import { api } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
 import { sendNotification } from "@/utils.js";
+import PropTypes from "prop-types";
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { Redirect } from "react-router";
 
 export class Login extends React.Component {
+  static propTypes = {
+    location: PropTypes.shape({
+      search: PropTypes.string.isRequired,
+    }).isRequired,
+  };
   static contextType = AppContext.Context;
 
   constructor(props) {
