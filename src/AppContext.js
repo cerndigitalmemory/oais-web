@@ -13,19 +13,12 @@ class Context {
 
     // initialize the global context
     const user = Storage.getUser();
-    const token = Storage.getToken();
     const isLoggedIn = !!user;
     updateContext({
       user,
-      token,
       isLoggedIn,
       notifications: [],
     });
-  }
-
-  setToken(token) {
-    Storage.setToken(token);
-    this.updateContext({ token });
   }
 
   setUser(user) {
@@ -49,10 +42,8 @@ class Context {
   }
 
   logout() {
-    Storage.removeToken();
     Storage.removeUser();
     this.updateContext({
-      token: null,
       user: null,
       isLoggedIn: false,
     });

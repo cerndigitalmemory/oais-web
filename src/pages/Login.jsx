@@ -34,13 +34,7 @@ export class Login extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { token } = await api.login(
-        this.state.username,
-        this.state.password
-      );
-      // set the token so that it can be used to call the API
-      AppContext.setToken(token);
-      const user = await api.me();
+      const user = await api.login(this.state.username, this.state.password);
       AppContext.setUser(user);
     } catch (e) {
       sendNotification("Error while logging in", e.message);

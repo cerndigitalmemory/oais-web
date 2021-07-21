@@ -1,16 +1,17 @@
-import { Storage } from "@/storage.js";
+import { getCookie } from "@/utils.js";
 import axios from "axios";
 
 const API_URL = "/";
 
-function addAuthorizationHeader(options) {
-  const token = Storage.getToken();
-  if (token !== null) {
-    if (options.headers === undefined) {
-      options.headers = {};
-    }
-    options.headers["Authorization"] = `Token ${token}`;
+function addCSRFToken(options) {
+  const CSRFToken = getCookie("csrftoken");
+
+  if (!CSRFToken) {
+    return options;
   }
+
+  options.headers ??= {};
+  options.headers["X-CSRFToken"] = CSRFToken;
   return options;
 }
 
@@ -35,7 +36,7 @@ class API {
   }
 
   async _get(url, options = {}) {
-    options = addAuthorizationHeader(options);
+    options = addCSRFToken(options);
     const { data: response } = await API.handleError(
       async () => await this.client.get(url, options)
     );
@@ -43,7 +44,7 @@ class API {
   }
 
   async _post(url, data = {}, options = {}) {
-    options = addAuthorizationHeader(options);
+    options = addCSRFToken(options);
     const { data: response } = await API.handleError(
       async () => await this.client.post(url, data, options)
     );
@@ -51,7 +52,7 @@ class API {
   }
 
   async _patch(url, data = {}, options = {}) {
-    options = addAuthorizationHeader(options);
+    options = addCSRFToken(options);
     const { data: response } = await API.handleError(
       async () => await this.client.patch(url, data, options)
     );
@@ -59,10 +60,14 @@ class API {
   }
 
   async login(username, password) {
-    return await this._post("/auth/", {
+    return await this._post("/login/", {
       username: username,
       password: password,
     });
+  }
+
+  async logout() {
+    return await this._post("/logout/");
   }
 
   async search(source, query) {
