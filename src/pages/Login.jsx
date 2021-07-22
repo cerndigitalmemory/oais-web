@@ -1,9 +1,9 @@
-import { api } from "@/api.js";
+import { api, API_URL } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
 import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
 
 export class Login extends React.Component {
@@ -51,25 +51,45 @@ export class Login extends React.Component {
     }
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Group className="mb-3" controlId="formUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            value={this.state.username}
-            onChange={this.handleUsernameChange}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={this.state.password}
-            onChange={this.handlePasswordChange}
-          />
-        </Form.Group>
-        <Button type="submit">Login</Button>
-      </Form>
+      <React.Fragment>
+        <div className="text-center mb-3">
+          <Button href={API_URL + "oidc/authenticate/"}>
+            Login with CERN Account
+          </Button>
+        </div>
+
+        <Row>
+          <Col>
+            <hr />
+          </Col>
+          <Col xs="auto" className="align-self-center text-black-50 fw-bold">
+            OR
+          </Col>
+          <Col>
+            <hr />
+          </Col>
+        </Row>
+
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group className="mb-3" controlId="formUsername">
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type="text"
+              value={this.state.username}
+              onChange={this.handleUsernameChange}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              value={this.state.password}
+              onChange={this.handlePasswordChange}
+            />
+          </Form.Group>
+          <Button type="submit">Login</Button>
+        </Form>
+      </React.Fragment>
     );
   }
 }

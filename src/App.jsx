@@ -4,6 +4,7 @@ import { Notifications } from "@/components/Notifications.jsx";
 import { ProtectedRoute } from "@/components/ProtectedRoute.jsx";
 import { Archives } from "@/pages/Archives.jsx";
 import { Login } from "@/pages/Login.jsx";
+import { LoginCallback } from "@/pages/LoginCallback.jsx";
 import { Logout } from "@/pages/Logout.jsx";
 import { RecordDetail } from "@/pages/RecordDetail.jsx";
 import { Search } from "@/pages/Search.jsx";
@@ -35,6 +36,7 @@ export class App extends React.Component {
               <ProtectedRoute path="/archives" component={Archives} />
               <ProtectedRoute path="/records/:id" component={RecordDetail} />
               <ProtectedRoute path="/users/:id" component={UserDetail} />
+              <Route path="/login/callback" component={LoginCallback} />
               <Route path="/logout" component={Logout} />
               <Route path="/login" component={Login} />
               <Route path="/">

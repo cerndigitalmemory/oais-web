@@ -1,7 +1,7 @@
 import { getCookie } from "@/utils.js";
 import axios from "axios";
 
-const API_URL = "/";
+export const API_URL = "/";
 
 function addCSRFToken(options) {
   const CSRFToken = getCookie("csrftoken");
