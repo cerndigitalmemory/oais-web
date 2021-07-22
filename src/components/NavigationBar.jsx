@@ -45,11 +45,11 @@ export class NavigationBar extends React.Component {
   }
 
   render() {
-    const { isLoggedIn } = this.context;
+    const { isLoggedIn, user } = this.context;
     return (
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Nav>
+          <Nav className="me-auto">
             {this.state.links
               .filter((link) => link.always || link.loggedIn === isLoggedIn)
               .map((link) => (
@@ -58,6 +58,13 @@ export class NavigationBar extends React.Component {
                 </Nav.Link>
               ))}
           </Nav>
+          {isLoggedIn && (
+            <Nav>
+              <Navbar.Text>
+                Hello, <Link to={`/users/${user.id}`}>{user.username}</Link>
+              </Navbar.Text>
+            </Nav>
+          )}
         </Container>
       </Navbar>
     );
