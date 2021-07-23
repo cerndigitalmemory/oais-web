@@ -1,9 +1,10 @@
 import { api } from "@/api.js";
-import { recordType } from "@/types.js";
+import { archiveType, recordType } from "@/types.js";
 import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
 import { Button, ButtonGroup, ListGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export class RecordsList extends React.Component {
   static propTypes = {
@@ -26,19 +27,16 @@ class Record extends React.Component {
     record: recordType.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      collapsed: true,
-    };
-  }
+  state = {
+    collapsed: true,
+    archive: null,
+  };
 
   handleHarvest = async () => {
     const { record } = this.props;
     try {
       const archive = await api.harvest(record.source, record.recid);
-      // TODO: show the new archive to the user
-      console.log(archive);
+      this.setState({ archive });
     } catch (e) {
       sendNotification("Error while harvesting", e.message);
     }
@@ -52,41 +50,79 @@ class Record extends React.Component {
 
   render() {
     const { record } = this.props;
-    const { collapsed } = this.state;
+    const { collapsed, archive } = this.state;
 
-    let details = null;
-    if (!collapsed) {
-      details = (
-        <div>
-          {record.authors.map((author, i) => (
-            <small className="me-3 d-inline-block" key={i}>
-              {author}
-            </small>
-          ))}
+    return (
+      <ListGroup.Item>
+        <div className="d-flex justify-content-between">
+          <div className="fw-bold me-3 align-self-center">{record.title}</div>
+          <RecordActions
+            {...{ record, archive, collapsed }}
+            handleHarvest={this.handleHarvest}
+            toggleCollapse={this.toggleCollapse}
+          />
         </div>
-      );
-    }
+        {!collapsed && (
+          <div>
+            {record.authors.map((author, i) => (
+              <small className="me-3 d-inline-block" key={i}>
+                {author}
+              </small>
+            ))}
+          </div>
+        )}
+      </ListGroup.Item>
+    );
+  }
+}
+
+class RecordActions extends React.Component {
+  static propTypes = {
+    record: recordType.isRequired,
+    archive: archiveType,
+    collapsed: PropTypes.bool.isRequired,
+    toggleCollapse: PropTypes.func.isRequired,
+    handleHarvest: PropTypes.func.isRequired,
+  };
+
+  render() {
+    const { record, archive, collapsed } = this.props;
+    const { toggleCollapse, handleHarvest } = this.props;
 
     const detailsButton = (
       <Button
         active={!collapsed}
         variant="outline-primary"
-        onClick={this.toggleCollapse}
+        onClick={toggleCollapse}
         title="Show details"
       >
         <i className="bi-info-lg" />
       </Button>
     );
 
-    const harvestButton = (
-      <Button
-        variant="outline-primary"
-        onClick={this.handleHarvest}
-        title="Harvest"
-      >
-        <i className="bi-cloud-download" />
-      </Button>
-    );
+    let harvestButton;
+    if (!archive) {
+      harvestButton = (
+        <Button
+          variant="outline-primary"
+          onClick={handleHarvest}
+          title="Harvest"
+        >
+          <i className="bi-cloud-download" />
+        </Button>
+      );
+    } else {
+      harvestButton = (
+        <Button
+          variant="success"
+          title="Go to archives"
+          as={Link}
+          to="/archives"
+        >
+          <i className="bi-archive" />
+        </Button>
+      );
+    }
 
     const sourceURLButton = (
       <Button
@@ -100,17 +136,11 @@ class Record extends React.Component {
     );
 
     return (
-      <ListGroup.Item>
-        <div className="d-flex justify-content-between">
-          <div className="fw-bold me-3 align-self-center">{record.title}</div>
-          <ButtonGroup size="sm" className="text-nowrap align-self-center">
-            {detailsButton}
-            {harvestButton}
-            {sourceURLButton}
-          </ButtonGroup>
-        </div>
-        {details}
-      </ListGroup.Item>
+      <ButtonGroup size="sm" className="text-nowrap align-self-center">
+        {detailsButton}
+        {harvestButton}
+        {sourceURLButton}
+      </ButtonGroup>
     );
   }
 }
