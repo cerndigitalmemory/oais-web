@@ -4,6 +4,7 @@ import { archiveType } from "@/types.js";
 import {
   ArchiveStatus,
   ArchiveStatusLabel,
+  formatDateTime,
   hasPermission,
   Permissions,
   sendNotification,
@@ -113,7 +114,7 @@ class Archive extends React.Component {
             {archive.creator.username}
           </Link>
         </td>
-        <td>{archive.creation_date}</td>
+        <td>{formatDateTime(archive.creation_date)}</td>
         <td>{ArchiveStatusLabel[archive.status]}</td>
         <td>{actions}</td>
       </tr>

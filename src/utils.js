@@ -1,4 +1,5 @@
 import { AppContext } from "@/AppContext.js";
+import moment from "moment";
 
 export const ArchiveStatus = {
   PENDING: 1,
@@ -31,6 +32,10 @@ export function sendNotification(title, body, duration = 5000) {
   const notification = { title, body };
   AppContext.addNotification(notification);
   setTimeout(() => AppContext.removeNotification(notification), duration);
+}
+
+export function formatDateTime(date) {
+  return moment(date).format("YYYY/MM/DD HH:mm:ss");
 }
 
 export function getCookie(name) {
