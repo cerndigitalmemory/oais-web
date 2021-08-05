@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "webpack serve",
     "watch": "webpack watch",
-    "build": "webpack"
+    "build": "webpack",
+    "build-prod": "webpack --config ./webpack.prod.config.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
