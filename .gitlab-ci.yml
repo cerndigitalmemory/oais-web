@@ -1,0 +1,14 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  image: node:16
+  script:
+    - npm install
+    - npm run build
+
+trigger-deploy:
+  stage: deploy
+  trigger: digitalmemory/openshift-deploy
