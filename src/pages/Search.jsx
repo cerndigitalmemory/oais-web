@@ -29,7 +29,7 @@ export class Search extends React.Component {
       <React.Fragment>
         <h1>Search</h1>
         <SearchForm
-          sources={["cds-test", "cds"]}
+          sources={["cds-test", "cds", "zenodo", "inveniordm", "cod"]}
           onSearch={this.handleSearch}
           isLoading={isLoading}
         />
