@@ -4,7 +4,7 @@ import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
 import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
-import Pagination from 'react-bootstrap/Pagination'
+import { SearchPagination } from "@/components/SearchPagination.jsx";
 
 export class Search extends React.Component {
   state = {
@@ -12,15 +12,17 @@ export class Search extends React.Component {
     isLoading: false,
     source: "",
     query: "",
-    active_page: 1,
+    activePage: 1,
+    totalNumHits: null
   };
 
   handleSearch = async (source, query, page=1) => {
     this.setState({ isLoading: true });
-    this.setState({ active_page: Number(page) });
+    this.setState({ activePage: Number(page) });
     try {
-      const results = await api.search(source, query, page);
-      this.setState({ results });
+      const response = await api.search(source, query, page);
+      this.setState({ results : response.results });
+      this.setState({ totalNumHits : Number(response.total_num_hits) });
     } catch (e) {
       sendNotification("Error while searching", e.message);
     } finally {
@@ -48,56 +50,18 @@ export class Search extends React.Component {
           onQueryChange={this.handleQueryChange}
           onSourceChange={this.handleSourceChange}
         />
-        <Pages 
+        <SearchPagination 
           onSearch={this.handleSearch}
           source={this.state.source}
           query={this.state.query}
           hasResults={results && results.length > 0}
-          active_page={this.state.active_page}
+          activePage={this.state.activePage}
+          totalNumHits={this.state.totalNumHits}
         />
         <RecordsList records={results} />
       </React.Fragment>
     );
   }
-}
-
-export class Pages extends React.Component {
-  static propTypes = {
-    onSearch: PropTypes.func.isRequired,
-    query: PropTypes.string.isRequired,
-    source: PropTypes.string.isRequired,
-    hasResults : PropTypes.bool.isRequired,
-    active_page : PropTypes.number.isRequired,
-  };
-  
-  constructor(props) {
-    super(props);
-  }
-
-  handleNextPage = (event) => {
-    event.preventDefault();
-    this.props.onSearch(this.props.source, this.props.query, event.target.id);
-  };
-
-  render() {
-    let items = [];
-    for (let number = 1; number <= 10; number++) {
-      items.push(
-        <Pagination.Item key={number} id={number}
-        active={number == this.props.active_page} 
-        onClick={this.handleNextPage}>
-          {number}
-        </Pagination.Item>,
-      );
-    }
-
-    return (
-      <div>
-        {this.props.hasResults || this.props.active_page > 1 ? <Pagination>{items}</Pagination> : null}
-      </div>
-    );
-  }
-
 }
 
 export class SearchForm extends React.Component {
