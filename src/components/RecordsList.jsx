@@ -13,7 +13,16 @@ export class RecordsList extends React.Component {
 
   render() {
     return (
-      <ListGroup>
+      <ListGroup className="mb-3">
+         {this.props.records.length > 0 ? 
+         <ListGroup.Item className="bg-primary">
+          < div className="d-flex align-items-start">
+            <div className="fw-bold align-self-center me-auto text-white">Title</div>
+            <div className="fw-bold mx-3 align-self-center text-white">Record ID</div>
+            <div className="fw-bold mx-3 align-self-center text-white">Actions</div>
+          </div>
+        </ListGroup.Item> 
+        : null}
         {this.props.records.map((record, i) => (
           <Record key={i} record={record} />
         ))}
@@ -54,8 +63,9 @@ class Record extends React.Component {
 
     return (
       <ListGroup.Item>
-        <div className="d-flex justify-content-between">
-          <div className="fw-bold me-3 align-self-center">{record.title}</div>
+        <div className="d-flex align-items-start">
+          <div className="fw-bold align-self-center me-auto">{record.title}</div>
+          <div className="fw-bold mx-3 align-self-center">{record.recid}</div>
           <RecordActions
             {...{ record, archive, collapsed }}
             handleHarvest={this.handleHarvest}
