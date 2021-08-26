@@ -10,6 +10,7 @@ export class SearchPagination extends React.Component {
         hasResults : PropTypes.bool.isRequired,
         activePage : PropTypes.number.isRequired,
         totalNumHits : PropTypes.number,
+        hitsPerPage : PropTypes.number.isRequired,
       };
       
     constructor(props) {
@@ -18,13 +19,13 @@ export class SearchPagination extends React.Component {
 
     handleNextPage = (event) => {
         event.preventDefault();
-        this.props.onSearch(this.props.source, this.props.query, event.target.id);
+        this.props.onSearch(this.props.source, this.props.query, event.target.id, this.props.hitsPerPage);
     };
 
     getPageArray(pageCount) {
         let pageArray = [];
         let currentPage = this.props.activePage;
-        if (pageCount > 1) {
+        if (pageCount >= 1) {
             if (pageCount <= 9) {
               var i = 1;
               while (i <= pageCount) {
@@ -66,9 +67,8 @@ export class SearchPagination extends React.Component {
     }
 
     render() {
-        let sizePerPage = 10;
         let totalNum = (this.props.totalNumHits == null ? 0 : this.props.totalNumHits)
-        let pageCount = Math.ceil(totalNum / sizePerPage);
+        let pageCount = Math.ceil(totalNum / this.props.hitsPerPage);
         let pageArray = this.getPageArray(pageCount, totalNum);
         
         return (

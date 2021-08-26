@@ -3,7 +3,7 @@ import { RecordsList } from "@/components/RecordsList.jsx";
 import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Form, Row, Spinner, ButtonGroup, ToggleButton } from "react-bootstrap";
 import { SearchPagination } from "@/components/SearchPagination.jsx";
 
 export class Search extends React.Component {
@@ -13,14 +13,16 @@ export class Search extends React.Component {
     source: "",
     query: "",
     activePage: 1,
-    totalNumHits: null
+    totalNumHits: null,
+    hitsPerPage: 20,
   };
 
-  handleSearch = async (source, query, page=1) => {
+  handleSearch = async (source, query, page=1, size=20) => {
     this.setState({ isLoading: true });
     this.setState({ activePage: Number(page) });
+    this.setState({ hitsPerPage: Number(size) });
     try {
-      const response = await api.search(source, query, page);
+      const response = await api.search(source, query, page, size);
       this.setState({ results : response.results });
       this.setState({ totalNumHits : Number(response.total_num_hits) });
     } catch (e) {
@@ -49,18 +51,78 @@ export class Search extends React.Component {
           isLoading={isLoading}
           onQueryChange={this.handleQueryChange}
           onSourceChange={this.handleSourceChange}
+          hitsPerPage={this.state.hitsPerPage}
         />
-        <SearchPagination 
-          onSearch={this.handleSearch}
-          source={this.state.source}
-          query={this.state.query}
-          hasResults={results && results.length > 0}
-          activePage={this.state.activePage}
-          totalNumHits={this.state.totalNumHits}
-        />
+        <div className="d-flex justify-content-between">
+          <SearchPagination 
+            onSearch={this.handleSearch}
+            source={this.state.source}
+            query={this.state.query}
+            hasResults={results && results.length > 0}
+            activePage={this.state.activePage}
+            totalNumHits={this.state.totalNumHits}
+            hitsPerPage={this.state.hitsPerPage}
+          />
+          <SizeRadio
+            onSearch={this.handleSearch}
+            source={this.state.source}
+            query={this.state.query}
+            hasResults={results && results.length > 0}
+            hitsPerPage={this.state.hitsPerPage}
+          />
+        </div>
+
         <RecordsList records={results} />
       </React.Fragment>
     );
+  }
+}
+
+export class SizeRadio extends React.Component {
+  static propTypes = {
+    hitsPerPage: PropTypes.number.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    query: PropTypes.string.isRequired,
+    source: PropTypes.string.isRequired,
+    hasResults : PropTypes.bool.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+  }
+
+  sizeChange = (event) => {
+    event.preventDefault();
+    this.props.onSearch(this.props.source, this.props.query, 1, event.target.value)
+  }
+
+  render() {
+    let sizeOptions = [10,20,50]
+
+    return(
+      this.props.hasResults ?
+      <div className="align-self-center mb-3">
+        <span className="me-3">Results per page: </span>
+        <ButtonGroup size="sm" className="text-nowrap align-self-center">
+        {
+            sizeOptions.map((size, idx) => (
+              <ToggleButton
+              key={idx}
+              id={`size-${idx}`}
+              type="radio"
+              variant="outline-primary"
+              name="radio"
+              value={size}
+              checked={size === this.props.hitsPerPage}
+              onChange={this.sizeChange}
+            >
+              {size}
+            </ToggleButton>
+            ))
+        }
+        </ButtonGroup>
+      </div> : null 
+    )
   }
 }
 
@@ -71,6 +133,7 @@ export class SearchForm extends React.Component {
     isLoading: PropTypes.bool.isRequired,
     onQueryChange: PropTypes.func.isRequired,
     onSourceChange: PropTypes.func.isRequired,
+    hitsPerPage: PropTypes.number.isRequired,
   };
 
   constructor(props) {
@@ -93,7 +156,7 @@ export class SearchForm extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.onSearch(this.state.source, this.state.query);
+    this.props.onSearch(this.state.source, this.state.query, 1, this.props.hitsPerPage);
   };
 
   render() {

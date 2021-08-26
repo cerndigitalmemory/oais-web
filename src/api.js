@@ -69,13 +69,9 @@ class API {
   async logout() {
     return await this._post("/logout/");
   }
-/*
-  async search(source, query) {
-    return await this._get(`/search/${source}/`, { params: { q: query } });
-  }
-*/
-  async search(source, query, page) {
-    return await this._get(`/search/${source}/`, { params: { q: query , p: page} });
+
+  async search(source, query, page, size) {
+    return await this._get(`/search/${source}/`, { params: { q: query , p: page, s:size} });
   }
 
   async harvest(source, recid) {
