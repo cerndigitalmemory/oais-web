@@ -22,7 +22,7 @@ export class RecordsList extends React.Component {
             <div className="fw-bold mx-3 align-self-center text-white">Actions</div>
           </div>
         </ListGroup.Item> 
-        : null}
+        : null }
         {this.props.records.map((record, i) => (
           <Record key={i} record={record} />
         ))}

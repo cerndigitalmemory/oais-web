@@ -114,7 +114,7 @@ export class SearchPagination extends React.Component {
                 return toReturn;
                 },this)}
             </Pagination> 
-            : (this.props.totalNumHits == 0 ? <p>No results found.</p> : null)
+            : null
             }
             </div>
         );

@@ -74,6 +74,10 @@ class API {
     return await this._get(`/search/${source}/`, { params: { q: query , p: page, s:size} });
   }
 
+  async search_by_id(source, id) {
+    return await this._get(`/search/${source}/${id}/`);
+  }
+
   async harvest(source, recid) {
     return await this._post(`/harvest/${recid}/${source}/`);
   }
