@@ -27,4 +27,5 @@ export const archiveType = exact({
   creation_date: string.isRequired,
   celery_task_id: string,
   status: number.isRequired,
+  stage: number.isRequired,
 });

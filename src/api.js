@@ -82,6 +82,12 @@ class API {
     return await this._post(`/harvest/${recid}/${source}/`);
   }
 
+  async ingest(file) {
+    var formData = new FormData();
+    formData.append("file", file);
+    return await this._post(`/upload/`, formData);
+  }
+
   async archives(page = 1) {
     return await this._get("/archives/", { params: { page } });
   }

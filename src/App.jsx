@@ -9,6 +9,7 @@ import { Logout } from "@/pages/Logout.jsx";
 import { RecordDetail } from "@/pages/RecordDetail.jsx";
 import { Search } from "@/pages/Search.jsx";
 import { UserDetail } from "@/pages/UserDetail.jsx";
+import { Upload } from "@/pages/Upload.jsx";
 import React from "react";
 import { Container } from "react-bootstrap";
 import { Route, Switch } from "react-router-dom";
@@ -36,6 +37,7 @@ export class App extends React.Component {
               <ProtectedRoute path="/archives" component={Archives} />
               <ProtectedRoute path="/records/:id" component={RecordDetail} />
               <ProtectedRoute path="/users/:id" component={UserDetail} />
+              <ProtectedRoute path="/upload" component={Upload} />
               <Route path="/login/callback" component={LoginCallback} />
               <Route path="/logout" component={Logout} />
               <Route path="/login" component={Login} />
