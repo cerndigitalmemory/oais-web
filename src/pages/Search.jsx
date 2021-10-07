@@ -18,19 +18,25 @@ export class Search extends React.Component {
     searchById: false,
   };
 
-  handleSearch = async (source, query, page=1, size=20) => {
-    this.setState({ isLoading: true, 
-                    activePage: Number(page), 
-                    hitsPerPage: Number(size) });
+  handleSearch = async (source, query, page = 1, size = 20) => {
+    this.setState({
+      isLoading: true,
+      activePage: Number(page),
+      hitsPerPage: Number(size)
+    });
     try {
-      if(this.state.searchById){
+      if (this.state.searchById) {
         const response = await api.search_by_id(source, query);
-        this.setState({ results : response.result,
-                        totalNumHits : response.result.length });
+        this.setState({
+          results: response.result,
+          totalNumHits: response.result.length
+        });
       } else {
         const response = await api.search(source, query, page, size);
-        this.setState({ results : response.results,
-                        totalNumHits : Number(response.total_num_hits) });
+        this.setState({
+          results: response.results,
+          totalNumHits: Number(response.total_num_hits)
+        });
       }
     } catch (e) {
       sendNotification("Error while searching", e.message);
@@ -57,7 +63,7 @@ export class Search extends React.Component {
       <React.Fragment>
         <h1>Search</h1>
         <SearchForm
-          sources={["cds-test", "cds", "zenodo", "inveniordm", "cod"]}
+          sources={["cds-test", "cds", "zenodo", "inveniordm", "cod", "indico"]}
           onSearch={this.handleSearch}
           isLoading={isLoading}
           onQueryChange={this.handleQueryChange}
@@ -66,7 +72,7 @@ export class Search extends React.Component {
           onSearchByIdChange={this.handleSearchByIdChange}
         />
         <div className="d-flex justify-content-between">
-          <SearchPagination 
+          <SearchPagination
             onSearch={this.handleSearch}
             source={this.state.source}
             query={this.state.query}
@@ -84,9 +90,9 @@ export class Search extends React.Component {
           />
         </div>
 
-        { this.state.results == null ?
-          null : 
-          ( this.state.results.length > 0 ?
+        {this.state.results == null ?
+          null :
+          (this.state.results.length > 0 ?
             <RecordsList records={results} /> :
             <p>No results found.</p>)
         }
@@ -101,7 +107,7 @@ export class SizeRadio extends React.Component {
     onSearch: PropTypes.func.isRequired,
     query: PropTypes.string.isRequired,
     source: PropTypes.string.isRequired,
-    hasResults : PropTypes.bool.isRequired,
+    hasResults: PropTypes.bool.isRequired,
   };
 
   sizeChange = (event) => {
@@ -110,31 +116,31 @@ export class SizeRadio extends React.Component {
   }
 
   render() {
-    let sizeOptions = [10,20,50]
+    let sizeOptions = [10, 20, 50]
 
-    return(
+    return (
       this.props.hasResults ?
-      <div className="align-self-center mb-3">
-        <span className="me-3">Results per page: </span>
-        <ButtonGroup size="sm" className="text-nowrap align-self-center">
-        {
-            sizeOptions.map((size, idx) => (
-              <ToggleButton
-              key={idx}
-              id={`size-${idx}`}
-              type="radio"
-              variant="outline-primary"
-              name="radio"
-              value={size}
-              checked={size === this.props.hitsPerPage}
-              onChange={this.sizeChange}
-            >
-              {size}
-            </ToggleButton>
-            ))
-        }
-        </ButtonGroup>
-      </div> : null 
+        <div className="align-self-center mb-3">
+          <span className="me-3">Results per page: </span>
+          <ButtonGroup size="sm" className="text-nowrap align-self-center">
+            {
+              sizeOptions.map((size, idx) => (
+                <ToggleButton
+                  key={idx}
+                  id={`size-${idx}`}
+                  type="radio"
+                  variant="outline-primary"
+                  name="radio"
+                  value={size}
+                  checked={size === this.props.hitsPerPage}
+                  onChange={this.sizeChange}
+                >
+                  {size}
+                </ToggleButton>
+              ))
+            }
+          </ButtonGroup>
+        </div> : null
     )
   }
 }
@@ -171,12 +177,12 @@ export class SearchForm extends React.Component {
 
   handleCheckboxChange = (event) => {
     this.props.onSearchByIdChange(event.target.checked);
-    this.setState({ searchById: event.target.checked});
+    this.setState({ searchById: event.target.checked });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
-    if(this.state.searchById){
+    if (this.state.searchById) {
       this.props.onSearch(this.state.source, this.state.query);
     } else {
       this.props.onSearch(this.state.source, this.state.query, 1, this.props.hitsPerPage);
@@ -218,8 +224,8 @@ export class SearchForm extends React.Component {
 
           <Col xs="12" lg="3" xl="2">
             <Form.Group as={Row} className="ps-2 my-2" controlId="formCheckbox">
-              <Form.Check 
-                type="checkbox" 
+              <Form.Check
+                type="checkbox"
                 label="Search by Record ID"
                 onChange={this.handleCheckboxChange} />
             </Form.Group>
