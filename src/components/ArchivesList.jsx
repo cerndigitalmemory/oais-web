@@ -4,6 +4,8 @@ import { archiveType } from "@/types.js";
 import {
   ArchiveStatus,
   ArchiveStatusLabel,
+  ArchiveStage,
+  ArchiveStageLabel,
   formatDateTime,
   hasPermission,
   Permissions,
@@ -31,6 +33,7 @@ export class ArchivesList extends React.Component {
             <th>Creator</th>
             <th>Creation Date</th>
             <th>Status</th>
+            <th>Stage</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -116,6 +119,7 @@ class Archive extends React.Component {
         </td>
         <td>{formatDateTime(archive.creation_date)}</td>
         <td>{ArchiveStatusLabel[archive.status]}</td>
+        <td>{ArchiveStageLabel[archive.stage]}</td>
         <td>{actions}</td>
       </tr>
     );
