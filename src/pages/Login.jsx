@@ -3,7 +3,8 @@ import { AppContext } from "@/AppContext.js";
 import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Divider, Form, Grid, Segment, Header } from 'semantic-ui-react';
+import 'semantic-ui-css/semantic.min.css';
 import { Redirect } from "react-router";
 
 export class Login extends React.Component {
@@ -51,45 +52,44 @@ export class Login extends React.Component {
     }
 
     return (
-      <React.Fragment>
-        <div className="text-center mb-3">
-          <Button href={API_URL + "oidc/authenticate/"}>
-            Login with CERN Account
-          </Button>
-        </div>
+      <div>
+        <Header as='h1'>CERN Digital Memory Project</Header>
+        <Segment>
+          <Grid columns={2} relaxed='very' stackable>
+          <Divider vertical>Or</Divider>
+            <Grid.Column>
+              <Form onSubmit={this.handleSubmit}> 
+                <Form.Input
+                  icon='user'
+                  iconPosition='left'
+                  label='Username'
+                  placeholder='Username'
+                  type="text"
+                  value={this.state.username}
+                  onChange={this.handleUsernameChange}
+                />
+                <Form.Input
+                  icon='lock'
+                  iconPosition='left'
+                  label='Password'
+                  placeholder='Password'
+                  type="password"
+                  value={this.state.password}
+                  onChange={this.handlePasswordChange}
+                />
+                <Button content='Login' primary/>
+              </Form>
+            </Grid.Column>
 
-        <Row>
-          <Col>
-            <hr />
-          </Col>
-          <Col xs="auto" className="align-self-center text-black-50 fw-bold">
-            OR
-          </Col>
-          <Col>
-            <hr />
-          </Col>
-        </Row>
-
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group className="mb-3" controlId="formUsername">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              value={this.state.username}
-              onChange={this.handleUsernameChange}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              value={this.state.password}
-              onChange={this.handlePasswordChange}
-            />
-          </Form.Group>
-          <Button type="submit">Login</Button>
-        </Form>
-      </React.Fragment>
+            <Grid.Column verticalAlign='middle' textAlign='center'>
+            <Button href={API_URL + "oidc/authenticate/"} primary>
+                  Login with CERN Account
+                </Button>
+            </Grid.Column>
+          </Grid>
+      </Segment>
+      </div>
+    
     );
   }
 }

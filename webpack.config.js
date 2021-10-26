@@ -24,6 +24,21 @@ module.exports = {
         test: /\.(woff|woff2)$/,
         loader: "file-loader",
       },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+    },
+    {
+      test: /\.(ttf|eot|svg?)$/i,
+      loader: 'file-loader'
+    }
     ],
   },
   resolve: {

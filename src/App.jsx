@@ -8,7 +8,9 @@ import { LoginCallback } from "@/pages/LoginCallback.jsx";
 import { Logout } from "@/pages/Logout.jsx";
 import { RecordDetail } from "@/pages/RecordDetail.jsx";
 import { Search } from "@/pages/Search.jsx";
+import { Harvest } from "@/pages/Harvest.jsx";
 import { UserDetail } from "@/pages/UserDetail.jsx";
+import { AddResource } from "@/pages/AddResource.jsx";
 import { Upload } from "@/pages/Upload.jsx";
 import React from "react";
 import { Container } from "react-bootstrap";
@@ -34,6 +36,8 @@ export class App extends React.Component {
           <Container className="mt-3">
             <Switch>
               <ProtectedRoute path="/search" component={Search} />
+              <ProtectedRoute path="/harvest" component={Harvest} />
+              <ProtectedRoute path="/add-resource" component={AddResource} />
               <ProtectedRoute path="/archives" component={Archives} />
               <ProtectedRoute path="/records/:id" component={RecordDetail} />
               <ProtectedRoute path="/users/:id" component={UserDetail} />

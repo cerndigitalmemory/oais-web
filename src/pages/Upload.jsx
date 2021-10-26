@@ -1,6 +1,7 @@
 import React from "react";
 import { api } from "@/api.js";
-import { Button, Col, Form, Row, Spinner} from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
+
 import { sendNotification } from "@/utils.js";
 
 export class Upload extends React.Component {
@@ -22,13 +23,13 @@ export class Upload extends React.Component {
         } catch (e) {
         sendNotification("Error while uploading file", e.message);
         }
-        console.log("Submit")
     };
   
     render() {
     return (
       <React.Fragment>
         <h1>Upload SIP</h1>
+        <p>Upload a SIP from your local machine (as ZIP file) </p>
         <Form onSubmit={this.handleSubmit}>
             <Row>
                 <Col xs="12" lg="7">
