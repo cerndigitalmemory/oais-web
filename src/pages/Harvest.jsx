@@ -56,8 +56,8 @@ export class Harvest extends React.Component {
   }
 
   handleSearchByIdChange = (searchById) => {
+    searchById = !this.state.searchById;
     this.setState({ searchById });
-    print(this.state.searchById);
   }
 
   render() {
@@ -115,9 +115,9 @@ export class SizeRadio extends React.Component {
   };
 
   sizeChange = (event, {value}) => {
+    console.log("Value:", value);
     event.preventDefault();
     this.props.onSearch(this.props.source, this.props.query, 1, value);
-    
   }
 
   render() {
@@ -132,9 +132,9 @@ export class SizeRadio extends React.Component {
             sizeOptions.map((size, idx) => (
               <Button
               key={idx}
+              active={size === this.props.hitsPerPage}
               value={size}
-              checked={size === this.props.hitsPerPage}
-              onChange={this.sizeChange}
+              onClick={this.sizeChange}
             >
               {size}
             </Button>
@@ -188,6 +188,7 @@ export class SearchForm extends React.Component {
     } else {
       this.props.onSearch(this.state.source, this.state.query, 1, this.props.hitsPerPage);
     }
+    console.log(this.state.searchById);
   };
 
   
