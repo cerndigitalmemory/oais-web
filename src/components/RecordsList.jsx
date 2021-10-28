@@ -3,7 +3,7 @@ import { archiveType, recordType } from "@/types.js";
 import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, ButtonGroup, ListGroup } from "react-bootstrap";
+import { List, Button } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 
 export class RecordsList extends React.Component {
@@ -11,22 +11,128 @@ export class RecordsList extends React.Component {
     records: PropTypes.arrayOf(recordType).isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkedList: [],
+    };
+    this.recordElement = Array(this.props.records.length).fill(0).map(() => React.createRef());
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.records != prevProps.records) {
+      this.removeAll();
+      this.recordElement = Array(this.props.records.length).fill(0).map(() => React.createRef());
+    }
+  }
+
+  autoArchive = async (checkedRecord) => {
+    try {
+      const archive = await api.harvest(checkedRecord.source, checkedRecord.recid);
+      // const updatedArchive = await api.approveArchive(archive.id);
+      this.recordElement.map((el) => {
+        if (checkedRecord.recid == el.current.props.record.recid) {
+          el.current.state.archive = archive;
+        }
+      })
+      console.log("Record ", checkedRecord.recid, " archived successfully");
+    } catch (e) {
+      sendNotification("Error while archiving", e.message);
+    }
+  }
+
+  handleArchiveButtonClick = async () => {
+    if (this.state.checkedList.length === 0) {
+      sendNotification("There are no records checked")
+    } else {
+      this.state.checkedList.map((checkedRecord) => {
+        this.autoArchive(checkedRecord);
+      })
+    }
+    this.removeAll();
+
+  };
+
+  checkRecordAdd = async (record) => {
+    if (this.state.checkedList.length == 0) {
+      const checkedList = [record]
+      this.setState({ checkedList })
+    } else {
+      this.state.checkedList.map((checkedRecord) => {
+        if (checkedRecord == record) {
+          console.log(record, " already in the list")
+        } else {
+          const checkedList = this.state.checkedList.concat(record);
+          this.setState({ checkedList })
+        }
+      })
+    }
+  };
+
+  checkRecordRemove = async (record) => {
+    this.state.checkedList.map((checkedRecord) => {
+      if (checkedRecord == record) {
+        const checkedList = this.state.checkedList.filter((item) => item != record);
+        this.setState({ checkedList });
+      }
+    })
+  }
+
+  removeAll = () => {
+    this.recordElement.map((el) => {
+      try {
+        el.current.state.checked = false;
+      } catch {
+        console.log("Record removed");
+      }
+    })
+    const checkedList = [];
+    this.setState({ checkedList });
+  }
+
+  checkAll = () => {
+    let checkedList = []
+    this.recordElement.map((el) => {
+      if (!el.current.state.archive) {
+        el.current.state.checked = true;
+        checkedList.push(el.current.props.record)
+      }
+    })
+    this.setState({ checkedList });
+  }
+
+  printList = () => {
+    console.log(this.state.checkedList)
+  }
+
   render() {
+    const archiveButton = (
+      <div>
+        <Button variant="primary" onClick={this.handleArchiveButtonClick}>Archive Selected</Button>
+        <Button color="red" onClick={this.removeAll}>Remove all</Button>
+        <Button color="green" onClick={this.checkAll}>Add all</Button>
+        <Button variant="secondary" onClick={this.printList}>Print list</Button>
+      </div>
+
+    );
+
     return (
-      <ListGroup className="mb-3">
-         {this.props.records.length > 0 ? 
-         <ListGroup.Item className="bg-primary">
+
+        <List celled>
+        {this.props.records.length > 0 ? 
+         <List.Header>
           < div className="d-flex align-items-start">
-            <div className="fw-bold align-self-center me-auto text-white">Title</div>
-            <div className="fw-bold mx-3 align-self-center text-white">Record ID</div>
-            <div className="fw-bold mx-3 align-self-center text-white">Actions</div>
+            <div className="fw-bold align-self-center me-auto text-primary">Title</div>
+            <div className="fw-bold mx-3 align-self-center text-primary">Record ID</div>
+            <div className="fw-bold mx-3 align-self-center text-primary">Actions</div>
           </div>
-        </ListGroup.Item> 
+       </List.Header>
         : null }
         {this.props.records.map((record, i) => (
-          <Record key={i} record={record} />
-        ))}
-      </ListGroup>
+          <Record key={i} record={record} checkRecordAdd={this.checkRecordAdd} checkRecordRemove={this.checkRecordRemove} ref={this.recordElement[i]} />
+        ))}{archiveButton}
+      </List>
+      
     );
   }
 }
@@ -34,12 +140,31 @@ export class RecordsList extends React.Component {
 class Record extends React.Component {
   static propTypes = {
     record: recordType.isRequired,
+    checkRecordAdd: PropTypes.func.isRequired,
+    checkRecordRemove: PropTypes.func.isRequired,
   };
 
   state = {
     collapsed: true,
+    checked: false,
     archive: null,
   };
+
+  toggleChecked = () => {
+    const { record } = this.props;
+    const { checkRecordAdd } = this.props;
+    const { checkRecordRemove } = this.props;
+
+    this.setState((state) => ({
+      checked: !state.checked,
+    }));
+    if (!this.state.checked) {
+      checkRecordAdd(record);
+    } else {
+      checkRecordRemove(record);
+    }
+  };
+
 
   handleHarvest = async () => {
     const { record } = this.props;
@@ -59,17 +184,18 @@ class Record extends React.Component {
 
   render() {
     const { record } = this.props;
-    const { collapsed, archive } = this.state;
+    const { collapsed, archive, checked } = this.state;
 
     return (
-      <ListGroup.Item>
+      <List.Item>
         <div className="d-flex align-items-start">
           <div className="fw-bold align-self-center me-auto">{record.title}</div>
           <div className="fw-bold mx-3 align-self-center">{record.recid}</div>
           <RecordActions
-            {...{ record, archive, collapsed }}
+            {...{ record, archive, collapsed, checked }}
             handleHarvest={this.handleHarvest}
             toggleCollapse={this.toggleCollapse}
+            toggleChecked={this.toggleChecked}
           />
         </div>
         {!collapsed && (
@@ -81,7 +207,7 @@ class Record extends React.Component {
             ))}
           </div>
         )}
-      </ListGroup.Item>
+      </List.Item>
     );
   }
 }
@@ -91,66 +217,84 @@ class RecordActions extends React.Component {
     record: recordType.isRequired,
     archive: archiveType,
     collapsed: PropTypes.bool.isRequired,
+    checked: PropTypes.bool,
     toggleCollapse: PropTypes.func.isRequired,
     handleHarvest: PropTypes.func.isRequired,
+    toggleChecked: PropTypes.func.isRequired,
   };
 
+
   render() {
-    const { record, archive, collapsed } = this.props;
-    const { toggleCollapse, handleHarvest } = this.props;
+    const { record, archive, collapsed, checked } = this.props;
+    const { toggleCollapse, handleHarvest, toggleChecked } = this.props;
 
     const detailsButton = (
       <Button
+        circular
         active={!collapsed}
         variant="outline-primary"
         onClick={toggleCollapse}
         title="Show details"
-      >
-        <i className="bi-info-lg" />
-      </Button>
+        icon='info'
+      />
     );
 
-    let harvestButton;
-    if (!archive) {
-      harvestButton = (
+    let checkButton;
+    if(!archive){
+      if(checked){
+        checkButton = (
         <Button
-          variant="outline-primary"
-          onClick={handleHarvest}
-          title="Harvest"
-        >
-          <i className="bi-cloud-download" />
-        </Button>
-      );
+          circular
+          color='olive' 
+          icon = 'check'
+          onClick={toggleChecked}
+          title="Check"
+        />);
+      } else {
+          checkButton = (
+            <Button
+              circular
+              basic
+              color='olive' 
+              icon = 'check'
+              onClick={toggleChecked}
+              title="Check"
+            />
+    
+          );
+        }
     } else {
-      harvestButton = (
+      checkButton = (
         <Button
-          variant="success"
-          title="Go to archives"
-          as={Link}
-          to="/archives"
-        >
-          <i className="bi-archive" />
-        </Button>
-      );
+          circular
+          basic
+          color='olive' 
+          icon = 'check'
+          onClick={toggleChecked}
+          title="Check"
+          disabled
+        />);
     }
+  
+
+
 
     const sourceURLButton = (
       <Button
-        variant="outline-primary"
+        circular
         href={record.url}
         title="Source URL"
         target="_blank"
-      >
-        <i className="bi-box-arrow-up-right" />
-      </Button>
+        icon='globe'
+      />
     );
 
     return (
-      <ButtonGroup size="sm" className="text-nowrap align-self-center">
+      <div className="text-nowrap align-self-center">
         {detailsButton}
-        {harvestButton}
         {sourceURLButton}
-      </ButtonGroup>
+        {checkButton}
+      </div>
     );
   }
 }

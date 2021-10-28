@@ -7,6 +7,7 @@ import { Login } from "@/pages/Login.jsx";
 import { LoginCallback } from "@/pages/LoginCallback.jsx";
 import { Logout } from "@/pages/Logout.jsx";
 import { RecordDetail } from "@/pages/RecordDetail.jsx";
+import { SIPDetailPage } from "@/pages/SIPDetailPage.jsx";
 import { Search } from "@/pages/Search.jsx";
 import { Harvest } from "@/pages/Harvest.jsx";
 import { UserDetail } from "@/pages/UserDetail.jsx";
@@ -40,6 +41,7 @@ export class App extends React.Component {
               <ProtectedRoute path="/add-resource" component={AddResource} />
               <ProtectedRoute path="/archives" component={Archives} />
               <ProtectedRoute path="/records/:id" component={RecordDetail} />
+              <ProtectedRoute path="/details/:id" component={SIPDetailPage} />
               <ProtectedRoute path="/users/:id" component={UserDetail} />
               <ProtectedRoute path="/upload" component={Upload} />
               <Route path="/login/callback" component={LoginCallback} />
