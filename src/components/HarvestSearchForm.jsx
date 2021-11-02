@@ -42,7 +42,6 @@ class SearchForm extends React.Component {
         searchById: this.props.searchById,
       });
     }
-    console.log("Mounted src", this.props.source);
   }
 
   handleQueryChange = (event) => {

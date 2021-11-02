@@ -1,6 +1,6 @@
 import React from "react";
 import { api } from "@/api.js";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Grid, Form } from "semantic-ui-react";
 
 import { sendNotification } from "@/utils.js";
 
@@ -31,22 +31,29 @@ export class Upload extends React.Component {
         <h1>Upload SIP</h1>
         <p>Upload a SIP from your local machine (as ZIP file) </p>
         <Form onSubmit={this.handleSubmit}>
-            <Row>
-                <Col xs="12" lg="7">
-                    <Form.Group as={Row} controlId="formFile" className="mb-3">
-                        <Form.Label column xs="3" lg="auto">Select compressed SIP</Form.Label>
-                        <Col>
-                        <Form.Control 
-                            type="file" 
-                            accept=".zip, .tar, .rar, .7z, .gz" 
-                            onChange={this.handleFileUpload}/>
-                        </Col>
-                    </Form.Group>
-                </Col>
-                <Col xs="12" lg="3">
-                    <Button type="submit">Upload</Button>
-                </Col>    
-            </Row>
+            <Grid>
+                <Grid.Row columns={3}>
+                    <Grid.Column width={3} verticalAlign='middle'> 
+                            <h5>Select compressed SIP:</h5>  
+                    </Grid.Column>
+                    <Grid.Column> 
+                            <input
+                                ref={this.fileInputRef}
+                                type="file"
+                                accept=".zip, .tar, .rar, .7z, .gz" 
+                                onChange={this.handleFileUpload}
+                            />   
+                    </Grid.Column>
+                    <Grid.Column>
+                    <Button
+                                content="Submit"
+                                labelPosition="left"
+                                icon="file"
+                                type="submit"
+                            />
+                    </Grid.Column>    
+                </Grid.Row>
+            </Grid>
         </Form>
 
         <p>{this.state.response}</p>

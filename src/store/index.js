@@ -28,7 +28,7 @@ const searchReducer = (state = initialState, action) => {
       return {
         query: state.query,
         source: state.source,
-        searchById: action.searchById,
+        searchById: !state.searchById,
       };
     }
 
