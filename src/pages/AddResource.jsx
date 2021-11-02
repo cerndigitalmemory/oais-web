@@ -2,7 +2,7 @@
 // import { RecordsList } from "@/components/RecordsList.jsx";
 // import { sendNotification } from "@/utils.js";
 // import PropTypes from "prop-types";
-import { Harvest } from "@/pages/Harvest.jsx";
+import  HarvestRedirect  from "@/pages/HarvestRedirect.jsx";
 import {Upload} from "@/pages/Upload.jsx"
 import React from "react";
 import {
@@ -20,7 +20,7 @@ export class AddResource extends React.Component {
     <Grid.Row>
       <Grid.Column>
           <Segment>
-            <Harvest/>
+            <HarvestRedirect/>
           </Segment>
       </Grid.Column>
     </Grid.Row>
@@ -34,9 +34,6 @@ export class AddResource extends React.Component {
     </Grid.Row>
   </Grid>
 
-        
-       
-    
 
     )
 

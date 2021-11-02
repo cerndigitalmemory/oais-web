@@ -5,80 +5,55 @@ import _ from 'lodash';
 import React from "react";
 import { SearchPagination } from "@/components/SearchPagination.jsx";
 import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from "prop-types";
 import {
     Button,
+    Form,
+    Input,
+    Checkbox,
+    Grid,
+    GridColumn,
   } from 'semantic-ui-react';
-import  SearchForm  from "@/components/HarvestSearchForm.jsx";
 
-// Harvest page is displayed at /harvest page. 
-// It performs the search and displays the results through the RecordList component
 
-class Harvest extends React.Component {
+class HarvestRedirect extends React.Component {
+
   state = {
     results: null,
-    isLoading: false,
+    isRedirect: false,
     activePage: 1,
     totalNumHits: null,
     hitsPerPage: 20,
   };
 
-  // Changes the query state at the redux 
   handleQueryChange = (query) => {
     this.props.setQuery(query);
   }
 
-  // Changes the source state at redux
   handleSourceChange = (source) => {
     this.props.setSource(source);
   }
 
-  // Changes the search by ID state at redux
   handleSearchByIdChange = (searchById) => {
     this.props.setID(searchById);
   }
 
-  // Calls the handleSearch function when the component is mounted and there is an active state from redux
-  componentDidMount() {
-    if(this.props.source && this.props.query){
-      this.handleSearch(this.props.source, this.props.query);
-    }
-  }
-
-  // Handles the search
-  handleSearch = async (source, query, page=1, size=20) => {
-    this.setState({ isLoading: true, 
-                    activePage: Number(page), 
-                    hitsPerPage: Number(size) });
-    try {
-      if(this.props.searchById){
-        const response = await api.search_by_id(source, query);
-        this.setState({ results : response.result,
-                        totalNumHits : response.result.length });
-      } else {
-        const response = await api.search(source, query, page, size);
-        this.setState({ results : response.results,
-                        totalNumHits : Number(response.total_num_hits) });
-      }
-    } catch (e) {
-      sendNotification("Error while searching", e.message);
-    } finally {
-      this.setState({ isLoading: false });
-    }
-    console.log("Query: ", this.props.query,"Source:", this.props.source, "Search by ID", this.props.searchById);
+  handleRedirect = async (source, query, page=1, size=20) => {
+    this.setState({ isRedirect: true});
   };
 
 
   render() {
-    const { isLoading, results } = this.state;
+    const { isRedirect, results } = this.state;
     return (
       <React.Fragment>
         <h1>Harvest</h1>
         <p>Create SIP packages from the supported digital repositories (uses Bagit Create tool)</p>
         <SearchForm
           sources={["cds-test", "cds", "zenodo", "inveniordm", "cod", "indico"]}
-          onSearch={this.handleSearch}
-          isLoading={isLoading}
+          onSearch={this.handleRedirect}
+          isRedirect={isRedirect}
           onQueryChange={this.handleQueryChange.bind(this)}
           onSourceChange={this.handleSourceChange.bind(this)}
           hitsPerPage={this.state.hitsPerPage}
@@ -86,7 +61,7 @@ class Harvest extends React.Component {
         />
         <div className="d-flex justify-content-between">
           <SearchPagination 
-            onSearch={this.handleSearch}
+            onSearch={this.handleRedirect}
             source={this.props.source}
             query={this.props.query}
             hasResults={results != null && results.length > 0}
@@ -95,7 +70,7 @@ class Harvest extends React.Component {
             hitsPerPage={this.state.hitsPerPage}
           />
           <SizeRadio
-            onSearch={this.handleSearch}
+            onSearch={this.handleRedirect}
             source={this.props.source}
             query={this.props.query}
             hasResults={results != null && results.length > 0}
@@ -156,7 +131,108 @@ export class SizeRadio extends React.Component {
   }
 }
 
-// Binds the redux states with this component's props
+export class SearchForm extends React.Component {
+  static propTypes = {
+    sources: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onSearch: PropTypes.func.isRequired,
+    isRedirect: PropTypes.bool.isRequired,
+    onQueryChange: PropTypes.func.isRequired,
+    onSourceChange: PropTypes.func.isRequired,
+    hitsPerPage: PropTypes.number.isRequired,
+    onSearchByIdChange: PropTypes.func.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: "",
+      source: props.sources[0],
+      searchById: false,
+    };
+  }
+
+  handleQueryChange = (event) => {
+    this.props.onQueryChange(event.target.value);
+    this.setState({ query: event.target.value });
+  };
+
+  handleSourceChange = (event, {value}) => {
+    this.props.onSourceChange( value );
+    this.setState({ source: value });
+  };
+
+  handleCheckboxChange = () => {
+    this.props.onSearchByIdChange();
+    this.setState({ searchById: !this.state.searchById});
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if(this.state.searchById){
+      this.props.onSearch(this.state.source, this.state.query);
+    } else {
+      this.props.onSearch(this.state.source, this.state.query, 1, this.props.hitsPerPage);
+    }
+  };
+
+  
+
+  render() {
+    const { isRedirect } = this.props;
+    const sourceOptions = _.map(this.props.sources, (source) => ({
+      key: source,
+      text: source,
+      value: source,
+    }));   
+
+
+    let submitButton;
+    if (isRedirect) {
+      // if the search is already in progress, move to harvest page
+      submitButton = <Redirect to="/harvest"/>;
+    } else {
+      submitButton = <Button primary>Search</Button>;
+    }
+
+    return (
+        
+        <Form onSubmit={this.handleSubmit}> 
+          <Grid>
+            <Grid.Row columns={4}>
+              <Grid.Column width={6} verticalAlign='middle'>
+                    <Form.Field 
+              
+                        control={Input}
+                        value={this.state.query}
+                        onChange={this.handleQueryChange}
+                        label='Query'
+                        placeholder='Query'
+                    />
+              </Grid.Column>
+              <GridColumn verticalAlign='bottom' width={2}>
+                    <Form.Field>              
+                      <Checkbox 
+                        label='Search Record by ID'
+                        onChange={this.handleCheckboxChange}/>
+                    </Form.Field>
+                </GridColumn>
+                <Grid.Column verticalAlign='bottom'>
+                    < Form.Select
+                    label='Source'
+                    onChange={this.handleSourceChange}
+                    options={sourceOptions}
+                />
+                </Grid.Column>
+                <GridColumn verticalAlign='bottom' floated='right'>
+                {submitButton}
+               </GridColumn>
+            </Grid.Row>
+          </Grid>
+        </Form>
+    );
+  }
+}
+
 const mapStateToProps = state => {
   return {
     query: state.query,
@@ -165,7 +241,6 @@ const mapStateToProps = state => {
   };
 };
 
-// Dispatches the following functions which change the redux state when called
 const mapDispatchToProps = dispatch => {
   return {
     setQuery: (query) => {dispatch({ type: 'setQuery', query: query})},
@@ -174,4 +249,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Harvest);
+export default connect(mapStateToProps, mapDispatchToProps)(HarvestRedirect);

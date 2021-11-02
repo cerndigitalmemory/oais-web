@@ -4,7 +4,6 @@ import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
 import { List, Button } from 'semantic-ui-react';
-import { Link } from "react-router-dom";
 
 export class RecordsList extends React.Component {
   static propTypes = {
@@ -123,8 +122,8 @@ export class RecordsList extends React.Component {
          <List.Header>
           < div className="d-flex align-items-start">
             <div className="fw-bold align-self-center me-auto text-primary">Title</div>
-            <div className="fw-bold mx-3 align-self-center text-primary">Record ID</div>
-            <div className="fw-bold mx-3 align-self-center text-primary">Actions</div>
+            <div className="fw-bold mx-1 align-self-center text-primary">Record ID</div>
+            <div className="fw-bold mx-1 align-self-center text-primary">Actions</div>
           </div>
        </List.Header>
         : null }
@@ -230,7 +229,6 @@ class RecordActions extends React.Component {
 
     const detailsButton = (
       <Button
-        circular
         active={!collapsed}
         variant="outline-primary"
         onClick={toggleCollapse}
@@ -281,7 +279,6 @@ class RecordActions extends React.Component {
 
     const sourceURLButton = (
       <Button
-        circular
         href={record.url}
         title="Source URL"
         target="_blank"
@@ -291,8 +288,10 @@ class RecordActions extends React.Component {
 
     return (
       <div className="text-nowrap align-self-center">
-        {detailsButton}
-        {sourceURLButton}
+         <Button.Group basic size='small'>
+          {detailsButton}
+          {sourceURLButton}
+         </Button.Group>
         {checkButton}
       </div>
     );

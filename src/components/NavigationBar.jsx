@@ -17,8 +17,8 @@ export class NavigationBar extends React.Component {
           always: true,
         },
         {
-          value: "Search",
-          to: "/search",
+          value: "Add Resource",
+          to: "/add-resource",
           always: false,
           loggedIn: true,
         },

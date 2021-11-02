@@ -9,7 +9,7 @@ import { Logout } from "@/pages/Logout.jsx";
 import { RecordDetail } from "@/pages/RecordDetail.jsx";
 import { SIPDetailPage } from "@/pages/SIPDetailPage.jsx";
 import { Search } from "@/pages/Search.jsx";
-import { Harvest } from "@/pages/Harvest.jsx";
+import  Harvest  from "@/pages/Harvest.jsx";
 import { UserDetail } from "@/pages/UserDetail.jsx";
 import { AddResource } from "@/pages/AddResource.jsx";
 import { Upload } from "@/pages/Upload.jsx";
