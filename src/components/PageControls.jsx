@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { Pagination } from "react-bootstrap";
+import { Pagination } from "semantic-ui-react";
 
 export class PageControls extends React.Component {
   static propTypes = {
@@ -8,17 +8,22 @@ export class PageControls extends React.Component {
     onChange: PropTypes.func.isRequired,
   };
 
-  render() {
-    const { page, onChange } = this.props;
-    return (
-      <Pagination>
-        <Pagination.Prev
-          disabled={page === 1}
-          onClick={() => onChange(page - 1)}
-        />
-        <Pagination.Item active>{page}</Pagination.Item>
-        <Pagination.Next onClick={() => onChange(page + 1)} />
-      </Pagination>
+  handleNextPage = (event, {activePage}) => {
+    event.preventDefault();
+    this.props.onChange(activePage);
+  };
+
+  render(){
+    return(
+      <Pagination 
+      ellipsisItem={null}
+      firstItem={null}
+      lastItem={null}
+      onPageChange={this.handleNextPage}
+      activePage={this.props.page}
+      totalPages={5}
+      />
     );
   }
+
 }

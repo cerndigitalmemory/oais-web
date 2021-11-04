@@ -13,7 +13,7 @@ import {
 } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, ButtonGroup, Table } from "react-bootstrap";
+import { Button, Table, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 export class ArchivesList extends React.Component {
@@ -25,7 +25,7 @@ export class ArchivesList extends React.Component {
   render() {
     const { archives, onArchiveUpdate } = this.props;
     return (
-      <Table size="sm" hover className="text-center align-middle">
+      <Table textAlign="center">
         <thead>
           <tr>
             <th>ID</th>
@@ -89,18 +89,18 @@ class Archive extends React.Component {
     let actions = null;
     if (archive.status === ArchiveStatus.WAITING_APPROVAL) {
       actions = (
-        <ButtonGroup size="sm">
+        <Button.Group>
           {canApprove && (
-            <Button onClick={this.approve} variant="success" title="Approve">
-              <i className="bi-check-lg" />
+            <Button onClick={this.approve} color="green" title="Approve">
+              <Icon name='check' />
             </Button>
           )}
           {canReject && (
-            <Button onClick={this.reject} variant="danger" title="Reject">
-              <i className="bi-x-lg" />
+            <Button onClick={this.reject} color="red" title="Reject">
+              <Icon name='cancel' />
             </Button>
           )}
-        </ButtonGroup>
+        </Button.Group>
       );
     }
 

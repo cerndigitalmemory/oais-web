@@ -14,7 +14,7 @@ import { UserDetail } from "@/pages/UserDetail.jsx";
 import { AddResource } from "@/pages/AddResource.jsx";
 import { Upload } from "@/pages/Upload.jsx";
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container } from "semantic-ui-react";
 import { Route, Switch } from "react-router-dom";
 
 export class App extends React.Component {

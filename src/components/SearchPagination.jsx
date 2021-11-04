@@ -36,7 +36,7 @@ export class SearchPagination extends React.Component {
             <Pagination
               onPageChange={this.handleNextPage}
               activePage={this.props.activePage}
-              totalPages={this.props.totalNumHits}
+              totalPages={pageCount}
             />
             : null
             }
