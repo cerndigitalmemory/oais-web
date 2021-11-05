@@ -8,7 +8,6 @@ import { LoginCallback } from "@/pages/LoginCallback.jsx";
 import { Logout } from "@/pages/Logout.jsx";
 import { RecordDetail } from "@/pages/RecordDetail.jsx";
 import { SIPDetailPage } from "@/pages/SIPDetailPage.jsx";
-import { Search } from "@/pages/Search.jsx";
 import  Harvest  from "@/pages/Harvest.jsx";
 import { UserDetail } from "@/pages/UserDetail.jsx";
 import { AddResource } from "@/pages/AddResource.jsx";
@@ -36,7 +35,6 @@ export class App extends React.Component {
           <Notifications notifications={notifications ?? []} />
           <Container className="mt-3">
             <Switch>
-              <ProtectedRoute path="/search" component={Search} />
               <ProtectedRoute path="/harvest" component={Harvest} />
               <ProtectedRoute path="/add-resource" component={AddResource} />
               <ProtectedRoute path="/archives" component={Archives} />
