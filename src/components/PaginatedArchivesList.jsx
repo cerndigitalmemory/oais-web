@@ -50,7 +50,7 @@ export class PaginatedArchivesList extends React.Component {
           archives={archives}
           onArchiveUpdate={this.handleArchiveUpdate}
         />
-        <div className="d-flex justify-content-center">
+        <div>
           <PageControls page={page} onChange={this.loadArchives}/>
         </div>
       </div>

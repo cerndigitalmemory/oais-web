@@ -33,7 +33,7 @@ export class App extends React.Component {
         <div id="app">
           <NavigationBar />
           <Notifications notifications={notifications ?? []} />
-          <Container className="mt-3">
+          <Container>
             <Switch>
               <ProtectedRoute path="/harvest" component={Harvest} />
               <ProtectedRoute path="/add-resource" component={AddResource} />

@@ -3,7 +3,7 @@ import { archiveType, recordType } from "@/types.js";
 import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { List, Button } from 'semantic-ui-react';
+import { List, Button, Table } from 'semantic-ui-react';
 
 export class RecordsList extends React.Component {
   static propTypes = {
@@ -116,21 +116,24 @@ export class RecordsList extends React.Component {
     );
 
     return (
-
-        <List celled>
+      <div>
+      <Table textAlign="center">
         {this.props.records.length > 0 ? 
-         <List.Header>
-          < div className="d-flex align-items-start">
-            <div className="fw-bold align-self-center me-auto text-primary">Title</div>
-            <div className="fw-bold mx-1 align-self-center text-primary">Record ID</div>
-            <div className="fw-bold mx-1 align-self-center text-primary">Actions</div>
-          </div>
-       </List.Header>
-        : null }
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Record ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>: null }
+        <tbody>
         {this.props.records.map((record, i) => (
-          <Record key={i} record={record} checkRecordAdd={this.checkRecordAdd} checkRecordRemove={this.checkRecordRemove} ref={this.recordElement[i]} />
-        ))}{archiveButton}
-      </List>
+            <Record key={i} record={record} checkRecordAdd={this.checkRecordAdd} checkRecordRemove={this.checkRecordRemove} ref={this.recordElement[i]} />
+          ))}
+        </tbody>
+      </Table>
+      {archiveButton}
+      </div>
       
     );
   }
@@ -186,27 +189,18 @@ class Record extends React.Component {
     const { collapsed, archive, checked } = this.state;
 
     return (
-      <List.Item>
-        <div className="d-flex align-items-start">
-          <div className="fw-bold align-self-center me-auto">{record.title}</div>
-          <div className="fw-bold mx-3 align-self-center">{record.recid}</div>
-          <RecordActions
+
+      <tr>
+        <td><b>{record.title}</b></td>
+        <td>{record.recid}</td>
+        <td><RecordActions
             {...{ record, archive, collapsed, checked }}
             handleHarvest={this.handleHarvest}
             toggleCollapse={this.toggleCollapse}
             toggleChecked={this.toggleChecked}
-          />
-        </div>
-        {!collapsed && (
-          <div>
-            {record.authors.map((author, i) => (
-              <small className="me-3 d-inline-block" key={i}>
-                {author}
-              </small>
-            ))}
-          </div>
-        )}
-      </List.Item>
+          /></td>
+      </tr>
+
     );
   }
 }
@@ -287,7 +281,7 @@ class RecordActions extends React.Component {
     );
 
     return (
-      <div className="text-nowrap align-self-center">
+      <div>
          <Button.Group basic size='small'>
           {detailsButton}
           {sourceURLButton}

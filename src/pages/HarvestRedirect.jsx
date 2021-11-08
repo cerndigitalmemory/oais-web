@@ -59,7 +59,7 @@ class HarvestRedirect extends React.Component {
           hitsPerPage={this.state.hitsPerPage}
           onSearchByIdChange={this.handleSearchByIdChange.bind(this)}
         />
-        <div className="d-flex justify-content-between">
+        <div>
           <SearchPagination 
             onSearch={this.handleRedirect}
             source={this.props.source}
@@ -110,8 +110,8 @@ export class SizeRadio extends React.Component {
 
     return(
       this.props.hasResults ?
-      <div className="align-self-center mb-3">
-        <span className="me-3">Results per page: </span>
+      <div>
+        <span>Results per page: </span>
         <Button.Group size="small">
         {
             sizeOptions.map((size, idx) => (

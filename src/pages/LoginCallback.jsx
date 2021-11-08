@@ -40,7 +40,7 @@ export class LoginCallback extends React.Component {
 
     if (isLoading) {
       return (
-        <div className="mt-5 text-center">
+        <div>
           <Loader active />
         </div>
       );

@@ -31,7 +31,6 @@ export class SearchPagination extends React.Component {
         
         return (
             <div>
-              <br/>
             {this.props.hasResults || this.props.activePage > 1 ? 
             <Pagination
               onPageChange={this.handleNextPage}

@@ -7,7 +7,7 @@ import { SearchPagination } from "@/components/SearchPagination.jsx";
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import {
-    Button,
+    Button, Segment, Grid
   } from 'semantic-ui-react';
 import  SearchForm  from "@/components/HarvestSearchForm.jsx";
 
@@ -84,23 +84,29 @@ class Harvest extends React.Component {
           hitsPerPage={this.state.hitsPerPage}
           onSearchByIdChange={this.handleSearchByIdChange.bind(this)}
         />
-        <div className="d-flex justify-content-between">
-          <SearchPagination 
-            onSearch={this.handleSearch}
-            source={this.props.source}
-            query={this.props.query}
-            hasResults={results != null && results.length > 0}
-            activePage={this.state.activePage}
-            totalNumHits={this.state.totalNumHits}
-            hitsPerPage={this.state.hitsPerPage}
-          />
-          <SizeRadio
-            onSearch={this.handleSearch}
-            source={this.props.source}
-            query={this.props.query}
-            hasResults={results != null && results.length > 0}
-            hitsPerPage={this.state.hitsPerPage}
-          />
+        <div>
+          <Grid columns={2} verticalAlign="middle">
+            <Grid.Column>
+            <SearchPagination 
+                  onSearch={this.handleSearch}
+                  source={this.props.source}
+                  query={this.props.query}
+                  hasResults={results != null && results.length > 0}
+                  activePage={this.state.activePage}
+                  totalNumHits={this.state.totalNumHits}
+                  hitsPerPage={this.state.hitsPerPage}
+                />
+            </Grid.Column>
+            <Grid.Column textAlign="right">
+              <SizeRadio
+              onSearch={this.handleSearch}
+              source={this.props.source}
+              query={this.props.query}
+              hasResults={results != null && results.length > 0}
+              hitsPerPage={this.state.hitsPerPage}
+            />
+            </Grid.Column>
+          </Grid>
         </div>
 
         { this.state.results == null ?
@@ -135,8 +141,8 @@ export class SizeRadio extends React.Component {
 
     return(
       this.props.hasResults ?
-      <div className="align-self-center mb-3">
-        <span className="me-3">Results per page: </span>
+      <div>
+        <span>Results per page: </span>
         <Button.Group size="small">
         {
             sizeOptions.map((size, idx) => (
