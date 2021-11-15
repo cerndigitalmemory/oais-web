@@ -28,7 +28,7 @@ class SearchForm extends React.Component {
     super(props);
     this.state = {
       query: "",
-      source: props.sources[0],
+      source: this.props.sources[0],
       searchById: false,
     };
   }
@@ -115,7 +115,7 @@ class SearchForm extends React.Component {
                 <Grid.Column verticalAlign='bottom'>
                     < Form.Select
                     label='Source'
-                    defaultValue = {this.props.source}
+                    defaultValue = {this.props.sources[0]}
                     onChange={this.handleSourceChange}
                     options={sourceOptions}
                 />

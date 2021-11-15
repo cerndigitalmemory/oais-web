@@ -3,7 +3,7 @@ import { archiveType, recordType } from "@/types.js";
 import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { List, Button, Table } from 'semantic-ui-react';
+import { Button, Table } from 'semantic-ui-react';
 
 export class RecordsList extends React.Component {
   static propTypes = {
@@ -28,11 +28,11 @@ export class RecordsList extends React.Component {
   autoArchive = async (checkedRecord) => {
     try {
       const archive = await api.harvest(checkedRecord.source, checkedRecord.recid);
-      // const updatedArchive = await api.approveArchive(archive.id);
       this.recordElement.map((el) => {
         if (checkedRecord.recid == el.current.props.record.recid) {
           el.current.state.archive = archive;
-        }
+          console.log(archive);
+        }      
       })
       console.log("Record ", checkedRecord.recid, " archived successfully");
     } catch (e) {
@@ -117,20 +117,20 @@ export class RecordsList extends React.Component {
 
     return (
       <div>
-      <Table textAlign="center">
+      <Table>
         {this.props.records.length > 0 ? 
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Record ID</th>
-            <th>Actions</th>
-          </tr>
-        </thead>: null }
-        <tbody>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell width="12">Title</Table.HeaderCell>
+            <Table.HeaderCell width="2" textAlign="right">Record ID</Table.HeaderCell>
+            <Table.HeaderCell width="2" textAlign="center">Actions</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>: null }
+        <Table.Body>
         {this.props.records.map((record, i) => (
             <Record key={i} record={record} checkRecordAdd={this.checkRecordAdd} checkRecordRemove={this.checkRecordRemove} ref={this.recordElement[i]} />
           ))}
-        </tbody>
+        </Table.Body>
       </Table>
       {archiveButton}
       </div>
@@ -146,11 +146,22 @@ class Record extends React.Component {
     checkRecordRemove: PropTypes.func.isRequired,
   };
 
-  state = {
-    collapsed: true,
-    checked: false,
-    archive: null,
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapsed: true,
+      checked: false,
+      archive: null,
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.state.archive != prevProps.archive) {
+      this.state.archive = null;
+    }
+  }
+
 
   toggleChecked = () => {
     const { record } = this.props;
@@ -190,16 +201,16 @@ class Record extends React.Component {
 
     return (
 
-      <tr>
-        <td><b>{record.title}</b></td>
-        <td>{record.recid}</td>
-        <td><RecordActions
+      <Table.Row>
+        <Table.Cell textAlign="left"><b>{record.title}</b></Table.Cell>
+        <Table.Cell textAlign="right">{record.recid}</Table.Cell>
+        <Table.Cell textAlign="right"><RecordActions
             {...{ record, archive, collapsed, checked }}
             handleHarvest={this.handleHarvest}
             toggleCollapse={this.toggleCollapse}
             toggleChecked={this.toggleChecked}
-          /></td>
-      </tr>
+          /></Table.Cell>
+      </Table.Row>
 
     );
   }
