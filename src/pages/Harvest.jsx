@@ -77,6 +77,7 @@ class Harvest extends React.Component {
         <p>Create SIP packages from the supported digital repositories (uses Bagit Create tool)</p>
         <SearchForm
           sources={["cds-test", "cds", "zenodo", "inveniordm", "cod", "indico"]}
+          activeSource = {this.props.source}
           onSearch={this.handleSearch}
           isLoading={isLoading}
           onQueryChange={this.handleQueryChange.bind(this)}

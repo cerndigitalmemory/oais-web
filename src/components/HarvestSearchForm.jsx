@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 class SearchForm extends React.Component {
   static propTypes = {
     sources: PropTypes.arrayOf(PropTypes.string).isRequired,
+    activeSource: PropTypes.string,
     onSearch: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onQueryChange: PropTypes.func.isRequired,
@@ -28,7 +29,7 @@ class SearchForm extends React.Component {
     super(props);
     this.state = {
       query: "",
-      source: this.props.sources[0],
+      source: this.props.activeSource,
       searchById: false,
     };
   }
@@ -115,7 +116,7 @@ class SearchForm extends React.Component {
                 <Grid.Column verticalAlign='bottom'>
                     < Form.Select
                     label='Source'
-                    defaultValue = {this.props.sources[0]}
+                    defaultValue = {this.props.source}
                     onChange={this.handleSourceChange}
                     options={sourceOptions}
                 />
