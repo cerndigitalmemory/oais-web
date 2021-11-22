@@ -26,18 +26,18 @@ export class ArchivesList extends React.Component {
     const { archives, onArchiveUpdate } = this.props;
     return (
       <Table textAlign="center">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Record</th>
-            <th>Creator</th>
-            <th>Creation Date</th>
-            <th>Status</th>
-            <th>Stage</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>ID</Table.HeaderCell>
+            <Table.HeaderCell>Record</Table.HeaderCell>
+            <Table.HeaderCell>Creator</Table.HeaderCell>
+            <Table.HeaderCell>Creation Date</Table.HeaderCell>
+            <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>Stage</Table.HeaderCell>
+            <Table.HeaderCell>Actions</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
           {archives.map((archive) => (
             <Archive
               key={archive.id}
@@ -45,7 +45,7 @@ export class ArchivesList extends React.Component {
               onArchiveUpdate={onArchiveUpdate}
             />
           ))}
-        </tbody>
+        </Table.Body>
       </Table>
     );
   }
@@ -105,23 +105,23 @@ class Archive extends React.Component {
     }
 
     return (
-      <tr>
-        <td>{archive.id}</td>
-        <td>
+      <Table.Row>
+        <Table.Cell>{archive.id}</Table.Cell>
+        <Table.Cell>
           <Link to={`/records/${archive.record.id}`}>
             {archive.record.recid} ({archive.record.source})
           </Link>
-        </td>
-        <td>
+        </Table.Cell>
+        <Table.Cell>
           <Link to={`/users/${archive.creator.id}`}>
             {archive.creator.username}
           </Link>
-        </td>
-        <td>{formatDateTime(archive.creation_date)}</td>
-        <td>{ArchiveStatusLabel[archive.status]}</td>
-        <td>{ArchiveStageLabel[archive.stage]}</td>
-        <td>{actions}</td>
-      </tr>
+        </Table.Cell>
+        <Table.Cell>{formatDateTime(archive.creation_date)}</Table.Cell>
+        <Table.Cell>{ArchiveStatusLabel[archive.status]}</Table.Cell>
+        <Table.Cell>{ArchiveStageLabel[archive.stage]}</Table.Cell>
+        <Table.Cell>{actions}</Table.Cell>
+      </Table.Row>
     );
   }
 }
