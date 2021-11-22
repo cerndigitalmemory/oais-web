@@ -6,6 +6,10 @@ import React from "react";
 import { Button, Table } from 'semantic-ui-react';
 
 export class RecordsList extends React.Component {
+  /* 
+    Shows the results of the Harvest search including the available actions
+  */
+
   static propTypes = {
     records: PropTypes.arrayOf(recordType).isRequired,
   };
@@ -13,12 +17,18 @@ export class RecordsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // CheckedList is a list of all the selected-to-archive records
       checkedList: [],
     };
+    // Creates a reference for each result record in order to access each record state and perform actions.
     this.recordElement = Array(this.props.records.length).fill(0).map(() => React.createRef());
   }
 
   componentDidUpdate(prevProps) {
+    /* 
+      Each time the component updates if there is a change of state, 
+      clear all the records from the checkedList and re-create the references to each record
+    */
     if (this.props.records != prevProps.records) {
       this.removeAll();
       this.recordElement = Array(this.props.records.length).fill(0).map(() => React.createRef());
@@ -53,6 +63,9 @@ export class RecordsList extends React.Component {
   };
 
   checkRecordAdd = async (record) => {
+    /*
+      Checks if a record is in the checkedList and if not it appends it
+    */
     if (this.state.checkedList.length == 0) {
       const checkedList = [record]
       this.setState({ checkedList })
@@ -69,6 +82,9 @@ export class RecordsList extends React.Component {
   };
 
   checkRecordRemove = async (record) => {
+    /*
+      When a record is unchecked, it removes it from the checkedList
+    */
     this.state.checkedList.map((checkedRecord) => {
       if (checkedRecord == record) {
         const checkedList = this.state.checkedList.filter((item) => item != record);
@@ -78,6 +94,9 @@ export class RecordsList extends React.Component {
   }
 
   removeAll = () => {
+    /*
+      Removes all records from the checklist
+    */
     this.recordElement.map((el) => {
       try {
         el.current.state.checked = false;
@@ -90,6 +109,9 @@ export class RecordsList extends React.Component {
   }
 
   checkAll = () => {
+    /* 
+      For all the records, checks if it is in the checkedList and if not, it adds it 
+    */
     let checkedList = []
     this.recordElement.map((el) => {
       if (!el.current.state.archive) {
@@ -157,6 +179,7 @@ class Record extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    // If the component is updated change the archive status to null
     if (this.state.archive != prevProps.archive) {
       this.state.archive = null;
     }
@@ -164,10 +187,10 @@ class Record extends React.Component {
 
 
   toggleChecked = () => {
+    // Handles the check/uncheck of a record
     const { record } = this.props;
     const { checkRecordAdd } = this.props;
     const { checkRecordRemove } = this.props;
-
     this.setState((state) => ({
       checked: !state.checked,
     }));
@@ -180,6 +203,7 @@ class Record extends React.Component {
 
 
   handleHarvest = async () => {
+    // Handles the archive request of a record
     const { record } = this.props;
     try {
       const archive = await api.harvest(record.source, record.recid);

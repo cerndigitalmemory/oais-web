@@ -1,21 +1,18 @@
-// import { api } from "@/api.js";
-// import { RecordsList } from "@/components/RecordsList.jsx";
-// import { sendNotification } from "@/utils.js";
-// import PropTypes from "prop-types";
 import  HarvestRedirect  from "@/pages/HarvestRedirect.jsx";
 import {Upload} from "@/pages/Upload.jsx"
 import React from "react";
 import {
     Grid, Segment,
   } from 'semantic-ui-react'
-// import { SearchPagination } from "@/components/SearchPagination.jsx";
 
 export class AddResource extends React.Component {
 
   render() {
 
     return(
-        
+    /* 
+      Returns the HarvestRedirect and the Upload components
+    */
     <Grid>
     <Grid.Row>
       <Grid.Column>

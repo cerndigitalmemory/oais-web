@@ -7,7 +7,7 @@ import { SearchPagination } from "@/components/SearchPagination.jsx";
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import {
-    Button, Segment, Grid
+    Button, Grid
   } from 'semantic-ui-react';
 import  SearchForm  from "@/components/HarvestSearchForm.jsx";
 

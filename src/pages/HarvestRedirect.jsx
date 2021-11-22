@@ -1,11 +1,7 @@
-import { api } from "@/api.js";
-import { RecordsList } from "@/components/RecordsList.jsx";
-import { sendNotification } from "@/utils.js";
 import _ from 'lodash';
 import React from "react";
-import { SearchPagination } from "@/components/SearchPagination.jsx";
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from "prop-types";
 import {
     Button,
@@ -16,7 +12,11 @@ import {
     GridColumn,
   } from 'semantic-ui-react';
 
-
+/* 
+  HarvestRedirect page is displayed at /add-resource page. 
+  It shows the search component as in the Harvest page but instead of performing the search,
+  it updates the redux state and redirects to the Harvest page to show the results.
+*/
 class HarvestRedirect extends React.Component {
 
   state = {
@@ -28,24 +28,28 @@ class HarvestRedirect extends React.Component {
   };
 
   handleQueryChange = (query) => {
+    // Changes the value of the query state (redux)
     this.props.setQuery(query);
   }
 
   handleSourceChange = (source) => {
+    // Changes the value of the source state (redux)
     this.props.setSource(source);
   }
 
   handleSearchByIdChange = (searchById) => {
+    // Changes the value of the searchByID state (redux)
     this.props.setID(searchById);
   }
 
-  handleRedirect = async (source, query, page=1, size=20) => {
+  handleRedirect = async () => {
+    // Handles the redirect state to the Harvest page
     this.setState({ isRedirect: true});
   };
 
 
   render() {
-    const { isRedirect, results } = this.state;
+    const { isRedirect } = this.state;
     return (
       <React.Fragment>
         <h1>Harvest</h1>
@@ -59,77 +63,12 @@ class HarvestRedirect extends React.Component {
           hitsPerPage={this.state.hitsPerPage}
           onSearchByIdChange={this.handleSearchByIdChange.bind(this)}
         />
-        <div>
-          <SearchPagination 
-            onSearch={this.handleRedirect}
-            source={this.props.source}
-            query={this.props.query}
-            hasResults={results != null && results.length > 0}
-            activePage={this.state.activePage}
-            totalNumHits={this.state.totalNumHits}
-            hitsPerPage={this.state.hitsPerPage}
-          />
-          <SizeRadio
-            onSearch={this.handleRedirect}
-            source={this.props.source}
-            query={this.props.query}
-            hasResults={results != null && results.length > 0}
-            hitsPerPage={this.state.hitsPerPage}
-          />
-        </div>
-
-        { this.state.results == null ?
-          null : 
-          ( this.state.results.length > 0 ?
-            <RecordsList records={results} /> :
-            <p>No results found.</p>)
-        }
       </React.Fragment>
     );
   }
   
 }
 
-export class SizeRadio extends React.Component {
-  static propTypes = {
-    hitsPerPage: PropTypes.number.isRequired,
-    onSearch: PropTypes.func.isRequired,
-    query: PropTypes.string.isRequired,
-    source: PropTypes.string.isRequired,
-    hasResults : PropTypes.bool.isRequired,
-  };
-
-  sizeChange = (event, {value}) => {
-    console.log("Value:", value);
-    event.preventDefault();
-    this.props.onSearch(this.props.source, this.props.query, 1, value);
-  }
-
-  render() {
-    let sizeOptions = [10,20,50]
-
-    return(
-      this.props.hasResults ?
-      <div>
-        <span>Results per page: </span>
-        <Button.Group size="small">
-        {
-            sizeOptions.map((size, idx) => (
-              <Button
-              key={idx}
-              active={size === this.props.hitsPerPage}
-              value={size}
-              onClick={this.sizeChange}
-            >
-              {size}
-            </Button>
-            ))
-        }
-        </Button.Group>
-      </div> : null 
-    )
-  }
-}
 
 export class SearchForm extends React.Component {
   static propTypes = {
@@ -167,15 +106,11 @@ export class SearchForm extends React.Component {
   };
 
   handleSubmit = (event) => {
+    // Handles the isRedirect state
     event.preventDefault();
-    if(this.state.searchById){
-      this.props.onSearch(this.state.source, this.state.query);
-    } else {
-      this.props.onSearch(this.state.source, this.state.query, 1, this.props.hitsPerPage);
-    }
+    this.props.onSearch();
   };
 
-  
 
   render() {
     const { isRedirect } = this.props;
