@@ -6,6 +6,7 @@ export class PageControls extends React.Component {
   static propTypes = {
     page: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
+    totalPages: PropTypes.number.isRequired
   };
 
   handleNextPage = (event, {activePage}) => {
@@ -16,12 +17,9 @@ export class PageControls extends React.Component {
   render(){
     return(
       <Pagination 
-      ellipsisItem={null}
-      firstItem={null}
-      lastItem={null}
       onPageChange={this.handleNextPage}
       activePage={this.props.page}
-      totalPages={5}
+      totalPages={this.props.totalPages}
       />
     );
   }
