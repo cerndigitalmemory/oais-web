@@ -4,7 +4,6 @@ import { archiveType } from "@/types.js";
 import {
   ArchiveStatus,
   ArchiveStatusLabel,
-  ArchiveStage,
   ArchiveStageLabel,
   formatDateTime,
   hasPermission,
@@ -13,7 +12,7 @@ import {
 } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, ButtonGroup, Table } from "react-bootstrap";
+import { Button, Table, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 export class ArchivesList extends React.Component {
@@ -25,19 +24,19 @@ export class ArchivesList extends React.Component {
   render() {
     const { archives, onArchiveUpdate } = this.props;
     return (
-      <Table size="sm" hover className="text-center align-middle">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Record</th>
-            <th>Creator</th>
-            <th>Creation Date</th>
-            <th>Status</th>
-            <th>Stage</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table textAlign="center">
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>ID</Table.HeaderCell>
+            <Table.HeaderCell>Record</Table.HeaderCell>
+            <Table.HeaderCell>Creator</Table.HeaderCell>
+            <Table.HeaderCell>Creation Date</Table.HeaderCell>
+            <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>Stage</Table.HeaderCell>
+            <Table.HeaderCell>Actions</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
           {archives.map((archive) => (
             <Archive
               key={archive.id}
@@ -45,7 +44,7 @@ export class ArchivesList extends React.Component {
               onArchiveUpdate={onArchiveUpdate}
             />
           ))}
-        </tbody>
+        </Table.Body>
       </Table>
     );
   }
@@ -89,39 +88,39 @@ class Archive extends React.Component {
     let actions = null;
     if (archive.status === ArchiveStatus.WAITING_APPROVAL) {
       actions = (
-        <ButtonGroup size="sm">
+        <Button.Group>
           {canApprove && (
-            <Button onClick={this.approve} variant="success" title="Approve">
-              <i className="bi-check-lg" />
+            <Button onClick={this.approve} color="green" title="Approve">
+              <Icon name='check' />
             </Button>
           )}
           {canReject && (
-            <Button onClick={this.reject} variant="danger" title="Reject">
-              <i className="bi-x-lg" />
+            <Button onClick={this.reject} color="red" title="Reject">
+              <Icon name='cancel' />
             </Button>
           )}
-        </ButtonGroup>
+        </Button.Group>
       );
     }
 
     return (
-      <tr>
-        <td>{archive.id}</td>
-        <td>
+      <Table.Row>
+        <Table.Cell>{archive.id}</Table.Cell>
+        <Table.Cell>
           <Link to={`/records/${archive.record.id}`}>
             {archive.record.recid} ({archive.record.source})
           </Link>
-        </td>
-        <td>
+        </Table.Cell>
+        <Table.Cell>
           <Link to={`/users/${archive.creator.id}`}>
             {archive.creator.username}
           </Link>
-        </td>
-        <td>{formatDateTime(archive.creation_date)}</td>
-        <td>{ArchiveStatusLabel[archive.status]}</td>
-        <td>{ArchiveStageLabel[archive.stage]}</td>
-        <td>{actions}</td>
-      </tr>
+        </Table.Cell>
+        <Table.Cell>{formatDateTime(archive.creation_date)}</Table.Cell>
+        <Table.Cell>{ArchiveStatusLabel[archive.status]}</Table.Cell>
+        <Table.Cell>{ArchiveStageLabel[archive.stage]}</Table.Cell>
+        <Table.Cell>{actions}</Table.Cell>
+      </Table.Row>
     );
   }
 }

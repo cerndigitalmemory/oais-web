@@ -14,6 +14,7 @@ export class PaginatedArchivesList extends React.Component {
     this.state = {
       archives: [],
       page: 1,
+      totalArchives: 0,
     };
   }
 
@@ -31,7 +32,8 @@ export class PaginatedArchivesList extends React.Component {
   loadArchives = async (page = 1) => {
     try {
       const { results: archives } = await this.props.getArchives(page);
-      this.setState({ archives, page });
+      const { count : totalArchives } = await this.props.getArchives(page);
+      this.setState({ archives, page, totalArchives });
     } catch (e) {
       sendNotification("Error while fetching archives", e.message);
     }
@@ -42,15 +44,17 @@ export class PaginatedArchivesList extends React.Component {
   }
 
   render() {
-    const { archives, page } = this.state;
+    const { archives, page, totalArchives } = this.state;
+    let pageCount = Math.ceil(totalArchives / 10);
+
     return (
       <div>
         <ArchivesList
           archives={archives}
           onArchiveUpdate={this.handleArchiveUpdate}
         />
-        <div className="d-flex justify-content-center">
-          <PageControls page={page} onChange={this.loadArchives} />
+        <div>
+          <PageControls page={page} onChange={this.loadArchives} totalPages={pageCount}/>
         </div>
       </div>
     );

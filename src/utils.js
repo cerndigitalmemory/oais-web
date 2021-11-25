@@ -20,15 +20,21 @@ export const ArchiveStatusLabel = {
 };
 
 export const ArchiveStage = {
-  WAITING_HARVEST: 1,
-  SIP_EXISTS: 2,
-  VALID_SIP: 3
+  HARVEST_REQUESTED: 1,
+  HARVESTING: 2,
+  VALIDATION_REQUESTED: 3,
+  CHECKING_REGISTRY: 4,
+  VALIDATION: 5,
+  UPLOADING: 6,
 };
 
 export const ArchiveStageLabel = {
-  [ArchiveStage.WAITING_HARVEST]: "Waiting for harvest",
-  [ArchiveStage.SIP_EXISTS]: "SIP exists",
-  [ArchiveStage.VALID_SIP]: "Valid SIP",
+  [ArchiveStage.HARVEST_REQUESTED]: "Waiting for harvest",
+  [ArchiveStage.HARVESTING]: "Harvesting",
+  [ArchiveStage.VALIDATION_REQUESTED]: "Waiting for Validation",
+  [ArchiveStage.CHECKING_REGISTRY]: "SIP Exists",
+  [ArchiveStage.VALIDATION]: "Validated",
+  [ArchiveStage.UPLOADING]: "Uploading",
 };
 
 export const Permissions = {

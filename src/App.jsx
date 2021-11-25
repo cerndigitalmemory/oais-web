@@ -7,11 +7,13 @@ import { Login } from "@/pages/Login.jsx";
 import { LoginCallback } from "@/pages/LoginCallback.jsx";
 import { Logout } from "@/pages/Logout.jsx";
 import { RecordDetail } from "@/pages/RecordDetail.jsx";
-import { Search } from "@/pages/Search.jsx";
+import { SIPDetailPage } from "@/pages/SIPDetailPage.jsx";
+import  Harvest  from "@/pages/Harvest.jsx";
 import { UserDetail } from "@/pages/UserDetail.jsx";
+import { AddResource } from "@/pages/AddResource.jsx";
 import { Upload } from "@/pages/Upload.jsx";
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container } from "semantic-ui-react";
 import { Route, Switch } from "react-router-dom";
 
 export class App extends React.Component {
@@ -31,11 +33,13 @@ export class App extends React.Component {
         <div id="app">
           <NavigationBar />
           <Notifications notifications={notifications ?? []} />
-          <Container className="mt-3">
+          <Container>
             <Switch>
-              <ProtectedRoute path="/search" component={Search} />
+              <ProtectedRoute path="/harvest" component={Harvest} />
+              <ProtectedRoute path="/add-resource" component={AddResource} />
               <ProtectedRoute path="/archives" component={Archives} />
               <ProtectedRoute path="/records/:id" component={RecordDetail} />
+              <ProtectedRoute path="/details/:id" component={SIPDetailPage} />
               <ProtectedRoute path="/users/:id" component={UserDetail} />
               <ProtectedRoute path="/upload" component={Upload} />
               <Route path="/login/callback" component={LoginCallback} />

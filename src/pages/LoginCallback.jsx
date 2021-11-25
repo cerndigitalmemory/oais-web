@@ -2,7 +2,7 @@ import { api } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
 import { sendNotification } from "@/utils.js";
 import React from "react";
-import { Spinner } from "react-bootstrap";
+import { Loader } from 'semantic-ui-react';
 import { Redirect } from "react-router";
 
 /**
@@ -40,8 +40,8 @@ export class LoginCallback extends React.Component {
 
     if (isLoading) {
       return (
-        <div className="mt-5 text-center">
-          <Spinner animation="border" role="status" />
+        <div>
+          <Loader active />
         </div>
       );
     } else if (isLoggedIn) {
