@@ -1,8 +1,8 @@
 import { AppContext } from "@/AppContext.js";
 import moment from "moment";
 
-export const ArchiveStatus = {
-  PENDING: 1,
+export const StepStatus = {
+  NOT_RUN : 1,
   IN_PROGRESS: 2,
   FAILED: 3,
   COMPLETED: 4,
@@ -10,31 +10,27 @@ export const ArchiveStatus = {
   REJECTED: 6,
 };
 
-export const ArchiveStatusLabel = {
-  [ArchiveStatus.PENDING]: "Pending",
-  [ArchiveStatus.IN_PROGRESS]: "In progress",
-  [ArchiveStatus.FAILED]: "Failed",
-  [ArchiveStatus.COMPLETED]: "Completed",
-  [ArchiveStatus.WAITING_APPROVAL]: "Waiting for Approval",
-  [ArchiveStatus.REJECTED]: "Rejected",
+export const StepStatusLabel = {
+  [StepStatus.NOT_RUN]: "NOT_RUN",
+  [StepStatus.IN_PROGRESS]: "In progress",
+  [StepStatus.FAILED]: "Failed",
+  [StepStatus.COMPLETED]: "Completed",
+  [StepStatus.WAITING_APPROVAL]: "Waiting for Approval",
+  [StepStatus.REJECTED]: "Rejected",
 };
 
-export const ArchiveStage = {
-  HARVEST_REQUESTED: 1,
-  HARVESTING: 2,
-  VALIDATION_REQUESTED: 3,
-  CHECKING_REGISTRY: 4,
-  VALIDATION: 5,
-  UPLOADING: 6,
+export const StepName = {
+  SIP_UPLOAD: 1,
+  HARVEST: 2,
+  VALIDATION: 3,
+  CHECKSUM: 4,
 };
 
-export const ArchiveStageLabel = {
-  [ArchiveStage.HARVEST_REQUESTED]: "Waiting for harvest",
-  [ArchiveStage.HARVESTING]: "Harvesting",
-  [ArchiveStage.VALIDATION_REQUESTED]: "Waiting for Validation",
-  [ArchiveStage.CHECKING_REGISTRY]: "SIP Exists",
-  [ArchiveStage.VALIDATION]: "Validated",
-  [ArchiveStage.UPLOADING]: "Uploading",
+export const StepNameLabel = {
+  [StepName.SIP_UPLOAD]: "SIP Upload",
+  [StepName.HARVEST]: "Harvest",
+  [StepName.VALIDATION]: "Validate",
+  [StepName.CHECKSUM]: "Checksum",
 };
 
 export const Permissions = {
