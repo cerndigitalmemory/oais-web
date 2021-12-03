@@ -32,7 +32,7 @@ export class StepsList extends React.Component {
             <Table.HeaderCell>Start Date</Table.HeaderCell>
             <Table.HeaderCell>End Date</Table.HeaderCell>
             <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell>Input Step</Table.HeaderCell>
+            <Table.HeaderCell>Task ID</Table.HeaderCell>
             <Table.HeaderCell>Actions</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -115,7 +115,7 @@ class Step extends React.Component {
         </Table.Cell>
         <Table.Cell>{formatDateTime(step.end_date)}</Table.Cell>
         <Table.Cell>{StepStatusLabel[step.status]}</Table.Cell>
-        <Table.Cell>{step.input_step}</Table.Cell>
+        <Table.Cell>{step.celery_task_id}</Table.Cell>
         <Table.Cell>{actions}</Table.Cell>
       </Table.Row>
     );

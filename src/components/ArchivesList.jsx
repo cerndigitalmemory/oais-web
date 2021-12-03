@@ -32,7 +32,7 @@ export class ArchivesList extends React.Component {
             <Table.HeaderCell>Record</Table.HeaderCell>
             <Table.HeaderCell>Creator</Table.HeaderCell>
             <Table.HeaderCell>Creation Date</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
+            <Table.HeaderCell>Current Step ID</Table.HeaderCell>
             <Table.HeaderCell>See Steps</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
