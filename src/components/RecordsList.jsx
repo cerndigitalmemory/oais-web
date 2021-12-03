@@ -12,14 +12,16 @@ export class RecordsList extends React.Component {
 
   static propTypes = {
     records: PropTypes.arrayOf(recordType).isRequired,
+    addRecord: PropTypes.func.isRequired,
+    removeRecord: PropTypes.func.isRequired,
+    removeAll: PropTypes.func.isRequired,
+    checkAll: PropTypes.func.isRequired,
+    checkedList: PropTypes.arrayOf(recordType).isRequired,
+
   };
 
   constructor(props) {
     super(props);
-    this.state = {
-      // CheckedList is a list of all the selected-to-archive records
-      checkedList: [],
-    };
     // Creates a reference for each result record in order to access each record state and perform actions.
     this.recordElement = Array(this.props.records.length).fill(0).map(() => React.createRef());
   }
@@ -30,20 +32,13 @@ export class RecordsList extends React.Component {
       clear all the records from the checkedList and re-create the references to each record
     */
     if (this.props.records != prevProps.records) {
-      this.removeAll();
-      this.recordElement = Array(this.props.records.length).fill(0).map(() => React.createRef());
+      this.props.removeAll();
     }
   }
 
   autoArchive = async (checkedRecord) => {
     try {
-      const archive = await api.harvest(checkedRecord.source, checkedRecord.recid);
-      this.recordElement.map((el) => {
-        if (checkedRecord.recid == el.current.props.record.recid) {
-          el.current.state.archive = archive;
-          console.log(archive);
-        }      
-      })
+      await api.harvest(checkedRecord.source, checkedRecord.recid);
       console.log("Record ", checkedRecord.recid, " archived successfully");
     } catch (e) {
       sendNotification("Error while archiving", e.message);
@@ -51,87 +46,35 @@ export class RecordsList extends React.Component {
   }
 
   handleArchiveButtonClick = async () => {
-    if (this.state.checkedList.length === 0) {
+    if (this.props.checkedList.length === 0) {
       sendNotification("There are no records checked")
     } else {
-      this.state.checkedList.map((checkedRecord) => {
+      this.props.checkedList.map((checkedRecord) => {
         this.autoArchive(checkedRecord);
       })
     }
-    this.removeAll();
+    this.props.removeAll();
 
   };
 
-  checkRecordAdd = async (record) => {
-    /*
-      Checks if a record is in the checkedList and if not it appends it
-    */
-    if (this.state.checkedList.length == 0) {
-      const checkedList = [record]
-      this.setState({ checkedList })
-    } else {
-      this.state.checkedList.map((checkedRecord) => {
-        if (checkedRecord == record) {
-          console.log(record, " already in the list")
-        } else {
-          const checkedList = this.state.checkedList.concat(record);
-          this.setState({ checkedList })
-        }
-      })
-    }
-  };
-
-  checkRecordRemove = async (record) => {
-    /*
-      When a record is unchecked, it removes it from the checkedList
-    */
-    this.state.checkedList.map((checkedRecord) => {
-      if (checkedRecord == record) {
-        const checkedList = this.state.checkedList.filter((item) => item != record);
-        this.setState({ checkedList });
-      }
-    })
+  handleCheckAll = () => {
+    this.props.checkAll(this.props.records);
   }
 
-  removeAll = () => {
-    /*
-      Removes all records from the checklist
-    */
-    this.recordElement.map((el) => {
-      try {
-        el.current.state.checked = false;
-      } catch {
-        console.log("Record removed");
-      }
-    })
-    const checkedList = [];
-    this.setState({ checkedList });
-  }
-
-  checkAll = () => {
-    /* 
-      For all the records, checks if it is in the checkedList and if not, it adds it 
-    */
-    let checkedList = []
-    this.recordElement.map((el) => {
-      if (!el.current.state.archive) {
-        el.current.state.checked = true;
-        checkedList.push(el.current.props.record)
-      }
-    })
-    this.setState({ checkedList });
+  handleRemoveAll = () => {
+    this.props.removeAll();
   }
 
   printList = () => {
-    console.log(this.state.checkedList)
+    console.log(this.props.checkedList)
   }
 
   render() {
     const archiveButton = (
       <div>
         <Button variant="primary" onClick={this.handleArchiveButtonClick}>Archive Selected</Button>
-        <Button color="red" onClick={this.removeAll}>Remove all</Button>
-        <Button color="green" onClick={this.checkAll}>Add all</Button>
+        <Button color="red" onClick={this.handleRemoveAll}>Remove all</Button>
+        <Button color="green" onClick={this.handleCheckAll}>Add all</Button>
         <Button variant="secondary" onClick={this.printList}>Print list</Button>
       </div>
 
@@ -150,7 +93,7 @@ export class RecordsList extends React.Component {
         </Table.Header>: null }
         <Table.Body>
         {this.props.records.map((record, i) => (
-            <Record key={i} record={record} checkRecordAdd={this.checkRecordAdd} checkRecordRemove={this.checkRecordRemove} ref={this.recordElement[i]} />
+            <Record key={i} record={record} checkRecordAdd={this.props.addRecord} checkRecordRemove={this.props.removeRecord} ref={this.recordElement[i]} checkedList = {this.props.checkedList}/>
           ))}
         </Table.Body>
       </Table>
@@ -166,6 +109,7 @@ class Record extends React.Component {
     record: recordType.isRequired,
     checkRecordAdd: PropTypes.func.isRequired,
     checkRecordRemove: PropTypes.func.isRequired,
+    checkedList: PropTypes.arrayOf(recordType).isRequired,
   };
 
 

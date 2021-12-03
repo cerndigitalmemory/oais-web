@@ -1,5 +1,5 @@
 import { api } from "@/api.js";
-import { RecordsList } from "@/components/RecordsList.jsx";
+import  {RecordsList}  from "@/components/RecordsList.jsx";
 import { sendNotification } from "@/utils.js";
 import _ from 'lodash';
 import React from "react";
@@ -36,6 +36,22 @@ class Harvest extends React.Component {
   // Changes the search by ID state at redux
   handleSearchByIdChange = (searchById) => {
     this.props.setID(searchById);
+  }
+
+  checkRecordAdd = (record) => {
+    this.props.addRecord(record)
+  }
+
+  removeAllRecords = () => {
+    this.props.removeAll()
+  }
+
+  addAllRecords = (record) => {
+    this.props.addAll(record)
+  }
+
+  checkRecordRemove = (record) => {
+    this.props.removeRecord(record)
   }
 
   // Calls the handleSearch function when the component is mounted and there is an active state from redux
@@ -113,7 +129,14 @@ class Harvest extends React.Component {
         { this.state.results == null ?
           null : 
           ( this.state.results.length > 0 ?
-            <RecordsList records={results} /> :
+            <RecordsList 
+              records = {results} 
+              addRecord = {this.checkRecordAdd}
+              removeRecord = {this.checkRecordRemove}
+              removeAll = {this.removeAllRecords}
+              checkAll = {this.addAllRecords}
+              checkedList = {this.props.checkedRecords}
+            /> :
             <p>No results found.</p>)
         }
       </React.Fragment>
@@ -169,6 +192,7 @@ const mapStateToProps = state => {
     query: state.query,
     source: state.source,
     searchById: state.searchById,
+    checkedRecords: state.checkedRecords,
   };
 };
 
@@ -178,6 +202,10 @@ const mapDispatchToProps = dispatch => {
     setQuery: (query) => {dispatch({ type: 'setQuery', query: query})},
     setSource: (source) => {dispatch({ type: 'setSource', source: source })},
     setID: (searchById) => {dispatch({ type: 'setID', searchById: searchById })},
+    addRecord: (record) => {dispatch({ type: 'addRecord', record: record})},
+    removeRecord: (record) => {dispatch({ type: 'removeRecord', record: record })},
+    removeAll: () => {dispatch({ type: 'removeAll'})},
+    addAll: (records) => {dispatch({ type: 'addAll', record: records })},
   };
 };
 
