@@ -125,8 +125,20 @@ class Record extends React.Component {
   componentDidUpdate(prevProps) {
     // If the component is updated change the archive status to null
     if (this.state.archive != prevProps.archive) {
-      this.state.archive = null;
+      this.setState({archive: null});
     }
+    if (prevProps.checkedList != this.props.checkedList) {
+      let checked = false;
+      this.props.checkedList.map((checkedItem) => {
+        if (checkedItem.recid === this.props.record.recid){
+          checked = true;
+        }
+      }
+      
+    )
+    this.setState({checked: checked})
+  }
+
   }
 
 

@@ -42,13 +42,12 @@ const searchReducer = (state = initialState, action) => {
       /*
       Checks if a record is in the checkedList and if not it appends it
       */
-     let new_list;
-      if (state.checkedRecords.length == 0) {
-        new_list = [action.record]
-      } else {
+     let new_list = state.checkedRecords.concat(action.record)
+      if (state.checkedRecords.length != 0) {
         state.checkedRecords.map((checkedRecord) => {
-          if (checkedRecord != action.record) {
-            new_list = state.checkedRecords.concat(action.record);
+          if (checkedRecord == action.record) {
+            console.log(action.record.recid, " already in the list!")
+            new_list = state.checkedRecords
           }
         })
        }
