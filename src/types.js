@@ -25,6 +25,7 @@ export const archiveType = exact({
   source_url: string.isRequired,
   recid: string.isRequired,
   source: string.isRequired,
+  creator: userType,
   timestamp: string,
   current_status: string,
   path_to_sip: string,
@@ -39,6 +40,6 @@ export const stepType = exact({
   status:number,
   celery_task_id: string,
   input_data:string,
-  input_step:string,
+  input_step:number,
   output_data:string,
 })

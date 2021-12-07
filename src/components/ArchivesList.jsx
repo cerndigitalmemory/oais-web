@@ -71,7 +71,9 @@ class Archive extends React.Component {
             {archive.recid} ({archive.source})
         </Table.Cell>
         <Table.Cell>
-          kchelakis
+          <Link to={`/users/${archive.creator.id}`}>
+            {archive.creator.username}
+          </Link>
         </Table.Cell>
         <Table.Cell>{formatDateTime(archive.timestamp)}</Table.Cell>
         <Table.Cell>{archive.current_status}</Table.Cell>
