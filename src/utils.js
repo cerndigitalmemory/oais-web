@@ -24,6 +24,7 @@ export const StepName = {
   HARVEST: 2,
   VALIDATION: 3,
   CHECKSUM: 4,
+  ARCHIVE: 5,
 };
 
 export const StepNameLabel = {
@@ -31,6 +32,7 @@ export const StepNameLabel = {
   [StepName.HARVEST]: "Harvest",
   [StepName.VALIDATION]: "Validate",
   [StepName.CHECKSUM]: "Checksum",
+  [StepName.ARCHIVE]: "Upload to AM",
 };
 
 export const Permissions = {
