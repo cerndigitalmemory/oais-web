@@ -22,10 +22,24 @@ export const userType = exact({
 
 export const archiveType = exact({
   id: number.isRequired,
-  record: recordType.isRequired,
-  creator: userType.isRequired,
-  creation_date: string.isRequired,
-  celery_task_id: string,
-  status: number.isRequired,
-  stage: number.isRequired,
+  source_url: string.isRequired,
+  recid: string.isRequired,
+  source: string.isRequired,
+  creator: userType,
+  timestamp: string,
+  current_status: string,
+  path_to_sip: string,
 });
+
+export const stepType = exact({
+  id: number.isRequired,
+  archive: number.isRequired,
+  name:number.isRequired,
+  start_date:string,
+  finish_date:string,
+  status:number,
+  celery_task_id: string,
+  input_data:string,
+  input_step:number,
+  output_data:string,
+})

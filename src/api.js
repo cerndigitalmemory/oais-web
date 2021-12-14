@@ -92,16 +92,20 @@ class API {
     return await this._get("/archives/", { params: { page } });
   }
 
-  async archivesByRecord(id, page = 1) {
-    return await this._get(`/records/${id}/archives/`, { params: { page } });
-  }
+  // async archivesByRecord(id, page = 1) {
+  //   return await this._get(`/records/${id}/archives/`, { params: { page } });
+  // }
 
   async archivesByUser(id, page = 1) {
     return await this._get(`/users/${id}/archives/`, { params: { page } });
   }
 
-  async record(id) {
-    return await this._get(`/records/${id}/`);
+  // async record(id) {
+  //   return await this._get(`/records/${id}/`);
+  // }
+
+  async get_archive_steps(id){
+    return await this._get(`/archive/${id}/`);
   }
 
   async user(id) {
@@ -109,11 +113,11 @@ class API {
   }
 
   async approveArchive(id) {
-    return await this._post(`/archives/${id}/actions/approve/`);
+    return await this._post(`/steps/${id}/actions/approve/`);
   }
 
   async rejectArchive(id) {
-    return await this._post(`/archives/${id}/actions/reject/`);
+    return await this._post(`/steps/${id}/actions/reject/`);
   }
 
   async me() {

@@ -3,6 +3,7 @@ import { NavigationBar } from "@/components/NavigationBar.jsx";
 import { Notifications } from "@/components/Notifications.jsx";
 import { ProtectedRoute } from "@/components/ProtectedRoute.jsx";
 import { Archives } from "@/pages/Archives.jsx";
+import { ArchiveSteps } from "@/pages/ArchiveSteps.jsx";
 import { Login } from "@/pages/Login.jsx";
 import { LoginCallback } from "@/pages/LoginCallback.jsx";
 import { Logout } from "@/pages/Logout.jsx";
@@ -38,6 +39,7 @@ export class App extends React.Component {
               <ProtectedRoute path="/harvest" component={Harvest} />
               <ProtectedRoute path="/add-resource" component={AddResource} />
               <ProtectedRoute path="/archives" component={Archives} />
+              <ProtectedRoute path="/archive/:id" component={ArchiveSteps} />
               <ProtectedRoute path="/records/:id" component={RecordDetail} />
               <ProtectedRoute path="/details/:id" component={SIPDetailPage} />
               <ProtectedRoute path="/users/:id" component={UserDetail} />

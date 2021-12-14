@@ -2,9 +2,10 @@ import { api } from "@/api.js";
 import { AppContext } from "@/AppContext.js";
 import { archiveType } from "@/types.js";
 import {
-  ArchiveStatus,
-  ArchiveStatusLabel,
-  ArchiveStageLabel,
+  StepStatus,
+  StepStatusLabel,
+  StepNameLabel,
+  StepName,
   formatDateTime,
   hasPermission,
   Permissions,
@@ -31,9 +32,8 @@ export class ArchivesList extends React.Component {
             <Table.HeaderCell>Record</Table.HeaderCell>
             <Table.HeaderCell>Creator</Table.HeaderCell>
             <Table.HeaderCell>Creation Date</Table.HeaderCell>
-            <Table.HeaderCell>Status</Table.HeaderCell>
-            <Table.HeaderCell>Stage</Table.HeaderCell>
-            <Table.HeaderCell>Actions</Table.HeaderCell>
+            <Table.HeaderCell>Current Step ID</Table.HeaderCell>
+            <Table.HeaderCell>See Steps</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -58,68 +58,26 @@ class Archive extends React.Component {
 
   static contextType = AppContext.Context;
 
-  approve = async () => {
-    const { archive, onArchiveUpdate } = this.props;
-    try {
-      const updatedArchive = await api.approveArchive(archive.id);
-      onArchiveUpdate(updatedArchive);
-    } catch (e) {
-      sendNotification("Error while approving archive", e.message);
-    }
-  };
-
-  reject = async () => {
-    const { archive, onArchiveUpdate } = this.props;
-    try {
-      const updatedArchive = await api.rejectArchive(archive.id);
-      onArchiveUpdate(updatedArchive);
-    } catch (e) {
-      sendNotification("Error while rejecting archive", e.message);
-    }
-  };
 
   render() {
     const { archive } = this.props;
     const { user } = this.context;
 
-    const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE);
-    const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE);
-
-    let actions = null;
-    if (archive.status === ArchiveStatus.WAITING_APPROVAL) {
-      actions = (
-        <Button.Group>
-          {canApprove && (
-            <Button onClick={this.approve} color="green" title="Approve">
-              <Icon name='check' />
-            </Button>
-          )}
-          {canReject && (
-            <Button onClick={this.reject} color="red" title="Reject">
-              <Icon name='cancel' />
-            </Button>
-          )}
-        </Button.Group>
-      );
-    }
 
     return (
       <Table.Row>
         <Table.Cell>{archive.id}</Table.Cell>
         <Table.Cell>
-          <Link to={`/records/${archive.record.id}`}>
-            {archive.record.recid} ({archive.record.source})
-          </Link>
+            {archive.recid} ({archive.source})
         </Table.Cell>
         <Table.Cell>
           <Link to={`/users/${archive.creator.id}`}>
             {archive.creator.username}
           </Link>
         </Table.Cell>
-        <Table.Cell>{formatDateTime(archive.creation_date)}</Table.Cell>
-        <Table.Cell>{ArchiveStatusLabel[archive.status]}</Table.Cell>
-        <Table.Cell>{ArchiveStageLabel[archive.stage]}</Table.Cell>
-        <Table.Cell>{actions}</Table.Cell>
+        <Table.Cell>{formatDateTime(archive.timestamp)}</Table.Cell>
+        <Table.Cell>{archive.current_status}</Table.Cell>
+        <Table.Cell><Link to={`/archive/${archive.id}`}>See Steps</Link></Table.Cell>
       </Table.Row>
     );
   }
