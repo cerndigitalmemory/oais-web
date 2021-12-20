@@ -1,4 +1,5 @@
 import { arrayOf, exact, number, string } from "prop-types";
+import { List } from "semantic-ui-react";
 
 export const recordType = exact({
   id: number,
@@ -27,8 +28,9 @@ export const archiveType = exact({
   source: string.isRequired,
   creator: userType,
   timestamp: string,
-  current_status: string,
+  last_step: number,
   path_to_sip: string,
+  next_steps: List,
 });
 
 export const stepType = exact({

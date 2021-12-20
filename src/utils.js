@@ -11,7 +11,7 @@ export const StepStatus = {
 };
 
 export const StepStatusLabel = {
-  [StepStatus.NOT_RUN]: "NOT_RUN",
+  [StepStatus.NOT_RUN]: "Not Run",
   [StepStatus.IN_PROGRESS]: "In progress",
   [StepStatus.FAILED]: "Failed",
   [StepStatus.COMPLETED]: "Completed",
