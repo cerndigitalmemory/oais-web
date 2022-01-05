@@ -49,12 +49,15 @@ export class StepsPipeline extends React.Component {
   
 
     return (
-      <Container>
-        <PipelineStatus
+      <Segment raised>
+          <Label color='blue' ribbon>
+            Pipeline
+          </Label>
+            <PipelineStatus
           steps={steps}
           onStepUpdate={this.handleStepUpdate}
         />
-      </Container>
+          </Segment>
     );
   }
 }

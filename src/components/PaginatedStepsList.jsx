@@ -4,6 +4,7 @@ import { sendNotification } from "@/utils.js";
 import { stepType } from "@/types.js";
 import PropTypes from "prop-types";
 import React from "react";
+import { Segment, Label } from "semantic-ui-react";
 
 export class PaginatedStepsList extends React.Component {
   static propTypes = {
@@ -49,10 +50,16 @@ export class PaginatedStepsList extends React.Component {
 
     return (
       <div>
-        <StepsList
+        
+        <Segment raised>
+          <Label color='blue' ribbon>
+            Steps
+          </Label>
+          <StepsList
           steps={steps}
           onStepUpdate={this.handleStepUpdate}
         />
+          </Segment>
       </div>
     );
   }

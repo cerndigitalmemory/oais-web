@@ -25,20 +25,10 @@ export class ArchiveSteps extends React.Component {
     return (
       <React.Fragment> 
 
-          <StepsDetails getArchive = {() => api.archive_details(id)} id = {id}/>
-          <Segment raised>
-          <Label color='blue' ribbon>
-            Pipeline
-          </Label>
-            <StepsPipeline getSteps={() => api.get_archive_steps(id)} />
-          </Segment>
-          <Segment raised>
-          <Label color='blue' ribbon>
-            Steps
-          </Label>
-            <h1>Archive Steps for Archive {id} </h1>
-            <PaginatedStepsList getSteps={() => api.get_archive_steps(id)} />
-          </Segment>
+          <StepsDetails getArchive = {() => api.archive_details(id)} id = {id}/>        
+          <StepsPipeline getSteps={() => api.get_archive_steps(id)} />
+          <PaginatedStepsList getSteps={() => api.get_archive_steps(id)} />
+
 
       </React.Fragment>
     );

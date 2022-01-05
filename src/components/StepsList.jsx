@@ -13,7 +13,7 @@ import {
 } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, Header, Icon, Segment, Grid, Accordion, Container } from "semantic-ui-react";
+import { Button, Header, Icon, Segment, Grid, Accordion, Container, Image } from "semantic-ui-react";
 
 export class StepsList extends React.Component {
   static propTypes = {
@@ -103,7 +103,7 @@ class Step extends React.Component {
 
 
     return (
-      <Segment>
+      <Container>
         <h3>{StepNameLabel[step.name]}</h3>
         <Accordion fluid styled>
         <Accordion.Title
@@ -119,7 +119,7 @@ class Step extends React.Component {
           <Grid.Row columns={4}>
           <Grid.Column><b>ID: </b> {step.id}</Grid.Column>
           <Grid.Column><b>Start Date: </b> {formatDateTime(step.start_date)}</Grid.Column>
-          <Grid.Column><b>Start Date: </b> {formatDateTime(step.end_date)}</Grid.Column>
+          <Grid.Column><b>End Date: </b> {formatDateTime(step.end_date)}</Grid.Column>
           <Grid.Column><b>Status: </b> {StepStatusLabel[step.status]}</Grid.Column>
           </Grid.Row>
           </Grid>
@@ -145,8 +145,9 @@ class Step extends React.Component {
 
       
       </Accordion>
+      <br/>
 
-      </Segment>
+      </Container>
       
     );
   }
