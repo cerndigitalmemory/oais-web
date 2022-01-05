@@ -83,7 +83,7 @@ class API {
   }
 
   async archive_details(id) {
-    return await this._get(`archive-details/${id}`);
+    return await this._get(`/archive-details/${id}`);
   }
 
   async next_step(step_no, archive) {
