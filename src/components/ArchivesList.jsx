@@ -13,8 +13,9 @@ import {
 } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, Table, Icon } from "semantic-ui-react";
+import { Button, Table, Loader, Dropdown } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import _ from 'lodash'
 
 export class ArchivesList extends React.Component {
   static propTypes = {
@@ -32,7 +33,7 @@ export class ArchivesList extends React.Component {
             <Table.HeaderCell>Record</Table.HeaderCell>
             <Table.HeaderCell>Creator</Table.HeaderCell>
             <Table.HeaderCell>Creation Date</Table.HeaderCell>
-            <Table.HeaderCell>Current Step ID</Table.HeaderCell>
+            <Table.HeaderCell>Next Step</Table.HeaderCell>
             <Table.HeaderCell>See Steps</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
@@ -56,12 +57,60 @@ class Archive extends React.Component {
     onArchiveUpdate: PropTypes.func.isRequired,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      nextStep : null,
+      loading: false,
+    };
+  }
+
   static contextType = AppContext.Context;
+
+  handleStepChange = async (event, {value}) => {
+    this.setState({ nextStep : event.target.value});
+    this.setState({loading: true})
+    await api.next_step(value, this.props.archive);
+  };
+
+  callNextStep = async () => {
+    
+  }
 
 
   render() {
     const { archive } = this.props;
     const { user } = this.context;
+
+    
+    const nextSteps = _.map(archive.next_steps, (nextStep) => ({
+      key: nextStep,
+      text: StepNameLabel[nextStep],
+      value: nextStep,
+    })); 
+
+
+    let dropdown;
+    if (!this.state.loading){
+      if (archive.next_steps.length > 0) {
+        dropdown = 
+        < Dropdown
+            placeholder='Select Next Step'
+            options={nextSteps}
+            selection
+            onChange={this.handleStepChange} 
+          />
+      } else {
+        if (archive.last_step) {
+          dropdown = <p>Completed</p>
+        } 
+        
+      }
+      
+    } else {
+      dropdown = <Loader active inline />
+    }
+    
 
 
     return (
@@ -76,7 +125,9 @@ class Archive extends React.Component {
           </Link>
         </Table.Cell>
         <Table.Cell>{formatDateTime(archive.timestamp)}</Table.Cell>
-        <Table.Cell>{archive.current_status}</Table.Cell>
+        <Table.Cell>
+          {dropdown}
+        </Table.Cell>
         <Table.Cell><Link to={`/archive/${archive.id}`}>See Steps</Link></Table.Cell>
       </Table.Row>
     );

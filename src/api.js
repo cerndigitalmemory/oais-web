@@ -82,6 +82,17 @@ class API {
     return await this._post(`/harvest/${recid}/${source}/`);
   }
 
+  async archive_details(id) {
+    return await this._get(`/archive-details/${id}`);
+  }
+
+  async next_step(step_no, archive) {
+    return await this._post(`archive/next-step`, {
+      next_step: step_no,
+      archive: archive,
+    });
+  }
+
   async ingest(file) {
     var formData = new FormData();
     formData.append("file", file);
