@@ -211,6 +211,8 @@ class PipelineElement extends React.Component {
             <Header.Subheader>{StepStatusLabel[step.status]}</Header.Subheader>
           </Header>
           </Segment>
+
+          
       
       
       

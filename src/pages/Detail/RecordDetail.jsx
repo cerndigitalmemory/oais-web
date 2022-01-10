@@ -1,5 +1,5 @@
 import { api } from "@/api.js";
-import { PaginatedArchivesList } from "@/components/PaginatedArchivesList.jsx";
+import { PaginatedArchivesList } from "@/pages/Archives/PaginatedArchivesList.jsx";
 import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
