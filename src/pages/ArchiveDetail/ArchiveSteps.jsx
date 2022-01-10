@@ -1,6 +1,6 @@
 import { api } from "@/api.js";
-import { PaginatedStepsList } from "@/components/PaginatedStepsList.jsx";
-import { StepsPipeline, StepsDetails } from "@/components/StepsPipeline.jsx";
+import { PaginatedStepsList } from "@/pages/ArchiveDetail/PaginatedStepsList.jsx";
+import { StepsPipeline, StepsDetails } from "@/pages/ArchiveDetail/StepsPipeline.jsx";
 import React from "react";
 import PropTypes from "prop-types";
 import { Segment, Label, List, Header } from "semantic-ui-react";

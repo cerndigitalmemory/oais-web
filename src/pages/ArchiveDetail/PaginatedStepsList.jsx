@@ -1,5 +1,4 @@
-import { StepsList } from "@/components/StepsList.jsx";
-import { PageControls } from "@/components/PageControls.jsx";
+import { StepsList } from "@/pages/ArchiveDetail/StepsList.jsx";
 import { sendNotification } from "@/utils.js";
 import { stepType } from "@/types.js";
 import PropTypes from "prop-types";

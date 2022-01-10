@@ -1,5 +1,5 @@
 import { api } from "@/api.js";
-import { PaginatedArchivesList } from "@/components/PaginatedArchivesList.jsx";
+import { PaginatedArchivesList } from "@/pages/Archives/PaginatedArchivesList.jsx";
 import React from "react";
 
 export class Archives extends React.Component {

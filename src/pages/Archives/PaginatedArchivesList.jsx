@@ -1,5 +1,5 @@
-import { ArchivesList } from "@/components/ArchivesList.jsx";
-import { PageControls } from "@/components/PageControls.jsx";
+import { ArchivesList } from "@/pages/Archives/ArchivesList.jsx";
+import { PageControls } from "@/pages/Archives/PageControls.jsx";
 import { sendNotification } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";

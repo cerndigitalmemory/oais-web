@@ -1,15 +1,15 @@
 import { api } from "@/api.js";
-import  {RecordsList}  from "@/components/RecordsList.jsx";
+import  {RecordsList}  from "@/pages/Harvest/RecordsList.jsx";
 import { sendNotification } from "@/utils.js";
 import _ from 'lodash';
 import React from "react";
-import { SearchPagination } from "@/components/SearchPagination.jsx";
+import { SearchPagination } from "@/pages/Harvest/SearchPagination.jsx";
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import {
     Button, Grid
   } from 'semantic-ui-react';
-import  SearchForm  from "@/components/HarvestSearchForm.jsx";
+import  SearchForm  from "@/pages/Harvest/HarvestSearchForm.jsx";
 
 // Harvest page is displayed at /harvest page. 
 // It performs the search and displays the results through the RecordList component

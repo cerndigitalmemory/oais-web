@@ -1,5 +1,4 @@
-import { PipelineStatus } from "@/components/StepsList.jsx";
-import { PageControls } from "@/components/PageControls.jsx";
+import { PipelineStatus } from "@/pages/ArchiveDetail/StepsList.jsx";
 import { sendNotification } from "@/utils.js";
 import { stepType } from "@/types.js";
 import PropTypes from "prop-types";

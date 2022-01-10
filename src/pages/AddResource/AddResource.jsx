@@ -1,5 +1,5 @@
-import  HarvestRedirect  from "@/pages/HarvestRedirect.jsx";
-import {Upload} from "@/pages/Upload.jsx"
+import  HarvestRedirect  from "@/pages/Harvest/HarvestRedirect.jsx";
+import {Upload} from "@/pages/Upload/Upload.jsx"
 import React from "react";
 import {
     Grid, Segment,
