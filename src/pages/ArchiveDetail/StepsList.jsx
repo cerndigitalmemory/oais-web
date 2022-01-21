@@ -101,10 +101,39 @@ class Step extends React.Component {
       );
     }
 
+    /*
+    If the current step is Archivematica, 
+    gets the information from step.output_data field and
+    sets the renderArchivematicaDetails to true. 
+    If this value is true then archivematica details are rendered
+    */
+    let renderArchivematicaDetails;
+    if(step.name === 5 ){
+      if (step.output_data == null){
+        renderArchivematicaDetails = false
+      }
+      else {
+        // In order to display the JSON correctly double quotes must be replaced with single quotes
+        var output = JSON.parse(step.output_data.replaceAll("'", '"'));
+        renderArchivematicaDetails = true;
+      }
+      
+    }
+    
+
+    
+
 
     return (
       <Container>
-        <h3>{StepNameLabel[step.name]}</h3>
+        <Grid>
+        <Grid.Row columns={2}>
+          <Grid.Column floated='left' width={5}>
+            <h3>{StepNameLabel[step.name]}</h3>
+          </Grid.Column>
+          <Grid.Column floated='right' width={5}><b>Actions: </b> {actions}</Grid.Column>
+        </Grid.Row>
+        </Grid>
         <Accordion fluid styled>
         <Accordion.Title
           active={activeIndex === 0}
@@ -119,7 +148,7 @@ class Step extends React.Component {
           <Grid.Row columns={4}>
           <Grid.Column><b>ID: </b> {step.id}</Grid.Column>
           <Grid.Column><b>Start Date: </b> {formatDateTime(step.start_date)}</Grid.Column>
-          <Grid.Column><b>End Date: </b> {formatDateTime(step.end_date)}</Grid.Column>
+          <Grid.Column>{step.finish_date && <div><b>End Date: </b> {formatDateTime(step.finish_date)}</div>}</Grid.Column>
           <Grid.Column><b>Status: </b> {StepStatusLabel[step.status]}</Grid.Column>
           </Grid.Row>
           </Grid>
@@ -135,13 +164,44 @@ class Step extends React.Component {
         </Accordion.Title>
         <Accordion.Content active={activeIndex === 1}>
         <Grid>
-          
-          <Grid.Row columns={2}>
+          <Grid.Row columns={1}>
           <Grid.Column><b>Task ID: </b> {step.celery_task_id}</Grid.Column>
-          <Grid.Column><b>Actions: </b> {actions}</Grid.Column>
+          
+          
           </Grid.Row>
         </Grid>
         </Accordion.Content>
+        {renderArchivematicaDetails &&
+        <React.Fragment>
+             <Accordion.Title
+          active={activeIndex === 2}
+          index={2}
+          onClick={this.handleClick}
+        >
+          <Icon name='dropdown' />
+          Archivematica Details
+        </Accordion.Title>
+        <Accordion.Content active={activeIndex === 2}>
+        <Grid>
+          <Grid.Row columns={3}>
+          <Grid.Column><b>Step: </b> {output.type}</Grid.Column>
+          <Grid.Column><b>UUID: </b> {output.uuid}</Grid.Column>
+          <Grid.Column><b>Status: </b> {output.status}</Grid.Column>       
+          </Grid.Row>
+          <Grid.Row columns={2}>
+          <Grid.Column><b>Directory: </b> {output.directory}</Grid.Column>
+          <Grid.Column><b>File Name: </b> {output.name}</Grid.Column>
+          </Grid.Row>
+          <Grid.Row columns={2}>
+          <Grid.Column><b>Microservice: </b> {output.microservice}</Grid.Column>
+          <Grid.Column><b>Message: </b> {output.message}</Grid.Column>
+          </Grid.Row>
+        </Grid>
+        </Accordion.Content>
+        </React.Fragment>
+         
+            
+          }
 
       
       </Accordion>
@@ -153,70 +213,4 @@ class Step extends React.Component {
   }
 }
 
-export class PipelineStatus extends React.Component {
-  static propTypes = {
-    steps: PropTypes.arrayOf(stepType),
-    onStepUpdate: PropTypes.func.isRequired,
-  };
 
-  render() {
-    const { steps, onStepUpdate } = this.props;
-    return (
-        <Container>
-          {steps.map((step) => (
-            <PipelineElement
-              key={step.id}
-              step={step}
-              onStepUpdate={onStepUpdate}
-            />
-          ))}
-        </Container>
-    );
-  }
-}
-
-class PipelineElement extends React.Component {
-  static propTypes = {
-    step: stepType.isRequired,
-    onStepUpdate: PropTypes.func.isRequired,
-  };
-
-  static contextType = AppContext.Context;
-
-
-  render() {
-    const { step } = this.props;
-    const { user } = this.context;
-    
-    let color = 'grey';
-    if (step.status === 4) {
-      color = 'green'
-    } 
-    if (step.status === 3) {
-      color = 'red'
-    } 
-    if (step.status === 2) {
-      color = 'blue'
-    } 
-
-  
-    // const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE);
-    // const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE);
-  
-
-    return (
-        <Segment circular style={{ width: 125, height: 125}}  color={color}>
-          <Header as='h4'>
-          {StepNameLabel[step.name]}
-            <Header.Subheader>{StepStatusLabel[step.status]}</Header.Subheader>
-          </Header>
-          </Segment>
-
-          
-      
-      
-      
-      
-    );
-  }
-}
