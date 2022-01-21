@@ -78,6 +78,10 @@ class API {
     return await this._get(`/search/${source}/${id}/`);
   }
 
+  async internal_search(searchQuery, searchAgg) {
+    return await this._post(`/search-query/`, { query: { query_string: { query: searchQuery}, from: 0 }, aggs:{terms: {field: searchAgg}}});
+  }
+
   async harvest(source, recid) {
     return await this._post(`/harvest/${recid}/${source}/`);
   }
