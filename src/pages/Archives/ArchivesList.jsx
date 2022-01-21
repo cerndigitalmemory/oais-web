@@ -13,7 +13,7 @@ import {
 } from "@/utils.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { Button, Table, Loader, Dropdown } from "semantic-ui-react";
+import { Button, Table, Loader, Dropdown, Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import _ from 'lodash'
 
@@ -69,7 +69,7 @@ class Archive extends React.Component {
 
   handleStepChange = async (event, {value}) => {
     this.setState({ nextStep : event.target.value});
-    this.setState({loading: true})
+    this.setState({ loading: true })
     await api.next_step(value, this.props.archive);
   };
 
@@ -93,13 +93,14 @@ class Archive extends React.Component {
     let dropdown;
     if (!this.state.loading){
       if (archive.next_steps.length > 0) {
-        dropdown = 
-        < Dropdown
-            placeholder='Select Next Step'
-            options={nextSteps}
-            selection
-            onChange={this.handleStepChange} 
-          />
+        dropdown = <Menu compact>< Dropdown
+        placeholder='Select Next Step'
+        options={nextSteps}
+        simple
+        item
+        onChange={this.handleStepChange} 
+      /></Menu>
+        
       } else {
         if (archive.last_step) {
           dropdown = <p>Completed</p>

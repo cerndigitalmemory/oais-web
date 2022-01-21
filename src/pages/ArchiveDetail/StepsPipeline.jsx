@@ -1,9 +1,11 @@
-import { PipelineStatus } from "@/pages/ArchiveDetail/StepsList.jsx";
-import { sendNotification } from "@/utils.js";
+import { sendNotification, 
+  StepStatusLabel,
+  StepNameLabel, } from "@/utils.js";
 import { stepType } from "@/types.js";
+import { AppContext } from "@/AppContext.js";
 import PropTypes from "prop-types";
 import React from "react";
-import { Container, Segment, Label, List } from "semantic-ui-react";
+import { Container, Segment, Label, List, Header } from "semantic-ui-react";
 
 export class StepsPipeline extends React.Component {
   static propTypes = {
@@ -108,6 +110,71 @@ export class StepsDetails extends React.Component {
               <List.Item><b>Link: </b>  <a href={archive.source_url}>{archive.source_url}</a></List.Item>
             </List> 
           </Segment>
+      );
+    }
+  }
+
+  class PipelineStatus extends React.Component {
+    static propTypes = {
+      steps: PropTypes.arrayOf(stepType),
+      onStepUpdate: PropTypes.func.isRequired,
+    };
+  
+    render() {
+      const { steps, onStepUpdate } = this.props;
+      return (
+          <Container>
+            {steps.map((step) => (
+              <PipelineElement
+                key={step.id}
+                step={step}
+                onStepUpdate={onStepUpdate}
+              />
+            ))}
+          </Container>
+      );
+    }
+  }
+  
+  class PipelineElement extends React.Component {
+    static propTypes = {
+      step: stepType.isRequired,
+      onStepUpdate: PropTypes.func.isRequired,
+    };
+  
+    static contextType = AppContext.Context;
+  
+  
+    render() {
+      const { step } = this.props;
+      const { user } = this.context;
+      
+      let color = 'grey';
+      if (step.status === 4) {
+        color = 'green'
+      } 
+      if (step.status === 3) {
+        color = 'red'
+      } 
+      if (step.status === 2) {
+        color = 'blue'
+      } 
+  
+    
+      // const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE);
+      // const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE);
+    
+  
+      return (
+
+          <Segment circular style={{ width: 125, height: 125, margin: '2em auto'}}  color={color}>
+            <Header as='h4'>
+            {StepNameLabel[step.name]}
+              <Header.Subheader>{StepStatusLabel[step.status]}</Header.Subheader>
+            </Header>
+          </Segment> 
+          
+        
       );
     }
   }
