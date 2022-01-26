@@ -1,11 +1,18 @@
-import { api, API_URL } from "@/api.js";
-import { AppContext } from "@/AppContext.js";
-import { sendNotification } from "@/utils.js";
-import PropTypes from "prop-types";
-import React from "react";
-import { Button, Divider, Form, Grid, Segment, Header } from 'semantic-ui-react';
+import { api, API_URL } from '@/api.js';
+import { AppContext } from '@/AppContext.js';
+import { sendNotification } from '@/utils.js';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {
+  Button,
+  Divider,
+  Form,
+  Grid,
+  Segment,
+  Header,
+} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
-import { Redirect } from "react-router";
+import { Redirect } from 'react-router';
 
 export class Login extends React.Component {
   static propTypes = {
@@ -19,8 +26,8 @@ export class Login extends React.Component {
     super(props);
 
     this.state = {
-      username: "",
-      password: "",
+      username: '',
+      password: '',
     };
   }
 
@@ -38,7 +45,7 @@ export class Login extends React.Component {
       const user = await api.login(this.state.username, this.state.password);
       AppContext.setUser(user);
     } catch (e) {
-      sendNotification("Error while logging in", e.message);
+      sendNotification('Error while logging in', e.message);
     }
   };
 
@@ -47,49 +54,48 @@ export class Login extends React.Component {
 
     if (isLoggedIn) {
       const params = new URLSearchParams(this.props.location.search);
-      const redirectURL = params.get("redirect") ?? "/";
+      const redirectURL = params.get('redirect') ?? '/';
       return <Redirect to={redirectURL} />;
     }
 
     return (
       <div>
-        <Header as='h1'>CERN Digital Memory Project</Header>
+        <Header as="h1">CERN Digital Memory Project</Header>
         <Segment>
-          <Grid columns={2} relaxed='very' stackable>
-          <Divider vertical>Or</Divider>
+          <Grid columns={2} relaxed="very" stackable>
+            <Divider vertical>Or</Divider>
             <Grid.Column>
-              <Form onSubmit={this.handleSubmit}> 
+              <Form onSubmit={this.handleSubmit}>
                 <Form.Input
-                  icon='user'
-                  iconPosition='left'
-                  label='Username'
-                  placeholder='Username'
+                  icon="user"
+                  iconPosition="left"
+                  label="Username"
+                  placeholder="Username"
                   type="text"
                   value={this.state.username}
                   onChange={this.handleUsernameChange}
                 />
                 <Form.Input
-                  icon='lock'
-                  iconPosition='left'
-                  label='Password'
-                  placeholder='Password'
+                  icon="lock"
+                  iconPosition="left"
+                  label="Password"
+                  placeholder="Password"
                   type="password"
                   value={this.state.password}
                   onChange={this.handlePasswordChange}
                 />
-                <Button content='Login' primary/>
+                <Button content="Login" primary />
               </Form>
             </Grid.Column>
 
-            <Grid.Column verticalAlign='middle' textAlign='center'>
-            <Button href={API_URL + "oidc/authenticate/"} primary>
-                  Login with CERN Account
-                </Button>
+            <Grid.Column verticalAlign="middle" textAlign="center">
+              <Button href={API_URL + 'oidc/authenticate/'} primary>
+                Login with CERN Account
+              </Button>
             </Grid.Column>
           </Grid>
-      </Segment>
+        </Segment>
       </div>
-    
     );
   }
 }

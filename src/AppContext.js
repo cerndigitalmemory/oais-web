@@ -1,5 +1,5 @@
-import { Storage } from "@/storage.js";
-import React from "react";
+import { Storage } from '@/storage.js';
+import React from 'react';
 
 class Context {
   constructor() {

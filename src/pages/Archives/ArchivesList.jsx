@@ -1,6 +1,6 @@
-import { api } from "@/api.js";
-import { AppContext } from "@/AppContext.js";
-import { archiveType } from "@/types.js";
+import { api } from '@/api.js';
+import { AppContext } from '@/AppContext.js';
+import { archiveType } from '@/types.js';
 import {
   StepStatus,
   StepStatusLabel,
@@ -10,12 +10,12 @@ import {
   hasPermission,
   Permissions,
   sendNotification,
-} from "@/utils.js";
-import PropTypes from "prop-types";
-import React from "react";
-import { Button, Table, Loader, Dropdown, Menu } from "semantic-ui-react";
-import { Link } from "react-router-dom";
-import _ from 'lodash'
+} from '@/utils.js';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Button, Table, Loader, Dropdown, Menu } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 export class ArchivesList extends React.Component {
   static propTypes = {
@@ -60,65 +60,57 @@ class Archive extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nextStep : null,
+      nextStep: null,
       loading: false,
     };
   }
 
   static contextType = AppContext.Context;
 
-  handleStepChange = async (event, {value}) => {
-    this.setState({ nextStep : event.target.value});
-    this.setState({ loading: true })
+  handleStepChange = async (event, { value }) => {
+    this.setState({ nextStep: event.target.value });
+    this.setState({ loading: true });
     await api.next_step(value, this.props.archive);
   };
-
-  callNextStep = async () => {
-    
-  }
-
 
   render() {
     const { archive } = this.props;
     const { user } = this.context;
 
-    
     const nextSteps = _.map(archive.next_steps, (nextStep) => ({
       key: nextStep,
       text: StepNameLabel[nextStep],
       value: nextStep,
-    })); 
-
+    }));
 
     let dropdown;
-    if (!this.state.loading){
+    if (!this.state.loading) {
       if (archive.next_steps.length > 0) {
-        dropdown = <Menu compact>< Dropdown
-        placeholder='Select Next Step'
-        options={nextSteps}
-        simple
-        item
-        onChange={this.handleStepChange} 
-      /></Menu>
-        
+        dropdown = (
+          <Menu compact>
+            <Dropdown
+              placeholder="Select Next Step"
+              options={nextSteps}
+              simple
+              item
+              onChange={this.handleStepChange}
+            />
+          </Menu>
+        );
       } else {
         if (archive.last_step) {
-          dropdown = <p>Completed</p>
-        } 
-        
+          dropdown = <p>Completed</p>;
+        }
       }
-      
     } else {
-      dropdown = <Loader active inline />
+      dropdown = <Loader active inline />;
     }
-    
-
 
     return (
       <Table.Row>
         <Table.Cell>{archive.id}</Table.Cell>
         <Table.Cell>
-            {archive.recid} ({archive.source})
+          {archive.recid} ({archive.source})
         </Table.Cell>
         <Table.Cell>
           <Link to={`/users/${archive.creator.id}`}>
@@ -126,10 +118,10 @@ class Archive extends React.Component {
           </Link>
         </Table.Cell>
         <Table.Cell>{formatDateTime(archive.timestamp)}</Table.Cell>
+        <Table.Cell>{dropdown}</Table.Cell>
         <Table.Cell>
-          {dropdown}
+          <Link to={`/archive/${archive.id}`}>See Steps</Link>
         </Table.Cell>
-        <Table.Cell><Link to={`/archive/${archive.id}`}>See Steps</Link></Table.Cell>
       </Table.Row>
     );
   }

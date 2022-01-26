@@ -1,15 +1,15 @@
-import { api } from "@/api.js";
-import { AppContext } from "@/AppContext.js";
-import { sendNotification } from "@/utils.js";
-import React from "react";
+import { api } from '@/api.js';
+import { AppContext } from '@/AppContext.js';
+import { sendNotification } from '@/utils.js';
+import React from 'react';
 import { Loader } from 'semantic-ui-react';
-import { Redirect } from "react-router";
+import { Redirect } from 'react-router';
 
 /**
- * Component used to handle the login with CERN credentials.
+ * Handles the authentication callback after a login.
  *
- * This component is rendered after a successful login and is used to fetch
- * the user information, so that the application knows that the user is now
+ * Rendered after a successful login, fetches the user
+ * user information, so that the application knows that the user is now
  * logged in.
  */
 export class LoginCallback extends React.Component {
@@ -25,7 +25,7 @@ export class LoginCallback extends React.Component {
         AppContext.setUser(user);
       } catch (e) {
         sendNotification(
-          "Error while logging in using CERN credentials",
+          'Error while logging in using CERN credentials',
           e.message
         );
       } finally {

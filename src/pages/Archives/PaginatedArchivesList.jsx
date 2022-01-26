@@ -1,9 +1,14 @@
-import { ArchivesList } from "@/pages/Archives/ArchivesList.jsx";
-import { PageControls } from "@/pages/Archives/PageControls.jsx";
-import { sendNotification } from "@/utils.js";
-import PropTypes from "prop-types";
-import React from "react";
+import { ArchivesList } from '@/pages/Archives/ArchivesList.jsx';
+import { PageControls } from '@/pages/Archives/PageControls.jsx';
+import { sendNotification } from '@/utils.js';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Loader } from 'semantic-ui-react';
 
+/**
+ * This component loads the archives and creates the pagination component
+ * and the list of the archives.
+ */
 export class PaginatedArchivesList extends React.Component {
   static propTypes = {
     getArchives: PropTypes.func.isRequired,
@@ -15,6 +20,7 @@ export class PaginatedArchivesList extends React.Component {
       archives: [],
       page: 1,
       totalArchives: 0,
+      loading: true,
     };
   }
 
@@ -31,11 +37,12 @@ export class PaginatedArchivesList extends React.Component {
 
   loadArchives = async (page = 1) => {
     try {
-      const { results: archives } = await this.props.getArchives(page);
-      const { count : totalArchives } = await this.props.getArchives(page);
+      const { results: archives, count: totalArchives } =
+        await this.props.getArchives(page);
       this.setState({ archives, page, totalArchives });
+      this.setState({ loading: false });
     } catch (e) {
-      sendNotification("Error while fetching archives", e.message);
+      sendNotification('Error while fetching archives', e.message);
     }
   };
 
@@ -44,17 +51,28 @@ export class PaginatedArchivesList extends React.Component {
   }
 
   render() {
-    const { archives, page, totalArchives } = this.state;
+    const { archives, page, totalArchives, loading } = this.state;
     let pageCount = Math.ceil(totalArchives / 10);
+
+    const loadingSpinner = <Loader inverted>Loading</Loader>;
 
     return (
       <div>
-        <ArchivesList
-          archives={archives}
-          onArchiveUpdate={this.handleArchiveUpdate}
-        />
+        {loading || totalArchives == 0 ? (
+          <div> {loadingSpinner} </div>
+        ) : (
+          <ArchivesList
+            archives={archives}
+            onArchiveUpdate={this.handleArchiveUpdate}
+          />
+        )}
+
         <div>
-          <PageControls page={page} onChange={this.loadArchives} totalPages={pageCount}/>
+          <PageControls
+            page={page}
+            onChange={this.loadArchives}
+            totalPages={pageCount}
+          />
         </div>
       </div>
     );

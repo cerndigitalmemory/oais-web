@@ -1,17 +1,26 @@
-import { getCookie } from "@/utils.js";
-import axios from "axios";
+import { getCookie } from '@/utils.js';
+import axios from 'axios';
 
-export const API_URL = "/api/";
+// Base endpoint where the API is served
+export const API_URL = '/api/';
 
+/**
+ * Provides functions to consume the oais-platform API
+ *
+ */
+
+// Set the CSRF token in the X-CSRFToken header
+// Check https://django.readthedocs.io/en/stable/ref/csrf.html#ajax
+// for more information on the implemented flow
 function addCSRFToken(options) {
-  const CSRFToken = getCookie("csrftoken");
+  const CSRFToken = getCookie('csrftoken');
 
   if (!CSRFToken) {
     return options;
   }
 
   options.headers ??= {};
-  options.headers["X-CSRFToken"] = CSRFToken;
+  options.headers['X-CSRFToken'] = CSRFToken;
   return options;
 }
 
@@ -29,7 +38,7 @@ class API {
       if (response?.detail) {
         detail = response.detail;
       } else if (response?.non_field_errors) {
-        detail = response.non_field_errors.join("\n");
+        detail = response.non_field_errors.join('\n');
       }
       throw new Error(detail);
     }
@@ -60,18 +69,20 @@ class API {
   }
 
   async login(username, password) {
-    return await this._post("/login/", {
+    return await this._post('/login/', {
       username: username,
       password: password,
     });
   }
 
   async logout() {
-    return await this._post("/logout/");
+    return await this._post('/logout/');
   }
 
   async search(source, query, page, size) {
-    return await this._get(`/search/${source}/`, { params: { q: query , p: page, s:size} });
+    return await this._get(`/search/${source}/`, {
+      params: { q: query, p: page, s: size },
+    });
   }
 
   async search_by_id(source, id) {
@@ -79,7 +90,10 @@ class API {
   }
 
   async internal_search(searchQuery, searchAgg) {
-    return await this._post(`/search-query/`, { query: { query_string: { query: searchQuery}, from: 0 }, aggs:{terms: {field: searchAgg}}});
+    return await this._post(`/search-query/`, {
+      query: { query_string: { query: searchQuery }, from: 0 },
+      aggs: { terms: { field: searchAgg } },
+    });
   }
 
   async harvest(source, recid) {
@@ -99,27 +113,19 @@ class API {
 
   async ingest(file) {
     var formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
     return await this._post(`/upload/`, formData);
   }
 
   async archives(page = 1) {
-    return await this._get("/archives/", { params: { page } });
+    return await this._get('/archives/', { params: { page } });
   }
-
-  // async archivesByRecord(id, page = 1) {
-  //   return await this._get(`/records/${id}/archives/`, { params: { page } });
-  // }
 
   async archivesByUser(id, page = 1) {
     return await this._get(`/users/${id}/archives/`, { params: { page } });
   }
 
-  // async record(id) {
-  //   return await this._get(`/records/${id}/`);
-  // }
-
-  async get_archive_steps(id){
+  async get_archive_steps(id) {
     return await this._get(`/archive/${id}/`);
   }
 

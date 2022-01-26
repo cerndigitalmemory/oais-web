@@ -28,17 +28,17 @@ module.exports = {
         test: /\.(png|jpg|gif)$/i,
         use: [
           {
-            loader: 'url-loader',
+            loader: "url-loader",
             options: {
               limit: 8192,
             },
           },
         ],
-    },
-    {
-      test: /\.(ttf|eot|svg?)$/i,
-      loader: 'file-loader'
-    }
+      },
+      {
+        test: /\.(ttf|eot|svg?)$/i,
+        loader: "file-loader",
+      },
     ],
   },
   resolve: {

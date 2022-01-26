@@ -1,8 +1,12 @@
-import { AppContext } from "@/AppContext.js";
-import moment from "moment";
+import { AppContext } from '@/AppContext.js';
+import moment from 'moment';
 
+/**
+ * General purpose utility functions, used across the application.
+ *
+ */
 export const StepStatus = {
-  NOT_RUN : 1,
+  NOT_RUN: 1,
   IN_PROGRESS: 2,
   FAILED: 3,
   COMPLETED: 4,
@@ -11,12 +15,12 @@ export const StepStatus = {
 };
 
 export const StepStatusLabel = {
-  [StepStatus.NOT_RUN]: "Not Run",
-  [StepStatus.IN_PROGRESS]: "In progress",
-  [StepStatus.FAILED]: "Failed",
-  [StepStatus.COMPLETED]: "Completed",
-  [StepStatus.WAITING_APPROVAL]: "Waiting for Approval",
-  [StepStatus.REJECTED]: "Rejected",
+  [StepStatus.NOT_RUN]: 'Not Run',
+  [StepStatus.IN_PROGRESS]: 'In progress',
+  [StepStatus.FAILED]: 'Failed',
+  [StepStatus.COMPLETED]: 'Completed',
+  [StepStatus.WAITING_APPROVAL]: 'Waiting for Approval',
+  [StepStatus.REJECTED]: 'Rejected',
 };
 
 export const StepName = {
@@ -28,16 +32,16 @@ export const StepName = {
 };
 
 export const StepNameLabel = {
-  [StepName.SIP_UPLOAD]: "SIP Upload",
-  [StepName.HARVEST]: "Harvest",
-  [StepName.VALIDATION]: "Validate",
-  [StepName.CHECKSUM]: "Checksum",
-  [StepName.ARCHIVE]: "Upload to AM",
+  [StepName.SIP_UPLOAD]: 'SIP Upload',
+  [StepName.HARVEST]: 'Harvest',
+  [StepName.VALIDATION]: 'Validate',
+  [StepName.CHECKSUM]: 'Checksum',
+  [StepName.ARCHIVE]: 'Upload to AM',
 };
 
 export const Permissions = {
-  CAN_APPROVE_ARCHIVE: "oais.can_approve_archive",
-  CAN_REJECT_ARCHIVE: "oais.can_reject_archive",
+  CAN_APPROVE_ARCHIVE: 'oais.can_approve_archive',
+  CAN_REJECT_ARCHIVE: 'oais.can_reject_archive',
 };
 
 export function hasPermission(user, permission) {
@@ -51,16 +55,16 @@ export function sendNotification(title, body, duration = 5000) {
 }
 
 export function formatDateTime(date) {
-  return moment(date).format("YYYY/MM/DD HH:mm:ss");
+  return moment(date).format('YYYY/MM/DD HH:mm:ss');
 }
 
 export function getCookie(name) {
   let cookieValue = null;
-  if (document.cookie && document.cookie !== "") {
-    const cookies = document.cookie.split(";");
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i].trim();
-      if (cookie.substring(0, name.length + 1) === name + "=") {
+      if (cookie.substring(0, name.length + 1) === name + '=') {
         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
         break;
       }

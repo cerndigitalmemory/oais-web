@@ -1,5 +1,5 @@
-import { arrayOf, exact, number, string } from "prop-types";
-import { List } from "semantic-ui-react";
+import { arrayOf, exact, number, string } from 'prop-types';
+import { List } from 'semantic-ui-react';
 
 export const recordType = exact({
   id: number,
@@ -36,12 +36,12 @@ export const archiveType = exact({
 export const stepType = exact({
   id: number.isRequired,
   archive: number.isRequired,
-  name:number.isRequired,
-  start_date:string,
-  finish_date:string,
-  status:number,
+  name: number.isRequired,
+  start_date: string,
+  finish_date: string,
+  status: number,
   celery_task_id: string,
-  input_data:string,
-  input_step:number,
-  output_data:string,
-})
+  input_data: string,
+  input_step: number,
+  output_data: string,
+});
