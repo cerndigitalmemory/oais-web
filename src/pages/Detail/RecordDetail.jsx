@@ -1,8 +1,8 @@
-import { api } from "@/api.js";
-import { PaginatedArchivesList } from "@/pages/Archives/PaginatedArchivesList.jsx";
-import { sendNotification } from "@/utils.js";
-import PropTypes from "prop-types";
-import React from "react";
+import { api } from '@/api.js';
+import { PaginatedArchivesList } from '@/pages/Archives/PaginatedArchivesList.jsx';
+import { sendNotification } from '@/utils.js';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export class RecordDetail extends React.Component {
   static propTypes = {
@@ -24,7 +24,7 @@ export class RecordDetail extends React.Component {
       const record = await api.record(id);
       this.setState({ record });
     } catch (e) {
-      sendNotification("Error while fetching record details", e.message);
+      sendNotification('Error while fetching record details', e.message);
     }
   }
 

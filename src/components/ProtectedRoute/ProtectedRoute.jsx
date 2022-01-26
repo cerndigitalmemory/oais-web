@@ -1,8 +1,12 @@
-import { AppContext } from "@/AppContext.js";
-import PropTypes from "prop-types";
-import React from "react";
-import { Redirect, Route } from "react-router";
+import { AppContext } from '@/AppContext.js';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Redirect, Route } from 'react-router';
 
+/**
+ * When trying to access a protected route while unauthenticated, makes the user
+ * authenticate and redirects them to the requested page after the login.
+ */
 export class ProtectedRoute extends React.Component {
   static propTypes = {
     component: PropTypes.elementType,
@@ -30,8 +34,8 @@ export class ProtectedRoute extends React.Component {
             return (
               <Redirect
                 to={{
-                  pathname: "/login",
-                  search: "?" + redirect.toString(),
+                  pathname: '/login',
+                  search: '?' + redirect.toString(),
                 }}
               />
             );

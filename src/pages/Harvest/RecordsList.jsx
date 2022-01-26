@@ -1,8 +1,8 @@
-import { api } from "@/api.js";
-import { archiveType, recordType } from "@/types.js";
-import { sendNotification } from "@/utils.js";
-import PropTypes from "prop-types";
-import React from "react";
+import { api } from '@/api.js';
+import { archiveType, recordType } from '@/types.js';
+import { sendNotification } from '@/utils.js';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { Button, Table } from 'semantic-ui-react';
 
 export class RecordsList extends React.Component {
@@ -23,7 +23,7 @@ export class RecordsList extends React.Component {
     super(props);
     this.state = {
       archivedList: null,
-    }
+    };
   }
 
   componentDidUpdate(prevProps) {
@@ -39,68 +39,88 @@ export class RecordsList extends React.Component {
   autoArchive = async (checkedRecord) => {
     try {
       await api.harvest(checkedRecord.source, checkedRecord.recid);
-      console.log("Record ", checkedRecord.recid, " archived successfully");
     } catch (e) {
-      sendNotification("Error while archiving", e.message);
+      sendNotification('Error while archiving', e.message);
     }
-  }
+  };
 
   handleArchiveButtonClick = async () => {
     if (this.props.checkedList.length === 0) {
-      sendNotification("There are no records checked")
+      sendNotification('There are no records checked');
     } else {
-      this.setState({archivedList : this.props.checkedList})
+      this.setState({ archivedList: this.props.checkedList });
       this.props.checkedList.map((checkedRecord) => {
         this.autoArchive(checkedRecord);
-      })
+      });
+      sendNotification(
+        this.props.checkedList.length + ' record(s) archived successfully!',
+        'Check archives page for more information'
+      );
     }
     this.props.removeAll();
-
   };
 
   handleCheckAll = () => {
     this.props.checkAll(this.props.records);
-  }
+  };
 
   handleRemoveAll = () => {
     this.props.removeAll();
-  }
+  };
 
   printList = () => {
-    console.log(this.props.checkedList)
-  }
+    console.log(this.props.checkedList);
+  };
 
   render() {
     const archiveButton = (
       <div>
-        <Button variant="primary" onClick={this.handleArchiveButtonClick}>Archive Selected</Button>
-        <Button color="red" onClick={this.handleRemoveAll}>Remove all</Button>
-        <Button color="green" onClick={this.handleCheckAll}>Add all</Button>
-        <Button variant="secondary" onClick={this.printList}>Print list</Button>
+        <Button variant="primary" onClick={this.handleArchiveButtonClick}>
+          Archive Selected
+        </Button>
+        <Button color="red" onClick={this.handleRemoveAll}>
+          Remove all
+        </Button>
+        <Button color="green" onClick={this.handleCheckAll}>
+          Add all
+        </Button>
+        <Button variant="secondary" onClick={this.printList}>
+          Print list
+        </Button>
       </div>
-
     );
 
     return (
       <div>
-      <Table>
-        {this.props.records.length > 0 ? 
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell width="12">Title</Table.HeaderCell>
-            <Table.HeaderCell width="2" textAlign="right">Record ID</Table.HeaderCell>
-            <Table.HeaderCell width="2" textAlign="center">Actions</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>: null }
-        <Table.Body>
-        {this.props.records.map((record, i) => (
-            <Record key={i} record={record} checkRecordAdd={this.props.addRecord} checkRecordRemove={this.props.removeRecord} checkedList = {this.props.checkedList} archivedList={this.state.archivedList}/>
-          ))}
-        </Table.Body>
-      </Table>
-      {archiveButton}
+        <Table>
+          {this.props.records.length > 0 ? (
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell width="12">Title</Table.HeaderCell>
+                <Table.HeaderCell width="2" textAlign="right">
+                  Record ID
+                </Table.HeaderCell>
+                <Table.HeaderCell width="2" textAlign="center">
+                  Actions
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+          ) : null}
+          <Table.Body>
+            {this.props.records.map((record, i) => (
+              <Record
+                key={i}
+                record={record}
+                checkRecordAdd={this.props.addRecord}
+                checkRecordRemove={this.props.removeRecord}
+                checkedList={this.props.checkedList}
+                archivedList={this.state.archivedList}
+              />
+            ))}
+          </Table.Body>
+        </Table>
+        {archiveButton}
       </div>
-      
     );
   }
 }
@@ -113,7 +133,6 @@ class Record extends React.Component {
     checkedList: PropTypes.arrayOf(recordType).isRequired,
     archivedList: PropTypes.arrayOf(recordType),
   };
-
 
   constructor(props) {
     super(props);
@@ -131,7 +150,7 @@ class Record extends React.Component {
       clear the archive state from all records.
     */
     if (this.state.archive != prevProps.archive) {
-      this.setState({archive: null});
+      this.setState({ archive: null });
     }
     /* 
       Each time the component updates if there is a change of state, 
@@ -141,13 +160,11 @@ class Record extends React.Component {
     if (prevProps.checkedList != this.props.checkedList) {
       let checked = false;
       this.props.checkedList.map((checkedItem) => {
-        if (checkedItem.recid === this.props.record.recid){
+        if (checkedItem.recid === this.props.record.recid) {
           checked = true;
         }
-      }
-      
-    )
-    this.setState({checked: checked})
+      });
+      this.setState({ checked: checked });
     }
     /* 
       Each time the component updates if there is a change of state, 
@@ -157,17 +174,13 @@ class Record extends React.Component {
     if (prevProps.archivedList != this.props.archivedList) {
       let archived = false;
       this.props.archivedList.map((archivedItem) => {
-        if (archivedItem.recid === this.props.record.recid){
+        if (archivedItem.recid === this.props.record.recid) {
           archived = true;
         }
-      }
-      
-    )
-    this.setState({archived: archived})
+      });
+      this.setState({ archived: archived });
     }
   }
-
-
 
   toggleChecked = () => {
     // Handles the check/uncheck of a record
@@ -184,7 +197,6 @@ class Record extends React.Component {
     }
   };
 
-
   toggleCollapse = () => {
     this.setState((state) => ({
       collapsed: !state.collapsed,
@@ -196,17 +208,19 @@ class Record extends React.Component {
     const { collapsed, archive, checked, archived } = this.state;
 
     return (
-
       <Table.Row>
-        <Table.Cell textAlign="left"><b>{record.title}</b></Table.Cell>
+        <Table.Cell textAlign="left">
+          <b>{record.title}</b>
+        </Table.Cell>
         <Table.Cell textAlign="right">{record.recid}</Table.Cell>
-        <Table.Cell textAlign="right"><RecordActions
+        <Table.Cell textAlign="right">
+          <RecordActions
             {...{ record, archive, collapsed, checked, archived }}
             toggleCollapse={this.toggleCollapse}
             toggleChecked={this.toggleChecked}
-          /></Table.Cell>
+          />
+        </Table.Cell>
       </Table.Row>
-
     );
   }
 }
@@ -222,7 +236,6 @@ class RecordActions extends React.Component {
     toggleChecked: PropTypes.func.isRequired,
   };
 
-
   render() {
     const { record, archived, collapsed, checked } = this.props;
     const { toggleCollapse, toggleChecked } = this.props;
@@ -233,62 +246,53 @@ class RecordActions extends React.Component {
         variant="outline-primary"
         onClick={toggleCollapse}
         title="Show details"
-        icon='info'
+        icon="info"
       />
     );
 
     let checkButton;
-    if(archived == false){
-      if(checked){
+    if (archived == false) {
+      if (checked) {
         checkButton = (
-        <Button
-          circular
-          color='olive' 
-          icon = 'check'
-          onClick={toggleChecked}
-          title="Check"
-        />);
+          <Button
+            circular
+            color="olive"
+            icon="check"
+            onClick={toggleChecked}
+            title="Check"
+          />
+        );
       } else {
-          checkButton = (
-            <Button
-              circular
-              basic
-              color='olive' 
-              icon = 'check'
-              onClick={toggleChecked}
-              title="Check"
-            />
-    
-          );
-        }
+        checkButton = (
+          <Button
+            circular
+            basic
+            color="olive"
+            icon="check"
+            onClick={toggleChecked}
+            title="Check"
+          />
+        );
+      }
     } else {
-      checkButton = (
-        <Button
-          circular
-          basic
-          icon = 'check'
-          disabled
-        />);
+      checkButton = <Button circular basic icon="check" disabled />;
     }
-  
-
-
 
     const sourceURLButton = (
       <Button
         href={record.url}
         title="Source URL"
         target="_blank"
-        icon='globe'
+        icon="globe"
       />
     );
 
     return (
       <div>
-         <Button.Group basic size='small'>
+        <Button.Group basic size="small">
           {detailsButton}
           {sourceURLButton}
-         </Button.Group>
+        </Button.Group>
         {checkButton}
       </div>
     );

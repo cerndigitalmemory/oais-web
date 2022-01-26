@@ -1,8 +1,8 @@
-import { api } from "@/api.js";
-import { PaginatedArchivesList } from "@/pages/Archives/PaginatedArchivesList.jsx";
-import { sendNotification } from "@/utils.js";
-import PropTypes from "prop-types";
-import React from "react";
+import { api } from '@/api.js';
+import { PaginatedArchivesList } from '@/pages/Archives/PaginatedArchivesList.jsx';
+import { sendNotification } from '@/utils.js';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export class UserDetail extends React.Component {
   static propTypes = {
@@ -24,7 +24,7 @@ export class UserDetail extends React.Component {
       const user = await api.user(id);
       this.setState({ user });
     } catch (e) {
-      sendNotification("Error while fetching user details", e.message);
+      sendNotification('Error while fetching user details', e.message);
     }
   }
 
