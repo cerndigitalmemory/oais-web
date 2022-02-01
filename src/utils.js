@@ -29,6 +29,7 @@ export const StepName = {
   VALIDATION: 3,
   CHECKSUM: 4,
   ARCHIVE: 5,
+  EDIT_MANIFEST: 6,
 };
 
 export const StepNameLabel = {
@@ -37,6 +38,7 @@ export const StepNameLabel = {
   [StepName.VALIDATION]: 'Validate',
   [StepName.CHECKSUM]: 'Checksum',
   [StepName.ARCHIVE]: 'Upload to AM',
+  [StepName.EDIT_MANIFEST]: 'Edit Manifest',
 };
 
 export const Permissions = {

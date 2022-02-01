@@ -3,6 +3,7 @@ import { NavigationBar } from '@/components/Navigation/NavigationBar.jsx';
 import { Notifications } from '@/components/Notifications/Notifications.jsx';
 import { ProtectedRoute } from '@/components/ProtectedRoute/ProtectedRoute.jsx';
 import { Archives } from '@/pages/Archives/Archives.jsx';
+import { EditManifests } from '@/pages/EditManifests/EditManifests.jsx';
 import { Search } from '@/pages/Search/Search.jsx';
 import { ArchiveSteps } from '@/pages/ArchiveDetail/ArchiveSteps.jsx';
 import { Login } from '@/pages/Login/Login.jsx';
@@ -42,6 +43,10 @@ export class App extends React.Component {
               <ProtectedRoute path="/archives" component={Archives} />
               <ProtectedRoute path="/search/" component={Search} />
               <ProtectedRoute path="/archive/:id" component={ArchiveSteps} />
+              <ProtectedRoute
+                path="/edit-archive/:id"
+                component={EditManifests}
+              />
               <ProtectedRoute path="/records/:id" component={RecordDetail} />
               <ProtectedRoute path="/details/:id" component={SIPDetailPage} />
               <ProtectedRoute path="/users/:id" component={UserDetail} />

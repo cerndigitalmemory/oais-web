@@ -141,6 +141,10 @@ class API {
     return await this._post(`/steps/${id}/actions/reject/`);
   }
 
+  async saveManifest(id, manifest) {
+    return await this._post(`/save-manifest/${id}`, {manifest : manifest});
+  }
+
   async me() {
     return await this._get(`/me/`);
   }

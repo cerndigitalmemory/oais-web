@@ -31,6 +31,7 @@ export const archiveType = exact({
   last_step: number,
   path_to_sip: string,
   next_steps: List,
+  manifest: JSON,
 });
 
 export const stepType = exact({
