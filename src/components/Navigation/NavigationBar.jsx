@@ -1,7 +1,7 @@
 import { AppContext } from '@/AppContext.js';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 
 /**
  * Renders the Navigation Bar, keeping track of the active page and
@@ -95,6 +95,9 @@ export class NavigationBar extends React.Component {
           <Menu.Menu position="right">
             <Menu.Item>
               Hello, <Link to={`/users/${user.id}`}>{user.username}</Link>
+            </Menu.Item>
+            <Menu.Item as={Link} to="/settings">
+              <Icon name="settings" />
             </Menu.Item>
           </Menu.Menu>
         )}
