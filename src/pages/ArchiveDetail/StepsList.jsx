@@ -206,7 +206,6 @@ class Step extends React.Component {
               </Grid.Row>
             </Grid>
           </Accordion.Content>
-
           <Accordion.Title
             active={activeIndex === 1}
             index={1}

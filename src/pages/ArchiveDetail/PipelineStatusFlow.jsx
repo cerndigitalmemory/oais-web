@@ -115,7 +115,9 @@ class PipelineStatus extends React.Component {
             {steps
               .filter(
                 (completedStep) =>
-                  completedStep.status == 4 || completedStep.id == lastStep.id
+                  (completedStep.status == 4 ||
+                    completedStep.id == lastStep.id) &&
+                  completedStep.name !== 6
               )
               .map((step) => (
                 <PipelineElement key={step.id} step={step} archive={archive} />
