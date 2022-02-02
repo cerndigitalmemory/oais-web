@@ -133,6 +133,10 @@ class API {
     return await this._get(`/users/${id}/`);
   }
 
+  async settings() {
+    return await this._get('/settings/');
+  }
+
   async approveArchive(id) {
     return await this._post(`/steps/${id}/actions/approve/`);
   }
