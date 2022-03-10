@@ -15,6 +15,7 @@ import SearchForm from '@/pages/Harvest/HarvestSearchForm.jsx';
 class Harvest extends React.Component {
   state = {
     results: null,
+    detailedResults: null,
     isLoading: false,
     activePage: 1,
     totalNumHits: null,
@@ -59,12 +60,15 @@ class Harvest extends React.Component {
     }
   }
 
+  getDetailedRecords = (records) => api.getCheckRecordsArchived(records);
+
   // Handles the search
   handleSearch = async (source, query, page = 1, size = 20) => {
     this.setState({
       isLoading: true,
       activePage: Number(page),
       hitsPerPage: Number(size),
+      detailedResults: null,
     });
     try {
       if (this.props.searchById) {
@@ -82,21 +86,70 @@ class Harvest extends React.Component {
       }
     } catch (e) {
       sendNotification('Error while searching', e.message);
-    } finally {
       this.setState({ isLoading: false });
+    } finally {
+      const detailedResponse = await this.getDetailedRecords(
+        this.state.results
+      );
+      this.setState({ detailedResults: detailedResponse });
     }
-    console.log(
-      'Query: ',
-      this.props.query,
-      'Source:',
-      this.props.source,
-      'Search by ID',
-      this.props.searchById
-    );
+    this.setState({ isLoading: false });
+  };
+
+  autoArchive = async (checkedRecord) => {
+    const old = JSON.parse(localStorage.getItem('Records'));
+    let newArry;
+    if (old) {
+      newArry = old.concat(checkedRecord);
+    } else {
+      newArry = [checkedRecord];
+    }
+
+    localStorage.setItem('Records', JSON.stringify(newArry));
+  };
+
+  handleArchiveButtonClick = async () => {
+    if (this.props.checkedRecords.length === 0) {
+      sendNotification('There are no records checked');
+    } else {
+      this.setState({ archivedList: this.props.checkedRecords });
+      this.props.checkedRecords.map((checkedRecord) => {
+        this.autoArchive(checkedRecord);
+      });
+      sendNotification(
+        this.props.checkedRecords.length + ' record(s) staged successfully!',
+        'Check staged records page for more information'
+      );
+    }
+
+    this.removeAllRecords();
+  };
+
+  handleCheckAll = () => {
+    this.addAllRecords(this.state.records);
+  };
+
+  handleRemoveAll = () => {
+    this.removeAllRecords();
   };
 
   render() {
-    const { isLoading, results } = this.state;
+    const { isLoading, detailedResults, results } = this.state;
+
+    const archiveButton = (
+      <div>
+        <Button variant="primary" onClick={this.handleArchiveButtonClick}>
+          Archive Selected
+        </Button>
+        <Button color="red" onClick={this.handleRemoveAll}>
+          Remove all
+        </Button>
+        <Button color="green" onClick={this.handleCheckAll}>
+          Add all
+        </Button>
+      </div>
+    );
+
     return (
       <React.Fragment>
         <h1>Harvest</h1>
@@ -139,15 +192,18 @@ class Harvest extends React.Component {
           </Grid>
         </div>
 
-        {this.state.results == null ? null : this.state.results.length > 0 ? (
-          <RecordsList
-            records={results}
-            addRecord={this.checkRecordAdd}
-            removeRecord={this.checkRecordRemove}
-            removeAll={this.removeAllRecords}
-            checkAll={this.addAllRecords}
-            checkedList={this.props.checkedRecords}
-          />
+        {this.state.detailedResults == null ? null : this.state.detailedResults
+            .length > 0 ? (
+          <React.Fragment>
+            <RecordsList
+              records={results}
+              recordsDetailed={detailedResults}
+              addRecord={this.checkRecordAdd}
+              removeRecord={this.checkRecordRemove}
+              checkedList={this.props.checkedRecords}
+            />
+            {archiveButton}
+          </React.Fragment>
         ) : (
           <p>No results found.</p>
         )}
@@ -166,7 +222,6 @@ export class SizeRadio extends React.Component {
   };
 
   sizeChange = (event, { value }) => {
-    console.log('Value:', value);
     event.preventDefault();
     this.props.onSearch(this.props.source, this.props.query, 1, value);
   };

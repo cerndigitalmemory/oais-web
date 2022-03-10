@@ -2,6 +2,7 @@ import { api } from '@/api.js';
 import { PaginatedStepsList } from '@/pages/ArchiveDetail/PaginatedStepsList.jsx';
 import { ArchiveInfo } from '@/pages/ArchiveDetail/ArchiveInfo.jsx';
 import { StepsPipeline } from '@/pages/ArchiveDetail/PipelineStatusFlow.jsx';
+import { ArchiveCollectionsList } from '@/pages/ArchiveDetail/ArchiveCollections.jsx';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { sendNotification } from '@/utils.js';
@@ -27,12 +28,16 @@ export class ArchiveSteps extends React.Component {
       loading: true, // Shows a loading spinner till the archive and steps are fetched from the API call
       steps: [], // Stores the steps of the current archive
       archive: null, // Stores the archive details
+      collections: [],
+      loadingCollections: true,
     };
   }
 
   getArchive = (id) => api.archive_details(id); // API call to get archive details
 
   getSteps = (id) => api.get_archive_steps(id); // API call to get steps
+
+  getCollections = (id) => api.getArchiveCollections(id);
 
   loadArchive = async () => {
     try {
@@ -52,30 +57,62 @@ export class ArchiveSteps extends React.Component {
     }
   };
 
+  loadCollections = async () => {
+    this.setState({ loadingCollections: true });
+    try {
+      const { results: collections } = await this.getCollections(
+        this.props.match.params.id
+      );
+      this.setState({ collections });
+    } catch (e) {
+      sendNotification('Error while fetching collections', e.message);
+    } finally {
+      this.setState({ loadingCollections: false });
+    }
+  };
+
   componentDidMount() {
     this.loadSteps();
     this.loadArchive();
+    this.loadCollections();
     this.setState({ loading: false });
     // Loads steps and archive details and then sets loading state to false
   }
 
   render() {
     const { id } = this.props.match.params;
-    const { loading, steps, archive } = this.state;
+    const { loading, steps, archive, collections, loadingCollections } =
+      this.state;
 
     const loadingSpinner = <Loader active inline="centered" />;
+
+    let collectionsSegment;
+    if (collections.length > 0) {
+      collectionsSegment = (
+        <ArchiveCollectionsList archive={archive} collections={collections} />
+      );
+    }
 
     return (
       <React.Fragment>
         {loading || !archive ? (
           <div> {loadingSpinner} </div>
         ) : (
-          <ArchiveInfo archive={archive} id={id} />
+          <ArchiveInfo
+            archive={archive}
+            id={id}
+            onCollectionUpdate={this.loadCollections}
+          />
         )}
         {loading || !archive || !steps ? (
           <div> {loadingSpinner} </div>
         ) : (
           <StepsPipeline archive={archive} steps={steps} />
+        )}
+        {(loading || !archive) && !collections && !loadingCollections ? (
+          <div> {loadingSpinner} </div>
+        ) : (
+          <React.Fragment>{collectionsSegment}</React.Fragment>
         )}
         {loading || !archive || !steps ? (
           <div> {loadingSpinner} </div>

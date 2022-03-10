@@ -40,7 +40,6 @@ export class PaginatedArchivesList extends React.Component {
       const { results: archives, count: totalArchives } =
         await this.props.getArchives(page);
       this.setState({ archives, page, totalArchives });
-      this.setState({ loading: false });
     } catch (e) {
       sendNotification('Error while fetching archives', e.message);
     }
@@ -48,6 +47,7 @@ export class PaginatedArchivesList extends React.Component {
 
   componentDidMount() {
     this.loadArchives();
+    this.setState({ loading: false });
   }
 
   render() {

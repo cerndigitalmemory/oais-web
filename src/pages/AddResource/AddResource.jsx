@@ -1,5 +1,6 @@
 import HarvestRedirect from '@/pages/Harvest/HarvestRedirect.jsx';
 import { Upload } from '@/pages/Upload/Upload.jsx';
+import URLParse from '@/pages/URLParse/URLParse.jsx';
 import React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
 
@@ -28,6 +29,14 @@ export class AddResource extends React.Component {
           <Grid.Column>
             <Segment>
               <Upload />
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row>
+          <Grid.Column>
+            <Segment>
+              <URLParse />
             </Segment>
           </Grid.Column>
         </Grid.Row>
