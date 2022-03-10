@@ -3,10 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "webpack serve",
-    "watch": "webpack watch",
-    "build": "webpack",
-    "build-prod": "webpack --config ./webpack.prod.config.js"
+    "serve": "craco start",
+    "build": "craco build"
   },
   "dependencies": {
     "acorn": "^8.7.0",
@@ -26,7 +24,8 @@
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "regenerator-runtime": "^0.13.7",
-    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-css": "git+https://github.com/Semantic-Org/Semantic-UI-CSS.git",
+    "semantic-ui-less": "^2.4.1",
     "semantic-ui-react": "^2.0.4"
   },
   "devDependencies": {
@@ -35,6 +34,9 @@
     "@babel/eslint-parser": "^7.14.7",
     "@babel/preset-env": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
+    "@craco/craco": "^6.4.3",
+    "@semantic-ui-react/craco-less": "^2.0.2",
+    "@semantic-ui-react/css-patch": "^1.0.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.6",
     "eslint": "^7.31.0",
@@ -45,5 +47,17 @@
     "webpack": "^5.39.0",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

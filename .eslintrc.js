@@ -6,5 +6,9 @@ module.exports = {
   },
   extends: ['eslint:recommended', 'plugin:react/recommended'],
   plugins: ['react'],
-  rules: {},
+  rules: {
+    "no-unused-vars": "warn",
+    "react/prop-types": "warn",
+    "no-dupe-class-members": "warn"
+  }
 };
