@@ -1,8 +1,17 @@
 const path = require('path');
 
 module.exports = {
+  // Adds Less support to CRA
   plugins: [{ plugin: require('@semantic-ui-react/craco-less') }],
+  // Make webpack / CRACO emit files in watch mode (for hot-reloading 
+  //  with the docker-compose setup)
+  devServer: {
+    devMiddleware: {
+        writeToDisk: true,
+    },
+  },
   webpack: {
+    // Custom output path
     configure: (webpackConfig, { env, paths }) => {
       paths.appBuild = webpackConfig.output.path = path.resolve('build');
       return webpackConfig; // Important: return the modified config
@@ -49,12 +58,6 @@ module.exports = {
     },
     alias: {
       '@': path.resolve('src'),
-    },
-    devServer: {
-      contentBase: path.join(__dirname, 'public'),
-      port: 8080,
-      publicPath: '/dist/',
-      writeToDisk: true,
     },
   },
 };
