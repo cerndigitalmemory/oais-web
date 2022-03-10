@@ -1,5 +1,6 @@
 import { App } from '@/App.jsx';
-import '@/style.css';
+import 'semantic-ui-less/semantic.less'
+import '@/style.css'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, BrowserRouter } from 'react-router-dom';
