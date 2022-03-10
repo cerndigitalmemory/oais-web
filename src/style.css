@@ -8,3 +8,14 @@
 .notifications-container > .toast {
   background-color: white;
 }
+
+h1 {
+  font-family: 'Barlow';
+  font-weight: 900;
+  font-size: 2.25rem
+}
+
+.ui.button {
+  font-weight: 500;
+  text-transform: uppercase;
+}

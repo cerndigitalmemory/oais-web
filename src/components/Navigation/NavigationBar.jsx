@@ -115,7 +115,7 @@ export class NavigationBar extends React.Component {
         {isLoggedIn && (
           <Menu.Menu position="right">
             <Menu.Item>
-              Hello, <Link to={`/users/${user.id}`}>{user.username}</Link>
+              Hello,&nbsp; <Link to={`/users/${user.id}`}>{user.username}</Link>
             </Menu.Item>
             <Menu.Item as={Link} to="/settings">
               <Icon name="settings" />

@@ -60,7 +60,7 @@ export class Login extends React.Component {
 
     return (
       <div>
-        <Header as="h1">CERN Digital Memory Project</Header>
+        <h1>CERN Digital Memory Platform</h1>
         <Segment>
           <Grid columns={2} relaxed="very" stackable>
             <Divider vertical>Or</Divider>
@@ -89,8 +89,8 @@ export class Login extends React.Component {
             </Grid.Column>
 
             <Grid.Column verticalAlign="middle" textAlign="center">
-              <Button href={API_URL + 'oidc/authenticate/'} primary>
-                Login with CERN Account
+              <Button href={API_URL + 'oidc/authenticate/'} color='blue'>
+                Login with a CERN Account
               </Button>
             </Grid.Column>
           </Grid>

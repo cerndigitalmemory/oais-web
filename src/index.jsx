@@ -7,6 +7,9 @@ import { HashRouter, BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/index';
 
+import "@fontsource/inter"; // Defaults to weight 400.
+import "@fontsource/barlow/500.css"; // Defaults to weight 400.
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

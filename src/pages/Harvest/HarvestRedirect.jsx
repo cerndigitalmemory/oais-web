@@ -51,7 +51,6 @@ class HarvestRedirect extends React.Component {
   render() {
     const { isRedirect } = this.state;
     const sources = [
-      'cds-test',
       'cds',
       'zenodo',
       'inveniordm',

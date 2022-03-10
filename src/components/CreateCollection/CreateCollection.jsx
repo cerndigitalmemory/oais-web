@@ -152,8 +152,6 @@ export class CreateCollection extends React.Component {
           <Button
             type="submit"
             content="Create Collection"
-            labelPosition="right"
-            icon="checkmark"
             onClick={() => this.handleSubmit()}
             positive
           />

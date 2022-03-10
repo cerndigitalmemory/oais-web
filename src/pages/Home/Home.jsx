@@ -16,12 +16,12 @@ export class Home extends React.Component {
 
     let userName;
     if (user) {
-      userName = user.first_name;
+      userName = user.username;
     }
 
     return (
       <React.Fragment>
-        <h1> Hello {userName}, welcome to CERN Digital Memory Platform</h1>
+        <h1> <center>Welcome to the CERN Digital Memory Platform </center></h1>
         {isLoggedIn && (
           <React.Fragment>
             <Header as="h2" icon textAlign="center">

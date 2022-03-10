@@ -42,6 +42,7 @@ export class Settings extends React.Component {
         ) : (
           <div>
             <h1>Settings</h1>
+            This page shows some parameters and diagnostics information on the running instance of the platform. {api.baseURL}
             <Table celled>
               <Table.Header>
                 <Table.Row>
