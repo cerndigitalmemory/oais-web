@@ -10,6 +10,7 @@ import {
   GridColumn,
   Button,
 } from 'semantic-ui-react';
+import { AddToCollection } from '@/components/AddArchivesToExistingCollection/AddArchivesToExistingCollection.jsx';
 
 /**
  * This component shows the general archive information
@@ -20,6 +21,7 @@ export class ArchiveInfo extends React.Component {
   static propTypes = {
     archive: archiveType,
     id: PropTypes.string.isRequired,
+    onCollectionUpdate: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -64,10 +66,16 @@ export class ArchiveInfo extends React.Component {
         </Label>
         <Grid>
           <Grid.Row>
-            <Grid.Column floated="left" width={5}>
+            <Grid.Column floated="left" width={6}>
               <h1>Record {id}</h1>
             </Grid.Column>
-            <Grid.Column floated="right" width={3} textAlign="right">
+            <Grid.Column floated="right" width={6} textAlign="right">
+              <AddToCollection
+                onCollectionAddition={this.props.onCollectionUpdate}
+                archives={[archive.id]}
+                label="Add it to Collection"
+              />
+              {''}
               {submitButton}
             </Grid.Column>
           </Grid.Row>

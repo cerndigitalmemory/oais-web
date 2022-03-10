@@ -96,9 +96,20 @@ class API {
     });
   }
 
-  async harvest(source, recid) {
-    return await this._post(`/harvest/${recid}/${source}/`);
+  async harvest(id) {
+    return await this._post(`/harvest/${id}/`);
   }
+
+  async createArchive(source, recid) {
+    return await this._post(`/create-archive/${recid}/${source}/`);
+  }
+
+  async createArchive(source, recid) {
+    return await this._post(`/create-archive/${recid}/${source}/`);
+  }
+
+  async parse_url(url) {
+    return await this._post('/parse-url/', { url: url })}
 
   async archive_details(id) {
     return await this._get(`/archive-details/${id}`);
@@ -125,6 +136,14 @@ class API {
     return await this._get(`/users/${id}/archives/`, { params: { page } });
   }
 
+  async archivesByUserStaged (id, page = 1) {
+    return await this._get(`/users/${id}/archives-staged/`, { params: { page } })
+  }
+
+  async get_archive_details(archives) {
+    return await this._post(`/get-detailed/`, {archives:archives})
+  }
+
   async get_archive_steps(id) {
     return await this._get(`/archive/${id}/`);
   }
@@ -145,8 +164,80 @@ class API {
     return await this._post(`/steps/${id}/actions/reject/`);
   }
 
+  async collections(page = 1) {
+    return await this._get('/collections/', { params: { page } })}
+  
   async saveManifest(id, manifest) {
-    return await this._post(`/save-manifest/${id}`, {manifest : manifest});
+    return await this._post(`/save-manifest/${id}`, {manifest : manifest});}
+    
+  async collections(page = 1) {
+    return await this._get('/collections/', { params: { page } });
+  }
+  async getArchiveCollections (id) {
+    return await this._get(`/archive/${id}/get-collections/`)
+  }
+
+  async getArchiveExists (id) {
+    return await this._get(`/archive/${id}/search/`)
+  }
+
+  async getCheckRecordsArchived (recordList) {
+    return await this._post(`/record-check/`, {recordList: recordList})
+  }
+
+  async get_collection(id) {
+    return await this._get(`/collection/${id}`);
+  }
+
+  async add_archives_to_collection(id, archives) {
+    return await this._post(`/collections/${id}/actions/add/`, {archives:archives});
+  }
+
+  async remove_archives_from_collection(id, archives) {
+    return await this._post(`/collections/${id}/actions/remove/`, {archives:archives});
+  }
+
+  async delete_collection(id) {
+    return await this._post(`/collections/${id}/actions/delete/`);
+  }
+
+  async create_collection(title,description,archives) {
+    return await this._post(`/create-collection/`, { title: title, description:description, archives:archives});
+  }
+
+  async get_steps_by_status(status, name) {
+    return await this._post(`/get-steps-status/`, {status: status, name:name})
+  }
+  async getArchiveCollections (id) {
+    return await this._get(`/archive/${id}/get-collections/`)
+  }
+
+  async getArchiveExists (id) {
+    return await this._get(`/archive/${id}/search/`)
+  }
+
+  async getCheckRecordsArchived (recordList) {
+    return await this._post(`/record-check/`, {recordList: recordList})
+  }
+
+  async get_collection(id) {
+    return await this._get(`/collection/${id}`);
+  }
+
+  async add_archives_to_collection(id, archives) {
+    return await this._post(`/collections/${id}/actions/add/`, {archives:archives});
+  }
+
+  async remove_archives_from_collection(id, archives) {
+    return await this._post(`/collections/${id}/actions/remove/`, {archives:archives});
+  }
+
+  async delete_collection(id) {
+    return await this._post(`/collections/${id}/actions/delete/`);
+  }
+
+  async create_collection(title,description,archives) {
+    return await this._post(`/create-collection/`, { title: title, description:description, archives:archives});
   }
 
   async me() {

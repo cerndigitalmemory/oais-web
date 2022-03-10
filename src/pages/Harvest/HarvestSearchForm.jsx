@@ -107,7 +107,7 @@ class SearchForm extends React.Component {
                 placeholder="Query"
               />
             </Grid.Column>
-            <GridColumn verticalAlign="bottom" width={2}>
+            <Grid.Column verticalAlign="bottom" width={2}>
               <Form.Field>
                 <Checkbox
                   label="Search Record by ID"
@@ -115,7 +115,7 @@ class SearchForm extends React.Component {
                   onChange={this.handleCheckboxChange}
                 />
               </Form.Field>
-            </GridColumn>
+            </Grid.Column>
             <Grid.Column verticalAlign="bottom">
               <Form.Select
                 label="Source"
@@ -125,9 +125,9 @@ class SearchForm extends React.Component {
                 placeholder="Source"
               />
             </Grid.Column>
-            <GridColumn verticalAlign="bottom" floated="right">
+            <Grid.Column verticalAlign="bottom" floated="right">
               {submitButton}
-            </GridColumn>
+            </Grid.Column>
           </Grid.Row>
         </Grid>
       </Form>

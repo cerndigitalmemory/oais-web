@@ -118,22 +118,24 @@ class Step extends React.Component {
     const { user } = this.context;
     const { activeIndex, loading } = this.state;
 
-    // const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE);
-    // const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE);
+    const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE);
+    const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE);
 
     let actions = null;
-    if (step.status === 5 && !loading) {
-      actions = (
-        <Button.Group>
-          <Button onClick={this.approve} color="green" title="Approve">
-            <Icon name="check" />
-          </Button>
+    if (canApprove && canReject) {
+      if (step.status === 5 && !loading) {
+        actions = (
+          <Button.Group>
+            <Button onClick={this.approve} color="green" title="Approve">
+              <Icon name="check" />
+            </Button>
 
-          <Button onClick={this.reject} color="red" title="Reject">
-            <Icon name="cancel" />
-          </Button>
-        </Button.Group>
-      );
+            <Button onClick={this.reject} color="red" title="Reject">
+              <Icon name="cancel" />
+            </Button>
+          </Button.Group>
+        );
+      }
     }
 
     let retryFailedStep = null;

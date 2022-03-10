@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+import { Storage } from '@/storage.js';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -10,7 +11,7 @@ import {
   Checkbox,
   Grid,
   GridColumn,
-  Container,
+  Icon,
 } from 'semantic-ui-react';
 
 /* 
@@ -49,6 +50,14 @@ class HarvestRedirect extends React.Component {
 
   render() {
     const { isRedirect } = this.state;
+    const sources = [
+      'cds-test',
+      'cds',
+      'zenodo',
+      'inveniordm',
+      'cod',
+      'indico',
+    ];
     return (
       <React.Fragment>
         <h1>Harvest</h1>
@@ -57,9 +66,10 @@ class HarvestRedirect extends React.Component {
           Bagit Create tool)
         </p>
         <SearchForm
-          sources={['cds-test', 'cds', 'zenodo', 'inveniordm', 'cod', 'indico']}
+          sources={sources}
           onSearch={this.handleRedirect}
           isRedirect={isRedirect}
+          activeSource={sources[0]}
           onQueryChange={this.handleQueryChange.bind(this)}
           onSourceChange={this.handleSourceChange.bind(this)}
           hitsPerPage={this.state.hitsPerPage}
@@ -74,6 +84,7 @@ export class SearchForm extends React.Component {
   static propTypes = {
     sources: PropTypes.arrayOf(PropTypes.string).isRequired,
     onSearch: PropTypes.func.isRequired,
+    activeSource: PropTypes.string,
     isRedirect: PropTypes.bool.isRequired,
     onQueryChange: PropTypes.func.isRequired,
     onSourceChange: PropTypes.func.isRequired,
@@ -85,9 +96,15 @@ export class SearchForm extends React.Component {
     super(props);
     this.state = {
       query: '',
-      source: props.sources[0],
+      source: this.props.activeSource,
       searchById: false,
     };
+  }
+
+  componentDidMount() {
+    this.setState({
+      source: this.props.activeSource,
+    });
   }
 
   handleQueryChange = (event) => {
@@ -111,6 +128,36 @@ export class SearchForm extends React.Component {
     this.props.onSearch();
   };
 
+  handleSourceButton = (event) => {
+    event.preventDefault();
+    const user = Storage.getUser();
+
+    this.setState({
+      query: user.first_name + ' ' + user.last_name,
+      source: event.target.value,
+      searchById: false,
+    });
+    this.props.onQueryChange(user.first_name + ' ' + user.last_name);
+    this.props.onSourceChange(event.target.value);
+    this.props.onSearch();
+  };
+
+  handleIndicoSearch = (event) => {
+    event.preventDefault();
+    const user = Storage.getUser();
+
+    this.setState({
+      query: 'person:' + user.first_name + ' ' + user.last_name,
+      source: event.target.value,
+      searchById: false,
+    });
+    this.props.onQueryChange(
+      'person:' + user.first_name + ' ' + user.last_name
+    );
+    this.props.onSourceChange(event.target.value);
+    this.props.onSearch();
+  };
+
   render() {
     const { isRedirect } = this.props;
     const sourceOptions = _.map(this.props.sources, (source) => ({
@@ -118,6 +165,54 @@ export class SearchForm extends React.Component {
       text: source,
       value: source,
     }));
+    const user = Storage.getUser();
+
+    let showSourceButtons;
+    if (user.first_name || user.last_name) {
+      showSourceButtons = (
+        <Grid.Row>
+          <Grid.Column>
+            <Button
+              icon
+              labelPosition="left"
+              size="mini"
+              fluid
+              value="cds"
+              onClick={this.handleSourceButton}
+            >
+              <Icon name="plus" />
+              Find all your records on CDS
+            </Button>
+          </Grid.Column>
+          <Grid.Column>
+            <Button
+              icon
+              labelPosition="left"
+              size="mini"
+              fluid
+              value="inveniordm"
+              onClick={this.handleSourceButton}
+            >
+              <Icon name="plus" />
+              Find all your records on InvenioRDM
+            </Button>
+          </Grid.Column>
+          <Grid.Column>
+            <Button
+              icon
+              labelPosition="left"
+              size="mini"
+              fluid
+              value="indico"
+              onClick={this.handleIndicoSearch}
+            >
+              <Icon name="plus" />
+              Find all your events on Indico
+            </Button>
+          </Grid.Column>
+        </Grid.Row>
+      );
+    }
 
     let submitButton;
     if (isRedirect) {
@@ -151,6 +246,7 @@ export class SearchForm extends React.Component {
             <Grid.Column verticalAlign="bottom">
               <Form.Select
                 label="Source"
+                defaultValue={this.state.source}
                 onChange={this.handleSourceChange}
                 options={sourceOptions}
                 placeholder="Source"
@@ -160,6 +256,7 @@ export class SearchForm extends React.Component {
               {submitButton}
             </GridColumn>
           </Grid.Row>
+          {showSourceButtons}
         </Grid>
       </Form>
     );
@@ -171,6 +268,7 @@ const mapStateToProps = (state) => {
     query: state.query,
     source: state.source,
     searchById: state.searchById,
+    searchPerson: state.searchPerson,
   };
 };
 
@@ -184,6 +282,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setID: (searchById) => {
       dispatch({ type: 'setID', searchById: searchById });
+    },
+    setPerson: (searchPerson) => {
+      dispatch({ type: 'setPerson', searchPerson: searchPerson });
     },
   };
 };
