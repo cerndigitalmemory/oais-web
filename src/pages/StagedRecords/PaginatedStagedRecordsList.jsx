@@ -43,6 +43,10 @@ export class PaginatedRecordsList extends React.Component {
             activePage={page}
             onPageChange={onRecordUpdate}
             totalPages={pageCount}
+            firstItem={{ content: <Icon name='angle double left' />, icon: true }}
+            lastItem={{ content: <Icon name='angle double right' />, icon: true }}
+            prevItem={{ content: <Icon name='angle left' />, icon: true }}
+            nextItem={{ content: <Icon name='angle right' />, icon: true }}
           />
         </div>
       </div>

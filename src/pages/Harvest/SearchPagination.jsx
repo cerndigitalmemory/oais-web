@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Pagination } from 'semantic-ui-react';
+import { Pagination, Icon } from 'semantic-ui-react';
 
 export class SearchPagination extends React.Component {
   static propTypes = {
@@ -39,6 +39,10 @@ export class SearchPagination extends React.Component {
             onPageChange={this.handleNextPage}
             activePage={this.props.activePage}
             totalPages={pageCount}
+            firstItem={{ content: <Icon name='angle double left' />, icon: true }}
+            lastItem={{ content: <Icon name='angle double right' />, icon: true }}
+            prevItem={{ content: <Icon name='angle left' />, icon: true }}
+            nextItem={{ content: <Icon name='angle right' />, icon: true }}
           />
         ) : null}
       </div>

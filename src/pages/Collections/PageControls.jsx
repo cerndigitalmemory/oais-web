@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Pagination } from 'semantic-ui-react';
+import { Pagination, Icon } from 'semantic-ui-react';
 
 export class PageControls extends React.Component {
   static propTypes = {
@@ -20,6 +20,10 @@ export class PageControls extends React.Component {
         onPageChange={this.handleNextPage}
         activePage={this.props.page}
         totalPages={this.props.totalPages}
+        firstItem={{ content: <Icon name='angle double left' />, icon: true }}
+        lastItem={{ content: <Icon name='angle double right' />, icon: true }}
+        prevItem={{ content: <Icon name='angle left' />, icon: true }}
+        nextItem={{ content: <Icon name='angle right' />, icon: true }}
       />
     );
   }
