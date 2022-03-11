@@ -175,7 +175,7 @@ class Record extends React.Component {
     return (
       <Table.Row>
         <Table.Cell textAlign="left">
-          <b>{record.title}</b> {archivedRecord}
+          {record.title} {archivedRecord}
         </Table.Cell>
         <Table.Cell textAlign="right">{record.recid}</Table.Cell>
         <Table.Cell textAlign="right">

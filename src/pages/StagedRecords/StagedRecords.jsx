@@ -70,6 +70,11 @@ export class StagedRecords extends React.Component {
     return (
       <React.Fragment>
         <h1>Staged Records</h1>
+        In this page you can review all the records you selected until now. <br></br>
+
+        You add or create tags to organize them or remove them from the queue. You will also see if the selected record is already in the system. <br></br>
+        If you want to add more records, go back to the <b>Add Resource</b> page. <br></br>
+        Once your&apos;re happy, click Next to proceed with the creation of Archives. <br></br><br></br>
         {loading || totalRecords == 0 ? (
           <div> {loadingMessage} </div>
         ) : (
