@@ -3,7 +3,7 @@ import { archiveType, recordType, recordTypeDetailed } from '@/types.js';
 import { sendNotification, formatDateTime } from '@/utils.js';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Table, Icon, Popup, Grid, Header } from 'semantic-ui-react';
+import { Button, Table, Icon, Popup, Grid, Header} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Storage } from '@/storage.js';
 
@@ -184,29 +184,19 @@ class RecordActions extends React.Component {
   };
 
   render() {
-    const { record, archived, collapsed, checkedRecord } = this.props;
-    const { toggleCollapse, toggleChecked } = this.props;
-
-    const detailsButton = (
-      <Button
-        active={!collapsed}
-        variant="outline-primary"
-        onClick={toggleCollapse}
-        title="Show details"
-        icon="info"
-      />
-    );
+    const { record, archived, checkedRecord } = this.props;
+    const { toggleChecked } = this.props;
 
     let checkButton;
     if (archived == false) {
       if (checkedRecord[0]) {
         checkButton = (
+          
           <Button
             circular
-            color="olive"
-            icon="check"
+            basic
+            icon="circle"
             onClick={toggleChecked}
-            title="Check"
           />
         );
       } else {
@@ -214,15 +204,14 @@ class RecordActions extends React.Component {
           <Button
             circular
             basic
-            color="olive"
-            icon="check"
+            icon="circle outline"
             onClick={toggleChecked}
-            title="Check"
           />
         );
       }
     } else {
-      checkButton = <Button circular basic icon="check" disabled />;
+      // To trigger the popup while hovering on a disabled element, they need to be wrapped in <span> element. See https://github.com/Semantic-Org/Semantic-UI-React/issues/1413
+      checkButton = <Popup content='This record was already added to the Staging Area' trigger={<span><Button circular basic icon="circle" disabled /> </span>}/>;
     }
 
     const sourceURLButton = (
@@ -237,10 +226,10 @@ class RecordActions extends React.Component {
     return (
       <div>
         <Button.Group basic size="small">
-          {detailsButton}
           {sourceURLButton}
+          {checkButton}
         </Button.Group>
-        {checkButton}
+        
       </div>
     );
   }
