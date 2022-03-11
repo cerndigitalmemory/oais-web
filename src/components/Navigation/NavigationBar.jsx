@@ -65,13 +65,6 @@ export class NavigationBar extends React.Component {
           loggedIn: true,
         },
         {
-          key: 'upload',
-          value: 'Upload',
-          to: '/upload',
-          always: false,
-          loggedIn: true,
-        },
-        {
           key: 'logout',
           value: 'Logout',
           to: '/logout',
