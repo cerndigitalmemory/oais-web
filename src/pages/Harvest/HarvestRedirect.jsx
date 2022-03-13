@@ -50,13 +50,7 @@ class HarvestRedirect extends React.Component {
 
   render() {
     const { isRedirect } = this.state;
-    const sources = [
-      'cds',
-      'zenodo',
-      'inveniordm',
-      'cod',
-      'indico',
-    ];
+    const sources = ['cds', 'zenodo', 'inveniordm', 'cod', 'indico'];
     return (
       <React.Fragment>
         <h1>Harvest</h1>
@@ -223,38 +217,36 @@ export class SearchForm extends React.Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Grid columns={4}>
-          <Grid.Row>
-            <Grid.Column width={6} verticalAlign="bottom">
-              <Form.Field
-                control={Input}
-                value={this.state.query}
-                onChange={this.handleQueryChange}
-                label="Query"
-                placeholder="Query"
+        <Grid stackable columns={4}>
+          <Grid.Column width={6} verticalAlign="bottom">
+            <Form.Field
+              control={Input}
+              value={this.state.query}
+              onChange={this.handleQueryChange}
+              label="Query"
+              placeholder="Query"
+            />
+          </Grid.Column>
+          <GridColumn verticalAlign="bottom" width={2}>
+            <Form.Field>
+              <Checkbox
+                label="Search Record by ID"
+                onChange={this.handleCheckboxChange}
               />
-            </Grid.Column>
-            <GridColumn verticalAlign="bottom" width={2}>
-              <Form.Field>
-                <Checkbox
-                  label="Search Record by ID"
-                  onChange={this.handleCheckboxChange}
-                />
-              </Form.Field>
-            </GridColumn>
-            <Grid.Column verticalAlign="bottom">
-              <Form.Select
-                label="Source"
-                defaultValue={this.state.source}
-                onChange={this.handleSourceChange}
-                options={sourceOptions}
-                placeholder="Source"
-              />
-            </Grid.Column>
-            <GridColumn verticalAlign="bottom" floated="right">
-              {submitButton}
-            </GridColumn>
-          </Grid.Row>
+            </Form.Field>
+          </GridColumn>
+          <Grid.Column verticalAlign="bottom">
+            <Form.Select
+              label="Source"
+              defaultValue={this.state.source}
+              onChange={this.handleSourceChange}
+              options={sourceOptions}
+              placeholder="Source"
+            />
+          </Grid.Column>
+          <GridColumn verticalAlign="bottom" floated="right">
+            {submitButton}
+          </GridColumn>
           {showSourceButtons}
         </Grid>
       </Form>

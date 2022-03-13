@@ -96,21 +96,19 @@ class URLParse extends React.Component {
           CERN opendata)
         </p>
         <Form onSubmit={this.handleSubmit}>
-          <Grid>
-            <Grid.Row columns={2}>
-              <Grid.Column width={12} verticalAlign="middle">
-                <Form.Field
-                  control={Input}
-                  value={this.state.url}
-                  onChange={this.handleURLChange}
-                  label="Enter URL"
-                  placeholder="Enter URL here"
-                />
-              </Grid.Column>
-              <Grid.Column verticalAlign="bottom" width={4}>
-                {submitButton}
-              </Grid.Column>
-            </Grid.Row>
+          <Grid columns={2} stackable>
+            <Grid.Column width={12} verticalAlign="middle">
+              <Form.Field
+                control={Input}
+                value={this.state.url}
+                onChange={this.handleURLChange}
+                label="Enter URL"
+                placeholder="Enter URL here"
+              />
+            </Grid.Column>
+            <Grid.Column verticalAlign="bottom" width={4}>
+              {submitButton}
+            </Grid.Column>
           </Grid>
         </Form>
 
