@@ -1,8 +1,8 @@
-import { collectionType } from '@/types.js';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Segment, Label, List } from 'semantic-ui-react';
-import { formatDateTime } from '@/utils.js';
+import { collectionType } from '@/types.js'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Segment, Label, List } from 'semantic-ui-react'
+import { formatDateTime } from '@/utils.js'
 
 /**
  * This component shows the general archive information
@@ -13,14 +13,14 @@ export class CollectionInfo extends React.Component {
   static propTypes = {
     collection: collectionType,
     id: PropTypes.string.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    const { collection, id } = this.props;
+    const { collection, id } = this.props
 
     return (
       <Segment raised>
@@ -44,6 +44,6 @@ export class CollectionInfo extends React.Component {
           </List.Item>
         </List>
       </Segment>
-    );
+    )
   }
 }

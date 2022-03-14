@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Pagination, Icon } from 'semantic-ui-react';
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Pagination, Icon } from 'semantic-ui-react'
 
 export class SearchPagination extends React.Component {
   static propTypes = {
@@ -11,26 +11,25 @@ export class SearchPagination extends React.Component {
     activePage: PropTypes.number.isRequired,
     totalNumHits: PropTypes.number,
     hitsPerPage: PropTypes.number.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   handleNextPage = (event, { activePage }) => {
-    event.preventDefault();
+    event.preventDefault()
     this.props.onSearch(
       this.props.source,
       this.props.query,
       activePage,
       this.props.hitsPerPage
-    );
-  };
+    )
+  }
 
   render() {
-    let totalNum =
-      this.props.totalNumHits == null ? 0 : this.props.totalNumHits;
-    let pageCount = Math.ceil(totalNum / this.props.hitsPerPage);
+    let totalNum = this.props.totalNumHits == null ? 0 : this.props.totalNumHits
+    let pageCount = Math.ceil(totalNum / this.props.hitsPerPage)
 
     return (
       <div>
@@ -39,13 +38,19 @@ export class SearchPagination extends React.Component {
             onPageChange={this.handleNextPage}
             activePage={this.props.activePage}
             totalPages={pageCount}
-            firstItem={{ content: <Icon name='angle double left' />, icon: true }}
-            lastItem={{ content: <Icon name='angle double right' />, icon: true }}
-            prevItem={{ content: <Icon name='angle left' />, icon: true }}
-            nextItem={{ content: <Icon name='angle right' />, icon: true }}
+            firstItem={{
+              content: <Icon name="angle double left" />,
+              icon: true,
+            }}
+            lastItem={{
+              content: <Icon name="angle double right" />,
+              icon: true,
+            }}
+            prevItem={{ content: <Icon name="angle left" />, icon: true }}
+            nextItem={{ content: <Icon name="angle right" />, icon: true }}
           />
         ) : null}
       </div>
-    );
+    )
   }
 }

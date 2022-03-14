@@ -1,8 +1,8 @@
-import { collectionType } from '@/types.js';
-import { CollectionsList } from '@/pages/Collections/CollectionsList.jsx';
-import { PageControls } from '@/pages/Collections/PageControls.jsx';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { collectionType } from '@/types.js'
+import { CollectionsList } from '@/pages/Collections/CollectionsList.jsx'
+import { PageControls } from '@/pages/Collections/PageControls.jsx'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 /**
  * This component loads the archives and creates the pagination component
@@ -14,15 +14,15 @@ export class PaginatedCollectionsList extends React.Component {
     collections: PropTypes.arrayOf(collectionType).isRequired,
     page: PropTypes.number.isRequired,
     totalCollections: PropTypes.number,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    const { collections, page, totalCollections, loadCollections } = this.props;
-    let pageCount = Math.ceil(totalCollections / 10);
+    const { collections, page, totalCollections, loadCollections } = this.props
+    let pageCount = Math.ceil(totalCollections / 10)
 
     return (
       <div>
@@ -44,6 +44,6 @@ export class PaginatedCollectionsList extends React.Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }

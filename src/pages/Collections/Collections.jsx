@@ -1,51 +1,51 @@
-import { api } from '@/api.js';
-import React from 'react';
-import { Grid, Button, Loader } from 'semantic-ui-react';
-import { PaginatedCollectionsList } from '@/pages/Collections/PaginatedCollectionsList.jsx';
-import { CreateCollection } from '@/components/CreateCollection/CreateCollection.jsx';
-import { sendNotification } from '@/utils.js';
+import { api } from '@/api.js'
+import React from 'react'
+import { Grid, Button, Loader } from 'semantic-ui-react'
+import { PaginatedCollectionsList } from '@/pages/Collections/PaginatedCollectionsList.jsx'
+import { CreateCollection } from '@/components/CreateCollection/CreateCollection.jsx'
+import { sendNotification } from '@/utils.js'
 
 /**
  * TODO
  */
 export class Collections extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: true, // Shows a loading spinner till the settings are fetched from the API call
       collections: null,
       page: 1,
       totalCollections: 0,
-    };
+    }
 
-    this.loadCollections = this.loadCollections.bind(this);
+    this.loadCollections = this.loadCollections.bind(this)
   }
 
-  getCollections = (page) => api.collections(page);
+  getCollections = (page) => api.collections(page)
 
   loadCollections = async (page) => {
     try {
       const { results: collections, count: totalCollections } =
-        await this.getCollections(page);
+        await this.getCollections(page)
       this.setState({
         collections: collections,
         page: page,
         totalCollections: totalCollections,
-      });
+      })
     } catch (e) {
-      sendNotification('Error while fetching settings', e.message);
+      sendNotification('Error while fetching settings', e.message)
     }
-  };
+  }
 
   componentDidMount() {
-    this.loadCollections(this.state.page);
-    this.setState({ loading: false });
+    this.loadCollections(this.state.page)
+    this.setState({ loading: false })
   }
 
   render() {
-    const { collections, loading, page, totalCollections } = this.state;
+    const { collections, loading, page, totalCollections } = this.state
 
-    const loadingSpinner = <Loader active inline="centered" />;
+    const loadingSpinner = <Loader active inline="centered" />
 
     return (
       <React.Fragment>
@@ -77,6 +77,6 @@ export class Collections extends React.Component {
           </div>
         )}
       </React.Fragment>
-    );
+    )
   }
 }

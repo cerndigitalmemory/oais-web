@@ -1,34 +1,34 @@
-const path = require("path");
+const path = require('path')
 
 module.exports = {
-  entry: ["regenerator-runtime/runtime.js", "./src/index.jsx"],
-  mode: "development",
-  devtool: "eval-source-map",
+  entry: ['regenerator-runtime/runtime.js', './src/index.jsx'],
+  mode: 'development',
+  devtool: 'eval-source-map',
   output: {
-    path: path.resolve(__dirname, "public", "dist"),
-    filename: "bundle.js",
+    path: path.resolve(__dirname, 'public', 'dist'),
+    filename: 'bundle.js',
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
-        options: { presets: ["@babel/env"] },
+        loader: 'babel-loader',
+        options: { presets: ['@babel/env'] },
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(woff|woff2)$/,
-        loader: "file-loader",
+        loader: 'file-loader',
       },
       {
         test: /\.(png|jpg|gif)$/i,
         use: [
           {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
               limit: 8192,
             },
@@ -37,19 +37,19 @@ module.exports = {
       },
       {
         test: /\.(ttf|eot|svg?)$/i,
-        loader: "file-loader",
+        loader: 'file-loader',
       },
     ],
   },
   resolve: {
     alias: {
-      "@": path.resolve("src"),
+      '@': path.resolve('src'),
     },
   },
   devServer: {
-    contentBase: path.join(__dirname, "public"),
+    contentBase: path.join(__dirname, 'public'),
     port: 8080,
-    publicPath: "/dist/",
+    publicPath: '/dist/',
     writeToDisk: true,
   },
-};
+}

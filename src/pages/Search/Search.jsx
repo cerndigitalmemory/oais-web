@@ -1,9 +1,9 @@
-import _ from 'lodash';
-import PropTypes from 'prop-types';
-import { sendNotification } from '@/utils.js';
-import { getCookie } from '@/utils.js';
-import { OverridableContext } from 'react-overridable';
-import React from 'react';
+import _ from 'lodash'
+import PropTypes from 'prop-types'
+import { sendNotification } from '@/utils.js'
+import { getCookie } from '@/utils.js'
+import { OverridableContext } from 'react-overridable'
+import React from 'react'
 import {
   Button,
   Form,
@@ -14,15 +14,15 @@ import {
   Grid,
   Card,
   Container,
-} from 'semantic-ui-react';
+} from 'semantic-ui-react'
 import {
   ReactSearchKit,
   ESSearchApi,
   SearchBar,
   ResultsList,
   BucketAggregation,
-} from 'react-searchkit';
-import { api } from '../../api';
+} from 'react-searchkit'
+import { api } from '../../api'
 
 // The SearchForm function contains the form for the search
 const ElasticSearchResultsListItem = ({ result, index }) => {
@@ -35,8 +35,8 @@ const ElasticSearchResultsListItem = ({ result, index }) => {
         <Item.Description>{result.source_url}</Item.Description>
       </Item.Content>
     </Item>
-  );
-};
+  )
+}
 
 const ElasticSearchResultsGridItem = ({ result, index }) => {
   return (
@@ -48,13 +48,13 @@ const ElasticSearchResultsGridItem = ({ result, index }) => {
         <Item.Description>{result.source_url}</Item.Description>
       </Card.Content>
     </Card>
-  );
-};
+  )
+}
 
 const overriddenComponents = {
   'ResultsList.item': ElasticSearchResultsListItem,
   'ResultsGrid.item': ElasticSearchResultsGridItem,
-};
+}
 
 const customAggComp = (title, containerCmp) => {
   return containerCmp ? (
@@ -64,12 +64,12 @@ const customAggComp = (title, containerCmp) => {
         {containerCmp}
       </Menu.Item>
     </Menu>
-  ) : null;
-};
+  ) : null
+}
 
 const customAggValuesContainerCmp = (valuesCmp) => (
   <Menu.Menu>{valuesCmp}</Menu.Menu>
-);
+)
 
 const customAggValueCmp = (
   bucket,
@@ -77,7 +77,7 @@ const customAggValueCmp = (
   onFilterClicked,
   getChildAggCmps
 ) => {
-  const childAggCmps = getChildAggCmps(bucket);
+  const childAggCmps = getChildAggCmps(bucket)
   return (
     <Menu.Item
       key={bucket.key}
@@ -89,12 +89,12 @@ const customAggValueCmp = (
       {bucket.key}
       {childAggCmps}
     </Menu.Item>
-  );
-};
+  )
+}
 
 export class Search extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -104,7 +104,7 @@ export class Search extends React.Component {
         timeout: 5000,
         headers: { 'X-CSRFToken': getCookie('csrftoken') },
       },
-    });
+    })
 
     return (
       <React.Fragment>
@@ -145,6 +145,6 @@ export class Search extends React.Component {
           </ReactSearchKit>
         </OverridableContext.Provider>
       </React.Fragment>
-    );
+    )
   }
 }

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Grid, Placeholder, Segment, Statistic } from 'semantic-ui-react';
-import { api } from '@/api.js';
-import { AppContext } from '@/AppContext.js';
+import React from 'react'
+import { Grid, Placeholder, Segment, Statistic } from 'semantic-ui-react'
+import { api } from '@/api.js'
+import { AppContext } from '@/AppContext.js'
 import {
   StepStatus,
   StepStatusLabel,
@@ -11,7 +11,7 @@ import {
   hasPermission,
   Permissions,
   sendNotification,
-} from '@/utils.js';
+} from '@/utils.js'
 
 /**
  * This page is the staging area for archives.
@@ -20,9 +20,9 @@ import {
  *
  */
 export class StatisticsGrid extends React.Component {
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loadingArchives: true,
       loadingCollections: true,
@@ -34,82 +34,82 @@ export class StatisticsGrid extends React.Component {
       stepsCompleted: [],
       totalArchives: 0,
       totalCollections: 0,
-    };
+    }
   }
 
   componentDidMount() {
-    this.loadArchives();
-    this.loadCollections();
-    this.loadCompletedArchives();
-    this.loadWaitingArchives();
+    this.loadArchives()
+    this.loadCollections()
+    this.loadCompletedArchives()
+    this.loadWaitingArchives()
   }
 
-  getArchives = (page) => api.archives(page);
+  getArchives = (page) => api.archives(page)
 
   loadArchives = async (page = 1) => {
     try {
       const { results: archives, count: totalArchives } =
-        await this.getArchives(page);
-      this.setState({ archives, totalArchives });
-      this.setState({ loadingArchives: false });
+        await this.getArchives(page)
+      this.setState({ archives, totalArchives })
+      this.setState({ loadingArchives: false })
     } catch (e) {
-      this.setState({ loadingArchives: false });
+      this.setState({ loadingArchives: false })
     }
-  };
+  }
 
-  getCollections = (page) => api.collections(page);
+  getCollections = (page) => api.collections(page)
 
   loadCollections = async (page = 1) => {
     try {
       const { results: collections, count: totalCollections } =
-        await this.getCollections(page);
+        await this.getCollections(page)
       this.setState({
         collections: collections,
         totalCollections: totalCollections,
         loadingCollections: false,
-      });
+      })
     } catch (e) {
       this.setState({
         loadingCollections: false,
-      });
+      })
     }
-  };
+  }
 
-  getSteps = (status, name) => api.get_steps_by_status(status, name);
+  getSteps = (status, name) => api.get_steps_by_status(status, name)
 
   loadCompletedArchives = async () => {
     try {
       const steps = await this.getSteps(
         StepStatus.COMPLETED,
         StepName.VALIDATION
-      );
+      )
       this.setState({
         stepsCompleted: steps,
         loadingCompleted: false,
-      });
+      })
     } catch (e) {
       this.setState({
         loadingCompleted: false,
-      });
+      })
     }
-  };
+  }
 
   loadWaitingArchives = async () => {
     try {
       const steps = await this.getSteps(
         StepStatus.WAITING_APPROVAL,
         StepName.HARVEST
-      );
+      )
       this.setState({
         stepsWaitingApproval: steps,
         loadingWaitingApproval: false,
-      });
+      })
     } catch (e) {
       this.setState({
         loadingWaitingApproval: false,
-      });
+      })
     }
-  };
+  }
 
   render() {
     const {
@@ -121,7 +121,7 @@ export class StatisticsGrid extends React.Component {
       loadingWaitingApproval,
       stepsCompleted,
       loadingCompleted,
-    } = this.state;
+    } = this.state
 
     const loadingSegment = (
       <Placeholder>
@@ -130,7 +130,7 @@ export class StatisticsGrid extends React.Component {
           <Placeholder.Line />
         </Placeholder.Header>
       </Placeholder>
-    );
+    )
 
     return (
       <Grid columns={2} stackable>
@@ -189,6 +189,6 @@ export class StatisticsGrid extends React.Component {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-    );
+    )
   }
 }

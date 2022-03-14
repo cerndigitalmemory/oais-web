@@ -7,16 +7,19 @@ Developed in React with semantic-ui. Uses [react-searchkit](https://inveniosoftw
 ## Run
 
 Install dependencies
+
 ```sh
 npm install
 ```
 
 Produce a build in `public/`
+
 ```sh
 npm run build
 ```
 
 Serve with hot reload on `localhost:8080/`
+
 ```sh
 npm run serve
 ```
@@ -26,3 +29,5 @@ npm run serve
 OAIS Web expects the OAIS Platform API on `/api/` (you can change the endpoint in `api.js`, setting `API_URL`), served from the same host (or the cookie exchange won't work).
 
 Check [the OAIS-platform documentation](https://gitlab.cern.ch/digitalmemory/oais-platform) to quickly deploy a development instance of the whole stack with hot reload on both the backend and the frontend.
+
+Code is linted with ESLint and formatted with Prettier.

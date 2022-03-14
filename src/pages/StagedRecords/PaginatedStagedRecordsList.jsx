@@ -1,8 +1,8 @@
-import { api } from '@/api.js';
-import { sendNotification, formatDateTime } from '@/utils.js';
-import PropTypes from 'prop-types';
-import { archiveType, recordTypeDetailed } from '@/types.js';
-import React from 'react';
+import { api } from '@/api.js'
+import { sendNotification, formatDateTime } from '@/utils.js'
+import PropTypes from 'prop-types'
+import { archiveType, recordTypeDetailed } from '@/types.js'
+import React from 'react'
 import {
   Header,
   Table,
@@ -11,9 +11,9 @@ import {
   Grid,
   Popup,
   Pagination,
-} from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { Storage } from '@/storage.js';
+} from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Storage } from '@/storage.js'
 /**
  * This component loads the archives and creates the pagination component
  * and the list of the archives.
@@ -24,15 +24,15 @@ export class PaginatedRecordsList extends React.Component {
     onRecordUpdate: PropTypes.func.isRequired,
     totalRecords: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    const { records, onRecordUpdate, totalRecords, page } = this.props;
-    let pageCount = Math.ceil(totalRecords / 8);
+    const { records, onRecordUpdate, totalRecords, page } = this.props
+    let pageCount = Math.ceil(totalRecords / 8)
 
     return (
       <div>
@@ -43,14 +43,20 @@ export class PaginatedRecordsList extends React.Component {
             activePage={page}
             onPageChange={onRecordUpdate}
             totalPages={pageCount}
-            firstItem={{ content: <Icon name='angle double left' />, icon: true }}
-            lastItem={{ content: <Icon name='angle double right' />, icon: true }}
-            prevItem={{ content: <Icon name='angle left' />, icon: true }}
-            nextItem={{ content: <Icon name='angle right' />, icon: true }}
+            firstItem={{
+              content: <Icon name="angle double left" />,
+              icon: true,
+            }}
+            lastItem={{
+              content: <Icon name="angle double right" />,
+              icon: true,
+            }}
+            prevItem={{ content: <Icon name="angle left" />, icon: true }}
+            nextItem={{ content: <Icon name="angle right" />, icon: true }}
           />
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -62,10 +68,10 @@ class RecordsList extends React.Component {
   static propTypes = {
     records: PropTypes.arrayOf(recordTypeDetailed).isRequired,
     onRecordUpdate: PropTypes.func.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -96,7 +102,7 @@ class RecordsList extends React.Component {
           </Table.Body>
         </Table>
       </div>
-    );
+    )
   }
 }
 
@@ -104,50 +110,50 @@ class Record extends React.Component {
   static propTypes = {
     record: recordTypeDetailed.isRequired,
     onRecordUpdate: PropTypes.func.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       archived: false,
-    };
+    }
   }
 
   handleDelete = async () => {
-    Storage.removeRecord(this.props.record);
-    this.props.onRecordUpdate();
-  };
+    Storage.removeRecord(this.props.record)
+    this.props.onRecordUpdate()
+  }
 
   handleArchiving = async () => {
-    const record = this.props.record;
-    this.setState({ archived: true });
+    const record = this.props.record
+    this.setState({ archived: true })
     try {
-      await api.createArchive(record.source, record.recid);
-      Storage.removeRecord(record);
-      sendNotification('Record archived successfully', record.recid);
+      await api.createArchive(record.source, record.recid)
+      Storage.removeRecord(record)
+      sendNotification('Record archived successfully', record.recid)
     } catch (e) {
-      sendNotification('Error while archiving', e.message);
+      sendNotification('Error while archiving', e.message)
     } finally {
-      this.props.onRecordUpdate();
+      this.props.onRecordUpdate()
     }
-  };
+  }
 
   render() {
-    const { record } = this.props;
-    const { archived } = this.state;
+    const { record } = this.props
+    const { archived } = this.state
 
-    let archiveButton = null;
+    let archiveButton = null
     if (archived) {
-      archiveButton = <Button icon="archive" disabled />;
+      archiveButton = <Button icon="archive" disabled />
     } else {
-      archiveButton = <Button icon="archive" onClick={this.handleArchiving} />;
+      archiveButton = <Button icon="archive" onClick={this.handleArchiving} />
     }
 
-    let archivedRecord = null;
+    let archivedRecord = null
     if (record.archives.length > 0) {
-      let timeWord = 'time';
+      let timeWord = 'time'
       if (record.archives.length > 1) {
-        timeWord = 'times';
+        timeWord = 'times'
       }
       archivedRecord = (
         <Popup
@@ -169,12 +175,12 @@ class Record extends React.Component {
             </Grid.Column>
           </Grid>
         </Popup>
-      );
+      )
     }
 
     let deleteButton = (
       <Button icon="remove" color="red" onClick={this.handleDelete} />
-    );
+    )
 
     return (
       <Table.Row>
@@ -187,17 +193,17 @@ class Record extends React.Component {
           {deleteButton}
         </Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }
 
 class ShowArchive extends React.Component {
   static propTypes = {
     archive: archiveType,
-  };
+  }
 
   render() {
-    const { archive } = this.props;
+    const { archive } = this.props
 
     return (
       <Grid.Row>
@@ -208,6 +214,6 @@ class ShowArchive extends React.Component {
         {' harvested on '}
         {formatDateTime(archive.timestamp)}
       </Grid.Row>
-    );
+    )
   }
 }

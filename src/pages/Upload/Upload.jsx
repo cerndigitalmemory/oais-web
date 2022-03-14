@@ -1,29 +1,29 @@
-import React from 'react';
-import { api } from '@/api.js';
-import { Button, Grid, Form } from 'semantic-ui-react';
+import React from 'react'
+import { api } from '@/api.js'
+import { Button, Grid, Form } from 'semantic-ui-react'
 
-import { sendNotification } from '@/utils.js';
+import { sendNotification } from '@/utils.js'
 
 export class Upload extends React.Component {
   state = {
     file: null,
     response: null,
-  };
+  }
 
   handleFileUpload = (event) => {
-    event.preventDefault();
-    this.setState({ file: event.target.files[0] });
-  };
+    event.preventDefault()
+    this.setState({ file: event.target.files[0] })
+  }
 
   handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     try {
-      const response = await api.ingest(this.state.file);
-      this.setState({ response: response.msg });
+      const response = await api.ingest(this.state.file)
+      this.setState({ response: response.msg })
     } catch (e) {
-      sendNotification('Error while uploading file', e.message);
+      sendNotification('Error while uploading file', e.message)
     }
-  };
+  }
 
   render() {
     return (
@@ -57,6 +57,6 @@ export class Upload extends React.Component {
 
         <p>{this.state.response}</p>
       </React.Fragment>
-    );
+    )
   }
 }

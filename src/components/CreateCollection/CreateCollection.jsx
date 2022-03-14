@@ -1,8 +1,8 @@
-import { api } from '@/api.js';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { archiveType } from '@/types.js';
-import { sendNotification } from '@/utils.js';
+import { api } from '@/api.js'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { archiveType } from '@/types.js'
+import { sendNotification } from '@/utils.js'
 import {
   Loader,
   Segment,
@@ -12,9 +12,9 @@ import {
   Button,
   Input,
   Modal,
-} from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
-import { AddArchives } from '@/components/AddArchivesToCollection/AddArchives.jsx';
+} from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
+import { AddArchives } from '@/components/AddArchivesToCollection/AddArchives.jsx'
 
 /**
  * This component creates a new collection. The user can add a name of the collection, a description
@@ -28,9 +28,9 @@ export class CreateCollection extends React.Component {
     label: PropTypes.string, // Label of the "Create collection" button
     defaultArchives: PropTypes.arrayOf(PropTypes.number), // A list of archive ids to add to the collection
     addArchives: PropTypes.bool.isRequired, //if True the user can add more archives to the collection, if False he can only pre-select and add from the defaultArchives
-  };
+  }
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       title: '',
       description: '',
@@ -38,73 +38,73 @@ export class CreateCollection extends React.Component {
       open: false,
       loading: true,
       label: 'Create New Collection',
-    };
+    }
   }
 
   loadArchives() {
     if (this.props.defaultArchives) {
-      this.setState({ archives: this.props.defaultArchives });
+      this.setState({ archives: this.props.defaultArchives })
     }
   }
 
   loadLabel() {
     if (this.props.label) {
-      this.setState({ label: this.props.label });
+      this.setState({ label: this.props.label })
     }
   }
 
   componentDidMount() {
-    this.loadArchives();
-    this.loadLabel();
-    this.setState({ loading: false });
+    this.loadArchives()
+    this.loadLabel()
+    this.setState({ loading: false })
   }
 
   createCollection = (title, description, archives) =>
-    api.create_collection(title, description, archives);
+    api.create_collection(title, description, archives)
 
   handleSubmit = () => {
-    const { title, description, archives } = this.state;
-    this.createCollection(title, description, archives);
-    this.props.onCollectionCreation();
-    this.setOpen(false);
-  };
+    const { title, description, archives } = this.state
+    this.createCollection(title, description, archives)
+    this.props.onCollectionCreation()
+    this.setOpen(false)
+  }
 
   setOpen = (value) => {
     if (value) {
-      this.loadArchives();
+      this.loadArchives()
     }
 
-    this.setState({ open: value });
-  };
+    this.setState({ open: value })
+  }
 
   handleTitleChange = (event) => {
-    this.setState({ title: event.target.value });
-  };
+    this.setState({ title: event.target.value })
+  }
 
   handleDescriptionChange = (event) => {
-    this.setState({ description: event.target.value });
-  };
+    this.setState({ description: event.target.value })
+  }
 
   handleArchiveAddition = (archives) => {
-    this.setState({ archives: archives });
-  };
+    this.setState({ archives: archives })
+  }
 
   render() {
-    const { open, title, archives, label, loading } = this.state;
-    const { user } = this.context;
-    const { addArchives } = this.props;
+    const { open, title, archives, label, loading } = this.state
+    const { user } = this.context
+    const { addArchives } = this.props
 
-    let addArchivesButton;
+    let addArchivesButton
     if (addArchives) {
       addArchivesButton = (
         <AddArchives
           onArchiveAdd={this.handleArchiveAddition}
           archives={this.state.archives}
         />
-      );
+      )
     }
 
-    const loadingSpinner = <Loader inverted>Loading</Loader>;
+    const loadingSpinner = <Loader inverted>Loading</Loader>
 
     return (
       <Modal
@@ -157,6 +157,6 @@ export class CreateCollection extends React.Component {
           />
         </Modal.Actions>
       </Modal>
-    );
+    )
   }
 }

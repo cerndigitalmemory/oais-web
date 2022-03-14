@@ -1,6 +1,6 @@
-import { api } from '@/api.js';
-import { AppContext } from '@/AppContext.js';
-import { archiveType } from '@/types.js';
+import { api } from '@/api.js'
+import { AppContext } from '@/AppContext.js'
+import { archiveType } from '@/types.js'
 import {
   StepStatus,
   StepStatusLabel,
@@ -10,12 +10,12 @@ import {
   hasPermission,
   Permissions,
   sendNotification,
-} from '@/utils.js';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Button, Table, Loader, Dropdown, Menu } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import _ from 'lodash';
+} from '@/utils.js'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Button, Table, Loader, Dropdown, Menu } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 /**
  * This component loads the list of the archives with a check button with which the user can
@@ -28,10 +28,10 @@ export class ArchivesList extends React.Component {
     newArchives: PropTypes.arrayOf(archiveType).isRequired,
     addArchive: PropTypes.func.isRequired,
     removeArchive: PropTypes.func.isRequired,
-  };
+  }
 
   render() {
-    const { newArchives, prevArchives } = this.props;
+    const { newArchives, prevArchives } = this.props
     return (
       <Table textAlign="center">
         <Table.Header>
@@ -56,7 +56,7 @@ export class ArchivesList extends React.Component {
           ))}
         </Table.Body>
       </Table>
-    );
+    )
   }
 }
 
@@ -66,42 +66,42 @@ class Archive extends React.Component {
     prevArchives: PropTypes.arrayOf(archiveType),
     addArchive: PropTypes.func.isRequired,
     removeArchive: PropTypes.func.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       checked: false,
       loading: false,
-    };
+    }
   }
 
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
 
   handleArchiveCheck = () => {
-    const { newArchive, prevArchives, addArchive, removeArchive } = this.props;
+    const { newArchive, prevArchives, addArchive, removeArchive } = this.props
     this.setState((state) => ({
       checked: !state.checked,
-    }));
+    }))
     if (!this.state.checked) {
-      addArchive(newArchive);
+      addArchive(newArchive)
     } else {
-      removeArchive(newArchive);
+      removeArchive(newArchive)
     }
-  };
+  }
 
   handleDisabled(newArchive) {
-    return this.props.prevArchives.some((item) => newArchive.id === item.id);
+    return this.props.prevArchives.some((item) => newArchive.id === item.id)
   }
 
   render() {
-    const { newArchive } = this.props;
-    const { checked } = this.state;
-    const { user } = this.context;
+    const { newArchive } = this.props
+    const { checked } = this.state
+    const { user } = this.context
 
-    let checkButton;
+    let checkButton
     if (this.handleDisabled(newArchive)) {
-      checkButton = <Button circular basic icon="check" disabled />;
+      checkButton = <Button circular basic icon="check" disabled />
     } else {
       if (checked) {
         checkButton = (
@@ -112,7 +112,7 @@ class Archive extends React.Component {
             onClick={this.handleArchiveCheck}
             title="Check"
           />
-        );
+        )
       } else {
         checkButton = (
           <Button
@@ -123,7 +123,7 @@ class Archive extends React.Component {
             onClick={this.handleArchiveCheck}
             title="Check"
           />
-        );
+        )
       }
     }
 
@@ -147,6 +147,6 @@ class Archive extends React.Component {
         </Table.Cell>
         <Table.Cell>{checkButton}</Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }

@@ -1,20 +1,20 @@
-import { AppContext } from '@/AppContext';
-import { notificationType } from '@/types.js';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Container, Message } from 'semantic-ui-react';
+import { AppContext } from '@/AppContext'
+import { notificationType } from '@/types.js'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Container, Message } from 'semantic-ui-react'
 
 export class Notifications extends React.Component {
   static propTypes = {
     notifications: PropTypes.arrayOf(notificationType).isRequired,
-  };
+  }
 
   handleClose(notification) {
-    AppContext.removeNotification(notification);
+    AppContext.removeNotification(notification)
   }
 
   render() {
-    const { notifications } = this.props;
+    const { notifications } = this.props
     return (
       <Container>
         {notifications.map((notification, i) => (
@@ -26,6 +26,6 @@ export class Notifications extends React.Component {
           </Message>
         ))}
       </Container>
-    );
+    )
   }
 }

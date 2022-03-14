@@ -1,7 +1,7 @@
-import { AppContext } from '@/AppContext.js';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Redirect, Route } from 'react-router';
+import { AppContext } from '@/AppContext.js'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Redirect, Route } from 'react-router'
 
 /**
  * When trying to access a protected route while unauthenticated, makes the user
@@ -12,13 +12,13 @@ export class ProtectedRoute extends React.Component {
     component: PropTypes.elementType,
     render: PropTypes.func,
     children: PropTypes.node,
-  };
+  }
 
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
 
   render() {
-    const { isLoggedIn } = this.context;
-    const { component, render, children, ...rest } = this.props;
+    const { isLoggedIn } = this.context
+    const { component, render, children, ...rest } = this.props
     return (
       <Route
         {...rest}
@@ -26,10 +26,10 @@ export class ProtectedRoute extends React.Component {
           if (!isLoggedIn) {
             // Pass the current URL as a query parameter.
             // After the login, the user will be redirected to the current page.
-            const { location } = routeProps;
+            const { location } = routeProps
             const redirect = new URLSearchParams({
               redirect: location.pathname + location.search,
-            });
+            })
 
             return (
               <Redirect
@@ -38,19 +38,19 @@ export class ProtectedRoute extends React.Component {
                   search: '?' + redirect.toString(),
                 }}
               />
-            );
+            )
           }
 
           if (component) {
-            const Component = component;
-            return <Component {...routeProps} />;
+            const Component = component
+            return <Component {...routeProps} />
           } else if (render) {
-            return render(routeProps);
+            return render(routeProps)
           } else {
-            return children;
+            return children
           }
         }}
       />
-    );
+    )
   }
 }

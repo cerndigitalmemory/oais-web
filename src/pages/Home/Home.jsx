@@ -1,27 +1,30 @@
-import React from 'react';
-import { Header, Loader, Icon, Grid, Segment, Button } from 'semantic-ui-react';
-import { Storage } from '@/storage.js';
-import { AppContext } from '@/AppContext.js';
-import { StatisticsGrid } from '@/pages/Home/HomeStatisticsGrid.jsx';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import { Header, Loader, Icon, Grid, Segment, Button } from 'semantic-ui-react'
+import { Storage } from '@/storage.js'
+import { AppContext } from '@/AppContext.js'
+import { StatisticsGrid } from '@/pages/Home/HomeStatisticsGrid.jsx'
+import { Link } from 'react-router-dom'
 
 export class Home extends React.Component {
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    const { isLoggedIn, user } = this.context;
+    const { isLoggedIn, user } = this.context
 
-    let userName;
+    let userName
     if (user) {
-      userName = user.username;
+      userName = user.username
     }
 
     return (
       <React.Fragment>
-        <h1> <center>Welcome to the CERN Digital Memory Platform </center></h1>
+        <h1>
+          {' '}
+          <center>Welcome to the CERN Digital Memory Platform </center>
+        </h1>
         {isLoggedIn && (
           <React.Fragment>
             <Header as="h2" icon textAlign="center">
@@ -37,13 +40,13 @@ export class Home extends React.Component {
           </React.Fragment>
         )}
       </React.Fragment>
-    );
+    )
   }
 }
 
 export class QuickActions extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -76,6 +79,6 @@ export class QuickActions extends React.Component {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-    );
+    )
   }
 }

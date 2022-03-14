@@ -1,6 +1,6 @@
-import { api } from '@/api.js';
-import { AppContext } from '@/AppContext.js';
-import { archiveType, collectionType } from '@/types.js';
+import { api } from '@/api.js'
+import { AppContext } from '@/AppContext.js'
+import { archiveType, collectionType } from '@/types.js'
 import {
   StepStatus,
   StepStatusLabel,
@@ -10,9 +10,9 @@ import {
   hasPermission,
   Permissions,
   sendNotification,
-} from '@/utils.js';
-import PropTypes from 'prop-types';
-import React from 'react';
+} from '@/utils.js'
+import PropTypes from 'prop-types'
+import React from 'react'
 import {
   Button,
   Table,
@@ -22,20 +22,20 @@ import {
   Modal,
   Header,
   Icon,
-} from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { AddArchives } from '@/components/AddArchivesToCollection/AddArchives.jsx';
-import _ from 'lodash';
+} from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { AddArchives } from '@/components/AddArchivesToCollection/AddArchives.jsx'
+import _ from 'lodash'
 
 export class CollectionArchives extends React.Component {
   static propTypes = {
     collection: collectionType.isRequired,
     onArchiveAdd: PropTypes.func.isRequired,
     onArchiveRemoval: PropTypes.func.isRequired,
-  };
+  }
 
   render() {
-    const { collection } = this.props;
+    const { collection } = this.props
     return (
       <Segment raised>
         <Label color="blue" ribbon>
@@ -60,7 +60,7 @@ export class CollectionArchives extends React.Component {
           onArchiveRemoval={this.props.onArchiveRemoval}
         />
       </Segment>
-    );
+    )
   }
 }
 
@@ -68,10 +68,10 @@ export class CollectionArchivesList extends React.Component {
   static propTypes = {
     archives: PropTypes.arrayOf(archiveType).isRequired,
     onArchiveRemoval: PropTypes.func.isRequired,
-  };
+  }
 
   render() {
-    const { archives } = this.props;
+    const { archives } = this.props
     return (
       <Table textAlign="center">
         <Table.Header>
@@ -93,7 +93,7 @@ export class CollectionArchivesList extends React.Component {
           ))}
         </Table.Body>
       </Table>
-    );
+    )
   }
 }
 
@@ -101,58 +101,58 @@ class Archive extends React.Component {
   static propTypes = {
     archive: archiveType.isRequired,
     onArchiveRemoval: PropTypes.func,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: true,
       open: false,
       steps: [],
-    };
+    }
   }
 
   setOpen = (value) => {
-    this.setState({ open: value });
-  };
-
-  handleArchiveRemoval = () => {
-    this.props.onArchiveRemoval([this.props.archive.id]);
-    this.setOpen(false);
-  };
-
-  handleHarvest = async () => {
-    const { archive } = this.props;
-    this.setState({ loading: true });
-    try {
-      await api.harvest(archive.id);
-    } catch (e) {
-      sendNotification('Error while archiving', e.message);
-    }
-    this.getArchiveStatus();
-  };
-
-  getArchiveStatus = async () => {
-    const { archive } = this.props;
-    let steps = [];
-    try {
-      steps = await api.get_archive_steps(archive.id);
-    } catch (e) {
-      sendNotification('Error while getting archive', e.message);
-    }
-    this.setState({ loading: false, steps: steps });
-  };
-
-  componentDidMount() {
-    this.getArchiveStatus();
+    this.setState({ open: value })
   }
 
-  static contextType = AppContext.Context;
+  handleArchiveRemoval = () => {
+    this.props.onArchiveRemoval([this.props.archive.id])
+    this.setOpen(false)
+  }
+
+  handleHarvest = async () => {
+    const { archive } = this.props
+    this.setState({ loading: true })
+    try {
+      await api.harvest(archive.id)
+    } catch (e) {
+      sendNotification('Error while archiving', e.message)
+    }
+    this.getArchiveStatus()
+  }
+
+  getArchiveStatus = async () => {
+    const { archive } = this.props
+    let steps = []
+    try {
+      steps = await api.get_archive_steps(archive.id)
+    } catch (e) {
+      sendNotification('Error while getting archive', e.message)
+    }
+    this.setState({ loading: false, steps: steps })
+  }
+
+  componentDidMount() {
+    this.getArchiveStatus()
+  }
+
+  static contextType = AppContext.Context
 
   render() {
-    const { archive } = this.props;
-    const { steps, loading } = this.state;
-    const { user } = this.context;
+    const { archive } = this.props
+    const { steps, loading } = this.state
+    const { user } = this.context
 
     let deleteModal = (
       <Modal
@@ -177,11 +177,11 @@ class Archive extends React.Component {
           </Button>
         </Modal.Actions>
       </Modal>
-    );
+    )
 
-    let harvestButton;
+    let harvestButton
     if (loading) {
-      harvestButton = <Button icon="archive" color="green" loading />;
+      harvestButton = <Button icon="archive" color="green" loading />
     } else {
       if (steps.length == 0) {
         harvestButton = (
@@ -191,9 +191,9 @@ class Archive extends React.Component {
             name="Harvest archive"
             onClick={this.handleHarvest}
           />
-        );
+        )
       } else {
-        harvestButton = <Button icon="archive" color="grey" disabled />;
+        harvestButton = <Button icon="archive" color="grey" disabled />
       }
     }
 
@@ -217,6 +217,6 @@ class Archive extends React.Component {
           {harvestButton}
         </Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }

@@ -1,9 +1,9 @@
-import { ArchivesList } from '@/pages/Actions/ActionsArchivesList.jsx';
-import { PageControls } from '@/pages/Actions/PageControls.jsx';
-import PropTypes from 'prop-types';
-import { archiveType, archiveTypeDetailed } from '@/types.js';
-import React from 'react';
-import { Loader } from 'semantic-ui-react';
+import { ArchivesList } from '@/pages/Actions/ActionsArchivesList.jsx'
+import { PageControls } from '@/pages/Actions/PageControls.jsx'
+import PropTypes from 'prop-types'
+import { archiveType, archiveTypeDetailed } from '@/types.js'
+import React from 'react'
+import { Loader } from 'semantic-ui-react'
 
 /**
  * This component loads the archives and creates the pagination component
@@ -18,10 +18,10 @@ export class PaginatedArchivesList extends React.Component {
     checkArchiveRemove: PropTypes.func.isRequired,
     page: PropTypes.number.isRequired,
     totalArchives: PropTypes.number.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
@@ -33,8 +33,8 @@ export class PaginatedArchivesList extends React.Component {
       onArchiveUpdate,
       archives,
       detailedArchives,
-    } = this.props;
-    let pageCount = Math.ceil(totalArchives / 8);
+    } = this.props
+    let pageCount = Math.ceil(totalArchives / 8)
 
     return (
       <div>
@@ -54,6 +54,6 @@ export class PaginatedArchivesList extends React.Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }

@@ -1,6 +1,6 @@
-import { api } from '@/api.js';
-import { AppContext } from '@/AppContext.js';
-import { collectionType } from '@/types.js';
+import { api } from '@/api.js'
+import { AppContext } from '@/AppContext.js'
+import { collectionType } from '@/types.js'
 import {
   StepStatus,
   StepStatusLabel,
@@ -10,12 +10,12 @@ import {
   hasPermission,
   Permissions,
   sendNotification,
-} from '@/utils.js';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Button, Table, Icon, Modal, Header } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import _ from 'lodash';
+} from '@/utils.js'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Button, Table, Icon, Modal, Header } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 export class CollectionsList extends React.Component {
   static propTypes = {
@@ -25,10 +25,10 @@ export class CollectionsList extends React.Component {
     addCollection: PropTypes.func.isRequired,
     removeCollection: PropTypes.func.isRequired,
     checked: PropTypes.number,
-  };
+  }
 
   render() {
-    const { collections, onCollectionUpdate, page, checked } = this.props;
+    const { collections, onCollectionUpdate, page, checked } = this.props
 
     return (
       <Table textAlign="center">
@@ -57,7 +57,7 @@ export class CollectionsList extends React.Component {
           ))}
         </Table.Body>
       </Table>
-    );
+    )
   }
 }
 
@@ -69,31 +69,31 @@ class Collection extends React.Component {
     addCollection: PropTypes.func.isRequired,
     removeCollection: PropTypes.func.isRequired,
     checked: PropTypes.number,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-    };
   }
 
-  static contextType = AppContext.Context;
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: false,
+    }
+  }
+
+  static contextType = AppContext.Context
 
   handleCollectionCheck = () => {
-    const { checked, collection, addCollection, removeCollection } = this.props;
+    const { checked, collection, addCollection, removeCollection } = this.props
     if (checked == collection.id) {
-      removeCollection(collection);
+      removeCollection(collection)
     } else {
-      addCollection(collection);
+      addCollection(collection)
     }
-  };
+  }
 
   render() {
-    const { collection, checked } = this.props;
-    const { user } = this.context;
+    const { collection, checked } = this.props
+    const { user } = this.context
 
-    let checkButton;
+    let checkButton
 
     if (checked == collection.id) {
       checkButton = (
@@ -104,7 +104,7 @@ class Collection extends React.Component {
           onClick={this.handleCollectionCheck}
           title="Check"
         />
-      );
+      )
     } else {
       checkButton = (
         <Button
@@ -115,7 +115,7 @@ class Collection extends React.Component {
           onClick={this.handleCollectionCheck}
           title="Check"
         />
-      );
+      )
     }
 
     return (
@@ -132,6 +132,6 @@ class Collection extends React.Component {
         <Table.Cell>{collection.archives.length}</Table.Cell>
         <Table.Cell>{checkButton}</Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }

@@ -1,9 +1,9 @@
-import { api } from '@/api.js';
-import { AppContext } from '@/AppContext.js';
-import { sendNotification } from '@/utils.js';
-import React from 'react';
-import { Loader } from 'semantic-ui-react';
-import { Redirect } from 'react-router';
+import { api } from '@/api.js'
+import { AppContext } from '@/AppContext.js'
+import { sendNotification } from '@/utils.js'
+import React from 'react'
+import { Loader } from 'semantic-ui-react'
+import { Redirect } from 'react-router'
 
 /**
  * Handles the authentication callback after a login.
@@ -13,41 +13,41 @@ import { Redirect } from 'react-router';
  * logged in.
  */
 export class LoginCallback extends React.Component {
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
 
-  state = { isLoading: true };
+  state = { isLoading: true }
 
   async componentDidMount() {
-    const { isLoggedIn } = this.context;
+    const { isLoggedIn } = this.context
     if (!isLoggedIn) {
       try {
-        const user = await api.me();
-        AppContext.setUser(user);
+        const user = await api.me()
+        AppContext.setUser(user)
       } catch (e) {
         sendNotification(
           'Error while logging in using CERN credentials',
           e.message
-        );
+        )
       } finally {
-        this.setState({ isLoading: false });
+        this.setState({ isLoading: false })
       }
     }
   }
 
   render() {
-    const { isLoggedIn } = this.context;
-    const { isLoading } = this.state;
+    const { isLoggedIn } = this.context
+    const { isLoading } = this.state
 
     if (isLoading) {
       return (
         <div>
           <Loader active />
         </div>
-      );
+      )
     } else if (isLoggedIn) {
-      return <Redirect to="/" />;
+      return <Redirect to="/" />
     } else {
-      return <Redirect to="/login" />;
+      return <Redirect to="/login" />
     }
   }
 }

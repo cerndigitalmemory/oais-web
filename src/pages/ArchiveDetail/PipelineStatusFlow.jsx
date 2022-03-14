@@ -1,10 +1,10 @@
-import { api } from '@/api.js';
-import { AppContext } from '@/AppContext.js';
-import { sendNotification } from '@/utils.js';
-import { stepType, archiveType } from '@/types.js';
-import { StepStatus, StepStatusLabel, StepNameLabel } from '@/utils.js';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { api } from '@/api.js'
+import { AppContext } from '@/AppContext.js'
+import { sendNotification } from '@/utils.js'
+import { stepType, archiveType } from '@/types.js'
+import { StepStatus, StepStatusLabel, StepNameLabel } from '@/utils.js'
+import PropTypes from 'prop-types'
+import React from 'react'
 import {
   Button,
   Header,
@@ -14,7 +14,7 @@ import {
   Grid,
   Icon,
   Loader,
-} from 'semantic-ui-react';
+} from 'semantic-ui-react'
 
 /**
  * This component shows a flow of the completed or pending steps.
@@ -26,18 +26,18 @@ export class StepsPipeline extends React.Component {
   static propTypes = {
     steps: PropTypes.arrayOf(stepType),
     archive: archiveType.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       nextSteps: this.props.archive.next_steps,
-    };
+    }
   }
 
   render() {
-    const { nextSteps } = this.state;
-    const { archive, steps } = this.props;
+    const { nextSteps } = this.state
+    const { archive, steps } = this.props
 
     return (
       <Segment raised>
@@ -46,7 +46,7 @@ export class StepsPipeline extends React.Component {
         </Label>
         <PipelineStatus steps={steps} archive={archive} nextSteps={nextSteps} />
       </Segment>
-    );
+    )
   }
 }
 
@@ -61,18 +61,18 @@ class PipelineStatus extends React.Component {
     steps: PropTypes.arrayOf(stepType),
     archive: archiveType.isRequired,
     nextSteps: PropTypes.arrayOf(Number),
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    const { steps, archive, nextSteps } = this.props;
-    const lastStep = steps.at(-1); // Gets the latest step
+    const { steps, archive, nextSteps } = this.props
+    const lastStep = steps.at(-1) // Gets the latest step
 
     // Creates the next step button if the next steps array length is greater than 0
-    let nextStepButton;
+    let nextStepButton
     if (nextSteps.length > 0) {
       nextStepButton = (
         <React.Fragment>
@@ -105,7 +105,7 @@ class PipelineStatus extends React.Component {
             </Grid>
           </Popup>
         </React.Fragment>
-      );
+      )
     }
 
     return (
@@ -126,7 +126,7 @@ class PipelineStatus extends React.Component {
           </Grid.Row>
         </Grid>
       </React.Fragment>
-    );
+    )
   }
 }
 
@@ -139,40 +139,40 @@ class PipelineElement extends React.Component {
   static propTypes = {
     step: stepType.isRequired,
     archive: archiveType.isRequired,
-  };
+  }
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: false, // If a failed step is retried show a spinner
-    };
+    }
   }
 
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
 
   handleFailedStep = async (event, { value }) => {
-    this.setState({ nextStep: event.target.value });
-    await api.next_step(value, this.props.archive);
-    this.setState({ loading: true });
-  };
+    this.setState({ nextStep: event.target.value })
+    await api.next_step(value, this.props.archive)
+    this.setState({ loading: true })
+  }
 
   render() {
-    const { step } = this.props;
-    const { user } = this.context;
-    const { loading } = this.state;
+    const { step } = this.props
+    const { user } = this.context
+    const { loading } = this.state
 
-    let color = 'grey';
-    let retryFailed = null;
+    let color = 'grey'
+    let retryFailed = null
     if (step.status === 6) {
-      color = 'red';
+      color = 'red'
     }
     if (step.status === 5) {
-      color = 'yellow';
+      color = 'yellow'
     }
     if (step.status === 4) {
-      color = 'green';
+      color = 'green'
     }
     if (step.status === 3) {
-      color = 'red';
+      color = 'red'
       // If the step is failed, show a retry step button
       if (!loading) {
         retryFailed = (
@@ -182,16 +182,16 @@ class PipelineElement extends React.Component {
             onClick={this.handleFailedStep}
             value={step.name}
           />
-        );
+        )
       } else {
-        retryFailed = <Loader active inline />;
+        retryFailed = <Loader active inline />
       }
     }
     if (step.status === 2) {
-      color = 'blue';
+      color = 'blue'
     }
     if (step.status === 1) {
-      color = 'teal';
+      color = 'teal'
     }
 
     // const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE);
@@ -207,7 +207,7 @@ class PipelineElement extends React.Component {
           </Header>
         </Segment>
       </Grid.Column>
-    );
+    )
   }
 }
 
@@ -218,25 +218,25 @@ class NextStep extends React.Component {
   static propTypes = {
     nextStep: PropTypes.number.isRequired,
     archive: archiveType.isRequired,
-  };
+  }
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       ChooseNextStep: null,
       loading: false,
-    };
+    }
   }
 
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
 
   handleStepChange = async (event, { value }) => {
-    this.setState({ ChooseNextStep: event.target.value });
-    this.setState({ loading: true });
-    await api.next_step(value, this.props.archive);
-  };
+    this.setState({ ChooseNextStep: event.target.value })
+    this.setState({ loading: true })
+    await api.next_step(value, this.props.archive)
+  }
 
   render() {
-    const { nextStep } = this.props;
+    const { nextStep } = this.props
     // const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE);
     // const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE);
 
@@ -246,6 +246,6 @@ class NextStep extends React.Component {
           {StepNameLabel[nextStep]}
         </Button>
       </Grid.Row>
-    );
+    )
   }
 }

@@ -1,12 +1,12 @@
-import { api } from '@/api.js';
-import { AppContext } from '@/AppContext.js';
-import { archiveType, archiveTypeDetailed } from '@/types.js';
-import { formatDateTime } from '@/utils.js';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Button, Table, Loader } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { sendNotification } from '@/utils.js';
+import { api } from '@/api.js'
+import { AppContext } from '@/AppContext.js'
+import { archiveType, archiveTypeDetailed } from '@/types.js'
+import { formatDateTime } from '@/utils.js'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Button, Table, Loader } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { sendNotification } from '@/utils.js'
 
 export class ArchivesList extends React.Component {
   static propTypes = {
@@ -15,7 +15,7 @@ export class ArchivesList extends React.Component {
     checkArchiveAdd: PropTypes.func.isRequired,
     checkArchiveRemove: PropTypes.func.isRequired,
     detailedArchives: PropTypes.arrayOf(archiveTypeDetailed),
-  };
+  }
 
   render() {
     const {
@@ -24,7 +24,7 @@ export class ArchivesList extends React.Component {
       onArchiveUpdate,
       checkArchiveAdd,
       checkArchiveRemove,
-    } = this.props;
+    } = this.props
     return (
       <Table textAlign="center">
         <Table.Header>
@@ -50,7 +50,7 @@ export class ArchivesList extends React.Component {
           ))}
         </Table.Body>
       </Table>
-    );
+    )
   }
 }
 
@@ -60,41 +60,41 @@ class Archive extends React.Component {
     onArchiveUpdate: PropTypes.func.isRequired,
     checkArchiveAdd: PropTypes.func.isRequired,
     checkArchiveRemove: PropTypes.func.isRequired,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      checked: false,
-    };
   }
 
-  static contextType = AppContext.Context;
+  constructor(props) {
+    super(props)
+    this.state = {
+      checked: false,
+    }
+  }
+
+  static contextType = AppContext.Context
 
   toggleChecked = () => {
     // Handles the check/uncheck of a record
-    const { checkArchiveAdd, checkArchiveRemove, archive } = this.props;
+    const { checkArchiveAdd, checkArchiveRemove, archive } = this.props
     this.setState((state) => ({
       checked: !state.checked,
-    }));
+    }))
     if (!this.state.checked) {
-      checkArchiveAdd(archive);
+      checkArchiveAdd(archive)
     } else {
-      checkArchiveRemove(archive);
+      checkArchiveRemove(archive)
     }
-  };
+  }
 
   render() {
-    const { archive } = this.props;
-    const { user } = this.context;
-    const { checked } = this.state;
+    const { archive } = this.props
+    const { user } = this.context
+    const { checked } = this.state
 
-    let StatusLabel;
+    let StatusLabel
 
     if (archive.duplicates.length == 0) {
-      StatusLabel = <p>New</p>;
+      StatusLabel = <p>New</p>
     } else {
-      StatusLabel = <p> Exists ({archive.duplicates.length}) </p>;
+      StatusLabel = <p> Exists ({archive.duplicates.length}) </p>
     }
 
     return (
@@ -120,7 +120,7 @@ class Archive extends React.Component {
           />
         </Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }
 
@@ -129,13 +129,13 @@ class ArchiveActions extends React.Component {
     archive: archiveType.isRequired,
     checked: PropTypes.bool,
     toggleChecked: PropTypes.func.isRequired,
-  };
+  }
 
   render() {
-    const { checked } = this.props;
-    const { toggleChecked } = this.props;
+    const { checked } = this.props
+    const { toggleChecked } = this.props
 
-    let checkButton;
+    let checkButton
     if (checked) {
       checkButton = (
         <Button
@@ -145,7 +145,7 @@ class ArchiveActions extends React.Component {
           onClick={toggleChecked}
           title="Check"
         />
-      );
+      )
     } else {
       checkButton = (
         <Button
@@ -156,9 +156,9 @@ class ArchiveActions extends React.Component {
           onClick={toggleChecked}
           title="Check"
         />
-      );
+      )
     }
 
-    return <div>{checkButton}</div>;
+    return <div>{checkButton}</div>
   }
 }

@@ -1,10 +1,10 @@
-import { api } from '@/api.js';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { collectionType, archiveType } from '@/types.js';
-import { Loader, Button, Modal } from 'semantic-ui-react';
-import { PaginatedCollectionsList } from '@/components/AddArchivesToExistingCollection/AddPaginatedCollectionsList.jsx';
-import { sendNotification } from '@/utils.js';
+import { api } from '@/api.js'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { collectionType, archiveType } from '@/types.js'
+import { Loader, Button, Modal } from 'semantic-ui-react'
+import { PaginatedCollectionsList } from '@/components/AddArchivesToExistingCollection/AddPaginatedCollectionsList.jsx'
+import { sendNotification } from '@/utils.js'
 
 /**
  * This component adds archives to a collection from the archive side.
@@ -18,10 +18,10 @@ export class AddToCollection extends React.Component {
     onCollectionAddition: PropTypes.func, // a function to call after the archive has been added to a collection
     archives: PropTypes.arrayOf(PropTypes.number), // an array of selected archives which will be added to the collection
     label: PropTypes.string, // the label of the modal button
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       collectionsToAdd: [], // a list to store all the checked collections
       collections: [], // stores all the collections loaded
@@ -31,31 +31,31 @@ export class AddToCollection extends React.Component {
       totalCollections: 0,
       checked: null,
       label: 'Add to Collection',
-    };
+    }
   }
 
-  getCollections = (page) => api.collections(page);
+  getCollections = (page) => api.collections(page)
 
   addArchivesToCollection = (id, archives) =>
-    api.add_archives_to_collection(id, archives);
+    api.add_archives_to_collection(id, archives)
 
   loadCollections = async (page) => {
     try {
       const { results: collections, count: totalCollections } =
-        await this.getCollections(page);
+        await this.getCollections(page)
       this.setState({
         collections: collections,
         page: page,
         totalCollections: totalCollections,
-      });
+      })
     } catch (e) {
-      sendNotification('Error while loading collections', e.message);
+      sendNotification('Error while loading collections', e.message)
     }
-  };
+  }
 
   loadLabel() {
     if (this.props.label) {
-      this.setState({ label: this.props.label });
+      this.setState({ label: this.props.label })
     }
   }
 
@@ -65,29 +65,29 @@ export class AddToCollection extends React.Component {
      * so the loading state should be set to true. After the data has been fetched, then
      * the loading is set to false and the collection data are rendered
      */
-    this.loadCollections(this.state.page);
-    this.loadLabel();
-    this.setState({ loading: false });
+    this.loadCollections(this.state.page)
+    this.loadLabel()
+    this.setState({ loading: false })
   }
 
   setOpen = (value) => {
-    this.setState({ open: value });
-  };
+    this.setState({ open: value })
+  }
 
   addCollection = (collection) => {
-    this.setState({ collectionsToAdd: collection, checked: collection.id });
-  };
+    this.setState({ collectionsToAdd: collection, checked: collection.id })
+  }
 
   removeCollection = (collection) => {
-    this.setState({ collectionsToAdd: null, checked: null });
-  };
+    this.setState({ collectionsToAdd: null, checked: null })
+  }
 
   handleCollectionsAdd = () => {
-    const collectionsToAdd = this.state.collectionsToAdd;
-    this.addArchivesToCollection(collectionsToAdd.id, this.props.archives);
-    this.props.onCollectionAddition();
-    this.setOpen(false);
-  };
+    const collectionsToAdd = this.state.collectionsToAdd
+    this.addArchivesToCollection(collectionsToAdd.id, this.props.archives)
+    this.props.onCollectionAddition()
+    this.setOpen(false)
+  }
 
   render() {
     const {
@@ -98,9 +98,9 @@ export class AddToCollection extends React.Component {
       totalCollections,
       collections,
       loading,
-    } = this.state;
+    } = this.state
 
-    const loadingSpinner = <Loader active inline="centered" />;
+    const loadingSpinner = <Loader active inline="centered" />
 
     return (
       <Modal
@@ -141,6 +141,6 @@ export class AddToCollection extends React.Component {
           />
         </Modal.Actions>
       </Modal>
-    );
+    )
   }
 }

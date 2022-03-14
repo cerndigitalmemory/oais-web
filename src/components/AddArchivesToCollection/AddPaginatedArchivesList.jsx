@@ -1,10 +1,10 @@
-import { ArchivesList } from '@/components/AddArchivesToCollection/ArchivesList.jsx';
-import { PageControls } from '@/components/AddArchivesToCollection/PageControls.jsx';
-import { sendNotification } from '@/utils.js';
-import { collectionType, archiveType } from '@/types.js';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Loader } from 'semantic-ui-react';
+import { ArchivesList } from '@/components/AddArchivesToCollection/ArchivesList.jsx'
+import { PageControls } from '@/components/AddArchivesToCollection/PageControls.jsx'
+import { sendNotification } from '@/utils.js'
+import { collectionType, archiveType } from '@/types.js'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Loader } from 'semantic-ui-react'
 
 /**
  * This component gets the archives and creates a paginated list of the archives together with the page controls.
@@ -18,15 +18,15 @@ export class PaginatedArchivesList extends React.Component {
     totalArchives: PropTypes.number.isRequired,
     prevArchives: PropTypes.arrayOf(archiveType),
     newArchives: PropTypes.arrayOf(archiveType).isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    const { newArchives, page, totalArchives, prevArchives } = this.props;
-    let pageCount = Math.ceil(totalArchives / 10);
+    const { newArchives, page, totalArchives, prevArchives } = this.props
+    let pageCount = Math.ceil(totalArchives / 10)
 
     return (
       <div>
@@ -45,6 +45,6 @@ export class PaginatedArchivesList extends React.Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }

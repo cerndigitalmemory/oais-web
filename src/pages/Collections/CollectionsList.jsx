@@ -1,6 +1,6 @@
-import { api } from '@/api.js';
-import { AppContext } from '@/AppContext.js';
-import { collectionType } from '@/types.js';
+import { api } from '@/api.js'
+import { AppContext } from '@/AppContext.js'
+import { collectionType } from '@/types.js'
 import {
   StepStatus,
   StepStatusLabel,
@@ -10,22 +10,22 @@ import {
   hasPermission,
   Permissions,
   sendNotification,
-} from '@/utils.js';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Button, Table, Icon, Modal, Header } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import _ from 'lodash';
+} from '@/utils.js'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Button, Table, Icon, Modal, Header } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 export class CollectionsList extends React.Component {
   static propTypes = {
     collections: PropTypes.arrayOf(collectionType).isRequired,
     onCollectionUpdate: PropTypes.func.isRequired,
     page: PropTypes.number,
-  };
+  }
 
   render() {
-    const { collections, onCollectionUpdate, page } = this.props;
+    const { collections, onCollectionUpdate, page } = this.props
 
     return (
       <Table textAlign="center">
@@ -51,7 +51,7 @@ export class CollectionsList extends React.Component {
           ))}
         </Table.Body>
       </Table>
-    );
+    )
   }
 }
 
@@ -60,32 +60,32 @@ class Collection extends React.Component {
     collection: collectionType.isRequired,
     onCollectionUpdate: PropTypes.func.isRequired,
     page: PropTypes.number,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-    };
   }
 
-  static contextType = AppContext.Context;
+  constructor(props) {
+    super(props)
+    this.state = {
+      open: false,
+    }
+  }
 
-  deleteCollection = (id) => api.delete_collection(id);
+  static contextType = AppContext.Context
+
+  deleteCollection = (id) => api.delete_collection(id)
 
   handleDelete = (id) => {
-    this.deleteCollection(id);
-    this.props.onCollectionUpdate(this.props.page);
-    this.setOpen(false);
-  };
+    this.deleteCollection(id)
+    this.props.onCollectionUpdate(this.props.page)
+    this.setOpen(false)
+  }
 
   setOpen = (value) => {
-    this.setState({ open: value });
-  };
+    this.setState({ open: value })
+  }
 
   render() {
-    const { collection } = this.props;
-    const { user } = this.context;
+    const { collection } = this.props
+    const { user } = this.context
 
     let deleteModal = (
       <Modal
@@ -111,7 +111,7 @@ class Collection extends React.Component {
           </Button>
         </Modal.Actions>
       </Modal>
-    );
+    )
 
     return (
       <Table.Row>
@@ -132,6 +132,6 @@ class Collection extends React.Component {
           {deleteModal}
         </Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }

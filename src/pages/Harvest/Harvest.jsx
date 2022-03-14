@@ -1,13 +1,13 @@
-import { api } from '@/api.js';
-import { RecordsList } from '@/pages/Harvest/RecordsList.jsx';
-import { sendNotification } from '@/utils.js';
-import _ from 'lodash';
-import React from 'react';
-import { SearchPagination } from '@/pages/Harvest/SearchPagination.jsx';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Button, Grid } from 'semantic-ui-react';
-import SearchForm from '@/pages/Harvest/HarvestSearchForm.jsx';
+import { api } from '@/api.js'
+import { RecordsList } from '@/pages/Harvest/RecordsList.jsx'
+import { sendNotification } from '@/utils.js'
+import _ from 'lodash'
+import React from 'react'
+import { SearchPagination } from '@/pages/Harvest/SearchPagination.jsx'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Button, Grid } from 'semantic-ui-react'
+import SearchForm from '@/pages/Harvest/HarvestSearchForm.jsx'
 
 // Harvest page is displayed at /harvest page.
 // It performs the search and displays the results through the RecordList component
@@ -20,47 +20,47 @@ class Harvest extends React.Component {
     activePage: 1,
     totalNumHits: null,
     hitsPerPage: 20,
-  };
+  }
 
   // Changes the query state at the redux
   handleQueryChange = (query) => {
-    this.props.setQuery(query);
-  };
+    this.props.setQuery(query)
+  }
 
   // Changes the source state at redux
   handleSourceChange = (source) => {
-    this.props.setSource(source);
-  };
+    this.props.setSource(source)
+  }
 
   // Changes the search by ID state at redux
   handleSearchByIdChange = (searchById) => {
-    this.props.setID(searchById);
-  };
+    this.props.setID(searchById)
+  }
 
   checkRecordAdd = (record) => {
-    this.props.addRecord(record);
-  };
+    this.props.addRecord(record)
+  }
 
   removeAllRecords = () => {
-    this.props.removeAll();
-  };
+    this.props.removeAll()
+  }
 
   addAllRecords = (record) => {
-    this.props.addAll(record);
-  };
+    this.props.addAll(record)
+  }
 
   checkRecordRemove = (record) => {
-    this.props.removeRecord(record);
-  };
+    this.props.removeRecord(record)
+  }
 
   // Calls the handleSearch function when the component is mounted and there is an active state from redux
   componentDidMount() {
     if (this.props.source && this.props.query) {
-      this.handleSearch(this.props.source, this.props.query);
+      this.handleSearch(this.props.source, this.props.query)
     }
   }
 
-  getDetailedRecords = (records) => api.getCheckRecordsArchived(records);
+  getDetailedRecords = (records) => api.getCheckRecordsArchived(records)
 
   // Handles the search
   handleSearch = async (source, query, page = 1, size = 20) => {
@@ -69,72 +69,70 @@ class Harvest extends React.Component {
       activePage: Number(page),
       hitsPerPage: Number(size),
       detailedResults: null,
-    });
+    })
     try {
       if (this.props.searchById) {
-        const response = await api.search_by_id(source, query);
+        const response = await api.search_by_id(source, query)
         this.setState({
           results: response.result,
           totalNumHits: response.result.length,
-        });
+        })
       } else {
-        const response = await api.search(source, query, page, size);
+        const response = await api.search(source, query, page, size)
         this.setState({
           results: response.results,
           totalNumHits: Number(response.total_num_hits),
-        });
+        })
       }
     } catch (e) {
-      sendNotification('Error while searching', e.message);
-      this.setState({ isLoading: false });
+      sendNotification('Error while searching', e.message)
+      this.setState({ isLoading: false })
     } finally {
-      const detailedResponse = await this.getDetailedRecords(
-        this.state.results
-      );
-      this.setState({ detailedResults: detailedResponse });
+      const detailedResponse = await this.getDetailedRecords(this.state.results)
+      this.setState({ detailedResults: detailedResponse })
     }
-    this.setState({ isLoading: false });
-  };
+    this.setState({ isLoading: false })
+  }
 
   autoArchive = async (checkedRecord) => {
-    const old = JSON.parse(localStorage.getItem('Records'));
-    let newArry;
+    const old = JSON.parse(localStorage.getItem('Records'))
+    let newArry
     if (old) {
-      newArry = old.concat(checkedRecord);
+      newArry = old.concat(checkedRecord)
     } else {
-      newArry = [checkedRecord];
+      newArry = [checkedRecord]
     }
 
-    localStorage.setItem('Records', JSON.stringify(newArry));
-  };
+    localStorage.setItem('Records', JSON.stringify(newArry))
+  }
 
   handleArchiveButtonClick = async () => {
     if (this.props.checkedRecords.length === 0) {
-      sendNotification('There are no records checked');
+      sendNotification('There are no records checked')
     } else {
-      this.setState({ archivedList: this.props.checkedRecords });
+      this.setState({ archivedList: this.props.checkedRecords })
       this.props.checkedRecords.map((checkedRecord) => {
-        this.autoArchive(checkedRecord);
-      });
+        this.autoArchive(checkedRecord)
+      })
       sendNotification(
         this.props.checkedRecords.length + ' record(s) staged successfully!',
         'Check staged records page for more information'
-      );
+      )
     }
 
-    this.removeAllRecords();
-  };
+    this.removeAllRecords()
+  }
 
   handleCheckAll = () => {
-    this.addAllRecords(this.state.records);
-  };
+    this.addAllRecords(this.state.records)
+  }
 
   handleRemoveAll = () => {
-    this.removeAllRecords();
-  };
+    this.removeAllRecords()
+  }
 
   render() {
-    const { isLoading, detailedResults, results } = this.state;
+    const { isLoading, detailedResults, results } = this.state
 
     const archiveButton = (
       <div>
@@ -148,7 +146,7 @@ class Harvest extends React.Component {
           Add all
         </Button>
       </div>
-    );
+    )
 
     return (
       <React.Fragment>
@@ -208,7 +206,7 @@ class Harvest extends React.Component {
           <p>No results found.</p>
         )}
       </React.Fragment>
-    );
+    )
   }
 }
 
@@ -219,15 +217,15 @@ export class SizeRadio extends React.Component {
     query: PropTypes.string.isRequired,
     source: PropTypes.string.isRequired,
     hasResults: PropTypes.bool.isRequired,
-  };
+  }
 
   sizeChange = (event, { value }) => {
-    event.preventDefault();
-    this.props.onSearch(this.props.source, this.props.query, 1, value);
-  };
+    event.preventDefault()
+    this.props.onSearch(this.props.source, this.props.query, 1, value)
+  }
 
   render() {
-    let sizeOptions = [10, 20, 50];
+    let sizeOptions = [10, 20, 50]
 
     return this.props.hasResults ? (
       <div>
@@ -245,7 +243,7 @@ export class SizeRadio extends React.Component {
           ))}
         </Button.Group>
       </div>
-    ) : null;
+    ) : null
   }
 }
 
@@ -256,34 +254,34 @@ const mapStateToProps = (state) => {
     source: state.source,
     searchById: state.searchById,
     checkedRecords: state.checkedRecords,
-  };
-};
+  }
+}
 
 // Dispatches the following functions which change the redux state when called
 const mapDispatchToProps = (dispatch) => {
   return {
     setQuery: (query) => {
-      dispatch({ type: 'setQuery', query: query });
+      dispatch({ type: 'setQuery', query: query })
     },
     setSource: (source) => {
-      dispatch({ type: 'setSource', source: source });
+      dispatch({ type: 'setSource', source: source })
     },
     setID: (searchById) => {
-      dispatch({ type: 'setID', searchById: searchById });
+      dispatch({ type: 'setID', searchById: searchById })
     },
     addRecord: (record) => {
-      dispatch({ type: 'addRecord', record: record });
+      dispatch({ type: 'addRecord', record: record })
     },
     removeRecord: (record) => {
-      dispatch({ type: 'removeRecord', record: record });
+      dispatch({ type: 'removeRecord', record: record })
     },
     removeAll: () => {
-      dispatch({ type: 'removeAll' });
+      dispatch({ type: 'removeAll' })
     },
     addAll: (records) => {
-      dispatch({ type: 'addAll', record: records });
+      dispatch({ type: 'addAll', record: records })
     },
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Harvest);
+export default connect(mapStateToProps, mapDispatchToProps)(Harvest)

@@ -1,5 +1,5 @@
-import { arrayOf, exact, number, string } from 'prop-types';
-import { List } from 'semantic-ui-react';
+import { arrayOf, exact, number, string } from 'prop-types'
+import { List } from 'semantic-ui-react'
 
 export const recordType = exact({
   id: number,
@@ -8,12 +8,12 @@ export const recordType = exact({
   title: string,
   source: string.isRequired,
   authors: arrayOf(string),
-});
+})
 
 export const recordTypeDetailed = exact({
   /*
-  * This is a record type with a list of "similar" archives (same recid + source)
-  */
+   * This is a record type with a list of "similar" archives (same recid + source)
+   */
   id: number,
   url: string.isRequired,
   recid: string.isRequired,
@@ -21,12 +21,12 @@ export const recordTypeDetailed = exact({
   source: string.isRequired,
   authors: arrayOf(string),
   archives: List,
-});
+})
 
 export const notificationType = exact({
   title: string.isRequired,
   body: string.isRequired,
-});
+})
 
 export const userType = exact({
   id: number.isRequired,
@@ -34,7 +34,7 @@ export const userType = exact({
   permissions: arrayOf(string).isRequired,
   first_name: string,
   last_name: string,
-});
+})
 
 export const archiveType = exact({
   id: number.isRequired,
@@ -47,10 +47,10 @@ export const archiveType = exact({
   path_to_sip: string,
   next_steps: List,
   manifest: JSON,
-});
+})
 
 export const archiveTypeDetailed = exact({
-  // This is an archive type with a list of similar archives (same recid + source) 
+  // This is an archive type with a list of similar archives (same recid + source)
   // and a list of the collections this archive is in
   id: number.isRequired,
   source_url: string.isRequired,
@@ -65,7 +65,7 @@ export const archiveTypeDetailed = exact({
   collections: List,
   steps: List,
   duplicates: List,
-});
+})
 
 export const stepType = exact({
   id: number.isRequired,
@@ -78,7 +78,7 @@ export const stepType = exact({
   input_data: string,
   input_step: number,
   output_data: string,
-});
+})
 
 export const collectionType = exact({
   id: number.isRequired,
@@ -88,4 +88,4 @@ export const collectionType = exact({
   timestamp: string,
   last_modification_date: string,
   archives: arrayOf(archiveType),
-});
+})

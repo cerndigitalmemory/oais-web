@@ -1,12 +1,12 @@
-import { api } from '@/api.js';
-import { PaginatedStepsList } from '@/pages/ArchiveDetail/PaginatedStepsList.jsx';
-import { ArchiveInfo } from '@/pages/ArchiveDetail/ArchiveInfo.jsx';
-import { StepsPipeline } from '@/pages/ArchiveDetail/PipelineStatusFlow.jsx';
-import { ArchiveCollectionsList } from '@/pages/ArchiveDetail/ArchiveCollections.jsx';
-import React from 'react';
-import PropTypes from 'prop-types';
-import { sendNotification } from '@/utils.js';
-import { Loader } from 'semantic-ui-react';
+import { api } from '@/api.js'
+import { PaginatedStepsList } from '@/pages/ArchiveDetail/PaginatedStepsList.jsx'
+import { ArchiveInfo } from '@/pages/ArchiveDetail/ArchiveInfo.jsx'
+import { StepsPipeline } from '@/pages/ArchiveDetail/PipelineStatusFlow.jsx'
+import { ArchiveCollectionsList } from '@/pages/ArchiveDetail/ArchiveCollections.jsx'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { sendNotification } from '@/utils.js'
+import { Loader } from 'semantic-ui-react'
 
 /**
  * This page shows the details of each harvested archive.
@@ -20,77 +20,77 @@ export class ArchiveSteps extends React.Component {
     match: PropTypes.shape({
       params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
     }).isRequired, // Gets the id from the url and sets it as prop
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       loading: true, // Shows a loading spinner till the archive and steps are fetched from the API call
       steps: [], // Stores the steps of the current archive
       archive: null, // Stores the archive details
       collections: [],
       loadingCollections: true,
-    };
+    }
   }
 
-  getArchive = (id) => api.archive_details(id); // API call to get archive details
+  getArchive = (id) => api.archive_details(id) // API call to get archive details
 
-  getSteps = (id) => api.get_archive_steps(id); // API call to get steps
+  getSteps = (id) => api.get_archive_steps(id) // API call to get steps
 
-  getCollections = (id) => api.getArchiveCollections(id);
+  getCollections = (id) => api.getArchiveCollections(id)
 
   loadArchive = async () => {
     try {
-      const archive = await this.getArchive(this.props.match.params.id);
-      this.setState({ archive: archive });
+      const archive = await this.getArchive(this.props.match.params.id)
+      this.setState({ archive: archive })
     } catch (e) {
-      sendNotification('Error while fetching archives', e.message);
+      sendNotification('Error while fetching archives', e.message)
     }
-  };
+  }
 
   loadSteps = async () => {
     try {
-      const steps = await this.getSteps(this.props.match.params.id);
-      this.setState({ steps: steps });
+      const steps = await this.getSteps(this.props.match.params.id)
+      this.setState({ steps: steps })
     } catch (e) {
-      sendNotification('Error while fetching steps', e.message);
+      sendNotification('Error while fetching steps', e.message)
     }
-  };
+  }
 
   loadCollections = async () => {
-    this.setState({ loadingCollections: true });
+    this.setState({ loadingCollections: true })
     try {
       const { results: collections } = await this.getCollections(
         this.props.match.params.id
-      );
-      this.setState({ collections });
+      )
+      this.setState({ collections })
     } catch (e) {
-      sendNotification('Error while fetching collections', e.message);
+      sendNotification('Error while fetching collections', e.message)
     } finally {
-      this.setState({ loadingCollections: false });
+      this.setState({ loadingCollections: false })
     }
-  };
+  }
 
   componentDidMount() {
-    this.loadSteps();
-    this.loadArchive();
-    this.loadCollections();
-    this.setState({ loading: false });
+    this.loadSteps()
+    this.loadArchive()
+    this.loadCollections()
+    this.setState({ loading: false })
     // Loads steps and archive details and then sets loading state to false
   }
 
   render() {
-    const { id } = this.props.match.params;
+    const { id } = this.props.match.params
     const { loading, steps, archive, collections, loadingCollections } =
-      this.state;
+      this.state
 
-    const loadingSpinner = <Loader active inline="centered" />;
+    const loadingSpinner = <Loader active inline="centered" />
 
-    let collectionsSegment;
+    let collectionsSegment
     if (collections.length > 0) {
       collectionsSegment = (
         <ArchiveCollectionsList archive={archive} collections={collections} />
-      );
+      )
     }
 
     return (
@@ -120,6 +120,6 @@ export class ArchiveSteps extends React.Component {
           <PaginatedStepsList archive={archive} steps={steps} />
         )}
       </React.Fragment>
-    );
+    )
   }
 }

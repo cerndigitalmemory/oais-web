@@ -1,37 +1,37 @@
-import { api } from '@/api.js';
-import { sendNotification } from '@/utils.js';
-import PropTypes from 'prop-types';
-import { Divider, Header, Table, Segment } from 'semantic-ui-react';
-import React from 'react';
+import { api } from '@/api.js'
+import { sendNotification } from '@/utils.js'
+import PropTypes from 'prop-types'
+import { Divider, Header, Table, Segment } from 'semantic-ui-react'
+import React from 'react'
 
 export class SIPDetailPage extends React.Component {
   static propTypes = {
     match: PropTypes.shape({
       params: PropTypes.shape({ id: PropTypes.string.isRequired }).isRequired,
     }).isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       record: {},
-    };
+    }
   }
 
   async componentDidMount() {
-    const { id } = this.props.match.params;
+    const { id } = this.props.match.params
     try {
-      const record = await api.record(id);
-      this.setState({ record });
+      const record = await api.record(id)
+      this.setState({ record })
     } catch (e) {
-      sendNotification('Error while fetching record details', e.message);
+      sendNotification('Error while fetching record details', e.message)
     }
   }
 
   render() {
-    const { id } = this.props.match.params;
-    const { record } = this.state;
-    const mock = { date: '15.09.2021 15:45', size: 12902 };
+    const { id } = this.props.match.params
+    const { record } = this.state
+    const mock = { date: '15.09.2021 15:45', size: 12902 }
     return (
       <React.Fragment>
         <h1>Archive {record.id}</h1>
@@ -93,6 +93,6 @@ export class SIPDetailPage extends React.Component {
           </Table>
         </Segment>
       </React.Fragment>
-    );
+    )
   }
 }

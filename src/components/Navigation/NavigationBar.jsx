@@ -1,17 +1,17 @@
-import { AppContext } from '@/AppContext.js';
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, Icon } from 'semantic-ui-react';
+import { AppContext } from '@/AppContext.js'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Menu, Icon } from 'semantic-ui-react'
 
 /**
  * Renders the Navigation Bar, keeping track of the active page and
  * showing some links only to authenticated users.
  */
 export class NavigationBar extends React.Component {
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
 
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       activeItem: window.location.pathname,
@@ -79,15 +79,15 @@ export class NavigationBar extends React.Component {
           loggedIn: false,
         },
       ],
-    };
+    }
   }
 
   handleItemClick = (e, { name }) => {
-    this.setState({ activeItem: name });
-  };
+    this.setState({ activeItem: name })
+  }
 
   render() {
-    const { isLoggedIn, user } = this.context;
+    const { isLoggedIn, user } = this.context
 
     return (
       <Menu secondary>
@@ -116,6 +116,6 @@ export class NavigationBar extends React.Component {
           </Menu.Menu>
         )}
       </Menu>
-    );
+    )
   }
 }

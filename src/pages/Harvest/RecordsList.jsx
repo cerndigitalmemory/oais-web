@@ -1,11 +1,11 @@
-import { api } from '@/api.js';
-import { archiveType, recordType, recordTypeDetailed } from '@/types.js';
-import { sendNotification, formatDateTime } from '@/utils.js';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Button, Table, Icon, Popup, Grid, Header} from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { Storage } from '@/storage.js';
+import { api } from '@/api.js'
+import { archiveType, recordType, recordTypeDetailed } from '@/types.js'
+import { sendNotification, formatDateTime } from '@/utils.js'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Button, Table, Icon, Popup, Grid, Header } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Storage } from '@/storage.js'
 
 export class RecordsList extends React.Component {
   /* 
@@ -18,14 +18,14 @@ export class RecordsList extends React.Component {
     addRecord: PropTypes.func.isRequired,
     removeRecord: PropTypes.func.isRequired,
     checkedList: PropTypes.arrayOf(recordType).isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    const StagedRecordsList = Storage.getAllRecords();
+    const StagedRecordsList = Storage.getAllRecords()
 
     return (
       <div>
@@ -62,7 +62,7 @@ export class RecordsList extends React.Component {
           </Table.Body>
         </Table>
       </div>
-    );
+    )
   }
 }
 
@@ -74,15 +74,15 @@ class Record extends React.Component {
     checkRecordRemove: PropTypes.func.isRequired,
     checkedRecord: PropTypes.arrayOf(recordType),
     archivedList: PropTypes.arrayOf(recordType),
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       collapsed: true,
       archived: false,
       archive: null,
-    };
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -92,43 +92,43 @@ class Record extends React.Component {
       If it is not in the list toogle status to false
     */
     if (prevProps.archivedList != this.props.archivedList) {
-      let archived = false;
+      let archived = false
       this.props.archivedList.map((archivedItem) => {
         if (archivedItem.recid === this.props.record.recid) {
-          archived = true;
+          archived = true
         }
-      });
-      this.setState({ archived: archived });
+      })
+      this.setState({ archived: archived })
     }
   }
 
   toggleChecked = () => {
     // Handles the check/uncheck of a record
-    const { record, checkedRecord } = this.props;
-    const { checkRecordAdd } = this.props;
-    const { checkRecordRemove } = this.props;
+    const { record, checkedRecord } = this.props
+    const { checkRecordAdd } = this.props
+    const { checkRecordRemove } = this.props
     if (checkedRecord[0]) {
-      checkRecordRemove(record);
+      checkRecordRemove(record)
     } else {
-      checkRecordAdd(record);
+      checkRecordAdd(record)
     }
-  };
+  }
 
   toggleCollapse = () => {
     this.setState((state) => ({
       collapsed: !state.collapsed,
-    }));
-  };
+    }))
+  }
 
   render() {
-    const { record, detailedRecord, checkedRecord } = this.props;
-    const { collapsed, archive, archived } = this.state;
+    const { record, detailedRecord, checkedRecord } = this.props
+    const { collapsed, archive, archived } = this.state
 
-    let archivedRecord = null;
+    let archivedRecord = null
     if (detailedRecord[0].archives.length > 0) {
-      let timeWord = 'time';
+      let timeWord = 'time'
       if (detailedRecord[0].archives.length > 1) {
-        timeWord = 'times';
+        timeWord = 'times'
       }
       archivedRecord = (
         <Popup
@@ -151,7 +151,7 @@ class Record extends React.Component {
             </Grid.Column>
           </Grid>
         </Popup>
-      );
+      )
     }
 
     return (
@@ -168,7 +168,7 @@ class Record extends React.Component {
           />
         </Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }
 
@@ -181,24 +181,18 @@ class RecordActions extends React.Component {
     checkedRecord: PropTypes.arrayOf(recordType),
     toggleCollapse: PropTypes.func.isRequired,
     toggleChecked: PropTypes.func.isRequired,
-  };
+  }
 
   render() {
-    const { record, archived, checkedRecord } = this.props;
-    const { toggleChecked } = this.props;
+    const { record, archived, checkedRecord } = this.props
+    const { toggleChecked } = this.props
 
-    let checkButton;
+    let checkButton
     if (archived == false) {
       if (checkedRecord[0]) {
         checkButton = (
-          
-          <Button
-            circular
-            basic
-            icon="circle"
-            onClick={toggleChecked}
-          />
-        );
+          <Button circular basic icon="circle" onClick={toggleChecked} />
+        )
       } else {
         checkButton = (
           <Button
@@ -207,11 +201,20 @@ class RecordActions extends React.Component {
             icon="circle outline"
             onClick={toggleChecked}
           />
-        );
+        )
       }
     } else {
       // To trigger the popup while hovering on a disabled element, they need to be wrapped in <span> element. See https://github.com/Semantic-Org/Semantic-UI-React/issues/1413
-      checkButton = <Popup content='This record was already added to the Staging Area' trigger={<span><Button circular basic icon="circle" disabled /> </span>}/>;
+      checkButton = (
+        <Popup
+          content="This record was already added to the Staging Area"
+          trigger={
+            <span>
+              <Button circular basic icon="circle" disabled />{' '}
+            </span>
+          }
+        />
+      )
     }
 
     const sourceURLButton = (
@@ -221,7 +224,7 @@ class RecordActions extends React.Component {
         target="_blank"
         icon="globe"
       />
-    );
+    )
 
     return (
       <div>
@@ -229,19 +232,18 @@ class RecordActions extends React.Component {
           {sourceURLButton}
           {checkButton}
         </Button.Group>
-        
       </div>
-    );
+    )
   }
 }
 
 class ShowArchive extends React.Component {
   static propTypes = {
     archive: archiveType,
-  };
+  }
 
   render() {
-    const { archive } = this.props;
+    const { archive } = this.props
 
     return (
       <Grid.Row>
@@ -252,6 +254,6 @@ class ShowArchive extends React.Component {
         {' harvested on '}
         {formatDateTime(archive.timestamp)}
       </Grid.Row>
-    );
+    )
   }
 }

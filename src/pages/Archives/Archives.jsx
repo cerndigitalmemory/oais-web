@@ -1,6 +1,6 @@
-import { api } from '@/api.js';
-import { PaginatedArchivesList } from '@/pages/Archives/PaginatedArchivesList.jsx';
-import React from 'react';
+import { api } from '@/api.js'
+import { PaginatedArchivesList } from '@/pages/Archives/PaginatedArchivesList.jsx'
+import React from 'react'
 
 /**
  * This page shows a list of all the harvested archives including information like:
@@ -13,6 +13,6 @@ export class Archives extends React.Component {
         <h1>Archives</h1>
         <PaginatedArchivesList getArchives={(page) => api.archives(page)} />
       </React.Fragment>
-    );
+    )
   }
 }

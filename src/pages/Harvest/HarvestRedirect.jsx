@@ -1,9 +1,9 @@
-import _ from 'lodash';
-import React from 'react';
-import { Storage } from '@/storage.js';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import _ from 'lodash'
+import React from 'react'
+import { Storage } from '@/storage.js'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import {
   Button,
   Form,
@@ -12,7 +12,7 @@ import {
   Grid,
   GridColumn,
   Icon,
-} from 'semantic-ui-react';
+} from 'semantic-ui-react'
 
 /* 
   HarvestRedirect page is displayed at /add-resource page. 
@@ -26,31 +26,31 @@ class HarvestRedirect extends React.Component {
     activePage: 1,
     totalNumHits: null,
     hitsPerPage: 20,
-  };
+  }
 
   handleQueryChange = (query) => {
     // Changes the value of the query state (redux)
-    this.props.setQuery(query);
-  };
+    this.props.setQuery(query)
+  }
 
   handleSourceChange = (source) => {
     // Changes the value of the source state (redux)
-    this.props.setSource(source);
-  };
+    this.props.setSource(source)
+  }
 
   handleSearchByIdChange = (searchById) => {
     // Changes the value of the searchByID state (redux)
-    this.props.setID(searchById);
-  };
+    this.props.setID(searchById)
+  }
 
   handleRedirect = async () => {
     // Handles the redirect state to the Harvest page
-    this.setState({ isRedirect: true });
-  };
+    this.setState({ isRedirect: true })
+  }
 
   render() {
-    const { isRedirect } = this.state;
-    const sources = ['cds', 'zenodo', 'inveniordm', 'cod', 'indico'];
+    const { isRedirect } = this.state
+    const sources = ['cds', 'zenodo', 'inveniordm', 'cod', 'indico']
     return (
       <React.Fragment>
         <h1>Harvest</h1>
@@ -69,7 +69,7 @@ class HarvestRedirect extends React.Component {
           onSearchByIdChange={this.handleSearchByIdChange.bind(this)}
         />
       </React.Fragment>
-    );
+    )
   }
 }
 
@@ -83,84 +83,82 @@ export class SearchForm extends React.Component {
     onSourceChange: PropTypes.func.isRequired,
     hitsPerPage: PropTypes.number.isRequired,
     onSearchByIdChange: PropTypes.func.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       query: '',
       source: this.props.activeSource,
       searchById: false,
-    };
+    }
   }
 
   componentDidMount() {
     this.setState({
       source: this.props.activeSource,
-    });
+    })
   }
 
   handleQueryChange = (event) => {
-    this.props.onQueryChange(event.target.value);
-    this.setState({ query: event.target.value });
-  };
+    this.props.onQueryChange(event.target.value)
+    this.setState({ query: event.target.value })
+  }
 
   handleSourceChange = (event, { value }) => {
-    this.props.onSourceChange(value);
-    this.setState({ source: value });
-  };
+    this.props.onSourceChange(value)
+    this.setState({ source: value })
+  }
 
   handleCheckboxChange = () => {
-    this.props.onSearchByIdChange();
-    this.setState({ searchById: !this.state.searchById });
-  };
+    this.props.onSearchByIdChange()
+    this.setState({ searchById: !this.state.searchById })
+  }
 
   handleSubmit = (event) => {
     // Handles the isRedirect state
-    event.preventDefault();
-    this.props.onSearch();
-  };
+    event.preventDefault()
+    this.props.onSearch()
+  }
 
   handleSourceButton = (event) => {
-    event.preventDefault();
-    const user = Storage.getUser();
+    event.preventDefault()
+    const user = Storage.getUser()
 
     this.setState({
       query: user.first_name + ' ' + user.last_name,
       source: event.target.value,
       searchById: false,
-    });
-    this.props.onQueryChange(user.first_name + ' ' + user.last_name);
-    this.props.onSourceChange(event.target.value);
-    this.props.onSearch();
-  };
+    })
+    this.props.onQueryChange(user.first_name + ' ' + user.last_name)
+    this.props.onSourceChange(event.target.value)
+    this.props.onSearch()
+  }
 
   handleIndicoSearch = (event) => {
-    event.preventDefault();
-    const user = Storage.getUser();
+    event.preventDefault()
+    const user = Storage.getUser()
 
     this.setState({
       query: 'person:' + user.first_name + ' ' + user.last_name,
       source: event.target.value,
       searchById: false,
-    });
-    this.props.onQueryChange(
-      'person:' + user.first_name + ' ' + user.last_name
-    );
-    this.props.onSourceChange(event.target.value);
-    this.props.onSearch();
-  };
+    })
+    this.props.onQueryChange('person:' + user.first_name + ' ' + user.last_name)
+    this.props.onSourceChange(event.target.value)
+    this.props.onSearch()
+  }
 
   render() {
-    const { isRedirect } = this.props;
+    const { isRedirect } = this.props
     const sourceOptions = _.map(this.props.sources, (source) => ({
       key: source,
       text: source,
       value: source,
-    }));
-    const user = Storage.getUser();
+    }))
+    const user = Storage.getUser()
 
-    let showSourceButtons;
+    let showSourceButtons
     if (user.first_name || user.last_name) {
       showSourceButtons = (
         <Grid.Row>
@@ -204,15 +202,15 @@ export class SearchForm extends React.Component {
             </Button>
           </Grid.Column>
         </Grid.Row>
-      );
+      )
     }
 
-    let submitButton;
+    let submitButton
     if (isRedirect) {
       // if the search is already in progress, move to harvest page
-      submitButton = <Redirect to="/harvest" />;
+      submitButton = <Redirect to="/harvest" />
     } else {
-      submitButton = <Button primary>Search</Button>;
+      submitButton = <Button primary>Search</Button>
     }
 
     return (
@@ -250,7 +248,7 @@ export class SearchForm extends React.Component {
           {showSourceButtons}
         </Grid>
       </Form>
-    );
+    )
   }
 }
 
@@ -260,24 +258,24 @@ const mapStateToProps = (state) => {
     source: state.source,
     searchById: state.searchById,
     searchPerson: state.searchPerson,
-  };
-};
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setQuery: (query) => {
-      dispatch({ type: 'setQuery', query: query });
+      dispatch({ type: 'setQuery', query: query })
     },
     setSource: (source) => {
-      dispatch({ type: 'setSource', source: source });
+      dispatch({ type: 'setSource', source: source })
     },
     setID: (searchById) => {
-      dispatch({ type: 'setID', searchById: searchById });
+      dispatch({ type: 'setID', searchById: searchById })
     },
     setPerson: (searchPerson) => {
-      dispatch({ type: 'setPerson', searchPerson: searchPerson });
+      dispatch({ type: 'setPerson', searchPerson: searchPerson })
     },
-  };
-};
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(HarvestRedirect);
+export default connect(mapStateToProps, mapDispatchToProps)(HarvestRedirect)

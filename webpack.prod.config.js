@@ -1,33 +1,33 @@
-const path = require("path");
+const path = require('path')
 
 module.exports = {
-  entry: ["regenerator-runtime/runtime.js", "./src/index.jsx"],
-  mode: "production",
+  entry: ['regenerator-runtime/runtime.js', './src/index.jsx'],
+  mode: 'production',
   output: {
-    path: path.resolve(__dirname, "public", "dist"),
-    filename: "bundle.js",
+    path: path.resolve(__dirname, 'public', 'dist'),
+    filename: 'bundle.js',
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
-        options: { presets: ["@babel/env"] },
+        loader: 'babel-loader',
+        options: { presets: ['@babel/env'] },
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(woff|woff2)$/,
-        loader: "file-loader",
+        loader: 'file-loader',
       },
     ],
   },
   resolve: {
     alias: {
-      "@": path.resolve("src"),
+      '@': path.resolve('src'),
     },
   },
-};
+}

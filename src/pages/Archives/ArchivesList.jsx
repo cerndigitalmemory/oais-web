@@ -1,6 +1,6 @@
-import { api } from '@/api.js';
-import { AppContext } from '@/AppContext.js';
-import { archiveType } from '@/types.js';
+import { api } from '@/api.js'
+import { AppContext } from '@/AppContext.js'
+import { archiveType } from '@/types.js'
 import {
   StepStatus,
   StepStatusLabel,
@@ -10,21 +10,21 @@ import {
   hasPermission,
   Permissions,
   sendNotification,
-} from '@/utils.js';
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Button, Table, Loader, Dropdown, Menu } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import _ from 'lodash';
+} from '@/utils.js'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Button, Table, Loader, Dropdown, Menu } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 export class ArchivesList extends React.Component {
   static propTypes = {
     archives: PropTypes.arrayOf(archiveType).isRequired,
     onArchiveUpdate: PropTypes.func.isRequired,
-  };
+  }
 
   render() {
-    const { archives, onArchiveUpdate } = this.props;
+    const { archives, onArchiveUpdate } = this.props
     return (
       <Table textAlign="center">
         <Table.Header>
@@ -47,7 +47,7 @@ export class ArchivesList extends React.Component {
           ))}
         </Table.Body>
       </Table>
-    );
+    )
   }
 }
 
@@ -55,35 +55,35 @@ class Archive extends React.Component {
   static propTypes = {
     archive: archiveType.isRequired,
     onArchiveUpdate: PropTypes.func.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       nextStep: null,
       loading: false,
-    };
+    }
   }
 
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
 
   handleStepChange = async (event, { value }) => {
-    this.setState({ nextStep: event.target.value });
-    this.setState({ loading: true });
-    await api.next_step(value, this.props.archive);
-  };
+    this.setState({ nextStep: event.target.value })
+    this.setState({ loading: true })
+    await api.next_step(value, this.props.archive)
+  }
 
   render() {
-    const { archive } = this.props;
-    const { user } = this.context;
+    const { archive } = this.props
+    const { user } = this.context
 
     const nextSteps = _.map(archive.next_steps, (nextStep) => ({
       key: nextStep,
       text: StepNameLabel[nextStep],
       value: nextStep,
-    }));
+    }))
 
-    let dropdown;
+    let dropdown
     if (!this.state.loading) {
       if (archive.next_steps.length > 0) {
         dropdown = (
@@ -96,14 +96,14 @@ class Archive extends React.Component {
               onChange={this.handleStepChange}
             />
           </Menu>
-        );
+        )
       } else {
         if (archive.last_step) {
-          dropdown = <p>Completed</p>;
+          dropdown = <p>Completed</p>
         }
       }
     } else {
-      dropdown = <Loader active inline />;
+      dropdown = <Loader active inline />
     }
 
     return (
@@ -123,6 +123,6 @@ class Archive extends React.Component {
           <Link to={`/archive/${archive.id}`}>See Steps</Link>
         </Table.Cell>
       </Table.Row>
-    );
+    )
   }
 }

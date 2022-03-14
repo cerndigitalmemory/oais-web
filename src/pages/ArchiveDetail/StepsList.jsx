@@ -1,6 +1,6 @@
-import { api } from '@/api.js';
-import { AppContext } from '@/AppContext.js';
-import { stepType, archiveType } from '@/types.js';
+import { api } from '@/api.js'
+import { AppContext } from '@/AppContext.js'
+import { stepType, archiveType } from '@/types.js'
 import {
   StepStatus,
   StepStatusLabel,
@@ -10,9 +10,9 @@ import {
   hasPermission,
   Permissions,
   sendNotification,
-} from '@/utils.js';
-import PropTypes from 'prop-types';
-import React from 'react';
+} from '@/utils.js'
+import PropTypes from 'prop-types'
+import React from 'react'
 import {
   Button,
   Loader,
@@ -22,7 +22,7 @@ import {
   Accordion,
   Container,
   Image,
-} from 'semantic-ui-react';
+} from 'semantic-ui-react'
 
 /**
  * This component gets the steps as a prop and renders a list of the steps
@@ -33,14 +33,14 @@ export class StepsList extends React.Component {
   static propTypes = {
     steps: PropTypes.arrayOf(stepType),
     archive: archiveType.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
   }
 
   render() {
-    const { steps, archive } = this.props;
+    const { steps, archive } = this.props
     return (
       <React.Fragment>
         {steps.map((step) => (
@@ -52,7 +52,7 @@ export class StepsList extends React.Component {
           />
         ))}
       </React.Fragment>
-    );
+    )
   }
 }
 
@@ -66,62 +66,62 @@ class Step extends React.Component {
     step: stepType.isRequired,
     archive: archiveType.isRequired,
     lastStep: stepType.isRequired,
-  };
+  }
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       nextStep: null,
       activeIndex: 0,
       loading: false,
-    };
+    }
   }
 
   handleClick = (e, titleProps) => {
-    const { index } = titleProps;
-    const { activeIndex } = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
+    const { index } = titleProps
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index
 
-    this.setState({ activeIndex: newIndex });
-  };
+    this.setState({ activeIndex: newIndex })
+  }
 
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
 
   approve = async () => {
-    const { step } = this.props;
+    const { step } = this.props
     try {
-      const updatedStep = await api.approveArchive(step.id);
+      const updatedStep = await api.approveArchive(step.id)
       // onStepUpdate(updatedStep);
-      this.setState({ loading: true });
+      this.setState({ loading: true })
     } catch (e) {
-      sendNotification('Error while approving archive', e.message);
+      sendNotification('Error while approving archive', e.message)
     }
-  };
+  }
 
   reject = async () => {
-    const { step } = this.props;
+    const { step } = this.props
     try {
-      const updatedStep = await api.rejectArchive(step.id);
+      const updatedStep = await api.rejectArchive(step.id)
       // onStepUpdate(updatedStep);
-      this.setState({ loading: true });
+      this.setState({ loading: true })
     } catch (e) {
-      sendNotification('Error while rejecting archive', e.message);
+      sendNotification('Error while rejecting archive', e.message)
     }
-  };
+  }
 
   handleNextStep = async (event, { value }) => {
-    this.setState({ nextStep: event.target.value });
-    await api.next_step(value, this.props.archive);
-  };
+    this.setState({ nextStep: event.target.value })
+    await api.next_step(value, this.props.archive)
+  }
 
   render() {
-    const { step, archive, lastStep } = this.props;
-    const { user } = this.context;
-    const { activeIndex, loading } = this.state;
+    const { step, archive, lastStep } = this.props
+    const { user } = this.context
+    const { activeIndex, loading } = this.state
 
-    const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE);
-    const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE);
+    const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE)
+    const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE)
 
-    let actions = null;
+    let actions = null
     if (canApprove && canReject) {
       if (step.status === 5 && !loading) {
         actions = (
@@ -134,11 +134,11 @@ class Step extends React.Component {
               <Icon name="cancel" />
             </Button>
           </Button.Group>
-        );
+        )
       }
     }
 
-    let retryFailedStep = null;
+    let retryFailedStep = null
     if (step.status === 3 && step.id === lastStep.id) {
       retryFailedStep = (
         <Button
@@ -147,24 +147,24 @@ class Step extends React.Component {
           onClick={this.handleNextStep}
           value={step.name}
         />
-      );
+      )
     }
 
-    const loadingApproval = <Loader active inline />;
+    const loadingApproval = <Loader active inline />
     /*
     If the current step is Archivematica, 
     gets the information from step.output_data field and
     sets the renderArchivematicaDetails to true. 
     If this value is true then archivematica details are rendered
     */
-    let renderArchivematicaDetails;
+    let renderArchivematicaDetails
     if (step.name === 5) {
       if (step.output_data == null) {
-        renderArchivematicaDetails = false;
+        renderArchivematicaDetails = false
       } else {
         // In order to display the JSON correctly double quotes must be replaced with single quotes
-        var output = JSON.parse(step.output_data.replaceAll("'", '"'));
-        renderArchivematicaDetails = true;
+        var output = JSON.parse(step.output_data.replaceAll("'", '"'))
+        renderArchivematicaDetails = true
       }
     }
 
@@ -271,6 +271,6 @@ class Step extends React.Component {
         </Accordion>
         <br />
       </Container>
-    );
+    )
   }
 }

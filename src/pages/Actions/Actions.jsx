@@ -1,10 +1,10 @@
-import { api } from '@/api.js';
-import { PaginatedArchivesList } from '@/pages/Actions/ActionsPaginatedArchivesList.jsx';
-import { ActionsButtons } from '@/pages/Actions/ActionsButtons.jsx';
-import React from 'react';
-import { sendNotification } from '@/utils.js';
-import { Loader } from 'semantic-ui-react';
-import { AppContext } from '@/AppContext.js';
+import { api } from '@/api.js'
+import { PaginatedArchivesList } from '@/pages/Actions/ActionsPaginatedArchivesList.jsx'
+import { ActionsButtons } from '@/pages/Actions/ActionsButtons.jsx'
+import React from 'react'
+import { sendNotification } from '@/utils.js'
+import { Loader } from 'semantic-ui-react'
+import { AppContext } from '@/AppContext.js'
 
 /**
  * This page is the staging area for archives.
@@ -12,9 +12,9 @@ import { AppContext } from '@/AppContext.js';
  *
  */
 export class Actions extends React.Component {
-  static contextType = AppContext.Context;
+  static contextType = AppContext.Context
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       archives: [],
       detailedArchives: [],
@@ -22,65 +22,65 @@ export class Actions extends React.Component {
       checkedArchives: [],
       page: 1,
       totalArchives: 0,
-    };
-    this.updateAll = this.updateAll.bind(this);
+    }
+    this.updateAll = this.updateAll.bind(this)
   }
 
   loadArchives = async (page = 1) => {
-    const { user } = this.context;
+    const { user } = this.context
     try {
       const { results: archives, count: totalArchives } =
-        await api.archivesByUserStaged(user.id, page);
-      const detailedArchives = await api.get_archive_details(archives);
+        await api.archivesByUserStaged(user.id, page)
+      const detailedArchives = await api.get_archive_details(archives)
       this.setState({
         archives,
         page,
         totalArchives,
         detailedArchives: detailedArchives,
-      });
+      })
     } catch (e) {
-      sendNotification('Error while fetching archives', e.message);
+      sendNotification('Error while fetching archives', e.message)
     }
-  };
+  }
 
   componentDidMount() {
-    this.loadArchives();
-    this.setState({ loading: false });
+    this.loadArchives()
+    this.setState({ loading: false })
   }
 
   updateAll = () => {
-    this.setState({ loading: true });
-    this.loadArchives();
-    this.setState({ loading: false });
-  };
+    this.setState({ loading: true })
+    this.loadArchives()
+    this.setState({ loading: false })
+  }
 
   checkArchiveAdd = (archive) => {
-    const checkedArchives = this.state.checkedArchives;
-    let new_list = checkedArchives.concat(archive.id);
+    const checkedArchives = this.state.checkedArchives
+    let new_list = checkedArchives.concat(archive.id)
     if (checkedArchives.length != 0) {
       checkedArchives.map((checkedRecord) => {
         if (checkedRecord == archive) {
-          console.log(archive.recid, ' already in the list!');
-          new_list = checkedArchives;
+          console.log(archive.recid, ' already in the list!')
+          new_list = checkedArchives
         }
-      });
+      })
     }
-    this.setState({ checkedArchives: new_list });
-  };
+    this.setState({ checkedArchives: new_list })
+  }
 
   checkArchiveRemove = (archive) => {
-    const checkedArchives = this.state.checkedArchives;
-    let new_list = [];
+    const checkedArchives = this.state.checkedArchives
+    let new_list = []
     checkedArchives.map((uncheckedRecord) => {
       if (uncheckedRecord == archive.id) {
-        new_list = checkedArchives.filter((item) => item != archive.id);
+        new_list = checkedArchives.filter((item) => item != archive.id)
       }
-    });
-    this.setState({ checkedArchives: new_list });
-  };
+    })
+    this.setState({ checkedArchives: new_list })
+  }
 
   render() {
-    const { user } = this.context;
+    const { user } = this.context
     const {
       archives,
       detailedArchives,
@@ -88,9 +88,9 @@ export class Actions extends React.Component {
       totalArchives,
       page,
       checkedArchives,
-    } = this.state;
+    } = this.state
 
-    const loadingSpinner = <Loader inverted>Loading</Loader>;
+    const loadingSpinner = <Loader inverted>Loading</Loader>
 
     return (
       <React.Fragment>
@@ -113,6 +113,6 @@ export class Actions extends React.Component {
           onArchiveUpdate={this.loadArchives}
         ></ActionsButtons>
       </React.Fragment>
-    );
+    )
   }
 }

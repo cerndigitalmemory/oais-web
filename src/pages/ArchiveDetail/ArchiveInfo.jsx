@@ -1,7 +1,7 @@
-import { archiveType } from '@/types.js';
-import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import React from 'react';
+import { archiveType } from '@/types.js'
+import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
+import React from 'react'
 import {
   Segment,
   Label,
@@ -9,8 +9,8 @@ import {
   Grid,
   GridColumn,
   Button,
-} from 'semantic-ui-react';
-import { AddToCollection } from '@/components/AddArchivesToExistingCollection/AddArchivesToExistingCollection.jsx';
+} from 'semantic-ui-react'
+import { AddToCollection } from '@/components/AddArchivesToExistingCollection/AddArchivesToExistingCollection.jsx'
 
 /**
  * This component shows the general archive information
@@ -22,40 +22,40 @@ export class ArchiveInfo extends React.Component {
     archive: archiveType,
     id: PropTypes.string.isRequired,
     onCollectionUpdate: PropTypes.func.isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isRedirect: false,
-    };
+    }
   }
 
   handleRedirect = async () => {
     // Handles the redirect state to the edit manifests page
-    this.setState({ isRedirect: true });
-  };
+    this.setState({ isRedirect: true })
+  }
 
   render() {
-    const { archive, id } = this.props;
-    const { isRedirect } = this.state;
+    const { archive, id } = this.props
+    const { isRedirect } = this.state
 
-    let submitButton;
+    let submitButton
     if (isRedirect) {
-      submitButton = <Redirect to={`/edit-archive/${archive.id}`} />;
+      submitButton = <Redirect to={`/edit-archive/${archive.id}`} />
     } else {
       if (archive.last_step) {
         submitButton = (
           <Button primary onClick={this.handleRedirect}>
             Edit manifest
           </Button>
-        );
+        )
       } else {
         submitButton = (
           <Button primary disabled>
             Edit manifest
           </Button>
-        );
+        )
       }
     }
 
@@ -92,6 +92,6 @@ export class ArchiveInfo extends React.Component {
           </List.Item>
         </List>
       </Segment>
-    );
+    )
   }
 }

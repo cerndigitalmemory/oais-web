@@ -1,20 +1,20 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = {
   // Adds Less support to CRA
   plugins: [{ plugin: require('@semantic-ui-react/craco-less') }],
-  // Make webpack / CRACO emit files in watch mode (for hot-reloading 
+  // Make webpack / CRACO emit files in watch mode (for hot-reloading
   //  with the docker-compose setup)
   devServer: {
     devMiddleware: {
-        writeToDisk: true,
+      writeToDisk: true,
     },
   },
   webpack: {
     // Custom output path
     configure: (webpackConfig, { env, paths }) => {
-      paths.appBuild = webpackConfig.output.path = path.resolve('build');
-      return webpackConfig; // Important: return the modified config
+      paths.appBuild = webpackConfig.output.path = path.resolve('build')
+      return webpackConfig // Important: return the modified config
     },
     entry: ['regenerator-runtime/runtime.js', './src/index.jsx'],
     mode: 'development',
@@ -60,4 +60,4 @@ module.exports = {
       '@': path.resolve('src'),
     },
   },
-};
+}
