@@ -96,39 +96,37 @@ class SearchForm extends React.Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Grid>
-          <Grid.Row columns={4}>
-            <Grid.Column width={6} verticalAlign="middle">
-              <Form.Field
-                control={Input}
-                value={this.state.query}
-                onChange={this.handleQueryChange}
-                label="Query"
-                placeholder="Query"
+        <Grid stackable columns={4}>
+          <Grid.Column width={6} verticalAlign="middle">
+            <Form.Field
+              control={Input}
+              value={this.state.query}
+              onChange={this.handleQueryChange}
+              label="Query"
+              placeholder="Query"
+            />
+          </Grid.Column>
+          <Grid.Column verticalAlign="bottom" width={2}>
+            <Form.Field>
+              <Checkbox
+                label="Search Record by ID"
+                checked={this.props.searchById}
+                onChange={this.handleCheckboxChange}
               />
-            </Grid.Column>
-            <Grid.Column verticalAlign="bottom" width={2}>
-              <Form.Field>
-                <Checkbox
-                  label="Search Record by ID"
-                  checked={this.props.searchById}
-                  onChange={this.handleCheckboxChange}
-                />
-              </Form.Field>
-            </Grid.Column>
-            <Grid.Column verticalAlign="bottom">
-              <Form.Select
-                label="Source"
-                defaultValue={this.props.source}
-                onChange={this.handleSourceChange}
-                options={sourceOptions}
-                placeholder="Source"
-              />
-            </Grid.Column>
-            <Grid.Column verticalAlign="bottom" floated="right">
-              {submitButton}
-            </Grid.Column>
-          </Grid.Row>
+            </Form.Field>
+          </Grid.Column>
+          <Grid.Column verticalAlign="bottom">
+            <Form.Select
+              label="Source"
+              defaultValue={this.props.source}
+              onChange={this.handleSourceChange}
+              options={sourceOptions}
+              placeholder="Source"
+            />
+          </Grid.Column>
+          <Grid.Column verticalAlign="bottom" floated="right">
+            {submitButton}
+          </Grid.Column>
         </Grid>
       </Form>
     );
