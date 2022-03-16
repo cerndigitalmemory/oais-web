@@ -2,7 +2,7 @@ import { createStore } from 'redux'
 
 const initialState = {
   query: '',
-  source: 'cds-test',
+  source: 'cds',
   searchById: false,
   checkedRecords: [],
 }

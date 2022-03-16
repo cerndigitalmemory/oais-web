@@ -3,7 +3,7 @@ import { List } from 'semantic-ui-react'
 
 export const recordType = exact({
   id: number,
-  url: string.isRequired,
+  source_url: string.isRequired,
   recid: string.isRequired,
   title: string,
   source: string.isRequired,
@@ -15,7 +15,7 @@ export const recordTypeDetailed = exact({
    * This is a record type with a list of "similar" archives (same recid + source)
    */
   id: number,
-  url: string.isRequired,
+  source_url: string.isRequired,
   recid: string.isRequired,
   title: string,
   source: string.isRequired,
