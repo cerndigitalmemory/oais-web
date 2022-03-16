@@ -2,7 +2,7 @@ import HarvestRedirect from '@/pages/Harvest/HarvestRedirect.jsx'
 import { Upload } from '@/pages/Upload/Upload.jsx'
 import URLParse from '@/pages/URLParse/URLParse.jsx'
 import React from 'react'
-import { Grid, Segment } from 'semantic-ui-react'
+import { Grid, Segment, Container, Header } from 'semantic-ui-react'
 
 /**
  * Renders the Add Resource page, containing two parts:
@@ -16,7 +16,15 @@ export class AddResource extends React.Component {
       /* 
       Returns the HarvestRedirect and the Upload components
     */
+
       <Grid>
+        <Container>
+          <h1>Add Resource</h1>
+          <p>
+            This page allows you to create a new Archive by uploading (or
+            searching for) the source record.
+          </p>
+        </Container>
         <Grid.Row>
           <Grid.Column>
             <Segment>
@@ -24,7 +32,6 @@ export class AddResource extends React.Component {
             </Segment>
           </Grid.Column>
         </Grid.Row>
-
         <Grid.Row>
           <Grid.Column>
             <Segment>
@@ -32,7 +39,6 @@ export class AddResource extends React.Component {
             </Segment>
           </Grid.Column>
         </Grid.Row>
-
         <Grid.Row>
           <Grid.Column>
             <Segment>
