@@ -156,7 +156,7 @@ class Harvest extends React.Component {
           Bagit Create tool)
         </p>
         <SearchForm
-          sources={['cds-test', 'cds', 'zenodo', 'inveniordm', 'cod', 'indico']}
+          sources={['cds', 'zenodo', 'inveniordm', 'cod', 'indico']}
           activeSource={this.props.source}
           onSearch={this.handleSearch}
           isLoading={isLoading}

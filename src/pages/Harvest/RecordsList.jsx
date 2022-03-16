@@ -219,7 +219,7 @@ class RecordActions extends React.Component {
 
     const sourceURLButton = (
       <Button
-        href={record.url}
+        href={record.source_url}
         title="Source URL"
         target="_blank"
         icon="globe"
