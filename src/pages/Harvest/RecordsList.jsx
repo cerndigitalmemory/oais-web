@@ -22,15 +22,34 @@ export class RecordsList extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      StagedArchivesList: [],
+      loading: true,
+    }
+  }
+
+  loadRecords = async (page = 1) => {
+    
+    try {
+      const StagedArchivesList = await api.stagedArchives()
+      this.setState({StagedArchivesList:StagedArchivesList})
+    } catch (e) {
+      sendNotification('Error while fetching records', e.message)
+    }
+  }
+
+  componentDidMount() {
+    this.loadRecords()
+    this.setState({ loading: false })
   }
 
   render() {
-    const StagedRecordsList = Storage.getAllRecords()
+    const {StagedArchivesList, loading} = this.state
 
     return (
       <div>
         <Table>
-          {this.props.records.length > 0 ? (
+          {(!loading) || this.props.records.length > 0 ? (
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell width="12">Title</Table.HeaderCell>
@@ -56,7 +75,7 @@ export class RecordsList extends React.Component {
                 checkedRecord={this.props.checkedList.filter(
                   (checkedRecord) => checkedRecord.recid == record.recid
                 )}
-                archivedList={StagedRecordsList}
+                archivedList={StagedArchivesList}
               />
             ))}
           </Table.Body>
@@ -73,7 +92,7 @@ class Record extends React.Component {
     checkRecordAdd: PropTypes.func.isRequired,
     checkRecordRemove: PropTypes.func.isRequired,
     checkedRecord: PropTypes.arrayOf(recordType),
-    archivedList: PropTypes.arrayOf(recordType),
+    archivedList: PropTypes.arrayOf(archiveType),
   }
 
   constructor(props) {
@@ -94,7 +113,7 @@ class Record extends React.Component {
     if (prevProps.archivedList != this.props.archivedList) {
       let archived = false
       this.props.archivedList.map((archivedItem) => {
-        if (archivedItem.recid === this.props.record.recid) {
+        if ((archivedItem.recid === this.props.record.recid) && (archivedItem.source === this.props.record.source)) {
           archived = true
         }
       })

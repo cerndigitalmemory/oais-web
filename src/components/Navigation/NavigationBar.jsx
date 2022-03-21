@@ -52,7 +52,7 @@ export class NavigationBar extends React.Component {
         },
         {
           key: 'collections',
-          value: 'Collections',
+          value: 'Tags',
           to: '/collections',
           always: false,
           loggedIn: true,

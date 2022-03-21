@@ -94,16 +94,9 @@ class Harvest extends React.Component {
     this.setState({ isLoading: false })
   }
 
-  autoArchive = async (checkedRecord) => {
-    const old = JSON.parse(localStorage.getItem('Records'))
-    let newArry
-    if (old) {
-      newArry = old.concat(checkedRecord)
-    } else {
-      newArry = [checkedRecord]
-    }
-
-    localStorage.setItem('Records', JSON.stringify(newArry))
+  autoArchive = async (record) => {
+    // Call the api method to create a staged archive
+    api.createStagedArchive(record)
   }
 
   handleArchiveButtonClick = async () => {

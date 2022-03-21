@@ -9,7 +9,7 @@ import { Storage } from '@/storage.js'
 /**
  * This page is the staging area for archives.
  * It provides a "temporary" (staging) area to prepare / allow the user to select
- * records and apply them tags/collections.
+ * stagedArchives and apply them tags/collections.
  *
  */
 export class StagedRecords extends React.Component {
@@ -17,31 +17,28 @@ export class StagedRecords extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      records: [],
-      detailedRecords: [],
-      totalRecords: 0,
+      stagedArchives: [],
+      detailedArchives: [],
+      totalStagedArchives: 0,
       loading: true,
       page: 1,
-      totalArchives: 0,
     }
     this.updateAll = this.updateAll.bind(this)
   }
 
-  getDetailedRecords = (records) => api.getCheckRecordsArchived(records)
 
   loadRecords = async (page = 1) => {
-    const records = Storage.getAllRecords()
-    const { user } = this.context
+    const stagedArchives = await api.stagedArchives()
     try {
-      if (records) {
-        const detailedResponse = await this.getDetailedRecords(records)
+      if (stagedArchives) {
+        const detailedResponse = await api.get_archive_details(stagedArchives)
         this.setState({
-          records: detailedResponse,
-          totalRecords: records.length,
+          stagedArchives: detailedResponse,
+          totalStagedArchives: stagedArchives.length,
         })
       }
     } catch (e) {
-      sendNotification('Error while fetching records', e.message)
+      sendNotification('Error while fetching stagedArchives', e.message)
     }
   }
 
@@ -58,35 +55,25 @@ export class StagedRecords extends React.Component {
 
   render() {
     const { user } = this.context
-    const { loading, page, totalRecords, records } = this.state
+    const { loading, page, totalStagedArchives, stagedArchives } = this.state
 
-    let loadingMessage
+    let loadingMessage = <p> Loading </p>
     if (loading) {
       loadingMessage = <Loader inverted>Loading</Loader>
     } else {
-      loadingMessage = <p> No staged records</p>
+      loadingMessage = <p> No staged archives</p>
     }
 
     return (
       <React.Fragment>
         <h1>Staged Records</h1>
-        In this page you can review all the records you selected until now.{' '}
-        <br></br>
-        You add or create tags to organize them or remove them from the queue.
-        You will also see if the selected record is already in the system.{' '}
-        <br></br>
-        If you want to add more records, go back to the <b>Add Resource</b>{' '}
-        page. <br></br>
-        Once your&apos;re happy, click Next to proceed with the creation of
-        Archives. <br></br>
-        <br></br>
-        {loading || totalRecords == 0 ? (
-          <div> {loadingMessage} </div>
+        {loading || totalStagedArchives == 0 ? (
+          <> {loadingMessage} </>
         ) : (
           <PaginatedRecordsList
-            records={records}
-            onRecordUpdate={this.updateAll}
-            totalRecords={totalRecords}
+            stagedArchives={stagedArchives}
+            onArchiveUpdate={this.updateAll}
+            totalStagedArchives={totalStagedArchives}
             page={page}
           />
         )}

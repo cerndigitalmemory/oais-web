@@ -104,8 +104,12 @@ class API {
     return await this._post(`/create-archive/${recid}/${source}/`)
   }
 
-  async createArchive(source, recid) {
-    return await this._post(`/create-archive/${recid}/${source}/`)
+  async createStagedArchive(record) {
+    return await this._post(`/create-staged-archive/`, {record:record})
+  }
+
+  async setTag(id, tags) {
+    return await this._post(`/records/${id}/actions/set/`, {tags : tags});
   }
 
   async parse_url(url) {
@@ -131,6 +135,10 @@ class API {
 
   async archives(page = 1) {
     return await this._get('/archives/', { params: { page } })
+  }
+
+  async stagedArchives() {
+    return await this._get('/staged-archives/')
   }
 
   async archivesByUser(id, page = 1) {
@@ -178,12 +186,25 @@ class API {
   async collections(page = 1) {
     return await this._get('/collections/', { params: { page } })
   }
+
+  async get_all_tags() {
+    return await this._get('/all-tags/')
+  }
+
   async getArchiveCollections(id) {
     return await this._get(`/archive/${id}/get-collections/`)
   }
 
   async getArchiveExists(id) {
     return await this._get(`/archive/${id}/search/`)
+  }
+
+  async unstageArchive(id) {
+    return await this._get(`/archive/${id}/unstage/`)
+  }
+
+  async deleteArchive(id) {
+    return await this._get(`/archive/${id}/delete/`)
   }
 
   async getCheckRecordsArchived(recordList) {
