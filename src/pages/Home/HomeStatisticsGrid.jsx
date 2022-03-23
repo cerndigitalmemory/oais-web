@@ -4,13 +4,8 @@ import { api } from '@/api.js'
 import { AppContext } from '@/AppContext.js'
 import {
   StepStatus,
-  StepStatusLabel,
-  StepNameLabel,
   StepName,
-  formatDateTime,
-  hasPermission,
-  Permissions,
-  sendNotification,
+
 } from '@/utils.js'
 
 /**
@@ -21,6 +16,7 @@ import {
  */
 export class StatisticsGrid extends React.Component {
   static contextType = AppContext.Context
+
   constructor(props) {
     super(props)
     this.state = {
@@ -38,10 +34,13 @@ export class StatisticsGrid extends React.Component {
   }
 
   componentDidMount() {
-    this.loadArchives()
-    this.loadCollections()
-    this.loadCompletedArchives()
-    this.loadWaitingArchives()
+    let {isLoggedIn} = this.context
+    if (isLoggedIn) {
+      this.loadArchives()
+      this.loadCollections()
+      this.loadCompletedArchives()
+      this.loadWaitingArchives()
+    }  
   }
 
   getArchives = (page) => api.archives(page)
@@ -192,3 +191,5 @@ export class StatisticsGrid extends React.Component {
     )
   }
 }
+
+StatisticsGrid.contextType = AppContext.Context

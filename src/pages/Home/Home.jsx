@@ -1,6 +1,5 @@
 import React from 'react'
-import { Header, Loader, Icon, Grid, Segment, Button } from 'semantic-ui-react'
-import { Storage } from '@/storage.js'
+import { Header, Icon, Grid, Button, Loader } from 'semantic-ui-react'
 import { AppContext } from '@/AppContext.js'
 import { StatisticsGrid } from '@/pages/Home/HomeStatisticsGrid.jsx'
 import { Link } from 'react-router-dom'
@@ -25,20 +24,20 @@ export class Home extends React.Component {
           {' '}
           <center>Welcome to the CERN Digital Memory Platform </center>
         </h1>
-        {isLoggedIn && (
+        {(isLoggedIn) ? (
           <React.Fragment>
             <Header as="h2" icon textAlign="center">
               <Icon name="line graph" circular />
               <Header.Content>Statistics</Header.Content>
             </Header>
-            <StatisticsGrid />
+            <StatisticsGrid/>
             <Header as="h2" icon textAlign="center">
               <Icon name="mouse pointer" circular />
               <Header.Content>Quick Actions</Header.Content>
             </Header>
             <QuickActions />
           </React.Fragment>
-        )}
+        ) : <Loader/>}
       </React.Fragment>
     )
   }
