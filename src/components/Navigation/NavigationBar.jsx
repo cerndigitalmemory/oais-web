@@ -49,7 +49,7 @@ const { Media, MediaContextProvider } = AppMedia
 export class NavigationBar extends React.Component {
   static contextType = AppContext.Context
   static propTypes = {
-    notifications: notificationType,
+    notifications: PropTypes.arrayOf(notificationType),
   }
 
   constructor(props) {
@@ -131,7 +131,13 @@ export class NavigationBar extends React.Component {
   render() {
     const { isLoggedIn, user } = this.context
     const { links, activeItem } = this.state
-    let showNavbar = <Loader />
+    // When the user is logged out there was a blank page, now a loggedOut navbar is displayed
+    let showNavbar = 
+        <NavBarLoggedOut
+          leftItems={links}
+          activeItem={activeItem}
+          notifications={this.props.notifications}
+        ></NavBarLoggedOut>
     if (user && isLoggedIn) {
       showNavbar = (
         <NavBar
@@ -142,6 +148,14 @@ export class NavigationBar extends React.Component {
           notifications={this.props.notifications}
         ></NavBar>
       )
+    }
+    if (!isLoggedIn) {
+      showNavbar = 
+        <NavBarLoggedOut
+          leftItems={links}
+          activeItem={activeItem}
+          notifications={this.props.notifications}
+        ></NavBarLoggedOut>
     }
 
     return (
@@ -160,7 +174,7 @@ class NavBar extends React.Component {
     isLoggedIn: PropTypes.bool.isRequired,
     user: userType.isRequired,
     activeItem: PropTypes.string,
-    notifications: notificationType,
+    notifications: PropTypes.arrayOf(notificationType),
   }
   state = {
     visible: false,
@@ -189,6 +203,7 @@ class NavBar extends React.Component {
             isLoggedIn={isLoggedIn}
             user={user}
             activeItem={activeItem}
+            notifications={notifications}
           ></NavBarMobile>
         </Media>
 
@@ -198,9 +213,8 @@ class NavBar extends React.Component {
             isLoggedIn={isLoggedIn}
             user={user}
             activeItem={activeItem}
-            
           />
-          <NavBarChildren notifications= {notifications}/>
+          <NavBarChildren notifications = {notifications}/>
         </Media>
       </div>
     )
@@ -216,6 +230,7 @@ class NavBarMobile extends React.Component {
     isLoggedIn: PropTypes.bool.isRequired,
     user: userType.isRequired,
     activeItem: PropTypes.string,
+    notifications: PropTypes.arrayOf(notificationType),
   }
   constructor(props) {
     super(props)
@@ -289,7 +304,7 @@ class NavBarDesktop extends React.Component {
   static propTypes = {
     leftItems: PropTypes.array.isRequired,
     isLoggedIn: PropTypes.bool.isRequired,
-    user: userType.isRequired,
+    user: userType,
     activeItem: PropTypes.string,
   }
   constructor(props) {
@@ -298,7 +313,6 @@ class NavBarDesktop extends React.Component {
 
   render() {
     const { leftItems, isLoggedIn, user, activeItem } = this.props
-    console.log(activeItem)
 
     return (
       <Menu secondary>
@@ -334,7 +348,7 @@ class NavBarDesktop extends React.Component {
 
 class NavBarChildren extends React.Component {
   static propTypes = {
-    notifications: notificationType,
+    notifications: PropTypes.arrayOf(notificationType),
   }
   constructor(props) {
     super(props)
@@ -378,6 +392,31 @@ class NavBarChildren extends React.Component {
             </Switch>
           </Container>
       </React.Fragment>
+    )
+  }
+}
+
+class NavBarLoggedOut extends React.Component {
+  static propTypes = {
+    leftItems: PropTypes.arrayOf(object).isRequired,
+    activeItem: PropTypes.string,
+    notifications: PropTypes.arrayOf(notificationType),
+  }
+
+
+  render() {
+    const { leftItems, activeItem, notifications } = this.props
+
+    return (
+      <div>
+
+          <NavBarDesktop
+            leftItems={leftItems}
+            activeItem={activeItem}
+            isLoggedIn={false}
+          />
+          <NavBarChildren notifications = {notifications}/>
+      </div>
     )
   }
 }
