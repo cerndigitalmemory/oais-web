@@ -45,8 +45,8 @@ class Harvest extends React.Component {
     this.props.removeAll()
   }
 
-  addAllRecords = (record) => {
-    this.props.addAll(record)
+  addAllRecords = (records) => {
+    this.props.addAll(records)
   }
 
   checkRecordRemove = (record) => {
@@ -117,7 +117,7 @@ class Harvest extends React.Component {
   }
 
   handleCheckAll = () => {
-    this.addAllRecords(this.state.records)
+    this.addAllRecords(this.state.results)
   }
 
   handleRemoveAll = () => {
@@ -140,7 +140,7 @@ class Harvest extends React.Component {
         </Button>
       </div>
     )
-
+    
     return (
       <React.Fragment>
         <h1>Harvest</h1>
@@ -272,7 +272,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch({ type: 'removeAll' })
     },
     addAll: (records) => {
-      dispatch({ type: 'addAll', record: records })
+      dispatch({ type: 'addAll', records: records })
     },
   }
 }

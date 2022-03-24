@@ -90,9 +90,9 @@ const searchReducer = (state = initialState, action) => {
 
   if (action.type === 'addAll') {
     /* 
-      For all the records, checks if it is in the checkedList and if not, it adds it 
+      For all the records, adds them in the list 
     */
-    const new_list = action.record
+    const new_list = action.records
     return {
       query: state.query,
       source: state.source,
