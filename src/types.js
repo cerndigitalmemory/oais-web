@@ -1,4 +1,4 @@
-import { arrayOf, exact, number, string, bool } from 'prop-types'
+import { arrayOf, exact, number, string, bool, array, object } from 'prop-types'
 import { List } from 'semantic-ui-react'
 
 export const notificationType = exact({
@@ -12,6 +12,7 @@ export const userType = exact({
   permissions: arrayOf(string).isRequired,
   first_name: string,
   last_name: string,
+  profile: object,
 })
 
 export const archiveType = exact({

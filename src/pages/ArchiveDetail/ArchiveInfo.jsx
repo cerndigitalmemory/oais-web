@@ -1,13 +1,13 @@
-import { archiveType } from '@/types.js'
+import { collectionType, archiveType } from '@/types.js'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import React from 'react'
 import {
   Segment,
   Label,
   List,
   Grid,
-  GridColumn,
   Button,
 } from 'semantic-ui-react'
 import { AddToCollection } from '@/components/AddArchivesToExistingCollection/AddArchivesToExistingCollection.jsx'
@@ -22,6 +22,7 @@ export class ArchiveInfo extends React.Component {
     archive: archiveType,
     id: PropTypes.string.isRequired,
     onCollectionUpdate: PropTypes.func.isRequired,
+    collections: PropTypes.arrayOf(collectionType),
   }
 
   constructor(props) {
@@ -37,7 +38,7 @@ export class ArchiveInfo extends React.Component {
   }
 
   render() {
-    const { archive, id } = this.props
+    const { archive, id, collections } = this.props
     const { isRedirect } = this.state
 
     let submitButton
@@ -58,6 +59,16 @@ export class ArchiveInfo extends React.Component {
         )
       }
     }
+
+    let collectionListItem = <><b>Collections: </b><i>None</i></>
+    collectionListItem = <List.Item>
+      <b>Tags: </b> {collections.map((collection) => (
+              <CollectionDetail
+                key={collection.id}
+                collection={collection}
+              />
+            ))}
+    </List.Item>
 
     return (
       <Segment raised>
@@ -90,8 +101,27 @@ export class ArchiveInfo extends React.Component {
           <List.Item>
             <b>Link: </b> <a href={archive.source_url}>{archive.source_url}</a>
           </List.Item>
+          {collectionListItem}
         </List>
       </Segment>
+    )
+  }
+}
+
+class CollectionDetail extends React.Component {
+  static propTypes = {
+    collection: collectionType,
+  }
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    const { collection } = this.props
+    return (
+      <Label basic>
+        <Link to={`/collection/${collection.id}`}>{collection.title}</Link>
+      </Label>  
     )
   }
 }

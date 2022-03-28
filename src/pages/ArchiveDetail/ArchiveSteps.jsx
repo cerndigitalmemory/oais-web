@@ -2,7 +2,6 @@ import { api } from '@/api.js'
 import { PaginatedStepsList } from '@/pages/ArchiveDetail/PaginatedStepsList.jsx'
 import { ArchiveInfo } from '@/pages/ArchiveDetail/ArchiveInfo.jsx'
 import { StepsPipeline } from '@/pages/ArchiveDetail/PipelineStatusFlow.jsx'
-import { ArchiveCollectionsList } from '@/pages/ArchiveDetail/ArchiveCollections.jsx'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { sendNotification } from '@/utils.js'
@@ -86,33 +85,24 @@ export class ArchiveSteps extends React.Component {
 
     const loadingSpinner = <Loader active inline="centered" />
 
-    let collectionsSegment
-    if (collections.length > 0) {
-      collectionsSegment = (
-        <ArchiveCollectionsList archive={archive} collections={collections} />
-      )
-    }
+
 
     return (
       <React.Fragment>
-        {loading || !archive ? (
+        {loading || !archive || loadingCollections ? (
           <div> {loadingSpinner} </div>
         ) : (
           <ArchiveInfo
             archive={archive}
             id={id}
             onCollectionUpdate={this.loadCollections}
+            collections={collections}
           />
         )}
         {loading || !archive || !steps ? (
           <div> {loadingSpinner} </div>
         ) : (
           <StepsPipeline archive={archive} steps={steps} />
-        )}
-        {(loading || !archive) && !collections && !loadingCollections ? (
-          <div> {loadingSpinner} </div>
-        ) : (
-          <React.Fragment>{collectionsSegment}</React.Fragment>
         )}
         {loading || !archive || !steps ? (
           <div> {loadingSpinner} </div>
