@@ -21,12 +21,13 @@ export class Collections extends React.Component {
     this.loadCollections = this.loadCollections.bind(this)
   }
 
-  getCollections = (page) => api.collections(page)
+  getCollections = (page, internal) => api.collections(page, internal)
 
   loadCollections = async (page) => {
     try {
+      const internal = false
       const { results: collections, count: totalCollections } =
-        await this.getCollections(page)
+        await this.getCollections(page, internal)
       this.setState({
         collections: collections,
         page: page,

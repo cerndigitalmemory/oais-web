@@ -28,12 +28,18 @@ import { Collections } from '@/pages/Collections/Collections.jsx'
 import React from 'react'
 import { Container } from 'semantic-ui-react'
 import { Route, Switch } from 'react-router-dom'
+import { Jobs } from '@/pages/Jobs/Jobs.jsx'
+import { JobDetails } from '@/pages/JobDetailsPage/JobDetails.jsx'
 
 /**
  * Renders the Navigation Bar, keeping track of the active page and
  * showing some links only to authenticated users.
  */
-const AppMedia = createMedia({
+/**
+ * Renders the Navigation Bar, keeping track of the active page and
+ * showing some links only to authenticated users.
+ */
+ const AppMedia = createMedia({
   breakpoints: {
     mobile: 320,
     tablet: 768,
@@ -86,9 +92,9 @@ export class NavigationBar extends React.Component {
           loggedIn: true,
         },
         {
-          key: 'actions',
-          value: 'Actions',
-          to: '/actions',
+          key: 'jobs',
+          value: 'Jobs',
+          to: '/jobs',
           always: false,
           loggedIn: true,
         },
@@ -383,6 +389,8 @@ class NavBarChildren extends React.Component {
               <ProtectedRoute path="/actions" component={Actions} />
               <ProtectedRoute path="/collections" component={Collections} />
               <ProtectedRoute path="/settings" component={Settings} />
+              <ProtectedRoute path="/jobs" component={Jobs} />
+              <ProtectedRoute path="/job/:id" component={JobDetails} />
               <Route path="/login/callback" component={LoginCallback} />
               <Route path="/logout" component={Logout} />
               <Route path="/login" component={Login} />
