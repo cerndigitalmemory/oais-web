@@ -27,6 +27,7 @@ export const archiveType = exact({
   manifest: JSON,
   staged: bool,
   title: string,
+  restricted: bool,
 })
 
 export const archiveTypeDetailed = exact({
@@ -47,6 +48,7 @@ export const archiveTypeDetailed = exact({
   duplicates: List,
   staged: bool,
   title: string,
+  restricted: bool,
 })
 
 export const collectionType = exact({

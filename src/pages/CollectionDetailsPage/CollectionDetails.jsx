@@ -7,10 +7,8 @@ import { sendNotification } from '@/utils.js'
 import { Loader } from 'semantic-ui-react'
 
 /**
- * This page shows the details of each harvested archive.
- * It contains the ArchiveInfo component which includes basic information about the archive (recid, source, link)
- * It contains the StepsPipeline component which includes an animation of the completed or pending steps.
- * It contains the PaginatedStepsList which is a list of each step with all relevant information.
+ * This page shows the details of a collection.
+ * It contains all the archives a collection has and buttons to add, remove or get the details of an archive
  *
  */
 export class CollectionDetails extends React.Component {

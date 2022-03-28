@@ -133,8 +133,8 @@ class API {
     return await this._post(`/upload/`, formData)
   }
 
-  async archives(page = 1) {
-    return await this._get('/archives/', { params: { page } })
+  async archives(page = 1, filter = "public") {
+    return await this._get('/archives/', { params: { page, filter }})
   }
 
   async stagedArchives() {
@@ -175,16 +175,12 @@ class API {
     return await this._post(`/steps/${id}/actions/reject/`)
   }
 
-  async collections(page = 1) {
-    return await this._get('/collections/', { params: { page } })
+  async collections(page = 1, internal) {
+    return await this._get('/collections/', { params: { page, internal } })
   }
 
   async saveManifest(id, manifest) {
     return await this._post(`/save-manifest/${id}`, { manifest: manifest })
-  }
-
-  async collections(page = 1) {
-    return await this._get('/collections/', { params: { page } })
   }
 
   async get_all_tags() {
@@ -201,6 +197,10 @@ class API {
 
   async unstageArchive(id) {
     return await this._get(`/archive/${id}/unstage/`)
+  }
+
+  async unstageArchives(archives) {
+    return await this._post(`/unstage-archives/`, { archives : archives })
   }
 
   async deleteArchive(id) {

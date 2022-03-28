@@ -12,6 +12,7 @@ import { Loader } from 'semantic-ui-react'
 export class PaginatedArchivesList extends React.Component {
   static propTypes = {
     getArchives: PropTypes.func.isRequired,
+    filter: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -38,7 +39,7 @@ export class PaginatedArchivesList extends React.Component {
   loadArchives = async (page = 1) => {
     try {
       const { results: archives, count: totalArchives } =
-        await this.props.getArchives(page)
+        await this.props.getArchives(page, this.props.filter)
       this.setState({ archives, page, totalArchives })
     } catch (e) {
       sendNotification('Error while fetching archives', e.message)
@@ -49,6 +50,16 @@ export class PaginatedArchivesList extends React.Component {
     this.loadArchives()
     this.setState({ loading: false })
   }
+
+  componentDidUpdate(prevProps){
+
+    if ( this.props.filter !== prevProps.filter ) {
+      this.setState({ loading: true })
+        this.loadArchives()
+        this.setState({ loading: false })
+    }
+}
+
 
   render() {
     const { archives, page, totalArchives, loading } = this.state

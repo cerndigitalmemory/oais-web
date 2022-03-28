@@ -32,27 +32,23 @@ export class PaginatedRecordsList extends React.Component {
     super(props)
   }
 
-  stageArchive = async (archive) => {
-    await api.unstageArchive(archive.id)
+  stageArchive = async (archives) => {
+    await api.unstageArchives(archives)
   }
 
   handleArchiving = async () => {
     const archives = this.props.stagedArchives
     try {
-      archives.map((archive) => {
-        this.stageArchive(archive)
-      })
-      sendNotification('Archives archived successfully')
+      this.stageArchive(archives)
+      sendNotification('Archives archived successfully', archives.length + " archived")
+      this.props.onArchiveUpdate()
     } catch (e) {
       sendNotification('Error while archiving', e.message)
-    } finally {
-      this.props.onArchiveUpdate()
     }
   }
 
   render() {
     const { stagedArchives, onArchiveUpdate, totalRecords, page } = this.props
-
 
     return (
       <div>

@@ -1,9 +1,10 @@
 import _ from 'lodash'
-import PropTypes from 'prop-types'
-import { sendNotification } from '@/utils.js'
 import { getCookie } from '@/utils.js'
 import { OverridableContext } from 'react-overridable'
-import React from 'react'
+import React, {Component} from 'react'
+import { Link } from 'react-router-dom'
+import _truncate from 'lodash/truncate';
+import { AppContext } from '@/AppContext.js'
 import {
   Button,
   Form,
@@ -20,19 +21,44 @@ import {
   ESSearchApi,
   SearchBar,
   ResultsList,
+  ResultsLoader,
+  EmptyResults,
+  Error,
   BucketAggregation,
+  withState,
 } from 'react-searchkit'
-import { api } from '../../api'
+import { Results } from '@/pages/Search/Results.jsx';
+import { ESRequestSerializer } from '@/pages/Search/ESRequestSerializer.jsx';
+
+const OnResults = withState(Results);
+
+const initialState = {
+  layout: 'list',
+  page: 1,
+  size: 10,
+};
 
 // The SearchForm function contains the form for the search
 const ElasticSearchResultsListItem = ({ result, index }) => {
   return (
-    <Item key={index} href={`#`}>
+    <Item key={index}>
       <Item.Content>
-        <Item.Header>
-          {result.recid} {result.source}
+      <Item.Header>
+          <Link to={`/archive/${result.id}`} target="_blank">
+          {_truncate(result.title, { length: 200 })}
+          </Link> 
         </Item.Header>
-        <Item.Description>{result.source_url}</Item.Description>
+        <Item.Description>
+          <Grid columns={2}>
+            <Grid.Column width={2}>
+            ID: <b>{result.id}</b>
+            </Grid.Column>
+            <Grid.Column>
+            Source: <b>{result.source}</b>
+            </Grid.Column>
+          </Grid>        
+        </Item.Description>
+        <Item.Extra><a href={result.source_url} target="_blank" rel="noopener noreferrer">{result.source_url}</a></Item.Extra>
       </Item.Content>
     </Item>
   )
@@ -40,10 +66,10 @@ const ElasticSearchResultsListItem = ({ result, index }) => {
 
 const ElasticSearchResultsGridItem = ({ result, index }) => {
   return (
-    <Card fluid key={index} href={`#`}>
+    <Card fluid key={index}>
       <Card.Content>
         <Card.Header>
-          {result.recid} {result.source}
+        {result.title} ({result.source})
         </Card.Header>
         <Item.Description>{result.source_url}</Item.Description>
       </Card.Content>
@@ -58,7 +84,7 @@ const overriddenComponents = {
 
 const customAggComp = (title, containerCmp) => {
   return containerCmp ? (
-    <Menu vertical>
+    <Menu vertical stackable>
       <Menu.Item>
         <Menu.Header>{title}</Menu.Header>
         {containerCmp}
@@ -85,7 +111,7 @@ const customAggValueCmp = (
       active={isSelected}
       onClick={() => onFilterClicked(bucket.key)}
     >
-      <Label>{bucket.doc_count}</Label>
+    <Label>{bucket.doc_count}</Label>
       {bucket.key}
       {childAggCmps}
     </Menu.Item>
@@ -96,13 +122,19 @@ export class Search extends React.Component {
   constructor(props) {
     super(props)
   }
+  static contextType = AppContext.Context
 
   render() {
+    const { user } = this.context
+
     const searchApi = new ESSearchApi({
       axios: {
-        url: 'http://localhost:8000/api/search-query/',
+        url: '/api/search-query/',
         timeout: 5000,
-        headers: { 'X-CSRFToken': getCookie('csrftoken') },
+        headers: { 'X-CSRFToken': getCookie('csrftoken')},
+      },
+      es: {
+        requestSerializer: ESRequestSerializer,
       },
     })
 
@@ -110,21 +142,20 @@ export class Search extends React.Component {
       <React.Fragment>
         <h1> Internal Search</h1>
         <OverridableContext.Provider value={overriddenComponents}>
-          <ReactSearchKit searchApi={searchApi}>
+          <ReactSearchKit searchApi={searchApi} initialQueryState={initialState}>
             <div style={{ margin: '2em auto', width: '80%' }}>
               <Container>
                 <Grid>
                   <Grid.Row>
-                    <Grid.Column width={3} />
-                    <Grid.Column width={10}>
+                    <Grid.Column width={16}>
                       <SearchBar />
                     </Grid.Column>
-                    <Grid.Column width={3} />
                   </Grid.Row>
                 </Grid>
-                <Grid relaxed style={{ padding: '2em 0' }}>
+                <Grid relaxed style={{ padding: '2em 0' }} stackable>
                   <Grid.Row columns={2}>
                     <Grid.Column width={4}>
+                      <Grid.Row>
                       <BucketAggregation
                         title="Source"
                         agg={{ field: 'source', aggName: 'source_agg' }}
@@ -134,9 +165,19 @@ export class Search extends React.Component {
                         }
                         renderValueElement={customAggValueCmp}
                       />
+                      <BucketAggregation
+                        title="Visibility"
+                        agg={{ field: 'visibility', aggName: 'visibility_agg' }}
+                      
+                      />
+                      </Grid.Row>
                     </Grid.Column>
                     <Grid.Column width={12}>
-                      <ResultsList />
+                    <ResultsLoader>
+                      <EmptyResults />
+                      <Error />
+                      <OnResults />
+                    </ResultsLoader>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>

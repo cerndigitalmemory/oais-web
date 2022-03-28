@@ -34,15 +34,16 @@ export class AddToCollection extends React.Component {
     }
   }
 
-  getCollections = (page) => api.collections(page)
+  getCollections = (page, internal) => api.collections(page, internal)
 
   addArchivesToCollection = (id, archives) =>
     api.add_archives_to_collection(id, archives)
 
   loadCollections = async (page) => {
     try {
+      const internal = false
       const { results: collections, count: totalCollections } =
-        await this.getCollections(page)
+        await this.getCollections(page, internal)
       this.setState({
         collections: collections,
         page: page,

@@ -56,12 +56,13 @@ export class StatisticsGrid extends React.Component {
     }
   }
 
-  getCollections = (page) => api.collections(page)
+  getCollections = (page, internal) => api.collections(page, internal)
 
   loadCollections = async (page = 1) => {
     try {
+      const internal = false
       const { results: collections, count: totalCollections } =
-        await this.getCollections(page)
+        await this.getCollections(page, internal)
       this.setState({
         collections: collections,
         totalCollections: totalCollections,
