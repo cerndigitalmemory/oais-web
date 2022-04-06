@@ -33,3 +33,7 @@ h1 {
   -webkit-text-fill-color: transparent;
   text-align: right;
 }
+
+.ui.secondary.menu {
+  /* background: rgb(255, 255, 255); Custom Navbar background*/
+}
