@@ -381,7 +381,7 @@ class NavBarChildren extends React.Component {
     return (
       <React.Fragment>
         <Notifications notifications={notifications ?? []} />
-        <Container style={{ 'min-height': '79vh', 'margin-bottom': '6vh' }}>
+        <Container style={{ 'padding-bottom': '100px', 'min-height': '92vh' }}>
           <Switch>
             <ProtectedRoute path="/harvest" component={Harvest} />
             <ProtectedRoute path="/add-resource" component={AddResource} />
