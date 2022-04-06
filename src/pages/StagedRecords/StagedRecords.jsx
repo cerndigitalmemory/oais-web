@@ -48,10 +48,10 @@ export class StagedRecords extends React.Component {
   }
 
   updateAll = () => {
-    this.setState({ loading: true })
     this.loadRecords()
-    this.setState({ loading: false })
   }
+
+  setLoading = () => this.setState({loading : !this.state.loading})
 
   render() {
     const { user } = this.context
@@ -75,6 +75,7 @@ export class StagedRecords extends React.Component {
             onArchiveUpdate={this.updateAll}
             totalStagedArchives={totalStagedArchives}
             page={page}
+            setLoading={this.setLoading}
           />
         )}
       </React.Fragment>
