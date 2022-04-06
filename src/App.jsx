@@ -20,7 +20,6 @@ export class App extends React.Component {
       <AppContext.Context.Provider value={this.state}>
         <div id="app">
           <NavigationBar  notifications = {notifications}/>
-   
         </div>
       </AppContext.Context.Provider>
     )
