@@ -6,36 +6,36 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-import _extend from 'lodash/extend';
-import _isEmpty from 'lodash/isEmpty';
+import _extend from 'lodash/extend'
+import _isEmpty from 'lodash/isEmpty'
 
 export class ESRequestSerializer {
-  getFilters = filters => {
+  getFilters = (filters) => {
     /**
      * input: [
      *   [ 'type_agg', 'value1' ]
      *   [ 'type_agg', 'value2', [ 'subtype_agg', 'a value' ] ]
      * ]
      */
-    const aggValueObj = {};
+    const aggValueObj = {}
 
-    const getChildFilter = filter => {
-      const aggName = filter[0];
-      const fieldValue = filter[1];
+    const getChildFilter = (filter) => {
+      const aggName = filter[0]
+      const fieldValue = filter[1]
       if (aggName in aggValueObj) {
-        aggValueObj[aggName].push(fieldValue);
+        aggValueObj[aggName].push(fieldValue)
       } else {
-        aggValueObj[aggName] = [fieldValue];
+        aggValueObj[aggName] = [fieldValue]
       }
-      const hasChild = filter.length === 3;
+      const hasChild = filter.length === 3
       if (hasChild) {
-        getChildFilter(filter[2]);
+        getChildFilter(filter[2])
       }
-    };
+    }
 
-    filters.forEach(filterObj => {
-      getChildFilter(filterObj);
-    });
+    filters.forEach((filterObj) => {
+      getChildFilter(filterObj)
+    })
 
     /**
      * output: {
@@ -43,72 +43,53 @@ export class ESRequestSerializer {
      *   subtype_agg: [ 'a value' ]
      * }
      */
-    return aggValueObj;
-  };
+    return aggValueObj
+  }
 
   /**
    * Return a serialized version of the app state `query` for the API backend.
    * @param {object} stateQuery the `query` state to serialize
    */
-  serialize = stateQuery => {
-    const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery;
+  serialize = (stateQuery) => {
+    const { queryString, sortBy, sortOrder, page, size, filters } = stateQuery
 
-    const bodyParams = {};
+    const bodyParams = {}
     if (!_isEmpty(queryString)) {
-      bodyParams['query'] = {
-        query_string: {
-          query: queryString,
-        },
-      };
+      bodyParams['query'] = queryString
     }
     if (sortBy !== null) {
-      const sortObj = {};
-      sortObj[sortBy] = sortOrder && sortOrder === 'desc' ? 'desc' : 'asc';
-      bodyParams['sort'].push(sortObj);
+      const sortObj = {}
+      sortObj[sortBy] = sortOrder && sortOrder === 'desc' ? 'desc' : 'asc'
+      bodyParams['sort'].push(sortObj)
     }
 
     if (size > 0) {
-      bodyParams['size'] = size;
+      bodyParams['size'] = size
     }
 
     if (page > 0) {
-      const s = size > 0 ? size : 0;
-      const from = (page - 1) * s;
-      bodyParams['from'] = from;
+      const s = size > 0 ? size : 0
+      const from = (page - 1) * s
+      bodyParams['from'] = from
     }
 
     // create post filters with the given filters
     if (filters.length) {
       // ES need the field name as field, get the field name from the aggregation name
       const aggFieldsMapping = {
-        source_agg: 'source',
-        visibility_agg: 'visibility',
-      };
-      const aggValueObj = this.getFilters(filters);
+        sources: 'source',
+        visibility: 'visibility',
+        steps_name: 'steps_name',
+      }
+      const aggValueObj = this.getFilters(filters)
 
-      // conver to object
-      const terms = Object.keys(aggValueObj).map(aggName => {
-        const obj = {};
-        const fieldName = aggFieldsMapping[aggName];
-        obj[fieldName] = aggValueObj[aggName];
-        return { terms: obj };
-      });
-
-      bodyParams['post_filter'] = { bool: { must: terms } };
+      // Populate aggregation fields
+      const terms = Object.keys(aggValueObj).map((aggName) => {
+        const fieldName = aggFieldsMapping[aggName]
+        bodyParams[fieldName] = aggValueObj[aggName]
+      })
     }
 
-    // simulate a backend that defines all the possible complex aggregations per index
-    // for this demo, we define a few simple aggregations
-    bodyParams['aggs'] = {};
-
-    // bucket term aggregation on `source` field
-    const aggBucketTermsSource = { source_agg: { terms: { source: 'source' } } };
-    _extend(bodyParams['aggs'], aggBucketTermsSource);
-    // bucket term aggregation on `source` field
-    const aggBucketTermsTags = { visibility_agg: { terms: { source: 'visibility' } } };
-    _extend(bodyParams['aggs'], aggBucketTermsTags);
-    
-
-    return bodyParams;
-  };
+    return bodyParams
+  }
 }
