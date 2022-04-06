@@ -30,6 +30,7 @@ import { Container } from 'semantic-ui-react'
 import { Route, Switch } from 'react-router-dom'
 import { Jobs } from '@/pages/Jobs/Jobs.jsx'
 import { JobDetails } from '@/pages/JobDetailsPage/JobDetails.jsx'
+import { Footer } from '@/components/Footer/Footer.jsx'
 
 /**
  * Renders the Navigation Bar, keeping track of the active page and
@@ -380,39 +381,40 @@ class NavBarChildren extends React.Component {
     return (
       <React.Fragment>
         <Notifications notifications={notifications ?? []} />
-          <Container>
-            <Switch>
-              <ProtectedRoute path="/harvest" component={Harvest} />
-              <ProtectedRoute path="/add-resource" component={AddResource} />
-              <ProtectedRoute path="/archives" component={Archives} />
-              <ProtectedRoute path="/search/" component={Search} />
-              <ProtectedRoute path="/archive/:id" component={ArchiveSteps} />
-              <ProtectedRoute
-                path="/edit-archive/:id"
-                component={EditManifests}
-              />
-              <ProtectedRoute
-                path="/collection/:id"
-                component={CollectionDetails}
-              />
-              <ProtectedRoute path="/records/:id" component={RecordDetail} />
-              <ProtectedRoute path="/details/:id" component={SIPDetailPage} />
-              <ProtectedRoute path="/users/:id" component={UserDetail} />
-              <ProtectedRoute path="/upload" component={Upload} />
-              <ProtectedRoute path="/staged" component={StagedRecords} />
-              <ProtectedRoute path="/actions" component={Actions} />
-              <ProtectedRoute path="/collections" component={Collections} />
-              <ProtectedRoute path="/settings" component={Settings} />
-              <ProtectedRoute path="/jobs" component={Jobs} />
-              <ProtectedRoute path="/job/:id" component={JobDetails} />
-              <Route path="/login/callback" component={LoginCallback} />
-              <Route path="/logout" component={Logout} />
-              <Route path="/login" component={Login} />
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
-          </Container>
+        <Container style={{ 'min-height': '79vh', 'margin-bottom': '6vh' }}>
+          <Switch>
+            <ProtectedRoute path="/harvest" component={Harvest} />
+            <ProtectedRoute path="/add-resource" component={AddResource} />
+            <ProtectedRoute path="/archives" component={Archives} />
+            <ProtectedRoute path="/search/" component={Search} />
+            <ProtectedRoute path="/archive/:id" component={ArchiveSteps} />
+            <ProtectedRoute
+              path="/edit-archive/:id"
+              component={EditManifests}
+            />
+            <ProtectedRoute
+              path="/collection/:id"
+              component={CollectionDetails}
+            />
+            <ProtectedRoute path="/records/:id" component={RecordDetail} />
+            <ProtectedRoute path="/details/:id" component={SIPDetailPage} />
+            <ProtectedRoute path="/users/:id" component={UserDetail} />
+            <ProtectedRoute path="/upload" component={Upload} />
+            <ProtectedRoute path="/staged" component={StagedRecords} />
+            <ProtectedRoute path="/actions" component={Actions} />
+            <ProtectedRoute path="/collections" component={Collections} />
+            <ProtectedRoute path="/settings" component={Settings} />
+            <ProtectedRoute path="/jobs" component={Jobs} />
+            <ProtectedRoute path="/job/:id" component={JobDetails} />
+            <Route path="/login/callback" component={LoginCallback} />
+            <Route path="/logout" component={Logout} />
+            <Route path="/login" component={Login} />
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </Container>
+        <Footer />
       </React.Fragment>
     )
   }
