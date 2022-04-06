@@ -6,20 +6,13 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
-import {
-  ActiveFilters,
-  Count,
-  LayoutSwitcher,
-  Pagination,
-  ResultsMultiLayout,
-  ResultsList,
-} from 'react-searchkit';
+import React, { Component } from 'react'
+import { Grid } from 'semantic-ui-react'
+import { Count, Pagination, ResultsList } from 'react-searchkit'
 
 export class Results extends Component {
   render() {
-    const { total } = this.props.currentResultsState.data;
+    const { total } = this.props.currentResultsState.data
     return total ? (
       <>
         <Grid relaxed>
@@ -28,9 +21,6 @@ export class Results extends Component {
               <Count label={(cmp) => <>Found {cmp}</>} />
             </span>
           </Grid.Column>
-          <Grid.Column  width={13}>
-            <ActiveFilters />
-          </Grid.Column>         
         </Grid>
         <Grid relaxed style={{ padding: '2em 0' }}>
           <ResultsList />
@@ -39,10 +29,10 @@ export class Results extends Component {
           <Pagination />
         </Grid>
       </>
-    ) : null;
+    ) : null
   }
 }
 
-Results.propTypes = {};
+Results.propTypes = {}
 
-Results.defaultProps = {};
+Results.defaultProps = {}
