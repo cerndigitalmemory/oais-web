@@ -24,6 +24,7 @@ export class PaginatedRecordsList extends React.Component {
   static propTypes = {
     stagedArchives: PropTypes.arrayOf(archiveTypeDetailed),
     onArchiveUpdate: PropTypes.func.isRequired,
+    setLoading: PropTypes.func.isRequired,
     totalStagedArchives: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
   }
@@ -38,12 +39,14 @@ export class PaginatedRecordsList extends React.Component {
 
   handleArchiving = async () => {
     const archives = this.props.stagedArchives
+    this.props.setLoading()
     try {
       this.stageArchive(archives)
       sendNotification('Archives archived successfully', archives.length + " archived")
-      this.props.onArchiveUpdate()
     } catch (e) {
       sendNotification('Error while archiving', e.message)
+    } finally {
+      this.props.setLoading()
     }
   }
 
