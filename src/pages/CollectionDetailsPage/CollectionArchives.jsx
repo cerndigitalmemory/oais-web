@@ -39,7 +39,7 @@ export class CollectionArchives extends React.Component {
     return (
       <Segment raised>
         <Label color="blue" ribbon>
-          Collection Archives
+          Tag Archives
         </Label>
         <Grid>
           <Grid.Row>

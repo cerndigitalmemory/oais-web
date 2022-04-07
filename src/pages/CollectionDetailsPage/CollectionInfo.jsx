@@ -25,9 +25,9 @@ export class CollectionInfo extends React.Component {
     return (
       <Segment raised>
         <Label color="blue" ribbon>
-          General Collection Information
+          General Tag Information
         </Label>
-        <h1>Collection {id}</h1>
+        <h1>Tag {id}</h1>
         <List>
           <List.Item>
             <b>Name: </b> {collection.title}

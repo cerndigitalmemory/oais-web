@@ -57,7 +57,7 @@ export class Collections extends React.Component {
             <Grid>
               <Grid.Row>
                 <Grid.Column floated="left" width={10}>
-                  <h1>Collections</h1>
+                  <h1>Tags</h1>
                 </Grid.Column>
                 <Grid.Column floated="right" width={3} textAlign="right">
                   <CreateCollection
