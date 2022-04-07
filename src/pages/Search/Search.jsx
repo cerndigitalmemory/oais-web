@@ -112,12 +112,11 @@ const stepsAggValueCmp = (bucket) => {
   }
 
   return (
-    <Menu.Item
-      key={bucket.bucket.key}
-      active={bucket.isSelected}
-      onClick={() => bucket.onFilterClicked(bucket.bucket.key)}
-    >
-      <Checkbox label={checkboxLabel}></Checkbox>
+    <Menu.Item key={bucket.bucket.key} active={bucket.isSelected}>
+      <Checkbox
+        label={checkboxLabel}
+        onClick={() => bucket.onFilterClicked(bucket.bucket.key)}
+      ></Checkbox>
     </Menu.Item>
   )
 }
