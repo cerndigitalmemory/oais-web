@@ -152,7 +152,7 @@ export class StatisticsGrid extends React.Component {
               ) : (
                 <Statistic
                   horizontal
-                  label="Collections"
+                  label="Tags"
                   value={totalCollections}
                 />
               )}

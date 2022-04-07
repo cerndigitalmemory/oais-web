@@ -28,14 +28,14 @@ export class ActionsButtons extends React.Component {
     if (checkedArchives.length == 0) {
       createNewCollection = (
         <Button disabled color="blue">
-          Add it to new Collection
+          Add it to new Tag
         </Button>
       )
     } else {
       createNewCollection = (
         <CreateCollection
           onCollectionCreation={this.props.onArchiveUpdate}
-          label="Add it to new Collection"
+          label="Add it to new Tag"
           defaultArchives={checkedArchives}
           addArchives={false}
         />
@@ -46,7 +46,7 @@ export class ActionsButtons extends React.Component {
     if (checkedArchives.length == 0) {
       addToExistingCollection = (
         <Button disabled color="blue">
-          Add it to default Collection
+          Add it to default Tag
         </Button>
       )
     } else {
@@ -54,7 +54,7 @@ export class ActionsButtons extends React.Component {
         <AddToCollection
           onCollectionAddition={this.props.onArchiveUpdate}
           archives={checkedArchives}
-          label="Add it to existing Collection"
+          label="Add it to existing Tag"
         />
       )
     }

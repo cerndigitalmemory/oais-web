@@ -6,7 +6,7 @@ import { Loader, Button, Modal } from 'semantic-ui-react'
 import { PaginatedArchivesList } from '@/components/AddArchivesToCollection/AddPaginatedArchivesList.jsx'
 import { sendNotification } from '@/utils.js'
 /**
- * Allow adding Archives to a Collection by rendering a modal listing available Archives.
+ * Allow adding Archives to a Tag by rendering a modal listing available Archives.
  */
 export class AddArchives extends React.Component {
   static propTypes = {

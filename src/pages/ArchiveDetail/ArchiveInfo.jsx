@@ -84,7 +84,7 @@ export class ArchiveInfo extends React.Component {
               <AddToCollection
                 onCollectionAddition={this.props.onCollectionUpdate}
                 archives={[archive.id]}
-                label="Add it to Collection"
+                label="Add it to Tag"
               />
               {''}
               {submitButton}

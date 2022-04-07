@@ -41,7 +41,7 @@ export class ArchivesList extends React.Component {
             <Table.HeaderCell>Creator</Table.HeaderCell>
             <Table.HeaderCell>Creation Date</Table.HeaderCell>
             <Table.HeaderCell>See Steps</Table.HeaderCell>
-            <Table.HeaderCell>Add to Collection</Table.HeaderCell>
+            <Table.HeaderCell>Add to Tag</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>

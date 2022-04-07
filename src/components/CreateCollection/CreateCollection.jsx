@@ -37,7 +37,7 @@ export class CreateCollection extends React.Component {
       archives: [],
       open: false,
       loading: true,
-      label: 'Create New Collection',
+      label: 'Create New Tag',
     }
   }
 
@@ -116,7 +116,7 @@ export class CreateCollection extends React.Component {
         <Modal.Header>Create a new collection</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
-            <Header>Collection Details</Header>
+            <Header>Tag Details</Header>
             <Form>
               <Form.Field
                 control={Input}
@@ -151,7 +151,7 @@ export class CreateCollection extends React.Component {
           </Button>
           <Button
             type="submit"
-            content="Create Collection"
+            content="Create Tag"
             onClick={() => this.handleSubmit()}
             positive
           />
