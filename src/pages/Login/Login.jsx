@@ -53,11 +53,9 @@ export class Login extends React.Component {
 
     return (
       <div>
-        <h1>CERN Digital Memory Platform</h1>
+        <h1>Login</h1>
         <Segment placeholder>
-          
           <Grid columns={2} relaxed="very" stackable divided>
-          
             <Grid.Column>
               <Form onSubmit={this.handleSubmit}>
                 <Form.Input
@@ -81,13 +79,12 @@ export class Login extends React.Component {
                 <Button content="Login" primary />
               </Form>
             </Grid.Column>
-            
+
             <Grid.Column verticalAlign="middle" textAlign="center">
               <Button href={API_URL + 'oidc/authenticate/'} color="blue">
                 Login with a CERN Account
               </Button>
             </Grid.Column>
-            
           </Grid>
         </Segment>
       </div>
