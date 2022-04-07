@@ -18,38 +18,21 @@ export class RecordsList extends React.Component {
     addRecord: PropTypes.func.isRequired,
     removeRecord: PropTypes.func.isRequired,
     checkedList: PropTypes.arrayOf(recordType).isRequired,
+    archivedList: PropTypes.arrayOf(archiveType),
+    isLoading: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
     super(props)
-    this.state = {
-      StagedArchivesList: [],
-      loading: true,
-    }
-  }
-
-  loadRecords = async (page = 1) => {
-    
-    try {
-      const StagedArchivesList = await api.stagedArchives()
-      this.setState({StagedArchivesList:StagedArchivesList})
-    } catch (e) {
-      sendNotification('Error while fetching records', e.message)
-    }
-  }
-
-  componentDidMount() {
-    this.loadRecords()
-    this.setState({ loading: false })
   }
 
   render() {
-    const {StagedArchivesList, loading} = this.state
+    const { archivedList } = this.props
 
     return (
       <div>
         <Table>
-          {(!loading) || this.props.records.length > 0 ? (
+          {this.props.records.length > 0 || !this.props.isLoading ? (
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell width="12">Title</Table.HeaderCell>
@@ -75,7 +58,7 @@ export class RecordsList extends React.Component {
                 checkedRecord={this.props.checkedList.filter(
                   (checkedRecord) => checkedRecord.recid == record.recid
                 )}
-                archivedList={StagedArchivesList}
+                archivedList={archivedList}
               />
             ))}
           </Table.Body>
@@ -101,24 +84,53 @@ class Record extends React.Component {
       collapsed: true,
       archived: false,
       archive: null,
+      loading: true,
     }
   }
 
   componentDidUpdate(prevProps) {
-    /* 
-      Each time the component updates if there is a change of state, 
+    /*
+      Each time the component updates if there is a change of state,
       and if the record id is in the archivedList then toogle checked status to true.
       If it is not in the list toogle status to false
     */
+
     if (prevProps.archivedList != this.props.archivedList) {
+      this.setState({ loading: true })
       let archived = false
       this.props.archivedList.map((archivedItem) => {
-        if ((archivedItem.recid === this.props.record.recid) && (archivedItem.source === this.props.record.source)) {
+        if (
+          archivedItem.recid === this.props.record.recid &&
+          archivedItem.source === this.props.record.source
+        ) {
+          console.log(this.props.record.recid, this.props.record.source)
+          archived = true
+        }
+      })
+      this.setState({ archived: archived, loading: false })
+    }
+  }
+
+  componentDidMount() {
+    /* 
+      When the component is mounted, then each record is compared with the 
+      staged archives list and if it is already a staged archive with the 
+      same source and recid then the check button is disabled
+    */
+    if (this.props.archivedList) {
+      let archived = false
+      this.props.archivedList.map((archivedItem) => {
+        if (
+          archivedItem.recid === this.props.record.recid &&
+          archivedItem.source === this.props.record.source
+        ) {
+          console.log(this.props.record.recid, this.props.record.source)
           archived = true
         }
       })
       this.setState({ archived: archived })
     }
+    this.setState({ loading: false })
   }
 
   toggleChecked = () => {
@@ -141,7 +153,7 @@ class Record extends React.Component {
 
   render() {
     const { record, detailedRecord, checkedRecord } = this.props
-    const { collapsed, archive, archived } = this.state
+    const { collapsed, archive, archived, loading } = this.state
 
     let archivedRecord = null
     if (detailedRecord[0].archives.length > 0) {
@@ -180,11 +192,13 @@ class Record extends React.Component {
         </Table.Cell>
         <Table.Cell textAlign="right">{record.recid}</Table.Cell>
         <Table.Cell textAlign="right">
-          <RecordActions
-            {...{ record, archive, collapsed, checkedRecord, archived }}
-            toggleCollapse={this.toggleCollapse}
-            toggleChecked={this.toggleChecked}
-          />
+          {!loading && (
+            <RecordActions
+              {...{ record, archive, collapsed, checkedRecord, archived }}
+              toggleCollapse={this.toggleCollapse}
+              toggleChecked={this.toggleChecked}
+            />
+          )}
         </Table.Cell>
       </Table.Row>
     )
@@ -258,7 +272,7 @@ class RecordActions extends React.Component {
 
 class ShowArchive extends React.Component {
   static propTypes = {
-    archive: archiveType,
+    archive: archiveType.isRequired,
   }
 
   render() {

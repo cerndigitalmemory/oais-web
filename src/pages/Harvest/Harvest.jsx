@@ -20,6 +20,11 @@ class Harvest extends React.Component {
     activePage: 1,
     totalNumHits: null,
     hitsPerPage: 20,
+    StagedArchivesList: [],
+  }
+
+  componentDidMount() {
+    this.loadRecords()
   }
 
   // Changes the query state at the redux
@@ -90,6 +95,7 @@ class Harvest extends React.Component {
     } finally {
       const detailedResponse = await this.getDetailedRecords(this.state.results)
       this.setState({ detailedResults: detailedResponse })
+      this.loadRecords()
     }
     this.setState({ isLoading: false })
   }
@@ -112,8 +118,20 @@ class Harvest extends React.Component {
         'Check staged records page for more information'
       )
     }
-
+    this.loadRecords()
     this.removeAllRecords()
+  }
+
+  loadRecords = async (page = 1) => {
+    this.setState({ isLoading: true })
+    try {
+      const StagedArchivesList = await api.stagedArchives()
+      this.setState({ StagedArchivesList: StagedArchivesList })
+    } catch (e) {
+      sendNotification('Error while fetching records', e.message)
+    } finally {
+      this.setState({ isLoading: false })
+    }
   }
 
   handleCheckAll = () => {
@@ -125,7 +143,8 @@ class Harvest extends React.Component {
   }
 
   render() {
-    const { isLoading, detailedResults, results } = this.state
+    const { isLoading, detailedResults, results, StagedArchivesList } =
+      this.state
 
     const archiveButton = (
       <div>
@@ -140,7 +159,7 @@ class Harvest extends React.Component {
         </Button>
       </div>
     )
-    
+
     return (
       <React.Fragment>
         <h1>Harvest</h1>
@@ -192,6 +211,8 @@ class Harvest extends React.Component {
               addRecord={this.checkRecordAdd}
               removeRecord={this.checkRecordRemove}
               checkedList={this.props.checkedRecords}
+              archivedList={StagedArchivesList}
+              isLoading={isLoading}
             />
             {archiveButton}
           </React.Fragment>
