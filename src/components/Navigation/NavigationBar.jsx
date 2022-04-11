@@ -32,6 +32,8 @@ import { Jobs } from '@/pages/Jobs/Jobs.jsx'
 import { JobDetails } from '@/pages/JobDetailsPage/JobDetails.jsx'
 import { Footer } from '@/components/Footer/Footer.jsx'
 
+import { api } from '@/api.js'
+
 /**
  * Renders the Navigation Bar, keeping track of the active page and
  * showing some links only to authenticated users.
@@ -40,7 +42,7 @@ import { Footer } from '@/components/Footer/Footer.jsx'
  * Renders the Navigation Bar, keeping track of the active page and
  * showing some links only to authenticated users.
  */
- const AppMedia = createMedia({
+const AppMedia = createMedia({
   breakpoints: {
     mobile: 320,
     tablet: 768,
@@ -142,19 +144,20 @@ export class NavigationBar extends React.Component {
   handleToggle = () => this.setState({ visible: !this.state.visible })
 
   componentDidMount() {
-    this.setState({activeItem: window.location.pathname})
+    this.setState({ activeItem: window.location.pathname })
   }
 
   render() {
     const { isLoggedIn, user } = this.context
     const { links, activeItem, visible } = this.state
     // When the user is logged out there was a blank page, now a loggedOut navbar is displayed
-    let showNavbar = 
-        <NavBarLoggedOut
-          leftItems={links}
-          activeItem={activeItem}
-          notifications={this.props.notifications}
-        ></NavBarLoggedOut>
+    let showNavbar = (
+      <NavBarLoggedOut
+        leftItems={links}
+        activeItem={activeItem}
+        notifications={this.props.notifications}
+      ></NavBarLoggedOut>
+    )
     if (user && isLoggedIn) {
       showNavbar = (
         <NavBar
@@ -170,12 +173,13 @@ export class NavigationBar extends React.Component {
       )
     }
     if (!isLoggedIn) {
-      showNavbar = 
+      showNavbar = (
         <NavBarLoggedOut
           leftItems={links}
           activeItem={activeItem}
           notifications={this.props.notifications}
         ></NavBarLoggedOut>
+      )
     }
 
     return (
@@ -202,11 +206,21 @@ class NavBar extends React.Component {
 
   handlePusher = () => {
     const { visible } = this.props
-    if (visible) {this.props.onToggle()}
+    if (visible) {
+      this.props.onToggle()
+    }
   }
 
   render() {
-    const { leftItems, isLoggedIn, user, activeItem, notifications, visible, onItemClick } = this.props
+    const {
+      leftItems,
+      isLoggedIn,
+      user,
+      activeItem,
+      notifications,
+      visible,
+      onItemClick,
+    } = this.props
 
     return (
       <div>
@@ -232,7 +246,7 @@ class NavBar extends React.Component {
             activeItem={activeItem}
             onItemClick={onItemClick}
           />
-          <NavBarChildren notifications = {notifications}/>
+          <NavBarChildren notifications={notifications} />
         </Media>
       </div>
     )
@@ -312,8 +326,7 @@ class NavBarMobile extends React.Component {
               </Menu.Menu>
             )}
           </Menu>
-          <NavBarChildren notifications= {notifications}/>
-          
+          <NavBarChildren notifications={notifications} />
         </Sidebar.Pusher>
       </Sidebar.Pushable>
     )
@@ -381,7 +394,9 @@ class NavBarChildren extends React.Component {
     return (
       <React.Fragment>
         <Notifications notifications={notifications ?? []} />
-        <Container style={{ 'padding-bottom': '100px', 'min-height': '92vh' }}>
+        <Container
+          style={{ paddingBottom: '100px', minHeight: '93vh', z_index: 'auto' }}
+        >
           <Switch>
             <ProtectedRoute path="/harvest" component={Harvest} />
             <ProtectedRoute path="/add-resource" component={AddResource} />
@@ -427,19 +442,17 @@ class NavBarLoggedOut extends React.Component {
     notifications: PropTypes.arrayOf(notificationType),
   }
 
-
   render() {
     const { leftItems, activeItem, notifications } = this.props
 
     return (
       <div>
-
-          <NavBarDesktop
-            leftItems={leftItems}
-            activeItem={activeItem}
-            isLoggedIn={false}
-          />
-          <NavBarChildren notifications = {notifications}/>
+        <NavBarDesktop
+          leftItems={leftItems}
+          activeItem={activeItem}
+          isLoggedIn={false}
+        />
+        <NavBarChildren notifications={notifications} />
       </div>
     )
   }
