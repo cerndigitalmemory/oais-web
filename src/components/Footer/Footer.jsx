@@ -25,7 +25,8 @@ export class Footer extends React.Component {
             position: 'absolute',
             bottom: '0px',
             width: '100%',
-            height: '100px',
+            height: '120px',
+            z_index: '100',
           }}
         >
           <Container textAlign="center">
