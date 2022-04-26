@@ -1,8 +1,7 @@
 import { api } from '@/api.js'
 import { AppContext } from '@/AppContext.js'
-import { sendNotification } from '@/utils.js'
 import { stepType, archiveType } from '@/types.js'
-import { StepStatus, StepStatusLabel, StepNameLabel } from '@/utils.js'
+import { StepStatusLabel, StepNameLabel } from '@/utils.js'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {

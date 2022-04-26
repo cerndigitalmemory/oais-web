@@ -1,5 +1,4 @@
 import { StepsList } from '@/pages/ArchiveDetail/StepsList.jsx'
-import { sendNotification } from '@/utils.js'
 import { stepType, archiveType } from '@/types.js'
 import PropTypes from 'prop-types'
 import React from 'react'

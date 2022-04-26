@@ -3,13 +3,7 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import React from 'react'
-import {
-  Segment,
-  Label,
-  List,
-  Grid,
-  Button,
-} from 'semantic-ui-react'
+import { Segment, Label, List, Grid, Button } from 'semantic-ui-react'
 import { AddToCollection } from '@/components/AddArchivesToExistingCollection/AddArchivesToExistingCollection.jsx'
 
 /**
@@ -60,15 +54,20 @@ export class ArchiveInfo extends React.Component {
       }
     }
 
-    let collectionListItem = <><b>Collections: </b><i>None</i></>
-    collectionListItem = <List.Item>
-      <b>Tags: </b> {collections.map((collection) => (
-              <CollectionDetail
-                key={collection.id}
-                collection={collection}
-              />
-            ))}
-    </List.Item>
+    let collectionListItem = (
+      <>
+        <b>Collections: </b>
+        <i>None</i>
+      </>
+    )
+    collectionListItem = (
+      <List.Item>
+        <b>Tags: </b>{' '}
+        {collections.map((collection) => (
+          <CollectionDetail key={collection.id} collection={collection} />
+        ))}
+      </List.Item>
+    )
 
     return (
       <Segment raised>
@@ -121,7 +120,7 @@ class CollectionDetail extends React.Component {
     return (
       <Label basic>
         <Link to={`/collection/${collection.id}`}>{collection.title}</Link>
-      </Label>  
+      </Label>
     )
   }
 }
