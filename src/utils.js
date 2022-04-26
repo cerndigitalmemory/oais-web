@@ -12,6 +12,7 @@ export const StepStatus = {
   COMPLETED: 4,
   WAITING_APPROVAL: 5,
   REJECTED: 6,
+  WAITING: 7,
 }
 
 export const StepStatusLabel = {
@@ -21,6 +22,7 @@ export const StepStatusLabel = {
   [StepStatus.COMPLETED]: 'Completed',
   [StepStatus.WAITING_APPROVAL]: 'Waiting for Approval',
   [StepStatus.REJECTED]: 'Rejected',
+  [StepStatus.WAITING]: 'Waiting',
 }
 
 export const StepName = {
