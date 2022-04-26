@@ -2,10 +2,8 @@ import { api } from '@/api.js'
 import { AppContext } from '@/AppContext.js'
 import { stepType, archiveType } from '@/types.js'
 import {
-  StepStatus,
   StepStatusLabel,
   StepNameLabel,
-  StepName,
   formatDateTime,
   hasPermission,
   Permissions,
@@ -13,16 +11,7 @@ import {
 } from '@/utils.js'
 import PropTypes from 'prop-types'
 import React from 'react'
-import {
-  Button,
-  Loader,
-  Icon,
-  Segment,
-  Grid,
-  Accordion,
-  Container,
-  Image,
-} from 'semantic-ui-react'
+import { Button, Icon, Grid, Accordion, Container } from 'semantic-ui-react'
 
 /**
  * This component gets the steps as a prop and renders a list of the steps
@@ -33,10 +22,6 @@ export class StepsList extends React.Component {
   static propTypes = {
     steps: PropTypes.arrayOf(stepType),
     archive: archiveType.isRequired,
-  }
-
-  constructor(props) {
-    super(props)
   }
 
   render() {
@@ -67,13 +52,10 @@ class Step extends React.Component {
     archive: archiveType.isRequired,
     lastStep: stepType.isRequired,
   }
-  constructor(props) {
-    super(props)
-    this.state = {
-      nextStep: null,
-      activeIndex: 0,
-      loading: false,
-    }
+  state = {
+    nextStep: null,
+    activeIndex: 0,
+    loading: false,
   }
 
   handleClick = (e, titleProps) => {
@@ -89,8 +71,7 @@ class Step extends React.Component {
   approve = async () => {
     const { step } = this.props
     try {
-      const updatedStep = await api.approveArchive(step.id)
-      // onStepUpdate(updatedStep);
+      await api.approveArchive(step.id)
       this.setState({ loading: true })
     } catch (e) {
       sendNotification('Error while approving archive', e.message)
@@ -100,8 +81,7 @@ class Step extends React.Component {
   reject = async () => {
     const { step } = this.props
     try {
-      const updatedStep = await api.rejectArchive(step.id)
-      // onStepUpdate(updatedStep);
+      await api.rejectArchive(step.id)
       this.setState({ loading: true })
     } catch (e) {
       sendNotification('Error while rejecting archive', e.message)
@@ -114,7 +94,7 @@ class Step extends React.Component {
   }
 
   render() {
-    const { step, archive, lastStep } = this.props
+    const { step, lastStep } = this.props
     const { user } = this.context
     const { activeIndex, loading } = this.state
 
@@ -150,7 +130,6 @@ class Step extends React.Component {
       )
     }
 
-    const loadingApproval = <Loader active inline />
     /*
     If the current step is Archivematica, 
     gets the information from step.output_data field and
@@ -158,14 +137,43 @@ class Step extends React.Component {
     If this value is true then archivematica details are rendered
     */
     let renderArchivematicaDetails
+    let downloadButton
+
     if (step.name === 5) {
-      if (step.output_data == null) {
-        renderArchivematicaDetails = false
-      } else {
+      if (step.output_data !== null) {
         // In order to display the JSON correctly double quotes must be replaced with single quotes
         var output = JSON.parse(step.output_data.replaceAll("'", '"'))
         renderArchivematicaDetails = true
       }
+    }
+
+    if (step.output_data !== null) {
+      var artifact_output = JSON.parse(
+        step.output_data.replaceAll("'", '"').replaceAll('None', '"null"')
+      )
+
+      if (artifact_output.artifact) {
+        downloadButton = (
+          <Button
+            size="tiny"
+            basic
+            color="black"
+            as="a"
+            href={artifact_output.artifact.artifact_url}
+          >
+            <Icon name="external alternate"></Icon>
+            {artifact_output.artifact.artifact_name}
+          </Button>
+        )
+      }
+    }
+
+    var artifactText = <span>Artifacts:&nbsp;</span>
+    let accordionActions = null
+    if (actions) {
+      accordionActions = actions
+    } else if (downloadButton) {
+      accordionActions = [artifactText, downloadButton]
     }
 
     return (
@@ -175,8 +183,8 @@ class Step extends React.Component {
             <Grid.Column floated="left" width={5}>
               <h3>{StepNameLabel[step.name]}</h3>
             </Grid.Column>
-            <Grid.Column floated="right" width={5}>
-              <b>Actions: </b> {actions}
+            <Grid.Column floated="right" textAlign="right">
+              {accordionActions && <>{accordionActions}</>}
             </Grid.Column>
           </Grid.Row>
         </Grid>

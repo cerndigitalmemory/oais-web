@@ -85,8 +85,6 @@ export class ArchiveSteps extends React.Component {
 
     const loadingSpinner = <Loader active inline="centered" />
 
-
-
     return (
       <React.Fragment>
         {loading || !archive || loadingCollections ? (
