@@ -96,7 +96,7 @@ export class AddArchives extends React.Component {
         open={open}
         trigger={<Button color="blue">Add Archives</Button>}
       >
-        <Modal.Header>Add archives to the collection</Modal.Header>
+        <Modal.Header>Add tags to the archive</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
             {loading || !newArchives ? (
