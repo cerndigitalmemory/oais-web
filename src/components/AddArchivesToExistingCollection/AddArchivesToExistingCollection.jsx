@@ -16,8 +16,10 @@ import { sendNotification } from '@/utils.js'
 export class AddToCollection extends React.Component {
   static propTypes = {
     onCollectionAddition: PropTypes.func, // a function to call after the archive has been added to a collection
-    archives: PropTypes.arrayOf(PropTypes.number), // an array of selected archives which will be added to the collection
+    archives: PropTypes.arrayOf(PropTypes.number).isRequired, // an array of selected archives which will be added to the collection
     label: PropTypes.string, // the label of the modal button
+    roundel: PropTypes.bool, // Makes a rounded button if true
+    icon: PropTypes.string, // the label of the modal button
   }
 
   constructor(props) {
@@ -103,12 +105,26 @@ export class AddToCollection extends React.Component {
 
     const loadingSpinner = <Loader active inline="centered" />
 
+    let triggerButton
+
+    if (this.props.roundel) {
+      if (this.props.icon) {
+        triggerButton = (
+          <Button circular icon={this.props.icon} basic size="small" />
+        )
+      } else {
+        triggerButton = <Button circular>{label}</Button>
+      }
+    } else {
+      triggerButton = <Button color="blue">{label}</Button>
+    }
+
     return (
       <Modal
         onClose={() => this.setOpen(false)}
         onOpen={() => this.setOpen(true)}
         open={open}
-        trigger={<Button color="blue">{label}</Button>}
+        trigger={triggerButton}
       >
         <Modal.Header>Choose the collection to add the archives</Modal.Header>
         <Modal.Content image>

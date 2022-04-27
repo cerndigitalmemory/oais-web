@@ -65,7 +65,13 @@ export class ArchiveInfo extends React.Component {
         <b>Tags: </b>{' '}
         {collections.map((collection) => (
           <CollectionDetail key={collection.id} collection={collection} />
-        ))}
+        ))}{' '}
+        <AddToCollection
+          onCollectionAddition={this.props.onCollectionUpdate}
+          archives={[archive.id]}
+          roundel
+          icon="plus"
+        />
       </List.Item>
     )
 
@@ -80,12 +86,6 @@ export class ArchiveInfo extends React.Component {
               <h1>Record {id}</h1>
             </Grid.Column>
             <Grid.Column floated="right" width={6} textAlign="right">
-              <AddToCollection
-                onCollectionAddition={this.props.onCollectionUpdate}
-                archives={[archive.id]}
-                label="Add it to Tag"
-              />
-              {''}
               {submitButton}
             </Grid.Column>
           </Grid.Row>
