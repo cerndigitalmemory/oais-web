@@ -4,8 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import React from 'react'
 import { Segment, Label, List, Grid, Button } from 'semantic-ui-react'
-import { AddToCollection } from '@/components/AddArchivesToExistingCollection/AddArchivesToExistingCollection.jsx'
-
+import { AddTagsToArchives } from '@/components/AddTagsToArchivesDropdown/AddTagsToArchives.jsx'
 /**
  * This component shows the general archive information
  * Gets the archive object and the ID as props and returns a header with the archive id
@@ -56,22 +55,13 @@ export class ArchiveInfo extends React.Component {
 
     let collectionListItem = (
       <>
-        <b>Collections: </b>
+        <b>Tags: </b>
         <i>None</i>
       </>
     )
     collectionListItem = (
       <List.Item>
-        <b>Tags: </b>{' '}
-        {collections.map((collection) => (
-          <CollectionDetail key={collection.id} collection={collection} />
-        ))}{' '}
-        <AddToCollection
-          onCollectionAddition={this.props.onCollectionUpdate}
-          archives={[archive.id]}
-          roundel
-          icon="plus"
-        />
+        <b>Tags:</b> <AddTagsToArchives archive={this.props.archive} />
       </List.Item>
     )
 
@@ -103,24 +93,6 @@ export class ArchiveInfo extends React.Component {
           {collectionListItem}
         </List>
       </Segment>
-    )
-  }
-}
-
-class CollectionDetail extends React.Component {
-  static propTypes = {
-    collection: collectionType,
-  }
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    const { collection } = this.props
-    return (
-      <Label basic>
-        <Link to={`/collection/${collection.id}`}>{collection.title}</Link>
-      </Label>
     )
   }
 }

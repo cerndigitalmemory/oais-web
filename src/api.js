@@ -105,11 +105,11 @@ class API {
   }
 
   async createStagedArchive(record) {
-    return await this._post(`/create-staged-archive/`, {record:record})
+    return await this._post(`/create-staged-archive/`, { record: record })
   }
 
   async setTag(id, tags) {
-    return await this._post(`/records/${id}/actions/set/`, {tags : tags});
+    return await this._post(`/records/${id}/actions/set/`, { tags: tags })
   }
 
   async parse_url(url) {
@@ -133,8 +133,8 @@ class API {
     return await this._post(`/upload/`, formData)
   }
 
-  async archives(page = 1, filter = "public") {
-    return await this._get('/archives/', { params: { page, filter }})
+  async archives(page = 1, filter = 'public') {
+    return await this._get('/archives/', { params: { page, filter } })
   }
 
   async stagedArchives() {
@@ -187,20 +187,12 @@ class API {
     return await this._get('/all-tags/')
   }
 
-  async getArchiveCollections(id) {
-    return await this._get(`/archive/${id}/get-collections/`)
-  }
-
-  async getArchiveExists(id) {
-    return await this._get(`/archive/${id}/search/`)
-  }
-
   async unstageArchive(id) {
     return await this._get(`/archive/${id}/unstage/`)
   }
 
   async unstageArchives(archives) {
-    return await this._post(`/unstage-archives/`, { archives : archives })
+    return await this._post(`/unstage-archives/`, { archives: archives })
   }
 
   async deleteArchive(id) {
