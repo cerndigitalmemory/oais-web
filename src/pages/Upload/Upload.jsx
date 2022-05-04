@@ -32,10 +32,10 @@ export class Upload extends React.Component {
         <p>Upload a SIP from your local machine (as ZIP file) </p>
         <Form onSubmit={this.handleSubmit}>
           <Grid stackable columns={3}>
-            <Grid.Column width={3} verticalAlign="middle">
+            <Grid.Column width={4} verticalAlign="middle">
               <h5>Select compressed SIP:</h5>
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column width={8}>
               <input
                 ref={this.fileInputRef}
                 type="file"
@@ -43,7 +43,7 @@ export class Upload extends React.Component {
                 onChange={this.handleFileUpload}
               />
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column width={1}>
               <Button primary content="Submit" type="submit" />
             </Grid.Column>
           </Grid>

@@ -216,7 +216,7 @@ export class SearchForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Grid stackable columns={4}>
-          <Grid.Column width={6} verticalAlign="bottom">
+          <Grid.Column width={5} verticalAlign="bottom">
             <Form.Field
               control={Input}
               value={this.state.query}
@@ -233,7 +233,7 @@ export class SearchForm extends React.Component {
               />
             </Form.Field>
           </GridColumn>
-          <Grid.Column verticalAlign="bottom" width={1}>
+          <Grid.Column verticalAlign="bottom">
             <Form.Select
               label="Source"
               defaultValue={this.state.source}
