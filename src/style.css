@@ -37,3 +37,7 @@ h1 {
 .ui.secondary.menu {
   /* background: rgb(255, 255, 255); Custom Navbar background*/
 }
+
+.ui.secondary.menu .active.item {
+  font-weight: 600;
+}
