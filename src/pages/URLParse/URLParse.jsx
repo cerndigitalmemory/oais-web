@@ -93,7 +93,7 @@ class URLParse extends React.Component {
         <h1>URL Harvest</h1>
         <p>
           Enter a URL from the supported digital repositories (CDS, Invenio,
-          CERN opendata)
+          CERN opendata) and we&apos;ll try to find the record for you.
         </p>
         <Form onSubmit={this.handleSubmit}>
           <Grid columns={2} stackable>
@@ -102,8 +102,8 @@ class URLParse extends React.Component {
                 control={Input}
                 value={this.state.url}
                 onChange={this.handleURLChange}
-                label="Enter URL"
-                placeholder="Enter URL here"
+                label="URL"
+                placeholder="https://cds.cern.ch/record/2798105/"
               />
             </Grid.Column>
             <Grid.Column verticalAlign="bottom" width={4}>

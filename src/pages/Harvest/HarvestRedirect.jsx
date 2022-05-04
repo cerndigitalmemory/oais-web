@@ -222,10 +222,10 @@ export class SearchForm extends React.Component {
               value={this.state.query}
               onChange={this.handleQueryChange}
               label="Query"
-              placeholder="Query"
+              placeholder="CMS Trigger System"
             />
           </Grid.Column>
-          <GridColumn verticalAlign="bottom" width={2}>
+          <GridColumn verticalAlign="bottom" width={3}>
             <Form.Field>
               <Checkbox
                 label="Search Record by ID"
@@ -233,7 +233,7 @@ export class SearchForm extends React.Component {
               />
             </Form.Field>
           </GridColumn>
-          <Grid.Column verticalAlign="bottom">
+          <Grid.Column verticalAlign="bottom" width={1}>
             <Form.Select
               label="Source"
               defaultValue={this.state.source}

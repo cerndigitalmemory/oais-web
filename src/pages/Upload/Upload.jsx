@@ -44,13 +44,7 @@ export class Upload extends React.Component {
               />
             </Grid.Column>
             <Grid.Column>
-              <Button
-                primary
-                content="Submit"
-                labelPosition="left"
-                icon="file"
-                type="submit"
-              />
+              <Button primary content="Submit" type="submit" />
             </Grid.Column>
           </Grid>
         </Form>
