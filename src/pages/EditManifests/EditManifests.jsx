@@ -82,9 +82,13 @@ class JSONEditForm extends React.Component {
   }
 
   componentDidMount() {
-    const sipJSON = this.props.archive.manifest
-    const manifest = sipJSON[0].tool.params
-    this.setState({ manifest: manifest })
+    try {
+      const sipJSON = this.props.archive.manifest
+      const manifest = sipJSON[0].tool.params
+      this.setState({ manifest: manifest })
+    } catch (e) {
+      sendNotification('Error while parsing manifest file', e.message)
+    }
   }
 
   onValueChange = (newKey, newValue) => {
@@ -232,16 +236,23 @@ class JSONEditForm extends React.Component {
           </Grid.Row>
         </Grid>
         <Form>
-          <Header>Manifest editor form</Header>
-          {Object.entries(manifest).map(([key, value]) => (
-            <FormField
-              key={key}
-              title={key}
-              value={value}
-              onValueChange={this.onValueChange}
-            />
-          ))}
-          {saveButtonModal}
+          {!manifest ? (
+            <div> Error while parsing manifest file </div>
+          ) : (
+            <>
+              <Header>Manifest editor form</Header>
+
+              {Object.entries(manifest).map(([key, value]) => (
+                <FormField
+                  key={key}
+                  title={key}
+                  value={value}
+                  onValueChange={this.onValueChange}
+                />
+              ))}
+              {saveButtonModal}
+            </>
+          )}
         </Form>
       </Segment>
     )

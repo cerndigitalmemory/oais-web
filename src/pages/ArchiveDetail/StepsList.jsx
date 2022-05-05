@@ -56,6 +56,10 @@ class Step extends React.Component {
     nextStep: null,
     activeIndex: 0,
     loading: false,
+    output: null,
+    artifact: null,
+    renderDownloadButton: false,
+    renderArchivematicaDetails: false,
   }
 
   handleClick = (e, titleProps) => {
@@ -64,6 +68,11 @@ class Step extends React.Component {
     const newIndex = activeIndex === index ? -1 : index
 
     this.setState({ activeIndex: newIndex })
+  }
+
+  componentDidMount() {
+    this.loadArchivematicaDetails()
+    this.loadDownloadButton()
   }
 
   static contextType = AppContext.Context
@@ -93,10 +102,51 @@ class Step extends React.Component {
     await api.next_step(value, this.props.archive)
   }
 
+  loadArchivematicaDetails = () => {
+    const step = this.props.step
+    if (step.name === 5) {
+      if (step.output_data !== null) {
+        // In order to display the JSON correctly double quotes must be replaced with single quotes
+        try {
+          var output = JSON.parse(step.output_data.replaceAll("'", '"'))
+          this.setState({ output: output, renderArchivematicaDetails: true })
+        } catch (e) {
+          sendNotification('Error while rejecting archive', e.message)
+        }
+      }
+    }
+  }
+
+  loadDownloadButton = () => {
+    const step = this.props.step
+    if (step.output_data !== null) {
+      try {
+        var output = JSON.parse(
+          step.output_data.replaceAll("'", '"').replaceAll('None', '"null"')
+        )
+        if (output.artifact) {
+          this.setState({
+            artifact: output.artifact,
+            renderDownloadButton: true,
+          })
+        }
+      } catch (e) {
+        sendNotification('Error while parsing archive', e.message)
+      }
+    }
+  }
+
   render() {
     const { step, lastStep } = this.props
     const { user } = this.context
-    const { activeIndex, loading } = this.state
+    const {
+      activeIndex,
+      loading,
+      renderDownloadButton,
+      renderArchivematicaDetails,
+      artifact,
+      output,
+    } = this.state
 
     const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE)
     const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE)
@@ -136,36 +186,20 @@ class Step extends React.Component {
     sets the renderArchivematicaDetails to true. 
     If this value is true then archivematica details are rendered
     */
-    let renderArchivematicaDetails
     let downloadButton
-
-    if (step.name === 5) {
-      if (step.output_data !== null) {
-        // In order to display the JSON correctly double quotes must be replaced with single quotes
-        var output = JSON.parse(step.output_data.replaceAll("'", '"'))
-        renderArchivematicaDetails = true
-      }
-    }
-
-    if (step.output_data !== null) {
-      var artifact_output = JSON.parse(
-        step.output_data.replaceAll("'", '"').replaceAll('None', '"null"')
+    if (artifact && renderDownloadButton) {
+      downloadButton = (
+        <Button
+          size="tiny"
+          basic
+          color="black"
+          as="a"
+          href={artifact.artifact_url}
+        >
+          <Icon name="external alternate"></Icon>
+          {artifact.artifact_name}
+        </Button>
       )
-
-      if (artifact_output.artifact) {
-        downloadButton = (
-          <Button
-            size="tiny"
-            basic
-            color="black"
-            as="a"
-            href={artifact_output.artifact.artifact_url}
-          >
-            <Icon name="external alternate"></Icon>
-            {artifact_output.artifact.artifact_name}
-          </Button>
-        )
-      }
     }
 
     var artifactText = <span>Artifacts:&nbsp;</span>
