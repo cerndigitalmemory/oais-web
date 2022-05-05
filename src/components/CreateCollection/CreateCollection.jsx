@@ -113,7 +113,7 @@ export class CreateCollection extends React.Component {
         open={open}
         trigger={<Button primary>{label}</Button>}
       >
-        <Modal.Header>Create a new collection</Modal.Header>
+        <Modal.Header>Create new tag</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
             <Header>Tag Details</Header>
