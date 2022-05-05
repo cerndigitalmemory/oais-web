@@ -38,7 +38,7 @@ export class Login extends React.Component {
       const user = await api.login(this.state.username, this.state.password)
       AppContext.setUser(user)
     } catch (e) {
-      sendNotification('Error while logging in', e.message)
+      sendNotification('Error while logging in', e.message, 'error')
     }
   }
 

@@ -26,7 +26,6 @@ export class StagedRecords extends React.Component {
     this.updateAll = this.updateAll.bind(this)
   }
 
-
   loadRecords = async (page = 1) => {
     const stagedArchives = await api.stagedArchives()
     try {
@@ -38,7 +37,11 @@ export class StagedRecords extends React.Component {
         })
       }
     } catch (e) {
-      sendNotification('Error while fetching stagedArchives', e.message)
+      sendNotification(
+        'Error while fetching stagedArchives',
+        e.message,
+        'error'
+      )
     }
   }
 
@@ -51,7 +54,7 @@ export class StagedRecords extends React.Component {
     this.loadRecords()
   }
 
-  setLoading = () => this.setState({loading : !this.state.loading})
+  setLoading = () => this.setState({ loading: !this.state.loading })
 
   render() {
     const { user } = this.context

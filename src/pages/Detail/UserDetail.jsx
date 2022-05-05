@@ -24,7 +24,7 @@ export class UserDetail extends React.Component {
       const user = await api.user(id)
       this.setState({ user })
     } catch (e) {
-      sendNotification('Error while fetching user details', e.message)
+      sendNotification('Error while fetching user details', e.message, 'error')
     }
   }
 

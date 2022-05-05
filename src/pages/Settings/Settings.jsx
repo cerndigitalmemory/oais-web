@@ -21,7 +21,7 @@ export class Settings extends React.Component {
       const settings = await this.getSettings()
       this.setState({ settings: settings })
     } catch (e) {
-      sendNotification('Error while fetching settings', e.message)
+      sendNotification('Error while fetching settings', e.message, 'error')
     }
   }
 

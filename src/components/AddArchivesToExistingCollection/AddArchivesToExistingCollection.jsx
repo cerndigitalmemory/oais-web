@@ -52,7 +52,7 @@ export class AddToCollection extends React.Component {
         totalCollections: totalCollections,
       })
     } catch (e) {
-      sendNotification('Error while loading collections', e.message)
+      sendNotification('Error while loading collections', e.message, 'error')
     }
   }
 

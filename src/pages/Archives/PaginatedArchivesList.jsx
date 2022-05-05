@@ -42,7 +42,7 @@ export class PaginatedArchivesList extends React.Component {
         await this.props.getArchives(page, this.props.filter)
       this.setState({ archives, page, totalArchives })
     } catch (e) {
-      sendNotification('Error while fetching archives', e.message)
+      sendNotification('Error while fetching archives', e.message, 'error')
     }
   }
 
@@ -51,15 +51,13 @@ export class PaginatedArchivesList extends React.Component {
     this.setState({ loading: false })
   }
 
-  componentDidUpdate(prevProps){
-
-    if ( this.props.filter !== prevProps.filter ) {
+  componentDidUpdate(prevProps) {
+    if (this.props.filter !== prevProps.filter) {
       this.setState({ loading: true })
-        this.loadArchives()
-        this.setState({ loading: false })
+      this.loadArchives()
+      this.setState({ loading: false })
     }
-}
-
+  }
 
   render() {
     const { archives, page, totalArchives, loading } = this.state

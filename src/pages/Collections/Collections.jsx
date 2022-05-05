@@ -34,7 +34,7 @@ export class Collections extends React.Component {
         totalCollections: totalCollections,
       })
     } catch (e) {
-      sendNotification('Error while fetching settings', e.message)
+      sendNotification('Error while fetching settings', e.message, 'error')
     }
   }
 

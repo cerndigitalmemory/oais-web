@@ -26,7 +26,8 @@ export class LoginCallback extends React.Component {
       } catch (e) {
         sendNotification(
           'Error while logging in using CERN credentials',
-          e.message
+          e.message,
+          'error'
         )
       } finally {
         this.setState({ isLoading: false })

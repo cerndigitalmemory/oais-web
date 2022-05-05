@@ -52,10 +52,10 @@ export function hasPermission(user, permission) {
   return user?.permissions.includes(permission) ?? false
 }
 
-export function sendNotification(title, body, duration = 5000) {
-  const notification = { title, body }
+export function sendNotification(title, body, type, duration = 500) {
+  const notification = { title, body, type }
   AppContext.addNotification(notification)
-  setTimeout(() => AppContext.removeNotification(notification), duration)
+  setTimeout(() => AppContext.clearNotifications(), duration)
 }
 
 export function formatDateTime(date) {

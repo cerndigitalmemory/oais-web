@@ -43,7 +43,7 @@ export class ArchiveSteps extends React.Component {
       const archive = await this.getArchive(this.props.match.params.id)
       this.setState({ archive: archive })
     } catch (e) {
-      sendNotification('Error while fetching archives', e.message)
+      sendNotification('Error while fetching archives', e.message, 'error')
     }
   }
 
@@ -52,7 +52,7 @@ export class ArchiveSteps extends React.Component {
       const steps = await this.getSteps(this.props.match.params.id)
       this.setState({ steps: steps })
     } catch (e) {
-      sendNotification('Error while fetching steps', e.message)
+      sendNotification('Error while fetching steps', e.message, 'error')
     }
   }
 
@@ -64,7 +64,7 @@ export class ArchiveSteps extends React.Component {
       )
       this.setState({ collections })
     } catch (e) {
-      sendNotification('Error while fetching collections', e.message)
+      sendNotification('Error while fetching collections', e.message, 'error')
     } finally {
       this.setState({ loadingCollections: false })
     }

@@ -35,10 +35,11 @@ export class PaginatedRecordsList extends React.Component {
       this.stageArchive(archives)
       sendNotification(
         'Archives archived successfully',
-        archives.length + ' archived'
+        archives.length + ' archived',
+        'success'
       )
     } catch (e) {
-      sendNotification('Error while archiving', e.message)
+      sendNotification('Error while archiving', e.message, 'error')
     } finally {
       this.props.setLoading()
     }

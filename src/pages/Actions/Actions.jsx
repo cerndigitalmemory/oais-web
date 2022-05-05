@@ -39,7 +39,7 @@ export class Actions extends React.Component {
         detailedArchives: detailedArchives,
       })
     } catch (e) {
-      sendNotification('Error while fetching archives', e.message)
+      sendNotification('Error while fetching archives', e.message, 'error')
     }
   }
 
