@@ -39,7 +39,7 @@ export class AddArchives extends React.Component {
         totalArchives: totalArchives,
       })
     } catch (e) {
-      sendNotification('Error while fetching archives', e.message)
+      sendNotification('Error while fetching archives', e.message, 'error')
     }
   }
 

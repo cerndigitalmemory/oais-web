@@ -24,7 +24,11 @@ export class RecordDetail extends React.Component {
       const record = await api.record(id)
       this.setState({ record })
     } catch (e) {
-      sendNotification('Error while fetching record details', e.message)
+      sendNotification(
+        'Error while fetching record details',
+        e.message,
+        'error'
+      )
     }
   }
 

@@ -2,11 +2,11 @@ import { api } from '@/api.js'
 import { AppContext } from '@/AppContext.js'
 import { archiveType, collectionType } from '@/types.js'
 import {
-    StepStatusLabel,
-    formatDateTime,
-    sendNotification,
-    hasPermission,
-    Permissions,
+  StepStatusLabel,
+  formatDateTime,
+  sendNotification,
+  hasPermission,
+  Permissions,
 } from '@/utils.js'
 import PropTypes, { nominalTypeHack } from 'prop-types'
 import React from 'react'
@@ -42,9 +42,7 @@ export class JobArchives extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <CollectionArchivesList
-          archives={job.archives}
-        />
+        <CollectionArchivesList archives={job.archives} />
       </Segment>
     )
   }
@@ -54,8 +52,6 @@ export class CollectionArchivesList extends React.Component {
   static propTypes = {
     archives: PropTypes.arrayOf(archiveType).isRequired,
   }
-
-
 
   render() {
     const { archives } = this.props
@@ -69,15 +65,12 @@ export class CollectionArchivesList extends React.Component {
             <Table.HeaderCell>Creator</Table.HeaderCell>
             <Table.HeaderCell>Creation Date</Table.HeaderCell>
             <Table.HeaderCell>Last Step Status</Table.HeaderCell>
-            <Table.HeaderCell colSpan='2'>Actions</Table.HeaderCell>
+            <Table.HeaderCell colSpan="2">Actions</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
           {archives.map((archive) => (
-            <Archive
-              key={archive.id}
-              archive={archive}
-            />
+            <Archive key={archive.id} archive={archive} />
           ))}
         </Table.Body>
       </Table>
@@ -105,12 +98,10 @@ class Archive extends React.Component {
     let steps = []
     try {
       steps = await api.get_archive_steps(archive.id)
-      this.setState({  steps: steps, lastStep: steps[steps.length-1] })
+      this.setState({ steps: steps, lastStep: steps[steps.length - 1] })
     } catch (e) {
-      sendNotification('Error while getting archive', e.message)
+      sendNotification('Error while getting archive', e.message, 'error')
     }
-    
-    
   }
 
   componentDidMount() {
@@ -121,24 +112,24 @@ class Archive extends React.Component {
   approve = async () => {
     const { lastStep } = this.state
     try {
-        this.setState({ loading: true })
+      this.setState({ loading: true })
       const updatedStep = await api.approveArchive(lastStep.id)
       this.getArchiveStatus()
       this.setState({ loading: false })
     } catch (e) {
-      sendNotification('Error while approving archive', e.message)
+      sendNotification('Error while approving archive', e.message, 'error')
     }
   }
 
   reject = async () => {
     const { lastStep } = this.state
     try {
-    this.setState({ loading: true })
+      this.setState({ loading: true })
       const updatedStep = await api.rejectArchive(lastStep.id)
       this.getArchiveStatus()
       this.setState({ loading: false })
     } catch (e) {
-      sendNotification('Error while rejecting archive', e.message)
+      sendNotification('Error while rejecting archive', e.message, 'error')
     }
   }
 
@@ -155,22 +146,20 @@ class Archive extends React.Component {
     let actions = null
     if (canApprove && canReject) {
       if (!loading && lastStep) {
-          if (lastStep.status === 5){
-            actions = (
-                <Button.Group>
-                  <Button onClick={this.approve} color="green" title="Approve" icon>
-                    <Icon name="check" />
-                  </Button>
-                  <Button onClick={this.reject} color="red" title="Reject" icon>
-                    <Icon name="cancel" />
-                  </Button>
-                </Button.Group>
-              )
-          }
-        
+        if (lastStep.status === 5) {
+          actions = (
+            <Button.Group>
+              <Button onClick={this.approve} color="green" title="Approve" icon>
+                <Icon name="check" />
+              </Button>
+              <Button onClick={this.reject} color="red" title="Reject" icon>
+                <Icon name="cancel" />
+              </Button>
+            </Button.Group>
+          )
+        }
       }
     }
-    
 
     return (
       <Table.Row>
@@ -178,9 +167,7 @@ class Archive extends React.Component {
         <Table.Cell>
           {archive.recid} ({archive.source})
         </Table.Cell>
-        <Table.Cell>
-          {archive.title}
-        </Table.Cell>
+        <Table.Cell>{archive.title}</Table.Cell>
         <Table.Cell>
           <Link to={`/users/${archive.creator.id}`}>
             {archive.creator.username}
@@ -188,13 +175,17 @@ class Archive extends React.Component {
         </Table.Cell>
         <Table.Cell>{formatDateTime(archive.timestamp)}</Table.Cell>
         <Table.Cell>
-            {loading || !lastStep ? (<p>Loading...</p>): (<p>{StepStatusLabel[lastStep.status]}</p>)}
+          {loading || !lastStep ? (
+            <p>Loading...</p>
+          ) : (
+            <p>{StepStatusLabel[lastStep.status]}</p>
+          )}
         </Table.Cell>
         <Table.Cell>{actions}</Table.Cell>
         <Table.Cell>
           <Link to={`/archive/${archive.id}`}>
             <Button>Details</Button>
-          </Link>       
+          </Link>
         </Table.Cell>
       </Table.Row>
     )

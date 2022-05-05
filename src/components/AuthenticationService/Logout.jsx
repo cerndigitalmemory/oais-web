@@ -14,7 +14,7 @@ export class Logout extends React.Component {
     try {
       await api.logout()
     } catch (e) {
-      sendNotification('Error while logging out', e.message)
+      sendNotification('Error while logging out', e.message, 'error')
     }
     AppContext.logout()
   }

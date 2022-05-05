@@ -35,7 +35,7 @@ export class JobDetails extends React.Component {
       const job = await this.getJob(this.props.match.params.id)
       this.setState({ job: job })
     } catch (e) {
-      sendNotification('Error while fetching job', e.message)
+      sendNotification('Error while fetching job', e.message, 'error')
     }
   }
 
@@ -60,9 +60,7 @@ export class JobDetails extends React.Component {
         {loading || !job ? (
           <div> {loadingSpinner} </div>
         ) : (
-          <JobArchives
-            job={job}
-          />
+          <JobArchives job={job} />
         )}
       </React.Fragment>
     )

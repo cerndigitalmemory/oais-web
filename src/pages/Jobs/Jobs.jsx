@@ -25,15 +25,17 @@ export class Jobs extends React.Component {
   loadJobs = async (page) => {
     try {
       const internal = true
-      const { results: jobs, count: totalJobs } =
-        await this.getJobs(page, internal)
+      const { results: jobs, count: totalJobs } = await this.getJobs(
+        page,
+        internal
+      )
       this.setState({
         jobs: jobs,
         page: page,
         totalJobs: totalJobs,
       })
     } catch (e) {
-      sendNotification('Error while fetching settings', e.message)
+      sendNotification('Error while loading jobs', e.message, 'error')
     }
   }
 

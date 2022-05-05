@@ -4,6 +4,7 @@ import { List } from 'semantic-ui-react'
 export const notificationType = exact({
   title: string.isRequired,
   body: string.isRequired,
+  type: string,
 })
 
 export const userType = exact({

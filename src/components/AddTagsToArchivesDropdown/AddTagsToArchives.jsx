@@ -32,7 +32,7 @@ export class AddTagsToArchives extends React.Component {
         tags: tags,
       })
     } catch (e) {
-      sendNotification('Error while fetching settings', e.message)
+      sendNotification('Error while fetching settings', e.message, 'error')
     }
   }
 
@@ -43,7 +43,7 @@ export class AddTagsToArchives extends React.Component {
       tags.results.map((tag) => (selectedTags = selectedTags.concat(tag.id)))
       this.setState({ selectedTags: selectedTags })
     } catch (e) {
-      sendNotification('Error while fetching collections', e.message)
+      sendNotification('Error while fetching collections', e.message, 'error')
     }
   }
 
@@ -114,16 +114,37 @@ export class AddTagsToArchives extends React.Component {
     // if a new tag has been created
     e.preventDefault()
     this.setState({ loading: true })
-    try {
-      const collection = await api.create_collection(searchQuery, '', null)
-      const newSelectedTags = this.state.selectedTags.concat(collection.id)
-      this.updateCollections()
-      await api.add_archives_to_collection(collection.id, this.props.archive.id)
-      this.setState({ selectedTags: newSelectedTags, tagText: '' })
-    } catch (exception) {
-      sendNotification('Error while fetching settings', exception.message)
-    } finally {
+    var tagTitles = []
+    this.state.tags.map((tag) => {
+      tagTitles.push(tag.title)
+    })
+    console.log(tagTitles.includes(searchQuery))
+    if (tagTitles.includes(searchQuery)) {
+      sendNotification(
+        'You already have a tag called "' + searchQuery + '"',
+        '',
+        'warning'
+      )
       this.setState({ loading: false })
+    } else {
+      try {
+        const collection = await api.create_collection(searchQuery, '', null)
+        const newSelectedTags = this.state.selectedTags.concat(collection.id)
+        this.updateCollections()
+        await api.add_archives_to_collection(
+          collection.id,
+          this.props.archive.id
+        )
+        this.setState({ selectedTags: newSelectedTags, tagText: '' })
+      } catch (exception) {
+        sendNotification(
+          'Error while creating collection',
+          exception.message,
+          'error'
+        )
+      } finally {
+        this.setState({ loading: false })
+      }
     }
   }
 

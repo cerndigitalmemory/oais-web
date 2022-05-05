@@ -38,7 +38,7 @@ export class CollectionDetails extends React.Component {
       const collection = await this.getCollection(this.props.match.params.id)
       this.setState({ collection: collection })
     } catch (e) {
-      sendNotification('Error while fetching collection', e.message)
+      sendNotification('Error while fetching collection', e.message, 'error')
     }
   }
 
@@ -49,7 +49,7 @@ export class CollectionDetails extends React.Component {
       this.loadCollection()
       this.setState({ loading: false })
     } catch (e) {
-      sendNotification('Error while adding archives', e.message)
+      sendNotification('Error while adding archives', e.message, 'error')
       this.setState({ loading: false })
     }
   }
@@ -61,7 +61,7 @@ export class CollectionDetails extends React.Component {
       this.loadCollection()
       this.setState({ loading: false })
     } catch (e) {
-      sendNotification('Error while removing archives', e.message)
+      sendNotification('Error while removing archives', e.message, 'error')
       this.setState({ loading: false })
     }
   }

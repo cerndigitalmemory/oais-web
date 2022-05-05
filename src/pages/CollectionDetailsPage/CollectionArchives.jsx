@@ -127,7 +127,7 @@ class Archive extends React.Component {
     try {
       await api.harvest(archive.id)
     } catch (e) {
-      sendNotification('Error while archiving', e.message)
+      sendNotification('Error while archiving', e.message, 'error')
     }
     this.getArchiveStatus()
   }
@@ -138,7 +138,7 @@ class Archive extends React.Component {
     try {
       steps = await api.get_archive_steps(archive.id)
     } catch (e) {
-      sendNotification('Error while getting archive', e.message)
+      sendNotification('Error while getting archive', e.message, 'error')
     }
     this.setState({ loading: false, steps: steps })
   }

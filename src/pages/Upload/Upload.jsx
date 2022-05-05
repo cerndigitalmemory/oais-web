@@ -21,7 +21,7 @@ export class Upload extends React.Component {
       const response = await api.ingest(this.state.file)
       this.setState({ response: response.msg })
     } catch (e) {
-      sendNotification('Error while uploading file', e.message)
+      sendNotification('Error while uploading file', e.message, 'error')
     }
   }
 

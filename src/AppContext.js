@@ -41,6 +41,13 @@ class Context {
     })
   }
 
+  clearNotifications() {
+    this.updateContext(() => {
+      const notifications = []
+      return { notifications }
+    })
+  }
+
   logout() {
     Storage.removeUser()
     this.updateContext({

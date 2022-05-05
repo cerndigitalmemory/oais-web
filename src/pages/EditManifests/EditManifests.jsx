@@ -38,7 +38,7 @@ export class EditManifests extends React.Component {
       const archive = await this.getArchive(this.props.match.params.id)
       this.setState({ archive: archive })
     } catch (e) {
-      sendNotification('Error while fetching archives', e.message)
+      sendNotification('Error while fetching archives', e.message, 'error')
     }
   }
 
@@ -104,11 +104,11 @@ class JSONEditForm extends React.Component {
       sipJSON[0].tool.params = manifest
 
       await api.saveManifest(id, sipJSON)
-      sendNotification('Save successful', 'Modifications are saved')
+      sendNotification('Save successful', 'Modifications are saved', 'success')
       this.setState({ goBack: true })
       this.setState({ openSave: false })
     } catch (e) {
-      sendNotification('Error while fetching archives', e.message)
+      sendNotification('Error while fetching archives', e.message, 'error')
     }
   }
 

@@ -90,7 +90,7 @@ class Harvest extends React.Component {
         })
       }
     } catch (e) {
-      sendNotification('Error while searching', e.message)
+      sendNotification('Error while searching', e.message, 'error')
       this.setState({ isLoading: false })
     } finally {
       const detailedResponse = await this.getDetailedRecords(this.state.results)
@@ -107,7 +107,11 @@ class Harvest extends React.Component {
 
   handleArchiveButtonClick = async () => {
     if (this.props.checkedRecords.length === 0) {
-      sendNotification('There are no records checked')
+      sendNotification(
+        'There are no records checked',
+        'Please select records to stage',
+        'warning'
+      )
     } else {
       this.setState({ archivedList: this.props.checkedRecords })
       this.props.checkedRecords.map((checkedRecord) => {
@@ -115,7 +119,8 @@ class Harvest extends React.Component {
       })
       sendNotification(
         this.props.checkedRecords.length + ' record(s) staged successfully!',
-        'Check staged records page for more information'
+        'Check staged records page for more information',
+        'success'
       )
     }
     this.loadRecords()
@@ -128,7 +133,7 @@ class Harvest extends React.Component {
       const StagedArchivesList = await api.stagedArchives()
       this.setState({ StagedArchivesList: StagedArchivesList })
     } catch (e) {
-      sendNotification('Error while fetching records', e.message)
+      sendNotification('Error while fetching records', e.message, 'error')
     } finally {
       this.setState({ isLoading: false })
     }

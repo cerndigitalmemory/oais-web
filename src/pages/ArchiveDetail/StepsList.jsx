@@ -74,7 +74,7 @@ class Step extends React.Component {
       await api.approveArchive(step.id)
       this.setState({ loading: true })
     } catch (e) {
-      sendNotification('Error while approving archive', e.message)
+      sendNotification('Error while approving archive', e.message, 'error')
     }
   }
 
@@ -84,7 +84,7 @@ class Step extends React.Component {
       await api.rejectArchive(step.id)
       this.setState({ loading: true })
     } catch (e) {
-      sendNotification('Error while rejecting archive', e.message)
+      sendNotification('Error while rejecting archive', e.message, 'error')
     }
   }
 
