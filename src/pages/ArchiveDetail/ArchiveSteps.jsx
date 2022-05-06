@@ -69,13 +69,29 @@ export class ArchiveSteps extends React.Component {
       this.setState({ loadingCollections: false })
     }
   }
+  // This function gets called periodically to refresh the archive status and fetch updates
+  refresh() {
+    // Load the steps again in case something else got done in the meantime
+    this.loadSteps()
+  }
+
+  // This is used to keep a reference to setInterval callback
+  // (used to keep refreshing the status of the Archive) and eventually clear (disable) it
+  refreshInterval = null
 
   componentDidMount() {
-    this.loadSteps()
-    this.loadArchive()
     this.loadCollections()
+    this.loadArchive()
+    this.loadSteps()
+    // Let's call refresh every 3 seconds to update the status of the Archive
+    this.refreshInterval = setInterval(() => this.refresh(), 3000)
     this.setState({ loading: false })
     // Loads steps and archive details and then sets loading state to false
+  }
+
+  componentWillUnmount() {
+    // Once we're done, stop with period call for refreshes
+    clearInterval(this.refreshInterval)
   }
 
   render() {
