@@ -66,7 +66,7 @@ export class NavigationBar extends React.Component {
 
     this.state = {
       activeItem: window.location.pathname,
-      visible: false,
+      visible: false, //handles the rendering of the sidebar in the mobile
       links: [
         {
           key: 'home',
@@ -134,22 +134,26 @@ export class NavigationBar extends React.Component {
     }
   }
 
-  handleItemClick = (e, { name }) => {
-    this.setState({ activeItem: name })
+  handleItemClick = (e, { name, to }) => {
+    this.setState({ activeItem: to })
     if (this.state.visible) {
       this.handleToggle()
     }
   }
 
-  handleToggle = () => this.setState({ visible: !this.state.visible })
-
-  componentDidMount() {
-    this.setState({ activeItem: window.location.pathname })
+  componentDidUpdate() {
+    // Handle browser back button
+    window.onpopstate = (e) => {
+      this.setState({ activeItem: window.location.pathname })
+    }
   }
+
+  handleToggle = () => this.setState({ visible: !this.state.visible })
 
   render() {
     const { isLoggedIn, user } = this.context
     const { links, activeItem, visible } = this.state
+
     // When the user is logged out there was a blank page, now a loggedOut navbar is displayed
     let showNavbar = (
       <NavBarLoggedOut
@@ -178,6 +182,7 @@ export class NavigationBar extends React.Component {
           leftItems={links}
           activeItem={activeItem}
           notifications={this.props.notifications}
+          onItemClick={this.handleItemClick}
         ></NavBarLoggedOut>
       )
     }
@@ -203,12 +208,12 @@ class NavBar extends React.Component {
     onItemClick: PropTypes.func,
     visible: PropTypes.bool.isRequired,
   }
+  constructor(props) {
+    super(props)
+  }
 
   handlePusher = () => {
-    const { visible } = this.props
-    if (visible) {
-      this.props.onToggle()
-    }
+    this.props.onToggle()
   }
 
   render() {
@@ -300,7 +305,7 @@ class NavBarMobile extends React.Component {
               <Menu.Item
                 key={link.key}
                 as={Link}
-                active={link.key == activeItem}
+                active={link.to == activeItem}
                 to={link.to}
                 onClick={onItemClick}
                 name={link.key}
@@ -356,7 +361,7 @@ class NavBarDesktop extends React.Component {
             <Menu.Item
               key={link.key}
               as={Link}
-              active={link.key == activeItem}
+              active={link.to == activeItem}
               to={link.to}
               onClick={onItemClick}
               name={link.key}
@@ -440,10 +445,14 @@ class NavBarLoggedOut extends React.Component {
     leftItems: PropTypes.arrayOf(object).isRequired,
     activeItem: PropTypes.string,
     notifications: PropTypes.arrayOf(notificationType),
+    onItemClick: PropTypes.func,
+  }
+  constructor(props) {
+    super(props)
   }
 
   render() {
-    const { leftItems, activeItem, notifications } = this.props
+    const { leftItems, activeItem, notifications, onItemClick } = this.props
 
     return (
       <div>
@@ -451,6 +460,7 @@ class NavBarLoggedOut extends React.Component {
           leftItems={leftItems}
           activeItem={activeItem}
           isLoggedIn={false}
+          onItemClick={onItemClick}
         />
         <NavBarChildren notifications={notifications} />
       </div>
