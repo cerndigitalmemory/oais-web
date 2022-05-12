@@ -89,28 +89,28 @@ class API {
     return await this._get(`/search/${source}/${id}/`)
   }
 
-  async internal_search(searchQuery, searchAgg) {
-    return await this._post(`/search-query/`, {
-      query: { query_string: { query: searchQuery }, from: 0 },
-      aggs: { terms: { field: searchAgg } },
-    })
-  }
+  // async internal_search(searchQuery, searchAgg) {
+  //   return await this._post(`/search-query/`, {
+  //     query: { query_string: { query: searchQuery }, from: 0 },
+  //     aggs: { terms: { field: searchAgg } },
+  //   })
+  // }
 
   async harvest(id) {
     return await this._post(`/harvest/${id}/`)
   }
 
-  async createArchive(source, recid) {
-    return await this._post(`/create-archive/${recid}/${source}/`)
-  }
+  // async createArchive(source, recid) {
+  //   return await this._post(`/create-archive/${recid}/${source}/`)
+  // }
 
   async createStagedArchive(record) {
     return await this._post(`/create-staged-archive/`, { record: record })
   }
 
-  async setTag(id, tags) {
-    return await this._post(`/records/${id}/actions/set/`, { tags: tags })
-  }
+  // async setTag(id, tags) {
+  //   return await this._post(`/records/${id}/actions/set/`, { tags: tags })
+  // }
 
   async parse_url(url) {
     return await this._post('/parse-url/', { url: url })
@@ -241,41 +241,42 @@ class API {
     return await this._get(`/archive/${id}/get-collections/`)
   }
 
-  async getArchiveExists(id) {
-    return await this._get(`/archive/${id}/search/`)
-  }
+  // async getArchiveExists(id) {
+  //   return await this._get(`/archive/${id}/search/`)
+  // }
+  // DUPLICATED
 
-  async getCheckRecordsArchived(recordList) {
-    return await this._post(`/record-check/`, { recordList: recordList })
-  }
+  // async getCheckRecordsArchived(recordList) {
+  //   return await this._post(`/record-check/`, { recordList: recordList })
+  // }
 
-  async get_collection(id) {
-    return await this._get(`/collection/${id}`)
-  }
+  // async get_collection(id) {
+  //   return await this._get(`/collection/${id}`)
+  // }
 
-  async add_archives_to_collection(id, archives) {
-    return await this._post(`/collections/${id}/actions/add/`, {
-      archives: archives,
-    })
-  }
+  // async add_archives_to_collection(id, archives) {
+  //   return await this._post(`/collections/${id}/actions/add/`, {
+  //     archives: archives,
+  //   })
+  // }
 
-  async remove_archives_from_collection(id, archives) {
-    return await this._post(`/collections/${id}/actions/remove/`, {
-      archives: archives,
-    })
-  }
+  // async remove_archives_from_collection(id, archives) {
+  //   return await this._post(`/collections/${id}/actions/remove/`, {
+  //     archives: archives,
+  //   })
+  // }
 
-  async delete_collection(id) {
-    return await this._post(`/collections/${id}/actions/delete/`)
-  }
+  // async delete_collection(id) {
+  //   return await this._post(`/collections/${id}/actions/delete/`)
+  // }
 
-  async create_collection(title, description, archives) {
-    return await this._post(`/create-collection/`, {
-      title: title,
-      description: description,
-      archives: archives,
-    })
-  }
+  // async create_collection(title, description, archives) {
+  //   return await this._post(`/create-collection/`, {
+  //     title: title,
+  //     description: description,
+  //     archives: archives,
+  //   })
+  // }
 
   async me() {
     return await this._get(`/me/`)
