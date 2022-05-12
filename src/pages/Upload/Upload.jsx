@@ -1,13 +1,12 @@
 import React from 'react'
 import { api } from '@/api.js'
 import { Button, Grid, Form } from 'semantic-ui-react'
-
+import { Link } from 'react-router-dom'
 import { sendNotification } from '@/utils.js'
 
 export class Upload extends React.Component {
   state = {
     file: null,
-    response: null,
   }
 
   handleFileUpload = (event) => {
@@ -19,8 +18,16 @@ export class Upload extends React.Component {
     event.preventDefault()
     try {
       const response = await api.ingest(this.state.file)
-      this.setState({ response: response.msg })
+      sendNotification(
+        response.msg,
+        <Link to={`/archive/${response.archive}`}>
+          <p>See created archive</p>
+        </Link>,
+        'success'
+      )
+      this.setState({ file: null })
     } catch (e) {
+      this.setState({ file: null })
       sendNotification('Error while uploading file', e.message, 'error')
     }
   }
@@ -48,8 +55,6 @@ export class Upload extends React.Component {
             </Grid.Column>
           </Grid>
         </Form>
-
-        <p>{this.state.response}</p>
       </React.Fragment>
     )
   }
