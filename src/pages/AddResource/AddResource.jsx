@@ -1,4 +1,4 @@
-import HarvestRedirect from '@/pages/Harvest/HarvestRedirect.jsx'
+import Harvest from '@/pages/Harvest/Harvest.jsx'
 import { Upload } from '@/pages/Upload/Upload.jsx'
 import URLParse from '@/pages/URLParse/URLParse.jsx'
 import React from 'react'
@@ -29,7 +29,7 @@ export class AddResource extends React.Component {
         <Grid.Row>
           <Grid.Column>
             <Segment>
-              <HarvestRedirect />
+              <Harvest redirectURL="/harvest" />
             </Segment>
           </Grid.Column>
         </Grid.Row>
