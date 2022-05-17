@@ -1,14 +1,8 @@
 import _ from 'lodash'
 import PropTypes from 'prop-types'
+import { Storage } from '@/storage.js'
 import React from 'react'
-import {
-  Button,
-  Form,
-  Input,
-  Checkbox,
-  Grid,
-  GridColumn,
-} from 'semantic-ui-react'
+import { Button, Form, Input, Checkbox, Grid, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 // The SearchForm function contains the form for the search
@@ -74,6 +68,34 @@ class SearchForm extends React.Component {
     }
   }
 
+  handleSourceButton = (event) => {
+    event.preventDefault()
+    const user = Storage.getUser()
+
+    this.setState({
+      query: user.first_name + ' ' + user.last_name,
+      source: event.target.value,
+      searchById: false,
+    })
+    this.props.onQueryChange(user.first_name + ' ' + user.last_name)
+    this.props.onSourceChange(event.target.value)
+    this.props.onSearch()
+  }
+
+  handleIndicoSearch = (event) => {
+    event.preventDefault()
+    const user = Storage.getUser()
+
+    this.setState({
+      query: 'person:' + user.first_name + ' ' + user.last_name,
+      source: event.target.value,
+      searchById: false,
+    })
+    this.props.onQueryChange('person:' + user.first_name + ' ' + user.last_name)
+    this.props.onSourceChange(event.target.value)
+    this.props.onSearch()
+  }
+
   render() {
     const { isLoading } = this.props
     const sourceOptions = _.map(this.props.sources, (source) => ({
@@ -81,7 +103,54 @@ class SearchForm extends React.Component {
       text: source,
       value: source,
     }))
+    const user = Storage.getUser()
 
+    let showSourceButtons
+    if (user.first_name || user.last_name) {
+      showSourceButtons = (
+        <Grid.Row>
+          <Grid.Column>
+            <Button
+              icon
+              labelPosition="left"
+              size="mini"
+              fluid
+              value="cds"
+              onClick={this.handleSourceButton}
+            >
+              <Icon name="plus" />
+              Find all your records on CDS
+            </Button>
+          </Grid.Column>
+          <Grid.Column>
+            <Button
+              icon
+              labelPosition="left"
+              size="mini"
+              fluid
+              value="inveniordm"
+              onClick={this.handleSourceButton}
+            >
+              <Icon name="plus" />
+              Find all your records on InvenioRDM
+            </Button>
+          </Grid.Column>
+          <Grid.Column>
+            <Button
+              icon
+              labelPosition="left"
+              size="mini"
+              fluid
+              value="indico"
+              onClick={this.handleIndicoSearch}
+            >
+              <Icon name="plus" />
+              Find all your events on Indico
+            </Button>
+          </Grid.Column>
+        </Grid.Row>
+      )
+    }
     let submitButton
     if (isLoading) {
       // if the search is already in progress, show a spinner
@@ -127,6 +196,7 @@ class SearchForm extends React.Component {
           <Grid.Column verticalAlign="bottom" floated="right">
             {submitButton}
           </Grid.Column>
+          {showSourceButtons}
         </Grid>
       </Form>
     )

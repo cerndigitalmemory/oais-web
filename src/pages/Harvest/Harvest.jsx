@@ -8,11 +8,16 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button, Grid } from 'semantic-ui-react'
 import SearchForm from '@/pages/Harvest/HarvestSearchForm.jsx'
+import { Redirect } from 'react-router-dom'
 
 // Harvest page is displayed at /harvest page.
 // It performs the search and displays the results through the RecordList component
 
 class Harvest extends React.Component {
+  static propTypes = {
+    redirectURL: PropTypes.string, // a url to a page to redirect after the search is made
+  }
+
   state = {
     results: null,
     detailedResults: null,
@@ -21,10 +26,7 @@ class Harvest extends React.Component {
     totalNumHits: null,
     hitsPerPage: 20,
     StagedArchivesList: [],
-  }
-
-  componentDidMount() {
-    this.loadRecords()
+    redirect: null, // When populated, triggers redirect to the page passed from props
   }
 
   // Changes the query state at the redux
@@ -60,7 +62,13 @@ class Harvest extends React.Component {
 
   // Calls the handleSearch function when the component is mounted and there is an active state from redux
   componentDidMount() {
-    if (this.props.source && this.props.query) {
+    if (this.props.redirectURL) {
+      if (this.props.source && this.props.query) {
+        // Auto populate query and source with the redux values
+        this.handleQueryChange(this.props.query)
+        this.handleSourceChange(this.props.source)
+      }
+    } else if (this.props.source && this.props.query) {
       this.handleSearch(this.props.source, this.props.query)
     }
   }
@@ -75,29 +83,36 @@ class Harvest extends React.Component {
       hitsPerPage: Number(size),
       detailedResults: null,
     })
-    try {
-      if (this.props.searchById) {
-        const response = await api.search_by_id(source, query)
-        this.setState({
-          results: response.result,
-          totalNumHits: response.result.length,
-        })
-      } else {
-        const response = await api.search(source, query, page, size)
-        this.setState({
-          results: response.results,
-          totalNumHits: Number(response.total_num_hits),
-        })
+    if (this.props.redirectURL) {
+      // Handles the redirect state to the Harvest page
+      this.setState({ redirect: this.props.redirectURL })
+    } else {
+      try {
+        if (this.props.searchById) {
+          const response = await api.search_by_id(source, query)
+          this.setState({
+            results: response.result,
+            totalNumHits: response.result.length,
+          })
+        } else {
+          const response = await api.search(source, query, page, size)
+          this.setState({
+            results: response.results,
+            totalNumHits: Number(response.total_num_hits),
+          })
+        }
+      } catch (e) {
+        sendNotification('Error while searching', e.message, 'error')
+        this.setState({ isLoading: false })
+      } finally {
+        const detailedResponse = await this.getDetailedRecords(
+          this.state.results
+        )
+        this.setState({ detailedResults: detailedResponse })
+        this.loadRecords()
       }
-    } catch (e) {
-      sendNotification('Error while searching', e.message, 'error')
       this.setState({ isLoading: false })
-    } finally {
-      const detailedResponse = await this.getDetailedRecords(this.state.results)
-      this.setState({ detailedResults: detailedResponse })
-      this.loadRecords()
     }
-    this.setState({ isLoading: false })
   }
 
   autoArchive = async (record) => {
@@ -148,8 +163,13 @@ class Harvest extends React.Component {
   }
 
   render() {
-    const { isLoading, detailedResults, results, StagedArchivesList } =
-      this.state
+    const {
+      isLoading,
+      detailedResults,
+      results,
+      StagedArchivesList,
+      redirect,
+    } = this.state
 
     const archiveButton = (
       <div>
@@ -168,6 +188,7 @@ class Harvest extends React.Component {
     return (
       <React.Fragment>
         <h1>Harvest</h1>
+        {redirect && <Redirect to={redirect} />}
         <p>
           Create SIP packages from the supported digital repositories (uses
           Bagit Create tool)
@@ -181,6 +202,7 @@ class Harvest extends React.Component {
           onSourceChange={this.handleSourceChange.bind(this)}
           hitsPerPage={this.state.hitsPerPage}
           onSearchByIdChange={this.handleSearchByIdChange.bind(this)}
+          redirectURL={this.props.redirectURL}
         />
         <div>
           <Grid columns={2} verticalAlign="middle">
