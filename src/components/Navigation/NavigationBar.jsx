@@ -213,7 +213,9 @@ class NavBar extends React.Component {
   }
 
   handlePusher = () => {
-    this.props.onToggle()
+    if (this.props.visible) {
+      this.props.onToggle()
+    }
   }
 
   render() {
