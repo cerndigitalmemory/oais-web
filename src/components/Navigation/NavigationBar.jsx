@@ -327,7 +327,12 @@ class NavBarMobile extends React.Component {
                   Hello,&nbsp;{' '}
                   <Link to={`/users/${user.id}`}>{user.username}</Link>
                 </Menu.Item>
-                <Menu.Item as={Link} to="/settings">
+                <Menu.Item
+                  as={Link}
+                  onClick={onItemClick}
+                  active={'/settings' == activeItem}
+                  to="/settings"
+                >
                   <Icon name="settings" />
                 </Menu.Item>
               </Menu.Menu>
@@ -377,7 +382,12 @@ class NavBarDesktop extends React.Component {
             <Menu.Item>
               Hello,&nbsp; <Link to={`/users/${user.id}`}>{user.username}</Link>
             </Menu.Item>
-            <Menu.Item as={Link} to="/settings">
+            <Menu.Item
+              as={Link}
+              onClick={onItemClick}
+              active={'/settings' == activeItem}
+              to="/settings"
+            >
               <Icon name="settings" />
             </Menu.Item>
           </Menu.Menu>
