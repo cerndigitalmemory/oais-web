@@ -281,6 +281,17 @@ class API {
   async me() {
     return await this._get(`/me/`)
   }
+
+  //API call to set api keys (works with the new api refactor)
+  async setUserSettings(token_title, token) {
+    return await this._post(`/user/me/settings/`, {
+      [token_title]: token,
+    })
+  }
+
+  async getUserSettings() {
+    return await this._get('/user/me/settings/')
+  }
 }
 
 export const api = new API({
