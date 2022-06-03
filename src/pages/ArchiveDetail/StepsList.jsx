@@ -180,6 +180,22 @@ class Step extends React.Component {
       )
     }
 
+    let showFailedDetails = null
+    if (step.status === 3 && step.output_data) {
+      var msg = JSON.parse(
+        step.output_data.replaceAll("'", '"').replaceAll('None', '"null"')
+      )
+      if (msg.errormsg) {
+        showFailedDetails = (
+          <Grid.Row>
+            <Grid.Column>
+              <b>Details: </b> {msg.errormsg}
+            </Grid.Column>
+          </Grid.Row>
+        )
+      }
+    }
+
     /*
     If the current step is Archivematica, 
     gets the information from step.output_data field and
@@ -248,6 +264,7 @@ class Step extends React.Component {
                   {retryFailedStep}
                 </Grid.Column>
               </Grid.Row>
+              {step.status == 3 && showFailedDetails}
             </Grid>
           </Accordion.Content>
           <Accordion.Title
