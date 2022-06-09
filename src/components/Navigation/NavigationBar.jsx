@@ -9,7 +9,6 @@ import { ProtectedRoute } from '@/components/ProtectedRoute/ProtectedRoute.jsx'
 import { Home } from '@/pages/Home/Home.jsx'
 import { Archives } from '@/pages/Archives/Archives.jsx'
 import { EditManifests } from '@/pages/EditManifests/EditManifests.jsx'
-import { Search } from '@/pages/Search/Search.jsx'
 import { ArchiveSteps } from '@/pages/ArchiveDetail/ArchiveSteps.jsx'
 import { CollectionDetails } from '@/pages/CollectionDetailsPage/CollectionDetails.jsx'
 import { Login } from '@/pages/Login/Login.jsx'
@@ -106,13 +105,6 @@ export class NavigationBar extends React.Component {
           key: 'collections',
           value: 'Tags',
           to: '/collections',
-          always: false,
-          loggedIn: true,
-        },
-        {
-          key: 'search',
-          value: 'Search',
-          to: '/search',
           always: false,
           loggedIn: true,
         },
@@ -418,7 +410,6 @@ class NavBarChildren extends React.Component {
             <ProtectedRoute path="/harvest" component={Harvest} />
             <ProtectedRoute path="/add-resource" component={AddResource} />
             <ProtectedRoute path="/archives" component={Archives} />
-            <ProtectedRoute path="/search/" component={Search} />
             <ProtectedRoute path="/archive/:id" component={ArchiveSteps} />
             <ProtectedRoute
               path="/edit-archive/:id"
