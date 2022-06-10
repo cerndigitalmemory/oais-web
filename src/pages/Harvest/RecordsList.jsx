@@ -164,25 +164,28 @@ class Record extends React.Component {
       }
       archivedRecord = (
         <Popup
-          flowing
-          hoverable
+          size="large"
+          content={
+            <Grid centered divided>
+              <Grid.Column>
+                <Grid.Row>
+                  <Header>
+                    {' '}
+                    This archive exists {detailedRecord[0].archives.length}{' '}
+                    {timeWord}.
+                  </Header>
+                </Grid.Row>
+                {detailedRecord[0].archives.map((archive) => (
+                  <ShowArchive key={archive.id} archive={archive} />
+                ))}
+              </Grid.Column>
+            </Grid>
+          }
           trigger={<Icon color="grey" name="question circle outline" />}
-        >
-          <Grid centered divided>
-            <Grid.Column>
-              <Grid.Row>
-                <Header>
-                  {' '}
-                  This archive exists {detailedRecord[0].archives.length}{' '}
-                  {timeWord}.
-                </Header>
-              </Grid.Row>
-              {detailedRecord[0].archives.map((archive) => (
-                <ShowArchive key={archive.id} archive={archive} />
-              ))}
-            </Grid.Column>
-          </Grid>
-        </Popup>
+          position="top center"
+          wide
+          positionFixed
+        />
       )
     }
 

@@ -76,6 +76,9 @@ class PipelineStatus extends React.Component {
       nextStepButton = (
         <React.Fragment>
           <Popup
+            position="top center"
+            wide
+            positionFixed
             trigger={
               <Segment
                 circular
