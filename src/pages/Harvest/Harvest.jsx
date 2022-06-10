@@ -173,13 +173,13 @@ class Harvest extends React.Component {
 
     const archiveButton = (
       <div>
-        <Button variant="primary" onClick={this.handleArchiveButtonClick}>
+        <Button color="primary" onClick={this.handleArchiveButtonClick}>
           Archive Selected
         </Button>
-        <Button color="red" onClick={this.handleRemoveAll}>
+        <Button onClick={this.handleRemoveAll}>
           Remove all
         </Button>
-        <Button color="green" onClick={this.handleCheckAll}>
+        <Button onClick={this.handleCheckAll}>
           Add all
         </Button>
       </div>

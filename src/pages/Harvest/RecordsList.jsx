@@ -244,7 +244,7 @@ class RecordActions extends React.Component {
       // To trigger the popup while hovering on a disabled element, they need to be wrapped in <span> element. See https://github.com/Semantic-Org/Semantic-UI-React/issues/1413
       checkButton = (
         <Popup
-          content="This record was already added to the Staging Area"
+          content="This record is already in the Staging Area"
           trigger={
             <span>
               <Button circular basic icon="circle" disabled />{' '}
