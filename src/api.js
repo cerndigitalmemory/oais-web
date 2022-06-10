@@ -1,5 +1,7 @@
 import { getCookie } from '@/utils.js'
 import axios from 'axios'
+import { AppContext } from '@/AppContext.js'
+import { sendNotification } from '@/utils.js'
 
 // Base endpoint where the API is served
 export const API_URL = '/api/'
@@ -21,6 +23,7 @@ function addCSRFToken(options) {
 
   options.headers ??= {}
   options.headers['X-CSRFToken'] = CSRFToken
+  options.mode = 'same-origin'
   return options
 }
 
@@ -28,6 +31,7 @@ class API {
   constructor(config) {
     this.client = axios.create(config)
   }
+  static contextType = AppContext.Context
 
   static async handleError(request) {
     try {
@@ -35,6 +39,19 @@ class API {
     } catch (e) {
       let detail = e.message
       const response = e.response?.data
+      if (e.response) {
+        // If the user tries to access a link that has no access, log him out
+        // TODO: If the user tries to access a link that has no access, redirect to a show permission error page
+        if (e.response.status == 403) {
+          AppContext.logout()
+        } else if (e.message == 'Network Error') {
+          sendNotification(
+            'Cannot connect to the server. Check your network connection.',
+            e.message,
+            'error'
+          )
+        }
+      }
       if (response?.detail) {
         detail = response.detail
       } else if (response?.non_field_errors) {
