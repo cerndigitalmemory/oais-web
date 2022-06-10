@@ -6,6 +6,7 @@ import React from 'react'
 import { Header, Table, Button, Icon, Grid, Popup } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { AddTagsToArchives } from '@/components/AddTagsToArchivesDropdown/AddTagsToArchives.jsx'
+import { PageControls } from '@/pages/StagedRecords/PageControls.jsx'
 
 /**
  * This component loads the archives and creates the pagination component
@@ -28,16 +29,21 @@ export class PaginatedRecordsList extends React.Component {
     await api.unstageArchives(archives)
   }
 
+  getAllStagedArchives = async () => {
+    await api.stagedArchives()
+  }
+
   handleArchiving = async () => {
-    const archives = this.props.stagedArchives
     this.props.setLoading()
     try {
-      this.stageArchive(archives)
+      const archives = await api.stagedArchives()
+      const result = await api.unstageArchives(archives)
       sendNotification(
         'Archives archived successfully',
         archives.length + ' archived',
         'success'
       )
+      this.props.onArchiveUpdate()
     } catch (e) {
       sendNotification('Error while archiving', e.message, 'error')
     } finally {
@@ -46,16 +52,29 @@ export class PaginatedRecordsList extends React.Component {
   }
 
   render() {
-    const { stagedArchives, onArchiveUpdate, totalRecords, page } = this.props
+    const { stagedArchives, onArchiveUpdate, totalStagedArchives, page } =
+      this.props
+    let pageCount = Math.ceil(totalStagedArchives / 10)
 
     return (
       <div>
         <RecordsList
           archives={stagedArchives}
           onArchiveUpdate={onArchiveUpdate}
+          page={page}
+          totalStagedArchives={totalStagedArchives}
         />
         <br />
-        <Grid columns={1} stackable>
+        <Grid columns={2} stackable>
+          <Grid.Column floated="left">
+            {' '}
+            <PageControls
+              page={page}
+              onChange={onArchiveUpdate}
+              totalPages={pageCount}
+            />
+          </Grid.Column>
+
           <Grid.Column floated="right" textAlign="right">
             <Button primary onClick={this.handleArchiving}>
               Archive All
@@ -75,6 +94,8 @@ class RecordsList extends React.Component {
   static propTypes = {
     archives: PropTypes.arrayOf(archiveTypeDetailed).isRequired,
     onArchiveUpdate: PropTypes.func.isRequired,
+    totalStagedArchives: PropTypes.number.isRequired,
+    page: PropTypes.number.isRequired,
   }
 
   render() {
@@ -103,6 +124,8 @@ class RecordsList extends React.Component {
                 key={i}
                 archive={archive}
                 onArchiveUpdate={this.props.onArchiveUpdate}
+                totalStagedArchives={this.props.totalStagedArchives}
+                page={this.props.page}
               />
             ))}
           </Table.Body>
@@ -116,11 +139,19 @@ class Record extends React.Component {
   static propTypes = {
     archive: archiveTypeDetailed.isRequired,
     onArchiveUpdate: PropTypes.func.isRequired,
+    totalStagedArchives: PropTypes.number.isRequired,
+    page: PropTypes.number.isRequired,
   }
 
   handleDelete = async () => {
     await api.deleteArchive(this.props.archive.id)
-    this.props.onArchiveUpdate()
+    if ((this.props.totalStagedArchives % 10 === 1) & (this.props.page > 1)) {
+      // If there is the last result of page 2,3,4 etc then load the previous page
+      this.props.onArchiveUpdate(this.props.page - 1)
+    } else {
+      // If it is not the last result of the page or you are in page 1, load the current page
+      this.props.onArchiveUpdate(this.props.page)
+    }
   }
 
   render() {

@@ -26,14 +26,22 @@ export class StagedRecords extends React.Component {
     this.updateAll = this.updateAll.bind(this)
   }
 
-  loadRecords = async (page = 1) => {
-    const stagedArchives = await api.stagedArchives()
+  loadRecords = async (page) => {
+    const { results: stagedArchives, count: totalStagedArchives } =
+      await api.stagedArchivesPaginated(page)
     try {
       if (stagedArchives) {
         const detailedResponse = await api.get_archive_details(stagedArchives)
         this.setState({
           stagedArchives: detailedResponse,
-          totalStagedArchives: stagedArchives.length,
+          totalStagedArchives: totalStagedArchives,
+          page: page,
+        })
+      } else {
+        this.setState({
+          stagedArchives: [],
+          totalStagedArchives: 0,
+          page: 1,
         })
       }
     } catch (e) {
@@ -46,12 +54,12 @@ export class StagedRecords extends React.Component {
   }
 
   componentDidMount() {
-    this.loadRecords()
+    this.loadRecords(this.state.page)
     this.setState({ loading: false })
   }
 
-  updateAll = () => {
-    this.loadRecords()
+  updateAll = (page = 1) => {
+    this.loadRecords(page)
   }
 
   setLoading = () => this.setState({ loading: !this.state.loading })
