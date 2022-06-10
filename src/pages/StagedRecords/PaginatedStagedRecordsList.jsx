@@ -134,6 +134,9 @@ class Record extends React.Component {
       }
       archivedRecord = (
         <Popup
+          position="top center"
+          wide
+          positionFixed
           flowing
           hoverable
           trigger={<Icon color="grey" name="question circle outline" />}
