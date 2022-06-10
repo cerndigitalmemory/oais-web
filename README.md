@@ -22,6 +22,8 @@ Produce a build in `build/`
 npm run build
 ```
 
+Node version 14.19.3 or newer is required for this (use `node -v` to check the current version).
+
 Serve with hot reload on `localhost:3000/`
 
 ```sh
