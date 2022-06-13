@@ -3,7 +3,7 @@ import { createMedia } from '@artsy/fresnel'
 import PropTypes, { object } from 'prop-types'
 import { userType, notificationType } from '@/types.js'
 import { Link } from 'react-router-dom'
-import { Menu, Icon, Sidebar, Segment, Loader } from 'semantic-ui-react'
+import { Menu, Icon, Sidebar, Segment, Loader, Label } from 'semantic-ui-react'
 import { Notifications } from '@/components/Notifications/Notifications.jsx'
 import { ProtectedRoute } from '@/components/ProtectedRoute/ProtectedRoute.jsx'
 import { Home } from '@/pages/Home/Home.jsx'
@@ -264,6 +264,7 @@ class NavBarMobile extends React.Component {
     notifications: PropTypes.arrayOf(notificationType),
     onItemClick: PropTypes.func,
   }
+  static contextType = AppContext.Context
   constructor(props) {
     super(props)
   }
@@ -280,6 +281,7 @@ class NavBarMobile extends React.Component {
       notifications,
       onItemClick,
     } = this.props
+    const { staged } = this.context
 
     return (
       <Sidebar.Pushable style={{ minHeight: '100%' }}>
@@ -295,18 +297,38 @@ class NavBarMobile extends React.Component {
         >
           {leftItems
             .filter((link) => link.always || link.loggedIn === isLoggedIn)
-            .map((link) => (
-              <Menu.Item
-                key={link.key}
-                as={Link}
-                active={link.to == activeItem}
-                to={link.to}
-                onClick={onItemClick}
-                name={link.key}
-              >
-                {link.value}
-              </Menu.Item>
-            ))}
+            .map((link) =>
+              link.key !== 'staged' ? (
+                <Menu.Item
+                  key={link.key}
+                  as={Link}
+                  active={link.to == activeItem}
+                  to={link.to}
+                  onClick={onItemClick}
+                  name={link.key}
+                >
+                  {link.value}
+                </Menu.Item>
+              ) : (
+                staged > 0 && (
+                  <Menu.Item
+                    key={link.key}
+                    as={Link}
+                    active={link.to == activeItem}
+                    to={link.to}
+                    onClick={onItemClick}
+                    name={link.key}
+                  >
+                    <>
+                      {link.value}
+                      <Label circular color="red">
+                        {staged}
+                      </Label>
+                    </>
+                  </Menu.Item>
+                )
+              )
+            )}
         </Sidebar>
         <Sidebar.Pusher onClick={onPusherClick} style={{ minHeight: '100vh' }}>
           <Menu secondary>
@@ -345,46 +367,72 @@ class NavBarDesktop extends React.Component {
     activeItem: PropTypes.string,
     onItemClick: PropTypes.func,
   }
+  static contextType = AppContext.Context
+
   constructor(props) {
     super(props)
   }
 
   render() {
     const { leftItems, isLoggedIn, user, activeItem, onItemClick } = this.props
+    const { staged } = this.context
 
     return (
-      <Menu secondary>
-        {leftItems
-          .filter((link) => link.always || link.loggedIn === isLoggedIn)
-          .map((link) => (
-            <Menu.Item
-              key={link.key}
-              as={Link}
-              active={link.to == activeItem}
-              to={link.to}
-              onClick={onItemClick}
-              name={link.key}
-            >
-              {link.value}
-            </Menu.Item>
-          ))}
+      <div style={{ margin: '10px' }}>
+        <Menu secondary>
+          {leftItems
+            .filter((link) => link.always || link.loggedIn === isLoggedIn)
+            .map((link) =>
+              link.key !== 'staged' ? (
+                <Menu.Item
+                  key={link.key}
+                  as={Link}
+                  active={link.to == activeItem}
+                  to={link.to}
+                  onClick={onItemClick}
+                  name={link.key}
+                >
+                  {link.value}
+                </Menu.Item>
+              ) : (
+                staged > 0 && (
+                  <Menu.Item
+                    key={link.key}
+                    as={Link}
+                    active={link.to == activeItem}
+                    to={link.to}
+                    onClick={onItemClick}
+                    name={link.key}
+                  >
+                    <>
+                      {link.value}
+                      <Label floating size="mini" circular color="red">
+                        {staged}
+                      </Label>
+                    </>
+                  </Menu.Item>
+                )
+              )
+            )}
 
-        {isLoggedIn && (
-          <Menu.Menu position="right">
-            <Menu.Item>
-              Hello,&nbsp; <Link to={`/users/${user.id}`}>{user.username}</Link>
-            </Menu.Item>
-            <Menu.Item
-              as={Link}
-              onClick={onItemClick}
-              active={'/settings' == activeItem}
-              to="/settings"
-            >
-              <Icon name="settings" />
-            </Menu.Item>
-          </Menu.Menu>
-        )}
-      </Menu>
+          {isLoggedIn && (
+            <Menu.Menu position="right">
+              <Menu.Item>
+                Hello,&nbsp;{' '}
+                <Link to={`/users/${user.id}`}>{user.username}</Link>
+              </Menu.Item>
+              <Menu.Item
+                as={Link}
+                onClick={onItemClick}
+                active={'/settings' == activeItem}
+                to="/settings"
+              >
+                <Icon name="settings" />
+              </Menu.Item>
+            </Menu.Menu>
+          )}
+        </Menu>
+      </div>
     )
   }
 }

@@ -18,6 +18,7 @@ class Context {
       user,
       isLoggedIn,
       notifications: [],
+      stagedArchives: 0,
     })
   }
 
@@ -53,6 +54,18 @@ class Context {
     this.updateContext({
       user: null,
       isLoggedIn: false,
+    })
+  }
+
+  setStaged(number) {
+    this.updateContext({
+      staged: number,
+    })
+  }
+
+  clearStaged() {
+    this.updateContext({
+      staged: 0,
     })
   }
 }

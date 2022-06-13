@@ -8,12 +8,14 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Button, Grid } from 'semantic-ui-react'
 import SearchForm from '@/pages/Harvest/HarvestSearchForm.jsx'
+import { AppContext } from '@/AppContext.js'
 import { Redirect } from 'react-router-dom'
 
 // Harvest page is displayed at /harvest page.
 // It performs the search and displays the results through the RecordList component
 
 class Harvest extends React.Component {
+  static contextType = AppContext.Context
   static propTypes = {
     redirectURL: PropTypes.string, // a url to a page to redirect after the search is made
   }
@@ -115,7 +117,7 @@ class Harvest extends React.Component {
     }
   }
 
-  autoArchive = async (record) => {
+  createStagedArchives = async (record) => {
     // Call the api method to create a staged archive
     api.createStagedArchive(record)
   }
@@ -129,16 +131,20 @@ class Harvest extends React.Component {
       )
     } else {
       this.setState({ archivedList: this.props.checkedRecords })
-      this.props.checkedRecords.map((checkedRecord) => {
-        this.autoArchive(checkedRecord)
-      })
+      // use the await so the function waits for the response from the backend
+      const { status: status } = await api.createStagedArchive(
+        this.props.checkedRecords
+      )
       sendNotification(
         this.props.checkedRecords.length + ' record(s) staged successfully!',
         'Check staged records page for more information',
         'success'
       )
+      if (status == 0) {
+        await this.loadRecords()
+      }
     }
-    this.loadRecords()
+    // adds a delay of half a second so the staged records are created before retrieving them
     this.removeAllRecords()
   }
 
@@ -147,6 +153,10 @@ class Harvest extends React.Component {
     try {
       const StagedArchivesList = await api.stagedArchives()
       this.setState({ StagedArchivesList: StagedArchivesList })
+      // If there are records in the staged area update the staged value in the context
+      if (StagedArchivesList) {
+        AppContext.setStaged(StagedArchivesList.length)
+      }
     } catch (e) {
       sendNotification('Error while fetching records', e.message, 'error')
     } finally {

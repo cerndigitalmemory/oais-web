@@ -121,8 +121,8 @@ class API {
   //   return await this._post(`/create-archive/${recid}/${source}/`)
   // }
 
-  async createStagedArchive(record) {
-    return await this._post(`/create-staged-archive/`, { record: record })
+  async createStagedArchive(records) {
+    return await this._post(`/create-staged-archive/`, { records: records })
   }
 
   // async setTag(id, tags) {
@@ -206,6 +206,10 @@ class API {
 
   async get_all_tags() {
     return await this._get('/all-tags/')
+  }
+
+  async getArchiveLabelInfo() {
+    return await this._get('/get-archive-information-labels/')
   }
 
   async unstageArchive(id) {
