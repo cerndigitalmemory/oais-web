@@ -50,6 +50,9 @@ export class StagedRecords extends React.Component {
         e.message,
         'error'
       )
+    } finally {
+      // Update the staged value in the context
+      AppContext.setStaged(stagedArchives.length)
     }
   }
 

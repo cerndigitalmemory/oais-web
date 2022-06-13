@@ -125,7 +125,6 @@ class Record extends React.Component {
           archivedItem.recid === this.props.record.recid &&
           archivedItem.source === this.props.record.source
         ) {
-          console.log(this.props.record.recid, this.props.record.source)
           archived = true
         }
       })

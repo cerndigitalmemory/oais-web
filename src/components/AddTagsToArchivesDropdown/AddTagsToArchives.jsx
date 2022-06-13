@@ -151,7 +151,6 @@ export class AddTagsToArchives extends React.Component {
   handleLabelClick = (e, { value }) => {
     e.preventDefault()
     this.setState({ redirect: value })
-    console.log(this.state.redirect)
   }
 
   render() {

@@ -6,6 +6,7 @@ import React from 'react'
 import { Header, Table, Button, Icon, Grid, Popup } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { AddTagsToArchives } from '@/components/AddTagsToArchivesDropdown/AddTagsToArchives.jsx'
+import { AppContext } from '@/AppContext.js'
 import { PageControls } from '@/pages/StagedRecords/PageControls.jsx'
 
 /**
@@ -48,6 +49,7 @@ export class PaginatedRecordsList extends React.Component {
       sendNotification('Error while archiving', e.message, 'error')
     } finally {
       this.props.setLoading()
+      AppContext.clearStaged()
     }
   }
 
