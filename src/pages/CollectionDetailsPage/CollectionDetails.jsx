@@ -26,12 +26,12 @@ export class CollectionDetails extends React.Component {
     }
   }
 
-  getCollection = (id) => api.get_collection(id) // API call to get archive details
+  getCollection = (id) => api.collection(id) // API call to get archive details
 
-  addArchives = (id, archives) => api.add_archives_to_collection(id, archives)
+  addArchives = (id, archives) => api.addArchivesToCollection(id, archives)
 
   removeArchives = (id, archives) =>
-    api.remove_archives_from_collection(id, archives)
+    api.removeArchivesFromCollection(id, archives)
 
   loadCollection = async () => {
     try {

@@ -2,11 +2,7 @@ import React from 'react'
 import { Grid, Placeholder, Segment, Statistic } from 'semantic-ui-react'
 import { api } from '@/api.js'
 import { AppContext } from '@/AppContext.js'
-import {
-  StepStatus,
-  StepName,
-
-} from '@/utils.js'
+import { StepStatus, StepName } from '@/utils.js'
 
 /**
  * This page is the staging area for archives.
@@ -34,13 +30,13 @@ export class StatisticsGrid extends React.Component {
   }
 
   componentDidMount() {
-    let {isLoggedIn} = this.context
+    let { isLoggedIn } = this.context
     if (isLoggedIn) {
       this.loadArchives()
       this.loadCollections()
       this.loadCompletedArchives()
       this.loadWaitingArchives()
-    }  
+    }
   }
 
   getArchives = (page) => api.archives(page)
@@ -75,7 +71,7 @@ export class StatisticsGrid extends React.Component {
     }
   }
 
-  getSteps = (status, name) => api.get_steps_by_status(status, name)
+  getSteps = (status, name) => api.getStepsStatus(status, name)
 
   loadCompletedArchives = async () => {
     try {
@@ -150,11 +146,7 @@ export class StatisticsGrid extends React.Component {
               {loadingCollections ? (
                 <div>{loadingSegment}</div>
               ) : (
-                <Statistic
-                  horizontal
-                  label="Tags"
-                  value={totalCollections}
-                />
+                <Statistic horizontal label="Tags" value={totalCollections} />
               )}
             </Segment>
           </Grid.Column>

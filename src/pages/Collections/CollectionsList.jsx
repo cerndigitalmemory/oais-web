@@ -71,7 +71,7 @@ class Collection extends React.Component {
 
   static contextType = AppContext.Context
 
-  deleteCollection = (id) => api.delete_collection(id)
+  deleteCollection = (id) => api.collectionDelete(id)
 
   handleDelete = (id) => {
     this.deleteCollection(id)

@@ -97,7 +97,7 @@ class Archive extends React.Component {
     const { archive } = this.props
     let steps = []
     try {
-      steps = await api.get_archive_steps(archive.id)
+      steps = await api.getArchiveSteps(archive.id)
       this.setState({ steps: steps, lastStep: steps[steps.length - 1] })
     } catch (e) {
       sendNotification('Error while getting archive', e.message, 'error')

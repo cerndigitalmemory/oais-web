@@ -32,9 +32,9 @@ export class ArchiveSteps extends React.Component {
     }
   }
 
-  getArchive = (id) => api.archive_details(id) // API call to get archive details
+  getArchive = (id) => api.archiveDetails(id) // API call to get archive details
 
-  getSteps = (id) => api.get_archive_steps(id) // API call to get steps
+  getSteps = (id) => api.getArchiveSteps(id) // API call to get steps
 
   getCollections = (id) => api.getArchiveCollections(id)
 

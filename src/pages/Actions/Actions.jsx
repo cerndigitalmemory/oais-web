@@ -31,7 +31,7 @@ export class Actions extends React.Component {
     try {
       const { results: archives, count: totalArchives } =
         await api.archivesByUserStaged(user.id, page)
-      const detailedArchives = await api.get_archive_details(archives)
+      const detailedArchives = await api.getArchivesDetailed(archives)
       this.setState({
         archives,
         page,

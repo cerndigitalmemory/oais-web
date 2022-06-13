@@ -23,7 +23,7 @@ export class AddTagsToArchives extends React.Component {
     }
   }
 
-  getCollections = () => api.get_all_tags()
+  getCollections = () => api.getAllTags()
 
   loadCollections = async () => {
     try {
@@ -90,10 +90,7 @@ export class AddTagsToArchives extends React.Component {
       if (typeof collection[0] == typeof 1) {
         // if the new value is a number add the archive to the collection
         // otherwise the new value is a string and it has beed added by the user (by creating new tag)
-        await api.add_archives_to_collection(
-          collection[0],
-          this.props.archive.id
-        )
+        await api.addArchivesToCollection(collection[0], this.props.archive.id)
         this.setState({ selectedTags: value, loading: false })
       }
     }
@@ -102,7 +99,7 @@ export class AddTagsToArchives extends React.Component {
       const collection = this.state.selectedTags.filter(
         (x) => !value.includes(x)
       )
-      await api.remove_archives_from_collection(
+      await api.removeArchivesFromCollection(
         collection[0],
         this.props.archive.id
       )
@@ -128,13 +125,10 @@ export class AddTagsToArchives extends React.Component {
       this.setState({ loading: false })
     } else {
       try {
-        const collection = await api.create_collection(searchQuery, '', null)
+        const collection = await api.collectionCreate(searchQuery, '', null)
         const newSelectedTags = this.state.selectedTags.concat(collection.id)
         this.updateCollections()
-        await api.add_archives_to_collection(
-          collection.id,
-          this.props.archive.id
-        )
+        await api.addArchivesToCollection(collection.id, this.props.archive.id)
         this.setState({ selectedTags: newSelectedTags, tagText: '' })
       } catch (exception) {
         sendNotification(

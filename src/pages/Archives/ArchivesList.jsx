@@ -70,7 +70,7 @@ class Archive extends React.Component {
   handleStepChange = async (event, { value }) => {
     this.setState({ nextStep: event.target.value })
     this.setState({ loading: true })
-    await api.next_step(value, this.props.archive)
+    await api.archiveNextStep(value, this.props.archive)
   }
 
   render() {

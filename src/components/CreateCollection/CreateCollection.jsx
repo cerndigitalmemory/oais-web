@@ -60,7 +60,7 @@ export class CreateCollection extends React.Component {
   }
 
   createCollection = (title, description, archives) =>
-    api.create_collection(title, description, archives)
+    api.collectionCreate(title, description, archives)
 
   handleSubmit = () => {
     const { title, description, archives } = this.state

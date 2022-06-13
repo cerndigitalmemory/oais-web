@@ -153,7 +153,7 @@ class PipelineElement extends React.Component {
 
   handleFailedStep = async (event, { value }) => {
     this.setState({ nextStep: event.target.value })
-    await api.next_step(value, this.props.archive)
+    await api.archiveNextStep(value, this.props.archive)
     this.setState({ loading: true })
   }
 
@@ -234,7 +234,7 @@ class NextStep extends React.Component {
   handleStepChange = async (event, { value }) => {
     this.setState({ ChooseNextStep: event.target.value })
     this.setState({ loading: true })
-    await api.next_step(value, this.props.archive)
+    await api.archiveNextStep(value, this.props.archive)
   }
 
   render() {
