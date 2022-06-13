@@ -121,13 +121,9 @@ class API {
   //   return await this._post(`/archive/create/${recid}/${source}/`)
   // }
 
-  async createStagedArchive(record) {
-    return await this._post(`/archive/create/staged`, { record: record })
+  async createStagedArchive(records) {
+    return await this._post(`/archive/create/staged`, { records: records })
   }
-
-  // async setTag(id, tags) {
-  //   return await this._post(`/records/${id}/actions/set/`, { tags: tags })
-  // }
 
   async parseURL(url) {
     return await this._post('/search/parse-url/', { url: url })
