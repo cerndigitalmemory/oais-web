@@ -62,7 +62,7 @@ class URLParse extends React.Component {
      */
     event.preventDefault()
     try {
-      const response = await api.parse_url(this.state.url)
+      const response = await api.parseURL(this.state.url)
       this.handleRedirect(response.source, response.recid)
     } catch (e) {
       sendNotification('Error while parsing URL', e.message, 'error')

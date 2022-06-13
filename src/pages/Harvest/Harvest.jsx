@@ -91,7 +91,7 @@ class Harvest extends React.Component {
     } else {
       try {
         if (this.props.searchById) {
-          const response = await api.search_by_id(source, query)
+          const response = await api.searchById(source, query)
           this.setState({
             results: response.result,
             totalNumHits: response.result.length,

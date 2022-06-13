@@ -31,7 +31,7 @@ export class EditManifests extends React.Component {
     }
   }
 
-  getArchive = (id) => api.archive_details(id) // API call to get archive details
+  getArchive = (id) => api.archiveDetails(id) // API call to get archive details
 
   loadArchive = async () => {
     try {

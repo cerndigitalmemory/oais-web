@@ -28,7 +28,7 @@ export class JobDetails extends React.Component {
     }
   }
 
-  getJob = (id) => api.get_collection(id) // API call to get archive details
+  getJob = (id) => api.collection(id) // API call to get archive details
 
   loadJob = async () => {
     try {

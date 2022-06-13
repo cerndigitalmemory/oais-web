@@ -102,7 +102,7 @@ class API {
     })
   }
 
-  async search_by_id(source, id) {
+  async searchById(source, id) {
     return await this._get(`/search/${source}/${id}/`)
   }
 
@@ -118,26 +118,26 @@ class API {
   }
 
   // async createArchive(source, recid) {
-  //   return await this._post(`/create-archive/${recid}/${source}/`)
+  //   return await this._post(`/archive/create/${recid}/${source}/`)
   // }
 
-  async createStagedArchive(records) {
-    return await this._post(`/create-staged-archive/`, { records: records })
+  async createStagedArchive(record) {
+    return await this._post(`/archive/create/staged`, { record: record })
   }
 
   // async setTag(id, tags) {
   //   return await this._post(`/records/${id}/actions/set/`, { tags: tags })
   // }
 
-  async parse_url(url) {
-    return await this._post('/parse-url/', { url: url })
+  async parseURL(url) {
+    return await this._post('/search/parse-url/', { url: url })
   }
 
-  async archive_details(id) {
-    return await this._get(`/archive-details/${id}`)
+  async archiveDetails(id) {
+    return await this._get(`/archive/${id}/details/`)
   }
 
-  async next_step(step_no, archive) {
+  async archiveNextStep(step_no, archive) {
     return await this._post(`archive/next-step`, {
       next_step: step_no,
       archive: archive,
@@ -155,7 +155,7 @@ class API {
   }
 
   async stagedArchives() {
-    return await this._get('/staged-archives/')
+    return await this._get('/archives/staged')
   }
 
   async stagedArchivesPaginated(page) {
@@ -172,11 +172,11 @@ class API {
     })
   }
 
-  async get_archive_details(archives) {
-    return await this._post(`/get-detailed/`, { archives: archives })
+  async getArchivesDetailed(archives) {
+    return await this._post(`/archives/detailed`, { archives: archives })
   }
 
-  async get_archive_steps(id) {
+  async getArchiveSteps(id) {
     return await this._get(`/archive/${id}/`)
   }
 
@@ -201,11 +201,17 @@ class API {
   }
 
   async saveManifest(id, manifest) {
-    return await this._post(`/save-manifest/${id}`, { manifest: manifest })
+    return await this._post(`/archive/${id}/save-manifest/`, {
+      manifest: manifest,
+    })
   }
 
-  async get_all_tags() {
-    return await this._get('/all-tags/')
+  async getAllTags() {
+    return await this._get('/collections/all')
+  }
+
+  async getArchiveLabelInfo() {
+    return await this._get('/archives/count')
   }
 
   async getArchiveLabelInfo() {
@@ -213,11 +219,11 @@ class API {
   }
 
   async unstageArchive(id) {
-    return await this._get(`/archive/${id}/unstage/`)
+    return await this._get(`/archive/${id}/unstage`)
   }
 
   async unstageArchives(archives) {
-    return await this._post(`/unstage-archives/`, { archives: archives })
+    return await this._post(`/archives/unstage`, { archives: archives })
   }
 
   async deleteArchive(id) {
@@ -225,39 +231,39 @@ class API {
   }
 
   async getCheckRecordsArchived(recordList) {
-    return await this._post(`/record-check/`, { recordList: recordList })
+    return await this._post(`/records/check`, { recordList: recordList })
   }
 
-  async get_collection(id) {
+  async collection(id) {
     return await this._get(`/collection/${id}`)
   }
 
-  async add_archives_to_collection(id, archives) {
+  async addArchivesToCollection(id, archives) {
     return await this._post(`/collections/${id}/actions/add/`, {
       archives: archives,
     })
   }
 
-  async remove_archives_from_collection(id, archives) {
+  async removeArchivesFromCollection(id, archives) {
     return await this._post(`/collections/${id}/actions/remove/`, {
       archives: archives,
     })
   }
 
-  async delete_collection(id) {
+  async collectionDelete(id) {
     return await this._post(`/collections/${id}/actions/delete/`)
   }
 
-  async create_collection(title, description, archives) {
-    return await this._post(`/create-collection/`, {
+  async collectionCreate(title, description, archives) {
+    return await this._post(`/collection/create`, {
       title: title,
       description: description,
       archives: archives,
     })
   }
 
-  async get_steps_by_status(status, name) {
-    return await this._post(`/get-steps-status/`, {
+  async getStepsStatus(status, name) {
+    return await this._get(`/steps/status`, {
       status: status,
       name: name,
     })
@@ -272,26 +278,26 @@ class API {
   // DUPLICATED
 
   // async getCheckRecordsArchived(recordList) {
-  //   return await this._post(`/record-check/`, { recordList: recordList })
+  //   return await this._post(`/records/check/`, { recordList: recordList })
   // }
 
-  // async get_collection(id) {
+  // async collection(id) {
   //   return await this._get(`/collection/${id}`)
   // }
 
-  // async add_archives_to_collection(id, archives) {
+  // async addArchivesToCollection(id, archives) {
   //   return await this._post(`/collections/${id}/actions/add/`, {
   //     archives: archives,
   //   })
   // }
 
-  // async remove_archives_from_collection(id, archives) {
+  // async removeArchivesFromCollection(id, archives) {
   //   return await this._post(`/collections/${id}/actions/remove/`, {
   //     archives: archives,
   //   })
   // }
 
-  // async delete_collection(id) {
+  // async collectionDelete(id) {
   //   return await this._post(`/collections/${id}/actions/delete/`)
   // }
 

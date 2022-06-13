@@ -21,7 +21,7 @@ export class LoginCallback extends React.Component {
     const { isLoggedIn } = this.context
     if (!isLoggedIn) {
       try {
-        const user = await api.me()
+        const user = await api.userMe()
         AppContext.setUser(user)
       } catch (e) {
         sendNotification(

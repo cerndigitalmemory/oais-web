@@ -31,7 +31,7 @@ export class StagedRecords extends React.Component {
       await api.stagedArchivesPaginated(page)
     try {
       if (stagedArchives) {
-        const detailedResponse = await api.get_archive_details(stagedArchives)
+        const detailedResponse = await api.getArchivesDetailed(stagedArchives)
         this.setState({
           stagedArchives: detailedResponse,
           totalStagedArchives: totalStagedArchives,

@@ -99,7 +99,7 @@ class Step extends React.Component {
 
   handleNextStep = async (event, { value }) => {
     this.setState({ nextStep: event.target.value })
-    await api.next_step(value, this.props.archive)
+    await api.archiveNextStep(value, this.props.archive)
   }
 
   loadArchivematicaDetails = () => {
