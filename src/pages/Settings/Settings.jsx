@@ -98,7 +98,7 @@ export class Settings extends React.Component {
               </Table.Header>
 
               <Table.Body>
-                {Object.entries(userSettings).map(([key, value]) => (
+                {Object.entries(userSettings.profile).map(([key, value]) => (
                   <SettingItem
                     editable={true}
                     key={key}
