@@ -122,7 +122,7 @@ class API {
   // }
 
   async createStagedArchive(records) {
-    return await this._post(`/archive/create/staged`, { records: records })
+    return await this._post(`/user/me/staging-area/`, { records: records })
   }
 
   async parseURL(url) {
