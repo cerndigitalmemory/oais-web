@@ -181,17 +181,31 @@ class Harvest extends React.Component {
       redirect,
     } = this.state
 
+    let addRemoveButton = <Button onClick={this.handleCheckAll}>Select all</Button>
+    if (this.props.checkedRecords.length > 0) {
+      addRemoveButton = <Button onClick={this.handleRemoveAll}>Clear selection</Button>
+    }
+
     const archiveButton = (
       <div>
-        <Button color="primary" onClick={this.handleArchiveButtonClick}>
-          Archive Selected
-        </Button>
-        <Button onClick={this.handleRemoveAll}>
-          Remove all
-        </Button>
-        <Button onClick={this.handleCheckAll}>
-          Add all
-        </Button>
+        <Grid
+          columns={2}
+          style={{
+            'margin-top': '10px',
+            'margin-bottom': '10px',
+          }}
+        >
+          <Grid.Column floated="left" textAlign="left">
+            {' '}
+            <Button color="primary" onClick={this.handleArchiveButtonClick}>
+              Archive Selected
+            </Button>
+          </Grid.Column>
+          <Grid.Column floated="right" textAlign="right">
+            {' '}
+            {addRemoveButton}
+          </Grid.Column>
+        </Grid>
       </div>
     )
 
@@ -214,30 +228,35 @@ class Harvest extends React.Component {
           onSearchByIdChange={this.handleSearchByIdChange.bind(this)}
           redirectURL={this.props.redirectURL}
         />
-        <div>
-          <Grid columns={2} verticalAlign="middle">
-            <Grid.Column>
-              <SearchPagination
-                onSearch={this.handleSearch}
-                source={this.props.source}
-                query={this.props.query}
-                hasResults={results != null && results.length > 0}
-                activePage={this.state.activePage}
-                totalNumHits={this.state.totalNumHits}
-                hitsPerPage={this.state.hitsPerPage}
-              />
-            </Grid.Column>
-            <Grid.Column textAlign="right">
-              <SizeRadio
-                onSearch={this.handleSearch}
-                source={this.props.source}
-                query={this.props.query}
-                hasResults={results != null && results.length > 0}
-                hitsPerPage={this.state.hitsPerPage}
-              />
-            </Grid.Column>
-          </Grid>
-        </div>
+
+        <Grid
+          columns={2}
+          verticalAlign="middle"
+          style={{
+            'margin-bottom': '10px',
+          }}
+        >
+          <Grid.Column>
+            <SearchPagination
+              onSearch={this.handleSearch}
+              source={this.props.source}
+              query={this.props.query}
+              hasResults={results != null && results.length > 0}
+              activePage={this.state.activePage}
+              totalNumHits={this.state.totalNumHits}
+              hitsPerPage={this.state.hitsPerPage}
+            />
+          </Grid.Column>
+          <Grid.Column textAlign="right">
+            <SizeRadio
+              onSearch={this.handleSearch}
+              source={this.props.source}
+              query={this.props.query}
+              hasResults={results != null && results.length > 0}
+              hitsPerPage={this.state.hitsPerPage}
+            />
+          </Grid.Column>
+        </Grid>
 
         {this.state.detailedResults == null ? null : this.state.detailedResults
             .length > 0 ? (
