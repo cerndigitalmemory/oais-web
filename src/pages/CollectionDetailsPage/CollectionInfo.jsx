@@ -27,10 +27,10 @@ export class CollectionInfo extends React.Component {
         <Label color="blue" ribbon>
           General Tag Information
         </Label>
-        <h1>Tag {id}</h1>
+        <h1>Tag {collection.title}</h1>
         <List>
           <List.Item>
-            <b>Name: </b> {collection.title}
+            <b>ID: </b> {id}
           </List.Item>
           <List.Item>
             <b>Creation Date: </b> {formatDateTime(collection.timestamp)}

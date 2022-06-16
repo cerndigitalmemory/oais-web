@@ -179,24 +179,6 @@ class Archive extends React.Component {
       </Modal>
     )
 
-    let harvestButton
-    if (loading) {
-      harvestButton = <Button icon="archive" color="green" loading />
-    } else {
-      if (steps.length == 0) {
-        harvestButton = (
-          <Button
-            icon="archive"
-            color="green"
-            name="Harvest archive"
-            onClick={this.handleHarvest}
-          />
-        )
-      } else {
-        harvestButton = <Button icon="archive" color="grey" disabled />
-      }
-    }
-
     return (
       <Table.Row>
         <Table.Cell>{archive.id}</Table.Cell>
@@ -214,7 +196,6 @@ class Archive extends React.Component {
             <Button>Details</Button>
           </Link>
           {deleteModal}
-          {harvestButton}
         </Table.Cell>
       </Table.Row>
     )
