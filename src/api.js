@@ -151,11 +151,11 @@ class API {
   }
 
   async stagedArchives() {
-    return await this._get('/archives/staged')
+    return await this._get('/user/me/staging-area/?paginated=false')
   }
 
   async stagedArchivesPaginated(page) {
-    return await this._get('/staged-archives-paginated/', { params: { page } })
+    return await this._get('/user/me/staging-area/', { params: { page } })
   }
 
   async archivesByUser(id, page = 1) {
