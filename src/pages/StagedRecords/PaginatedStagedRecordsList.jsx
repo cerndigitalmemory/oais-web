@@ -1,7 +1,7 @@
 import { api } from '@/api.js'
 import { sendNotification, formatDateTime } from '@/utils.js'
-import PropTypes from 'prop-types'
-import { archiveType, archiveTypeDetailed } from '@/types.js'
+import PropTypes, { arrayOf } from 'prop-types'
+import { archiveType, archiveTypeDetailed, collectionType } from '@/types.js'
 import React from 'react'
 import { Header, Table, Button, Icon, Grid, Popup } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
@@ -20,6 +20,8 @@ export class PaginatedRecordsList extends React.Component {
     setLoading: PropTypes.func.isRequired,
     totalStagedArchives: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
+    allTags: arrayOf(collectionType),
+    updateTags: PropTypes.func,
   }
 
   constructor(props) {
@@ -63,6 +65,8 @@ export class PaginatedRecordsList extends React.Component {
         <RecordsList
           archives={stagedArchives}
           onArchiveUpdate={onArchiveUpdate}
+          allTags={this.props.allTags}
+          updateTags={this.props.updateTags}
           page={page}
           totalStagedArchives={totalStagedArchives}
         />
@@ -96,6 +100,8 @@ class RecordsList extends React.Component {
   static propTypes = {
     archives: PropTypes.arrayOf(archiveTypeDetailed).isRequired,
     onArchiveUpdate: PropTypes.func.isRequired,
+    allTags: arrayOf(collectionType),
+    updateTags: PropTypes.func,
     totalStagedArchives: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
   }
@@ -121,11 +127,13 @@ class RecordsList extends React.Component {
             </Table.Header>
           ) : null}
           <Table.Body>
-            {this.props.archives.map((archive, i) => (
+            {this.props.archives.map((archive) => (
               <Record
-                key={i}
+                key={archive.source + archive.recid}
                 archive={archive}
                 onArchiveUpdate={this.props.onArchiveUpdate}
+                allTags={this.props.allTags}
+                updateTags={this.props.updateTags}
                 totalStagedArchives={this.props.totalStagedArchives}
                 page={this.props.page}
               />
@@ -141,6 +149,8 @@ class Record extends React.Component {
   static propTypes = {
     archive: archiveTypeDetailed.isRequired,
     onArchiveUpdate: PropTypes.func.isRequired,
+    allTags: arrayOf(collectionType),
+    updateTags: PropTypes.func,
     totalStagedArchives: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
   }
@@ -203,7 +213,11 @@ class Record extends React.Component {
           </Table.Cell>
           <Table.Cell textAlign="right">{archive.recid}</Table.Cell>
           <Table.Cell textAlign="right">
-            <AddTagsToArchives archive={this.props.archive} />
+            <AddTagsToArchives
+              archive={this.props.archive}
+              allTags={this.props.allTags}
+              updateTags={this.props.updateTags}
+            />
           </Table.Cell>
           <Table.Cell textAlign="right">{deleteButton}</Table.Cell>
         </Table.Row>

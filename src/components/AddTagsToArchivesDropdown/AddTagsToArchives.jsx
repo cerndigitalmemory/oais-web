@@ -1,21 +1,25 @@
 import { api } from '@/api.js'
 import { sendNotification } from '@/utils.js'
-import { archiveTypeDetailed, archiveType } from '@/types.js'
+import { archiveTypeDetailed, archiveType, collectionType } from '@/types.js'
+import PropTypes, { arrayOf } from 'prop-types'
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Dropdown, Loader } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 
 export class AddTagsToArchives extends React.Component {
   static propTypes = {
     archive: PropTypes.oneOfType([archiveTypeDetailed, archiveType]),
+    // optional props: if they are not provided, then this component uses its own api to request all the tags
+    allTags: arrayOf(collectionType),
+    updateTags: PropTypes.func,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       tagged: false,
-      tags: [],
+      // if allTags prop is populated initiliaze this state with that value
+      tags: !this.props.allTags ? [] : this.props.allTags,
       selectedTags: [],
       loading: true,
       tagText: '',
@@ -47,18 +51,35 @@ export class AddTagsToArchives extends React.Component {
     }
   }
 
-  updateCollections = () => {
+  updateCollections = async () => {
     this.setState({ loading: true })
-    this.loadCollections()
+    if (this.props.updateTags || this.props.allTags) {
+      await this.props.updateTags()
+      this.setState({ tags: this.props.allTags })
+    } else {
+      this.loadCollections()
+    }
     this.setState({ loading: false })
   }
 
   componentDidMount() {
     if (this.state.loading) {
-      this.loadCollections()
-      this.getSelectedTags()
+      if (this.props.updateTags || this.props.allTags) {
+        // if this component is called with allTags and update tags props
+        this.getSelectedTags()
+      } else {
+        this.loadCollections()
+        this.getSelectedTags()
+      }
     }
     this.setState({ loading: false })
+  }
+
+  componentDidUpdate(prevProps) {
+    // if this.props.tags has new entries then update the state
+    if (this.props.allTags !== prevProps.allTags) {
+      this.setState({ tags: this.props.allTags })
+    }
   }
 
   getSelectedTags() {
@@ -115,7 +136,7 @@ export class AddTagsToArchives extends React.Component {
     this.state.tags.map((tag) => {
       tagTitles.push(tag.title)
     })
-    console.log(tagTitles.includes(searchQuery))
+    // checks if there is a tag with the same name
     if (tagTitles.includes(searchQuery)) {
       sendNotification(
         'You already have a tag called "' + searchQuery + '"',

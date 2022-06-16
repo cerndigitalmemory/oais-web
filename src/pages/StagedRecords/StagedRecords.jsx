@@ -22,6 +22,7 @@ export class StagedRecords extends React.Component {
       totalStagedArchives: 0,
       loading: true,
       page: 1,
+      allTags: [],
     }
     this.updateAll = this.updateAll.bind(this)
   }
@@ -56,8 +57,20 @@ export class StagedRecords extends React.Component {
     }
   }
 
+  loadTags = async () => {
+    try {
+      const allTags = await api.getAllTags()
+      this.setState({
+        allTags: allTags,
+      })
+    } catch (e) {
+      sendNotification('Error while fetching settings', e.message, 'error')
+    }
+  }
+
   componentDidMount() {
-    this.loadRecords(this.state.page)
+    this.loadRecords()
+    this.loadTags()
     this.setState({ loading: false })
   }
 
@@ -65,11 +78,18 @@ export class StagedRecords extends React.Component {
     this.loadRecords(page)
   }
 
+  updateTags = () => {
+    this.setState({ loading: true })
+    this.loadTags()
+    this.setState({ loading: false })
+  }
+
   setLoading = () => this.setState({ loading: !this.state.loading })
 
   render() {
     const { user } = this.context
-    const { loading, page, totalStagedArchives, stagedArchives } = this.state
+    const { loading, page, totalStagedArchives, stagedArchives, allTags } =
+      this.state
 
     let loadingMessage = <p> Loading </p>
     if (loading) {
@@ -90,6 +110,8 @@ export class StagedRecords extends React.Component {
             totalStagedArchives={totalStagedArchives}
             page={page}
             setLoading={this.setLoading}
+            allTags={allTags}
+            updateTags={this.loadTags}
           />
         )}
       </React.Fragment>
