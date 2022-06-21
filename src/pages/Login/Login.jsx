@@ -3,7 +3,7 @@ import { AppContext } from '@/AppContext.js'
 import { sendNotification } from '@/utils.js'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button, Divider, Form, Grid, Segment, Header } from 'semantic-ui-react'
+import { Button, Dimmer, Form, Grid, Segment, Header } from 'semantic-ui-react'
 import { Redirect } from 'react-router'
 
 export class Login extends React.Component {
@@ -20,6 +20,7 @@ export class Login extends React.Component {
     this.state = {
       username: '',
       password: '',
+      active: false,
     }
   }
 
@@ -33,16 +34,20 @@ export class Login extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault()
+    this.setState({ active: true })
     try {
       const user = await api.login(this.state.username, this.state.password)
       AppContext.setUser(user)
     } catch (e) {
       sendNotification('Error while logging in', e.message, 'error')
+    } finally {
+      this.setState({ active: false })
     }
   }
 
   render() {
     const { isLoggedIn } = this.context
+    const { active } = this.state
 
     if (isLoggedIn) {
       const params = new URLSearchParams(this.props.location.search)
@@ -53,39 +58,45 @@ export class Login extends React.Component {
     return (
       <div>
         <h1>Login</h1>
-        <Segment placeholder>
-          <Grid columns={2} relaxed="very" stackable divided>
-            <Grid.Column>
-              <Form onSubmit={this.handleSubmit}>
-                <Form.Input
-                  icon="user"
-                  iconPosition="left"
-                  label="Username"
-                  placeholder="Username"
-                  type="text"
-                  value={this.state.username}
-                  onChange={this.handleUsernameChange}
-                />
-                <Form.Input
-                  icon="lock"
-                  iconPosition="left"
-                  label="Password"
-                  placeholder="Password"
-                  type="password"
-                  value={this.state.password}
-                  onChange={this.handlePasswordChange}
-                />
-                <Button content="Login" primary />
-              </Form>
-            </Grid.Column>
+        <Dimmer.Dimmable dimmed={active}>
+          <Segment placeholder>
+            <Grid columns={2} relaxed="very" stackable divided>
+              <Grid.Column>
+                <Form onSubmit={this.handleSubmit}>
+                  <Form.Input
+                    icon="user"
+                    iconPosition="left"
+                    label="Username"
+                    placeholder="Username"
+                    type="text"
+                    value={this.state.username}
+                    onChange={this.handleUsernameChange}
+                  />
+                  <Form.Input
+                    icon="lock"
+                    iconPosition="left"
+                    label="Password"
+                    placeholder="Password"
+                    type="password"
+                    value={this.state.password}
+                    onChange={this.handlePasswordChange}
+                  />
+                  <Button content="Login" primary />
+                </Form>
+              </Grid.Column>
 
-            <Grid.Column verticalAlign="middle" textAlign="center">
-              <Button href={API_URL + 'oidc/authenticate/'} color="blue">
-                Login with a CERN Account
-              </Button>
-            </Grid.Column>
-          </Grid>
-        </Segment>
+              <Grid.Column verticalAlign="middle" textAlign="center">
+                <Button href={API_URL + 'oidc/authenticate/'} color="blue">
+                  Login with a CERN Account
+                </Button>
+              </Grid.Column>
+            </Grid>
+          </Segment>
+
+          <Dimmer active={active} inverted>
+            <Loader inverted>Loading</Loader>
+          </Dimmer>
+        </Dimmer.Dimmable>
       </div>
     )
   }
