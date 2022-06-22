@@ -71,10 +71,8 @@ class Collection extends React.Component {
 
   static contextType = AppContext.Context
 
-  deleteCollection = (id) => api.collectionDelete(id)
-
-  handleDelete = (id) => {
-    this.deleteCollection(id)
+  handleDelete = async (id) => {
+    await api.collectionDelete(id)
     this.props.onCollectionUpdate(this.props.page)
     this.setOpen(false)
   }

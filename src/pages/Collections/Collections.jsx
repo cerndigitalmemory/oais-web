@@ -43,6 +43,12 @@ export class Collections extends React.Component {
     this.setState({ loading: false })
   }
 
+  updateCollections = (page = this.state.page) => {
+    this.setState({ loading: true })
+    this.loadCollections(page)
+    this.setState({ loading: false })
+  }
+
   render() {
     const { collections, loading, page, totalCollections } = this.state
 
@@ -61,7 +67,7 @@ export class Collections extends React.Component {
                 </Grid.Column>
                 <Grid.Column floated="right" width={3} textAlign="right">
                   <CreateCollection
-                    onCollectionCreation={this.loadCollections}
+                    onCollectionCreation={this.updateCollections}
                     addArchives={true}
                   />
                 </Grid.Column>
@@ -70,7 +76,7 @@ export class Collections extends React.Component {
             <br />
 
             <PaginatedCollectionsList
-              loadCollections={this.loadCollections}
+              loadCollections={this.updateCollections}
               collections={collections}
               page={page}
               totalCollections={totalCollections}
