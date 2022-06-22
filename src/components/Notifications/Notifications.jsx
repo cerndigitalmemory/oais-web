@@ -127,7 +127,6 @@ export class Notifications extends React.Component {
   }
 
   handleClose(notification) {
-    console.log(notification)
     AppContext.removeNotification(notification)
   }
 
@@ -152,11 +151,15 @@ export class Notifications extends React.Component {
   }
 
   render() {
-    console.log(this.props.notifications)
     return (
       <Container>
         {this.state.networkError ? (
           <Message
+            style={{
+              position: 'relative',
+              top: '10%',
+              width: '100%',
+            }}
             negative
             icon="warning sign"
             header="Network Error"

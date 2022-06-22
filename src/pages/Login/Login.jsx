@@ -3,7 +3,7 @@ import { AppContext } from '@/AppContext.js'
 import { sendNotification } from '@/utils.js'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button, Dimmer, Form, Grid, Segment, Header } from 'semantic-ui-react'
+import { Button, Loader, Dimmer, Form, Grid, Segment, Header } from 'semantic-ui-react'
 import { Redirect } from 'react-router'
 
 export class Login extends React.Component {
