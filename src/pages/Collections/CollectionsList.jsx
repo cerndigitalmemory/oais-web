@@ -89,7 +89,7 @@ class Collection extends React.Component {
       <Modal
         closeIcon
         open={this.state.open}
-        trigger={<Button icon="remove circle" color="red" />}
+        trigger={<Button icon="remove" />}
         onClose={() => this.setOpen(false)}
         onOpen={() => this.setOpen(true)}
       >
@@ -119,17 +119,16 @@ class Collection extends React.Component {
             {collection.creator.username}
           </Link>
         </Table.Cell>
-        <Table.Cell>{collection.title}</Table.Cell>
+        <Table.Cell>
+          <Link to={`/collection/${collection.id}`}>
+            <b>{collection.title}</b>
+          </Link>
+        </Table.Cell>
         <Table.Cell>{collection.description}</Table.Cell>
         <Table.Cell>{formatDateTime(collection.timestamp)}</Table.Cell>
         <Table.Cell>{collection.archives.length}</Table.Cell>
         <Table.Cell>
-          <Button.Group>
-            <Button as={Link} to={`/collection/${collection.id}`} secondary>
-              Info
-            </Button>
-            {deleteModal}
-          </Button.Group>
+          <Button.Group>{deleteModal}</Button.Group>
         </Table.Cell>
       </Table.Row>
     )

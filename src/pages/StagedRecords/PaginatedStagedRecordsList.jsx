@@ -202,7 +202,7 @@ class Record extends React.Component {
     }
 
     let deleteButton = (
-      <Button icon="remove" color="red" onClick={this.handleDelete} />
+      <Button icon="remove" onClick={this.handleDelete} />
     )
 
     return (
