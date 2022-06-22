@@ -112,7 +112,7 @@ export class AddTagsToArchives extends React.Component {
         // if the new value is a number add the archive to the collection
         // otherwise the new value is a string and it has beed added by the user (by creating new tag)
         await api.addArchivesToCollection(collection[0], this.props.archive.id)
-        this.setState({ selectedTags: value, loading: false })
+        this.setState({ selectedTags: value, loading: false, tagText: '' })
       }
     }
     if (value.length < this.state.selectedTags.length) {
@@ -124,7 +124,7 @@ export class AddTagsToArchives extends React.Component {
         collection[0],
         this.props.archive.id
       )
-      this.setState({ selectedTags: value, loading: false })
+      this.setState({ selectedTags: value, loading: false, tagText: '' })
     }
   }
 
