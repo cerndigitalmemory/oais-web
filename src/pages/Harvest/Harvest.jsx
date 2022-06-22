@@ -181,9 +181,13 @@ class Harvest extends React.Component {
       redirect,
     } = this.state
 
-    let addRemoveButton = <Button onClick={this.handleCheckAll}>Select all</Button>
+    let addRemoveButton = (
+      <Button onClick={this.handleCheckAll}>Select all</Button>
+    )
     if (this.props.checkedRecords.length > 0) {
-      addRemoveButton = <Button onClick={this.handleRemoveAll}>Clear selection</Button>
+      addRemoveButton = (
+        <Button onClick={this.handleRemoveAll}>Clear selection</Button>
+      )
     }
 
     const archiveButton = (
@@ -197,7 +201,7 @@ class Harvest extends React.Component {
         >
           <Grid.Column floated="left" textAlign="left">
             {' '}
-            <Button color="primary" onClick={this.handleArchiveButtonClick}>
+            <Button primary onClick={this.handleArchiveButtonClick}>
               Archive Selected
             </Button>
           </Grid.Column>

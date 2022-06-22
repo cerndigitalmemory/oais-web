@@ -124,10 +124,12 @@ class Collection extends React.Component {
         <Table.Cell>{formatDateTime(collection.timestamp)}</Table.Cell>
         <Table.Cell>{collection.archives.length}</Table.Cell>
         <Table.Cell>
-          <Link to={`/collection/${collection.id}`}>
-            <Button>Details</Button>
-          </Link>{' '}
-          {deleteModal}
+          <Button.Group>
+            <Button as={Link} to={`/collection/${collection.id}`} secondary>
+              Info
+            </Button>
+            {deleteModal}
+          </Button.Group>
         </Table.Cell>
       </Table.Row>
     )
