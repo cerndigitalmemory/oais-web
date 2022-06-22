@@ -4,7 +4,6 @@ import { sendNotification } from '@/utils.js'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Button, Divider, Form, Grid, Segment, Header } from 'semantic-ui-react'
-import 'semantic-ui-css-b/semantic.min.css'
 import { Redirect } from 'react-router'
 
 export class Login extends React.Component {
