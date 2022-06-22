@@ -236,8 +236,7 @@ class NavBar extends React.Component {
             onItemClick={onItemClick}
           ></NavBarMobile>
         </Media>
-
-        <Media greaterThan="mobile">
+        <Media at="tablet">
           <NavBarDesktop
             leftItems={leftItems}
             isLoggedIn={isLoggedIn}
@@ -245,7 +244,17 @@ class NavBar extends React.Component {
             activeItem={activeItem}
             onItemClick={onItemClick}
           />
-          <NavBarChildren notifications={notifications} />
+          <NavBarChildren notifications={notifications} size={'tablet'} />
+        </Media>
+        <Media greaterThan="tablet">
+          <NavBarDesktop
+            leftItems={leftItems}
+            isLoggedIn={isLoggedIn}
+            user={user}
+            activeItem={activeItem}
+            onItemClick={onItemClick}
+          />
+          <NavBarChildren notifications={notifications} size={'computer'} />
         </Media>
       </div>
     )
@@ -440,19 +449,30 @@ class NavBarDesktop extends React.Component {
 class NavBarChildren extends React.Component {
   static propTypes = {
     notifications: PropTypes.arrayOf(notificationType),
+    size: PropTypes.string.isRequired, // used to specify the width styling of the segment
   }
   constructor(props) {
     super(props)
   }
 
   render() {
-    const { notifications } = this.props
+    const { notifications, size } = this.props
+
+    let width = 'fit-content(0em)'
+    if (size == 'tablet') {
+      width = '95vw'
+    }
 
     return (
       <React.Fragment>
         <Notifications notifications={notifications ?? []} />
         <Container
-          style={{ paddingBottom: '100px', minHeight: '93vh', z_index: 'auto' }}
+          style={{
+            paddingBottom: '100px',
+            minHeight: '93vh',
+            z_index: 'auto',
+            width: width,
+          }}
         >
           <Switch>
             <ProtectedRoute path="/harvest" component={Harvest} />
