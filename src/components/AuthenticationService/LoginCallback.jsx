@@ -15,7 +15,12 @@ import { Redirect } from 'react-router'
 export class LoginCallback extends React.Component {
   static contextType = AppContext.Context
 
-  state = { isLoading: true }
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLoading: true,
+    }
+  }
 
   async componentDidMount() {
     const { isLoggedIn } = this.context
@@ -24,6 +29,7 @@ export class LoginCallback extends React.Component {
         const user = await api.getUserSettings()
         AppContext.setUser(user)
       } catch (e) {
+        console.log(e.message)
         sendNotification(
           'Error while logging in using CERN credentials',
           e.message,
@@ -32,6 +38,8 @@ export class LoginCallback extends React.Component {
       } finally {
         this.setState({ isLoading: false })
       }
+    } else {
+      this.setState({ isLoading: false })
     }
   }
 
