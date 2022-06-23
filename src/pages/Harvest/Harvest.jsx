@@ -195,8 +195,8 @@ class Harvest extends React.Component {
         <Grid
           columns={2}
           style={{
-            'margin-top': '10px',
-            'margin-bottom': '10px',
+            marginTop: '10px',
+            marginBottom: '10px',
           }}
         >
           <Grid.Column floated="left" textAlign="left">
@@ -237,7 +237,7 @@ class Harvest extends React.Component {
           columns={2}
           verticalAlign="middle"
           style={{
-            'margin-bottom': '10px',
+            marginBottom: '10px',
           }}
         >
           <Grid.Column>

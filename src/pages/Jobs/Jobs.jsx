@@ -36,12 +36,18 @@ export class Jobs extends React.Component {
       })
     } catch (e) {
       sendNotification('Error while loading jobs', e.message, 'error')
+    } finally {
+      this.setState({ loading: false })
     }
   }
 
   componentDidMount() {
     this.loadJobs(this.state.page)
-    this.setState({ loading: false })
+  }
+
+  updateJobs = (page = this.state.page) => {
+    this.setState({ loading: true })
+    this.loadJobs(page)
   }
 
   render() {
@@ -51,7 +57,7 @@ export class Jobs extends React.Component {
 
     return (
       <React.Fragment>
-        {loading || !jobs ? (
+        {loading ? (
           <div> {loadingSpinner} </div>
         ) : (
           <div>
@@ -63,13 +69,16 @@ export class Jobs extends React.Component {
               </Grid.Row>
             </Grid>
             <br />
-
-            <PaginatedJobsList
-              loadJobs={this.loadJobs}
-              jobs={jobs}
-              page={page}
-              totalJobs={totalJobs}
-            />
+            {!jobs ? (
+              <p>There are no jobs</p>
+            ) : (
+              <PaginatedJobsList
+                loadJobs={this.updateJobs}
+                jobs={jobs}
+                page={page}
+                totalJobs={totalJobs}
+              />
+            )}
           </div>
         )}
       </React.Fragment>

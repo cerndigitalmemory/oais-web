@@ -24,6 +24,7 @@ export class Notifications extends React.Component {
         <b>{notification.title}</b> <br /> <p>{notification.body}</p>
       </div>,
       {
+        toastId: notification.title + notification.body,
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -42,6 +43,7 @@ export class Notifications extends React.Component {
         <b>{notification.title}</b> <br /> <p>{notification.body}</p>
       </div>,
       {
+        toastId: notification.title + notification.body,
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -92,18 +94,23 @@ export class Notifications extends React.Component {
 
   updateComponent = () => {
     this.props.notifications.map((notification) => {
-      if (notification.type == 'warning') {
-        this.showWarning(notification)
-      } else if (notification.type == 'error') {
-        if (notification.body === 'Network Error') {
-          this.setNetworkError()
+      const notification_id = notification.title + notification.body
+      if (!toast.isActive(notification_id)) {
+        if (notification.type == 'warning') {
+          this.showWarning(notification)
+        } else if (notification.type == 'error') {
+          if (notification.body === 'Network Error') {
+            this.setNetworkError()
+          } else {
+            this.showError(notification)
+          }
+        } else if (notification.type == 'success') {
+          this.showSuccess(notification)
         } else {
-          this.showError(notification)
+          this.showNotification(notification)
         }
-      } else if (notification.type == 'success') {
-        this.showSuccess(notification)
       } else {
-        this.showNotification(notification)
+        toast.update(notification_id, { autoClose: 5000 })
       }
     })
   }
@@ -148,6 +155,11 @@ export class Notifications extends React.Component {
       <Container>
         {this.state.networkError ? (
           <Message
+            style={{
+              position: 'relative',
+              top: '10%',
+              width: '100%',
+            }}
             negative
             icon="warning sign"
             header="Network Error"

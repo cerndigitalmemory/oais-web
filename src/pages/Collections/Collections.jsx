@@ -35,12 +35,18 @@ export class Collections extends React.Component {
       })
     } catch (e) {
       sendNotification('Error while fetching settings', e.message, 'error')
+    } finally {
+      this.setState({ loading: false })
     }
   }
 
   componentDidMount() {
     this.loadCollections(this.state.page)
-    this.setState({ loading: false })
+  }
+
+  updateCollections = (page = this.state.page) => {
+    this.setState({ loading: true })
+    this.loadCollections(page)
   }
 
   updateCollections = (page = this.state.page) => {
@@ -56,7 +62,7 @@ export class Collections extends React.Component {
 
     return (
       <React.Fragment>
-        {loading || !collections ? (
+        {loading ? (
           <div> {loadingSpinner} </div>
         ) : (
           <div>
@@ -74,13 +80,16 @@ export class Collections extends React.Component {
               </Grid.Row>
             </Grid>
             <br />
-
-            <PaginatedCollectionsList
-              loadCollections={this.updateCollections}
-              collections={collections}
-              page={page}
-              totalCollections={totalCollections}
-            />
+            {!collections ? (
+              <p>Failed to fetch collections</p>
+            ) : (
+              <PaginatedCollectionsList
+                loadCollections={this.updateCollections}
+                collections={collections}
+                page={page}
+                totalCollections={totalCollections}
+              />
+            )}
           </div>
         )}
       </React.Fragment>
