@@ -105,6 +105,10 @@ class Harvest extends React.Component {
         }
       } catch (e) {
         sendNotification('Error while searching', e.message, 'error')
+        this.setState({
+          results: [],
+          totalNumHits: 0,
+        })
         this.setState({ isLoading: false })
       } finally {
         const detailedResponse = await this.getDetailedRecords(

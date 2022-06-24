@@ -71,29 +71,23 @@ class SearchForm extends React.Component {
   handleSourceButton = (event) => {
     event.preventDefault()
     const user = Storage.getUser()
+    let query
+    if (event.target.value == 'indico') {
+      query = 'person:' + user.first_name + ' ' + user.last_name
+    } else {
+      query = user.first_name + ' ' + user.last_name
+    }
+    let source = event.target.value
+    let searchById = false
 
     this.setState({
-      query: user.first_name + ' ' + user.last_name,
-      source: event.target.value,
-      searchById: false,
+      query: query,
+      source: source,
+      searchById: searchById,
     })
-    this.props.onQueryChange(user.first_name + ' ' + user.last_name)
-    this.props.onSourceChange(event.target.value)
-    this.props.onSearch()
-  }
-
-  handleIndicoSearch = (event) => {
-    event.preventDefault()
-    const user = Storage.getUser()
-
-    this.setState({
-      query: 'person:' + user.first_name + ' ' + user.last_name,
-      source: event.target.value,
-      searchById: false,
-    })
-    this.props.onQueryChange('person:' + user.first_name + ' ' + user.last_name)
-    this.props.onSourceChange(event.target.value)
-    this.props.onSearch()
+    this.props.onQueryChange(query)
+    this.props.onSourceChange(source)
+    this.props.onSearch(source, query, 1, this.props.hitsPerPage)
   }
 
   render() {
@@ -142,7 +136,7 @@ class SearchForm extends React.Component {
               size="mini"
               fluid
               value="indico"
-              onClick={this.handleIndicoSearch}
+              onClick={this.handleSourceButton}
             >
               <Icon name="plus" />
               Find all your events on Indico
@@ -189,6 +183,7 @@ class SearchForm extends React.Component {
               label="Source"
               defaultValue={this.props.source}
               onChange={this.handleSourceChange}
+              value={this.state.source}
               options={sourceOptions}
               placeholder="Source"
             />
