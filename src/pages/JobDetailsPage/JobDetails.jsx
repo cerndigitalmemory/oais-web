@@ -28,11 +28,11 @@ export class JobDetails extends React.Component {
     }
   }
 
-  getJob = (id) => api.collection(id) // API call to get archive details
+  getJob = (id, internal) => api.collection(id, internal) // API call to get archive details
 
   loadJob = async () => {
     try {
-      const job = await this.getJob(this.props.match.params.id)
+      const job = await this.getJob(this.props.match.params.id, true)
       this.setState({ job: job })
     } catch (e) {
       sendNotification('Error while fetching job', e.message, 'error')
