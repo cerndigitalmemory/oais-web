@@ -211,6 +211,7 @@ class Step extends React.Component {
           color="black"
           as="a"
           href={artifact.artifact_url}
+          target="_blank"
         >
           <Icon name="external alternate"></Icon>
           {artifact.artifact_name}
