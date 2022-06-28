@@ -185,15 +185,15 @@ class API {
   }
 
   async approveArchive(id) {
-    return await this._post(`/steps/${id}/actions/approve/`)
+    return await this._post(`/steps/${id}/approve/`)
   }
 
   async rejectArchive(id) {
-    return await this._post(`/steps/${id}/actions/reject/`)
+    return await this._post(`/steps/${id}/reject/`)
   }
 
   async collections(page = 1, internal) {
-    return await this._get('/collections/', { params: { page, internal } })
+    return await this._get('/tags/', { params: { page, internal } })
   }
 
   async saveManifest(id, manifest) {
@@ -203,7 +203,7 @@ class API {
   }
 
   async getAllTags() {
-    return await this._get('/collections/all')
+    return await this._get('/user/me/tags')
   }
 
   async getArchiveLabelInfo() {
@@ -231,27 +231,27 @@ class API {
   }
 
   async collection(id) {
-    return await this._get(`/collection/${id}`)
+    return await this._get(`/tags/${id}`)
   }
 
   async addArchivesToCollection(id, archives) {
-    return await this._post(`/collections/${id}/actions/add/`, {
+    return await this._post(`/tags/${id}/add/`, {
       archives: archives,
     })
   }
 
   async removeArchivesFromCollection(id, archives) {
-    return await this._post(`/collections/${id}/actions/remove/`, {
+    return await this._post(`/tags/${id}/remove/`, {
       archives: archives,
     })
   }
 
   async collectionDelete(id) {
-    return await this._post(`/collections/${id}/actions/delete/`)
+    return await this._post(`/tags/${id}/delete/`)
   }
 
   async collectionCreate(title, description, archives) {
-    return await this._post(`/collection/create`, {
+    return await this._post(`/tags/create/`, {
       title: title,
       description: description,
       archives: archives,
@@ -272,30 +272,6 @@ class API {
   //   return await this._get(`/archive/${id}/search/`)
   // }
   // DUPLICATED
-
-  // async getCheckRecordsArchived(recordList) {
-  //   return await this._post(`/records/check/`, { recordList: recordList })
-  // }
-
-  // async collection(id) {
-  //   return await this._get(`/collection/${id}`)
-  // }
-
-  // async addArchivesToCollection(id, archives) {
-  //   return await this._post(`/collections/${id}/actions/add/`, {
-  //     archives: archives,
-  //   })
-  // }
-
-  // async removeArchivesFromCollection(id, archives) {
-  //   return await this._post(`/collections/${id}/actions/remove/`, {
-  //     archives: archives,
-  //   })
-  // }
-
-  // async collectionDelete(id) {
-  //   return await this._post(`/collections/${id}/actions/delete/`)
-  // }
 
   // async create_collection(title, description, archives) {
   //   return await this._post(`/create-collection/`, {
