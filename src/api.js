@@ -230,8 +230,8 @@ class API {
     return await this._post(`/records/check`, { recordList: recordList })
   }
 
-  async collection(id) {
-    return await this._get(`/tags/${id}`)
+  async collection(id, internal) {
+    return await this._get(`/tags/${id}`, { params: { internal } })
   }
 
   async addArchivesToCollection(id, archives) {
