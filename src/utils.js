@@ -30,6 +30,7 @@ export const StepName = {
   HARVEST: 2,
   VALIDATION: 3,
   CHECKSUM: 4,
+  INVENIO_RDM: 7,
   ARCHIVE: 5,
   EDIT_MANIFEST: 6,
 }
@@ -39,6 +40,7 @@ export const StepNameLabel = {
   [StepName.HARVEST]: 'Harvest',
   [StepName.VALIDATION]: 'Validate',
   [StepName.CHECKSUM]: 'Checksum',
+  [StepName.INVENIO_RDM]: 'Invenio RDM',
   [StepName.ARCHIVE]: 'Upload to AM',
   [StepName.EDIT_MANIFEST]: 'Edit Manifest',
 }

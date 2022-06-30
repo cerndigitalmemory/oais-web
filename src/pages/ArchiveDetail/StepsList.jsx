@@ -232,7 +232,7 @@ class Step extends React.Component {
         <Grid>
           <Grid.Row columns={2}>
             <Grid.Column floated="left" width={5}>
-              <h3>{StepNameLabel[step.name]}</h3>
+              <h3>{[step.name]}</h3>
             </Grid.Column>
             <Grid.Column floated="right" textAlign="right">
               {accordionActions && <>{accordionActions}</>}
