@@ -118,11 +118,11 @@ class API {
   }
 
   // async createArchive(source, recid) {
-  //   return await this._post(`/archive/create/${recid}/${source}/`)
+  //   return await this._post(`/archives/create/${recid}/${source}/`)
   // }
 
   async createStagedArchive(records) {
-    return await this._post(`/user/me/staging-area/`, { records: records })
+    return await this._post(`/users/me/staging-area/`, { records: records })
   }
 
   async parseURL(url) {
@@ -130,11 +130,11 @@ class API {
   }
 
   async archiveDetails(id) {
-    return await this._get(`/archive/${id}/details/`)
+    return await this._get(`/archives/${id}/`)
   }
 
   async archiveNextStep(step_no, archive) {
-    return await this._post(`archive/next-step`, {
+    return await this._post(`archives/${archive.id}/next-step/`, {
       next_step: step_no,
       archive: archive,
     })
@@ -151,11 +151,11 @@ class API {
   }
 
   async stagedArchives() {
-    return await this._get('/user/me/staging-area/?paginated=false')
+    return await this._get('/users/me/staging-area/?paginated=false')
   }
 
   async stagedArchivesPaginated(page) {
-    return await this._get('/user/me/staging-area/', { params: { page } })
+    return await this._get('/users/me/staging-area', { params: { page } })
   }
 
   async archivesByUser(id, page = 1) {
@@ -169,11 +169,11 @@ class API {
   }
 
   async getArchivesDetailed(archives) {
-    return await this._post(`/archives/detailed`, { archives: archives })
+    return await this._post(`/archives/details/`, { archives: archives })
   }
 
   async getArchiveSteps(id) {
-    return await this._get(`/archive/${id}/`)
+    return await this._get(`/archives/${id}/steps/`)
   }
 
   async user(id) {
@@ -197,17 +197,13 @@ class API {
   }
 
   async saveManifest(id, manifest) {
-    return await this._post(`/archive/${id}/save-manifest/`, {
+    return await this._post(`/archives/${id}/save-manifest/`, {
       manifest: manifest,
     })
   }
 
   async getAllTags() {
-    return await this._get('/user/me/tags')
-  }
-
-  async getArchiveLabelInfo() {
-    return await this._get('/archives/count')
+    return await this._get('/users/me/tags')
   }
 
   async getArchiveLabelInfo() {
@@ -215,15 +211,15 @@ class API {
   }
 
   async unstageArchive(id) {
-    return await this._get(`/archive/${id}/unstage`)
+    return await this._get(`/archives/${id}/unstage`)
   }
 
   async unstageArchives(archives) {
-    return await this._post(`/archives/unstage`, { archives: archives })
+    return await this._post(`/archives/unstage/`, { archives: archives })
   }
 
   async deleteArchive(id) {
-    return await this._get(`/archive/${id}/delete/`)
+    return await this._get(`/archives/${id}/delete/`)
   }
 
   async getCheckRecordsArchived(recordList) {
@@ -259,41 +255,29 @@ class API {
   }
 
   async getStepsStatus(status, name) {
-    return await this._get(`/steps/status`, {
+    return await this._get(`/users/me/stats`, {
       status: status,
       name: name,
     })
   }
+
   async getArchiveCollections(id) {
-    return await this._get(`/archive/${id}/get-collections/`)
+    return await this._get(`/archives/${id}/tags/`)
   }
 
   // async getArchiveExists(id) {
-  //   return await this._get(`/archive/${id}/search/`)
-  // }
-  // DUPLICATED
-
-  // async create_collection(title, description, archives) {
-  //   return await this._post(`/create-collection/`, {
-  //     title: title,
-  //     description: description,
-  //     archives: archives,
-  //   })
+  //   return await this._get(`/archives/${id}/search/`)
   // }
 
-  async me() {
-    return await this._get(`/me/`)
-  }
-
-  //API call to set api keys (works with the new api refactor)
+  //API call to set api kcdeys (works with the new api refactor)
   async setUserSettings(token_title, token) {
-    return await this._post(`/user/me/`, {
+    return await this._post(`/users/me/`, {
       [token_title]: token,
     })
   }
 
   async getUserSettings() {
-    return await this._get('/user/me/')
+    return await this._get('/users/me/')
   }
 }
 
