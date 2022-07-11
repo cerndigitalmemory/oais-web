@@ -1,6 +1,7 @@
 import Harvest from '@/pages/Harvest/Harvest.jsx'
 import { UploadSIP } from '@/pages/Upload/UploadSIP.jsx'
 import { UploadFolder } from '@/pages/Upload/UploadFolder.jsx'
+import { Announce } from '@/pages/Announce/Announce.jsx'
 import URLParse from '@/pages/URLParse/URLParse.jsx'
 import React from 'react'
 import { Grid, Segment, Container, Header } from 'semantic-ui-react'
@@ -54,6 +55,13 @@ export class AddResource extends React.Component {
           <Grid.Column>
             <Segment>
               <URLParse />
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Segment>
+              <Announce />
             </Segment>
           </Grid.Column>
         </Grid.Row>
