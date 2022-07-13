@@ -118,7 +118,16 @@ class RecordsList extends React.Component {
                   Record ID
                 </Table.HeaderCell>
                 <Table.HeaderCell width="4" textAlign="right">
-                  Tag
+                  Tag{' '}
+                  <Popup
+                    content="Adds a tag at the created archive. 
+                      You can apply the same tag to archives you want to group together"
+                    trigger={
+                      <span>
+                        <Icon name="info circle" />{' '}
+                      </span>
+                    }
+                  />
                 </Table.HeaderCell>
                 <Table.HeaderCell width="1" textAlign="center">
                   {' '}
@@ -201,9 +210,7 @@ class Record extends React.Component {
       )
     }
 
-    let deleteButton = (
-      <Button icon="remove" onClick={this.handleDelete} />
-    )
+    let deleteButton = <Button icon="remove" onClick={this.handleDelete} />
 
     return (
       <React.Fragment>
