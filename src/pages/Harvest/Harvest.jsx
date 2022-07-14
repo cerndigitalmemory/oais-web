@@ -205,13 +205,13 @@ class Harvest extends React.Component {
         >
           <Grid.Column floated="left" textAlign="left">
             {' '}
-            <Button primary onClick={this.handleArchiveButtonClick}>
-              Archive Selected
-            </Button>
+            {addRemoveButton}
           </Grid.Column>
           <Grid.Column floated="right" textAlign="right">
             {' '}
-            {addRemoveButton}
+            <Button primary onClick={this.handleArchiveButtonClick}>
+              Archive Selected
+            </Button>
           </Grid.Column>
         </Grid>
       </div>
