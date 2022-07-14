@@ -22,13 +22,9 @@ h1 {
 
 .branded-title {
   font-family: 'Barlow';
-  font-size: 1.20rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  background: linear-gradient(
-    to right, 
-    rgb(255, 255, 255), 
-    rgb(188, 188, 188)
-  );
+  background: linear-gradient(to right, rgb(255, 255, 255), rgb(188, 188, 188));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: right;
@@ -40,4 +36,9 @@ h1 {
 
 .ui.secondary.menu .active.item {
   font-weight: 600;
+}
+
+.standard_button {
+  width: 100%;
+  max-width: 100px;
 }

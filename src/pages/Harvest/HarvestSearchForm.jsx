@@ -2,7 +2,15 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import { Storage } from '@/storage.js'
 import React from 'react'
-import { Button, Form, Input, Checkbox, Grid, Icon } from 'semantic-ui-react'
+import {
+  Button,
+  Form,
+  Input,
+  Checkbox,
+  Grid,
+  Icon,
+  Loader,
+} from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 // The SearchForm function contains the form for the search
@@ -149,18 +157,22 @@ class SearchForm extends React.Component {
     if (isLoading) {
       // if the search is already in progress, show a spinner
       submitButton = (
-        <Button loading primary>
+        <Button loading primary fluid>
           Loading
         </Button>
       )
     } else {
-      submitButton = <Button primary>Search</Button>
+      submitButton = (
+        <Button primary className="standard_button">
+          Search
+        </Button>
+      )
     }
 
     return (
       <Form onSubmit={this.handleSubmit}>
         <Grid stackable columns={4}>
-          <Grid.Column width={6} verticalAlign="middle">
+          <Grid.Column width={6}>
             <Form.Field
               control={Input}
               value={this.state.query}
@@ -178,7 +190,7 @@ class SearchForm extends React.Component {
               />
             </Form.Field>
           </Grid.Column>
-          <Grid.Column verticalAlign="bottom">
+          <Grid.Column verticalAlign="bottom" width={5}>
             <Form.Select
               label="Source"
               defaultValue={this.props.source}
@@ -188,7 +200,7 @@ class SearchForm extends React.Component {
               placeholder="Source"
             />
           </Grid.Column>
-          <Grid.Column verticalAlign="bottom" floated="right">
+          <Grid.Column verticalAlign="bottom" width={3}>
             {submitButton}
           </Grid.Column>
           {showSourceButtons}
