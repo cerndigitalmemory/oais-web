@@ -2,7 +2,7 @@ import { api } from '@/api.js'
 import { PaginatedRecordsList } from '@/pages/StagedRecords/PaginatedStagedRecordsList.jsx'
 import React from 'react'
 import { sendNotification } from '@/utils.js'
-import { Loader } from 'semantic-ui-react'
+import { Container, Loader } from 'semantic-ui-react'
 import { AppContext } from '@/AppContext.js'
 import { Storage } from '@/storage.js'
 
@@ -101,9 +101,15 @@ export class StagedRecords extends React.Component {
     return (
       <React.Fragment>
         <h1>Staged Records</h1>
+        <p>
+          This page provides a temporary area to prepare your archives,
+          allowing you to select the staged archives and apply tags on them.
+        </p>
+
         {loading || totalStagedArchives == 0 ? (
           <> {loadingMessage} </>
         ) : (
+
           <PaginatedRecordsList
             stagedArchives={stagedArchives}
             onArchiveUpdate={this.updateAll}
