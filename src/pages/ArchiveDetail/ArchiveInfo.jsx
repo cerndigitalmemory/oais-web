@@ -65,6 +65,19 @@ export class ArchiveInfo extends React.Component {
       </List.Item>
     )
 
+    let invenioParentID = (
+      <>
+      </>
+    )
+
+    if (archive.invenio_parent_id != "")
+      invenioParentID = (
+        <List.Item >
+          <b>Invenio Parent ID: </b> <a href={archive.invenio_parent_url} target="_blank" rel="noopener noreferrer">{archive.invenio_parent_id}</a>
+        </List.Item >
+      )
+
+
     return (
       <Segment raised>
         <Label color="blue" ribbon>
@@ -88,11 +101,13 @@ export class ArchiveInfo extends React.Component {
             <b>ID: </b> {archive.recid}
           </List.Item>
           <List.Item>
-            <b>Link: </b> <a href={archive.source_url}>{archive.source_url}</a>
+            <b>Link: </b> <a href={archive.source_url} target="_blank" rel="noopener noreferrer">{archive.source_url}</a>
           </List.Item>
+          {invenioParentID}
           {collectionListItem}
         </List>
-      </Segment>
+      </Segment >
     )
+
   }
 }
