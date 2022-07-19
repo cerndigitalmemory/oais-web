@@ -5,6 +5,7 @@ import React from 'react'
 import { Container, Message } from 'semantic-ui-react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { MessageNotification } from '@/components/Notifications/MessageNotification'
 
 export class Notifications extends React.Component {
   static propTypes = {
@@ -154,13 +155,8 @@ export class Notifications extends React.Component {
     return (
       <Container>
         {this.state.networkError ? (
-          <Message
-            style={{
-              position: 'relative',
-              top: '10%',
-              width: '100%',
-            }}
-            negative
+          <MessageNotification
+            color="red"
             icon="warning sign"
             header="Network Error"
             content="Check your network connection and try again."
