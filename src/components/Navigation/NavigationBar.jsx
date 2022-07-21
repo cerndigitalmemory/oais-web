@@ -22,7 +22,8 @@ import Harvest from '@/pages/Harvest/Harvest.jsx'
 import { UserDetail } from '@/pages/Detail/UserDetail.jsx'
 import { Actions } from '@/pages/Actions/Actions.jsx'
 import { AddResource } from '@/pages/AddResource/AddResource.jsx'
-import { Upload } from '@/pages/Upload/Upload.jsx'
+import { UploadSIP } from '@/pages/Upload/UploadSIP.jsx'
+import { UploadFolder } from '@/pages/Upload/UploadFolder.jsx'
 import { Collections } from '@/pages/Collections/Collections.jsx'
 import React from 'react'
 import { Container } from 'semantic-ui-react'
@@ -490,7 +491,8 @@ class NavBarChildren extends React.Component {
             <ProtectedRoute path="/records/:id" component={RecordDetail} />
             <ProtectedRoute path="/details/:id" component={SIPDetailPage} />
             <ProtectedRoute path="/users/:id" component={UserDetail} />
-            <ProtectedRoute path="/upload" component={Upload} />
+            <ProtectedRoute path="/upload/sip" component={UploadSIP} />
+            <ProtectedRoute path="/upload/folder" component={UploadFolder} />
             <ProtectedRoute path="/staged" component={StagedRecords} />
             <ProtectedRoute path="/actions" component={Actions} />
             <ProtectedRoute path="/collections" component={Collections} />

@@ -4,7 +4,7 @@ import { Button, Grid, Form } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { sendNotification } from '@/utils.js'
 
-export class Upload extends React.Component {
+export class UploadSIP extends React.Component {
   state = {
     file: null,
   }
@@ -17,7 +17,7 @@ export class Upload extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      const response = await api.ingest(this.state.file)
+      const response = await api.upload(this.state.file)
       sendNotification(
         response.msg,
         <Link to={`/archive/${response.archive}`}>

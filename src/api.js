@@ -140,10 +140,16 @@ class API {
     })
   }
 
-  async ingest(file) {
+  async mltUpload(files) {
+    var formData = new FormData()
+    for (const file of files) formData.append(file.webkitRelativePath, file)
+    return await this._post('/upload/folder', formData)
+  }
+
+  async upload(file) {
     var formData = new FormData()
     formData.append('file', file)
-    return await this._post(`/upload/`, formData)
+    return await this._post(`/upload/sip`, formData)
   }
 
   async archives(page = 1, filter = 'public') {

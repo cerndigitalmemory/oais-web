@@ -30,14 +30,14 @@ export class Home extends React.Component {
               <Icon name="line graph" circular />
               <Header.Content>Statistics</Header.Content>
             </Header>
-            <StatisticsGrid/>
+            <StatisticsGrid />
             <Header as="h2" icon textAlign="center">
               <Icon name="mouse pointer" circular />
               <Header.Content>Quick Actions</Header.Content>
             </Header>
             <QuickActions />
           </React.Fragment>
-        ) : <Loader/>}
+        ) : <Loader />}
       </React.Fragment>
     )
   }
@@ -50,34 +50,45 @@ export class QuickActions extends React.Component {
 
   render() {
     return (
-      <Grid columns={2} stackable>
-        <Grid.Row>
+      <div>
+        <Grid columns={1}>
           <Grid.Column>
             <Link to={`/harvest/`}>
-              <Button fluid>Harvest from a source</Button>
+              <Button fluid>Harvest from source</Button>
             </Link>
           </Grid.Column>
+        </Grid>
 
-          <Grid.Column>
-            <Link to={`/upload/`}>
-              <Button fluid>Upload a SIP</Button>
-            </Link>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <Link to={`/staged/`}>
-              <Button fluid>See your staged archives</Button>
-            </Link>
-          </Grid.Column>
+        <Grid columns={2} stackable>
+          <Grid.Row>
+            <Grid.Column>
+              <Link to={`/upload/folder`}>
+                <Button fluid>Upload local folder</Button>
+              </Link>
+            </Grid.Column>
 
-          <Grid.Column>
-            <Link to={`/collections/`}>
-              <Button fluid>See your collections</Button>
-            </Link>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+            <Grid.Column>
+              <Link to={`/upload/sip`}>
+                <Button fluid>Upload SIP</Button>
+              </Link>
+            </Grid.Column>
+          </Grid.Row>
+
+          <Grid.Row>
+            <Grid.Column>
+              <Link to={`/staged/`}>
+                <Button fluid>See your staged archives</Button>
+              </Link>
+            </Grid.Column>
+
+            <Grid.Column>
+              <Link to={`/collections/`}>
+                <Button fluid>See your collections</Button>
+              </Link>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid >
+      </div>
     )
   }
 }
