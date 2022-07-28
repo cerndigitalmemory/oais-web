@@ -28,7 +28,7 @@ export class UploadFolder extends React.Component {
     handleSubmit = async (event) => {
         event.preventDefault()
         try {
-            const response = await api.mltUpload(this.state.files)
+            const response = await api.uploadFolder(this.state.files)
             sendNotification(
                 response.msg,
                 <Link to={`/archive/${response.archive}`}>

@@ -140,10 +140,28 @@ class API {
     })
   }
 
-  async mltUpload(files) {
-    var formData = new FormData()
-    for (const file of files) formData.append(file.webkitRelativePath, file)
-    return await this._post('/upload/folder', formData)
+  async createUploadJob() {
+    return this._post(`upload/jobs/create/`)
+  }
+
+  async addFileToUploadJob(uploadJobId, file) {
+    let formData = new FormData()
+    formData.append(file.webkitRelativePath, file)
+    return await this._post(`upload/jobs/${uploadJobId}/add/file/`, formData)
+  }
+
+  async uploadFolder(files) {
+    const { uploadJobId } = await this.createUploadJob()
+
+    for (const file of files) {
+      let formData = new FormData()
+      formData.append('file', file)
+      await this.addFileToUploadJob(uploadJobId, file)
+    }
+
+    await this._post(`upload/jobs/${uploadJobId}/sip/`)
+
+    return await this._post(`upload/jobs/${uploadJobId}/archive/`)
   }
 
   async upload(file) {
@@ -151,6 +169,19 @@ class API {
     formData.append('file', file)
     return await this._post(`/upload/sip`, formData)
   }
+
+  // TODO: unify all uploading logic
+  // async upload(files, compressed_sip = False) {
+  //   const { uploadJobId } = await this.createUploadJob()
+  //   for (const file of files) await this.addFileToUploadJob(uploadJobId, file)
+  // 
+  //   if (compressed_sip) {
+  // 
+  //   } {
+  //     await this._post(`upload/jobs/`)
+  //   }
+  // 
+  // }
 
   async archives(page = 1, filter = 'public') {
     return await this._get('/archives/', { params: { page, filter } })
