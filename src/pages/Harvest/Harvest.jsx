@@ -29,6 +29,7 @@ class Harvest extends React.Component {
     hitsPerPage: 20,
     StagedArchivesList: [],
     redirect: null, // When populated, triggers redirect to the page passed from props
+    referrer: null,
   }
 
   // Changes the query state at the redux
@@ -70,8 +71,10 @@ class Harvest extends React.Component {
         this.handleQueryChange(this.props.query)
         this.handleSourceChange(this.props.source)
       }
-    } else if (this.props.source && this.props.query) {
-      this.handleSearch(this.props.source, this.props.query)
+    } else if (this.props.location.state) {
+      if (this.props.location.state.referrer == '/add-resource2') {
+        this.handleSearch(this.props.source, this.props.query)
+      }
     }
   }
 
@@ -220,7 +223,14 @@ class Harvest extends React.Component {
     return (
       <React.Fragment>
         <h1>Harvest</h1>
-        {redirect && <Redirect to={redirect} />}
+        {redirect && (
+          <Redirect
+            to={{
+              pathname: redirect,
+              state: { referrer: window.location.pathname },
+            }}
+          />
+        )}
         <p>
           Create SIP packages from the supported digital repositories (uses
           Bagit Create tool)
