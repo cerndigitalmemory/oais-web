@@ -72,7 +72,7 @@ class Harvest extends React.Component {
         this.handleSourceChange(this.props.source)
       }
     } else if (this.props.location.state) {
-      if (this.props.location.state.referrer == '/add-resource2') {
+      if (this.props.location.state.referrer == '/add-resource') {
         this.handleSearch(this.props.source, this.props.query)
       }
     }
