@@ -19,14 +19,16 @@ export class AddResource extends React.Component {
     */
 
       <Grid>
-        <Container>
-          <h1>Add Resource</h1>
-          <p>
-            This page allows you to create a new Archive by uploading (or
-            searching for) the source record from a number of supported digital
-            repositories.
-          </p>
-        </Container>
+        <Grid.Row>
+          <Grid.Column>
+            <h1>Add Resource</h1>
+            <p>
+              This page allows you to create a new Archive by uploading (or
+              searching for) the source record from a number of supported
+              digital repositories.
+            </p>
+          </Grid.Column>
+        </Grid.Row>
         <Grid.Row>
           <Grid.Column>
             <Segment>
