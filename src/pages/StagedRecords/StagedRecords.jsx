@@ -53,7 +53,7 @@ export class StagedRecords extends React.Component {
       )
     } finally {
       // Update the staged value in the context
-      AppContext.setStaged(stagedArchives.length)
+      AppContext.setStaged(totalStagedArchives)
     }
   }
 
@@ -102,14 +102,13 @@ export class StagedRecords extends React.Component {
       <React.Fragment>
         <h1>Staged Records</h1>
         <p>
-          This page provides a temporary area to prepare your archives,
-          allowing you to select the staged archives and apply tags on them.
+          This page provides a temporary area to prepare your archives, allowing
+          you to select the staged archives and apply tags on them.
         </p>
 
         {loading || totalStagedArchives == 0 ? (
           <> {loadingMessage} </>
         ) : (
-
           <PaginatedRecordsList
             stagedArchives={stagedArchives}
             onArchiveUpdate={this.updateAll}
