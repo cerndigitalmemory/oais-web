@@ -258,7 +258,7 @@ class Step extends React.Component {
                   <b>Start Date: </b> {formatDateTime(step.start_date)}
                 </Grid.Column>
                 <Grid.Column>
-                  <b>End Date: </b> {formatDateTime(step.finish_date)}
+                  <b>End Date: </b> {step.finish_date != null && formatDateTime(step.finish_date)}
                 </Grid.Column>
                 <Grid.Column>
                   <b>Status: </b> {StepStatusLabel[step.status]}{' '}
