@@ -6,10 +6,10 @@ import React from 'react'
 import { SearchPagination } from '@/pages/Harvest/SearchPagination.jsx'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Button, Grid } from 'semantic-ui-react'
+import { Button, Grid, Message } from 'semantic-ui-react'
 import SearchForm from '@/pages/Harvest/HarvestSearchForm.jsx'
 import { AppContext } from '@/AppContext.js'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 // Harvest page is displayed at /harvest page.
 // It performs the search and displays the results through the RecordList component
@@ -30,6 +30,7 @@ class Harvest extends React.Component {
     StagedArchivesList: [],
     redirect: null, // When populated, triggers redirect to the page passed from props
     referrer: null,
+    tokenMessageVisible: false,
   }
 
   // Changes the query state at the redux
@@ -75,6 +76,9 @@ class Harvest extends React.Component {
       if (this.props.location.state.referrer == '/add-resource') {
         this.handleSearch(this.props.source, this.props.query)
       }
+    }
+    if (this.props.source == 'indico' || this.props.source == 'codimd') {
+      this.setState({ tokenMessageVisible: true })
     }
   }
 
@@ -179,6 +183,10 @@ class Harvest extends React.Component {
     this.removeAllRecords()
   }
 
+  handleDismiss = () => {
+    this.setState({ tokenMessageVisible: false })
+  }
+
   render() {
     const {
       isLoading,
@@ -220,6 +228,22 @@ class Harvest extends React.Component {
       </div>
     )
 
+    const showMessage = (
+      <Grid.Row>
+        <Grid.Column width={16}>
+          <Message onDismiss={this.handleDismiss}>
+            <Message.Header>{this.props.source} API token needed</Message.Header>
+            <p>
+              To retrieve data from {this.props.source} you need to set the corresponding API token.
+            </p>
+            <p>
+              <Link to="settings">-&gt; Go to Settings</Link>
+            </p>
+          </Message>
+        </Grid.Column>
+      </Grid.Row>
+    )
+
     return (
       <React.Fragment>
         <h1>Harvest</h1>
@@ -254,26 +278,30 @@ class Harvest extends React.Component {
             marginBottom: '10px',
           }}
         >
-          <Grid.Column>
-            <SearchPagination
-              onSearch={this.handleSearch}
-              source={this.props.source}
-              query={this.props.query}
-              hasResults={results != null && results.length > 0}
-              activePage={this.state.activePage}
-              totalNumHits={this.state.totalNumHits}
-              hitsPerPage={this.state.hitsPerPage}
-            />
-          </Grid.Column>
-          <Grid.Column textAlign="right">
-            <SizeRadio
-              onSearch={this.handleSearch}
-              source={this.props.source}
-              query={this.props.query}
-              hasResults={results != null && results.length > 0}
-              hitsPerPage={this.state.hitsPerPage}
-            />
-          </Grid.Column>
+          {' '}
+          <Grid.Row>
+            <Grid.Column>
+              <SearchPagination
+                onSearch={this.handleSearch}
+                source={this.props.source}
+                query={this.props.query}
+                hasResults={results != null && results.length > 0}
+                activePage={this.state.activePage}
+                totalNumHits={this.state.totalNumHits}
+                hitsPerPage={this.state.hitsPerPage}
+              />
+            </Grid.Column>
+            <Grid.Column textAlign="right">
+              <SizeRadio
+                onSearch={this.handleSearch}
+                source={this.props.source}
+                query={this.props.query}
+                hasResults={results != null && results.length > 0}
+                hitsPerPage={this.state.hitsPerPage}
+              />
+            </Grid.Column>
+          </Grid.Row>
+          {this.state.tokenMessageVisible && showMessage}
         </Grid>
 
         {this.state.detailedResults == null ? null : this.state.detailedResults
