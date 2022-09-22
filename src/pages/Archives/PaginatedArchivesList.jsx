@@ -61,7 +61,8 @@ export class PaginatedArchivesList extends React.Component {
 
   render() {
     const { archives, page, totalArchives, loading } = this.state
-    let pageCount = Math.ceil(totalArchives / 10)
+    const archivesPerPage = 10
+    let pageCount = Math.ceil(totalArchives / archivesPerPage)
 
     const loadingSpinner = <Loader inverted>Loading</Loader>
 
@@ -75,14 +76,15 @@ export class PaginatedArchivesList extends React.Component {
             onArchiveUpdate={this.handleArchiveUpdate}
           />
         )}
-
-        <div>
-          <PageControls
-            page={page}
-            onChange={this.loadArchives}
-            totalPages={pageCount}
-          />
-        </div>
+        {totalArchives > archivesPerPage && (
+          <div>
+            <PageControls
+              page={page}
+              onChange={this.loadArchives}
+              totalPages={pageCount}
+            />
+          </div>
+        )}
       </div>
     )
   }

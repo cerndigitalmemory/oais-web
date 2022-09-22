@@ -22,27 +22,24 @@ export class PaginatedJobsList extends React.Component {
 
   render() {
     const { jobs, page, totalJobs, loadJobs } = this.props
-    let pageCount = Math.ceil(totalJobs / 10)
+    const jobsPerPage = 10
+    let pageCount = Math.ceil(totalJobs / jobsPerPage)
 
     return (
       <div>
         {totalJobs == 0 ? (
           <div> No jobs found </div>
         ) : (
-          <JobsList
-            jobs={jobs}
-            onCollectionUpdate={loadJobs}
-            page={page}
-          />
+          <JobsList jobs={jobs} onCollectionUpdate={loadJobs} page={page} />
         )}
 
-        <div>
+        {totalJobs > jobsPerPage && (
           <PageControls
             page={page}
             onChange={loadJobs}
             totalPages={pageCount}
           />
-        </div>
+        )}
       </div>
     )
   }

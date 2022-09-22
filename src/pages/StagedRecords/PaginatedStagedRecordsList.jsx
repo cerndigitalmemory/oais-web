@@ -58,7 +58,8 @@ export class PaginatedRecordsList extends React.Component {
   render() {
     const { stagedArchives, onArchiveUpdate, totalStagedArchives, page } =
       this.props
-    let pageCount = Math.ceil(totalStagedArchives / 10)
+    const stagedArchivesPerPage = 10
+    let pageCount = Math.ceil(totalStagedArchives / stagedArchivesPerPage)
 
     return (
       <div>
@@ -73,12 +74,13 @@ export class PaginatedRecordsList extends React.Component {
         <br />
         <Grid columns={2} stackable>
           <Grid.Column floated="left">
-            {' '}
-            <PageControls
-              page={page}
-              onChange={onArchiveUpdate}
-              totalPages={pageCount}
-            />
+            {totalStagedArchives > stagedArchivesPerPage && (
+              <PageControls
+                page={page}
+                onChange={onArchiveUpdate}
+                totalPages={pageCount}
+              />
+            )}
           </Grid.Column>
 
           <Grid.Column floated="right" textAlign="right">

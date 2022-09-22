@@ -22,7 +22,8 @@ export class PaginatedCollectionsList extends React.Component {
 
   render() {
     const { collections, page, totalCollections, loadCollections } = this.props
-    let pageCount = Math.ceil(totalCollections / 10)
+    const collectionsPerPage = 10
+    let pageCount = Math.ceil(totalCollections / collectionsPerPage)
 
     return (
       <div>
@@ -35,14 +36,13 @@ export class PaginatedCollectionsList extends React.Component {
             page={page}
           />
         )}
-
-        <div>
+        {totalCollections > collectionsPerPage && (
           <PageControls
             page={page}
             onChange={loadCollections}
             totalPages={pageCount}
           />
-        </div>
+        )}
       </div>
     )
   }
