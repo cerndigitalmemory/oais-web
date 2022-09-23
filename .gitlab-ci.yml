@@ -4,7 +4,7 @@ stages:
 
 build:
   stage: build
-  image: node:16
+  image: node:18
   script:
     - npm install --force
     # Set CI to false otherwise craco treats eslint warnings as errors..
