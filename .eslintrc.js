@@ -10,5 +10,6 @@ module.exports = {
     'no-unused-vars': 'warn',
     'react/prop-types': 'warn',
     'no-dupe-class-members': 'warn',
+    'react/no-unknown-property' : 'warn',
   },
 }
