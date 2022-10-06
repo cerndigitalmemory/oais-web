@@ -32,9 +32,9 @@ export class ArchivesList extends React.Component {
             <Table.HeaderCell>ID</Table.HeaderCell>
             <Table.HeaderCell>Record</Table.HeaderCell>
             <Table.HeaderCell>Creator</Table.HeaderCell>
+            <Table.HeaderCell width={6}>Title</Table.HeaderCell>
             <Table.HeaderCell>Creation Date</Table.HeaderCell>
-            <Table.HeaderCell>Next Step</Table.HeaderCell>
-            <Table.HeaderCell>See Steps</Table.HeaderCell>
+            <Table.HeaderCell>Details</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -83,27 +83,9 @@ class Archive extends React.Component {
       value: nextStep,
     }))
 
-    let dropdown
-    if (!this.state.loading) {
-      if (archive.next_steps.length > 0) {
-        dropdown = (
-          <Menu compact>
-            <Dropdown
-              placeholder="Select Next Step"
-              options={nextSteps}
-              simple
-              item
-              onChange={this.handleStepChange}
-            />
-          </Menu>
-        )
-      } else {
-        if (archive.last_step) {
-          dropdown = <p>Completed</p>
-        }
-      }
-    } else {
-      dropdown = <Loader active inline />
+    let showTitle = ''
+    if (archive.title) {
+      showTitle = archive.title
     }
 
     return (
@@ -117,10 +99,11 @@ class Archive extends React.Component {
             {archive.creator.username}
           </Link>
         </Table.Cell>
+        <Table.Cell>{showTitle}</Table.Cell>
         <Table.Cell>{formatDateTime(archive.timestamp)}</Table.Cell>
-        <Table.Cell>{dropdown}</Table.Cell>
+
         <Table.Cell>
-          <Link to={`/archive/${archive.id}`}>See Steps</Link>
+          <Link to={`/archive/${archive.id}`}>Details</Link>
         </Table.Cell>
       </Table.Row>
     )

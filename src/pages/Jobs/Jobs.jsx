@@ -61,13 +61,14 @@ export class Jobs extends React.Component {
           <div> {loadingSpinner} </div>
         ) : (
           <div>
-            <Grid>
-              <Grid.Row>
-                <Grid.Column floated="left" width={10}>
-                  <h1>Current Jobs</h1>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+            <React.Fragment>
+              <h1>Current Jobs</h1>
+              <p>
+                This page shows the current archival jobs. Each job contains a
+                batch of archives that were triggered at the same time. You can
+                go to each Job details for more information.
+              </p>
+            </React.Fragment>
             <br />
             {!jobs ? (
               <p>There are no jobs</p>

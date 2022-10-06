@@ -1,5 +1,17 @@
 import React from 'react'
-import { Header, Icon, Grid, Button, Loader } from 'semantic-ui-react'
+import {
+  Header,
+  Icon,
+  Grid,
+  Button,
+  Loader,
+  Message,
+  List,
+  Segment,
+  Step,
+  Container,
+} from 'semantic-ui-react'
+import PropTypes from 'prop-types'
 import { AppContext } from '@/AppContext.js'
 import { StatisticsGrid } from '@/pages/Home/HomeStatisticsGrid.jsx'
 import { Link } from 'react-router-dom'
@@ -8,6 +20,13 @@ export class Home extends React.Component {
   static contextType = AppContext.Context
   constructor(props) {
     super(props)
+    this.state = {
+      showInstructionsMessage: true,
+    }
+  }
+
+  closeMessage = () => {
+    this.setState({ showInstructionsMessage: false })
   }
 
   render() {
@@ -24,8 +43,20 @@ export class Home extends React.Component {
           {' '}
           <center>Welcome to the CERN Digital Memory Platform </center>
         </h1>
-        {(isLoggedIn) ? (
+        {isLoggedIn ? (
           <React.Fragment>
+            {this.state.showInstructionsMessage && (
+              <div>
+                <Header as="h2" icon textAlign="center">
+                  <Icon name="info" circular />
+                  <Header.Content>Getting Started</Header.Content>
+                </Header>
+                <HomeInstructions
+                  showInstructionsMessage={this.state.showInstructionsMessage}
+                  handleInstructionMessage={this.closeMessage}
+                />
+              </div>
+            )}
             <Header as="h2" icon textAlign="center">
               <Icon name="line graph" circular />
               <Header.Content>Statistics</Header.Content>
@@ -37,7 +68,9 @@ export class Home extends React.Component {
             </Header>
             <QuickActions />
           </React.Fragment>
-        ) : <Loader />}
+        ) : (
+          <Loader />
+        )}
       </React.Fragment>
     )
   }
@@ -87,8 +120,102 @@ export class QuickActions extends React.Component {
               </Link>
             </Grid.Column>
           </Grid.Row>
-        </Grid >
+        </Grid>
       </div>
+    )
+  }
+}
+
+export class HomeInstructions extends React.Component {
+  static propTypes = {
+    showInstructionsMessage: PropTypes.bool.isRequired,
+    handleInstructionMessage: PropTypes.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <Container>
+        <Grid columns={5} stackable>
+          <Grid.Row>
+            <HomeInstructionsColumn
+              instructionNumber="1"
+              title="Initial configuration"
+              description="To be able to fetch your private records you'll need to set up some API tokens first."
+              linkTo="/settings/"
+              icon="settings"
+            />
+            <HomeInstructionsColumn
+              instructionNumber="2a"
+              title="Search"
+              description="You can search for any records on Indico, CodiMD, CDS and Zenodo from the Search page. The platform will fetch the data for you."
+              linkTo="/harvest/"
+              icon="add"
+            />
+            <HomeInstructionsColumn
+              instructionNumber="2b"
+              title="Upload a SIP"
+              description="If you already have a Submission package, you can directly upload it."
+              linkTo="/add-resource/"
+              icon="desktop"
+            />
+            <HomeInstructionsColumn
+              instructionNumber="3"
+              title="Staging area"
+              description="Once you selected your records, they will be waiting in the 'Staging Area', where you can organize them with custom tags."
+              linkTo="/staged/"
+              icon="newspaper outline"
+            />
+            <HomeInstructionsColumn
+              instructionNumber="4"
+              title="Monitor your archives"
+              description='Once you confirmed your selection from the staging area, the platform will start the preservation processes on everything you requested. Check after a while and you will get download links.'
+              linkTo="/archives/"
+              icon="eye"
+            />
+          </Grid.Row>
+        </Grid>
+      </Container>
+    )
+  }
+}
+
+export class HomeInstructionsColumn extends React.Component {
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    linkTo: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
+    instructionNumber: PropTypes.number.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <Grid.Column textAlign="center">
+        <Segment raised>
+          <Grid.Row>
+            <Header as="h2">{this.props.instructionNumber}</Header>
+          </Grid.Row>
+          <hr />
+          <Grid.Row style={{ minHeight: 300 }}>
+            <h3>{this.props.title}</h3>
+            <Icon name={this.props.icon} circular size="big" />
+            <p>{this.props.description}</p>
+          </Grid.Row>
+          <Grid.Row>
+            <Link to={this.props.linkTo}>
+              <Icon name="arrow circle right" size="large" />
+            </Link>
+          </Grid.Row>
+        </Segment>
+      </Grid.Column>
     )
   }
 }

@@ -8,22 +8,26 @@ import { Grid, Button } from 'semantic-ui-react'
  * Archive ID, Record ID + source, Creation Date, Last completed Step, Next Step, See Steps
  */
 export class Archives extends React.Component {
-
   state = {
-    filter: "all"
+    filter: 'all',
   }
 
-  
   render() {
-    const  {filter}  = this.state
+    const { filter } = this.state
 
     return (
       <React.Fragment>
-        <Grid columns='equal' stackable>
-          <Grid.Column><h1>Archives</h1></Grid.Column>
-        </Grid>
-        
-        <PaginatedArchivesList getArchives={(page) => api.archives(page, filter)} filter={filter}/>
+        <React.Fragment>
+          <h1>Archives</h1>
+          <p>
+            This page shows the list of your archives. You can browse through
+            the created archives and get more details.
+          </p>
+        </React.Fragment>
+        <PaginatedArchivesList
+          getArchives={(page) => api.archives(page, filter)}
+          filter={filter}
+        />
       </React.Fragment>
     )
   }

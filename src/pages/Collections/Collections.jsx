@@ -78,6 +78,14 @@ export class Collections extends React.Component {
                   />
                 </Grid.Column>
               </Grid.Row>
+              <Grid.Row>
+                <Grid.Column>
+                  <p>
+                    This page shows all the tags created by the user. Tags are
+                    used to group together similar archives.
+                  </p>
+                </Grid.Column>
+              </Grid.Row>
             </Grid>
             <br />
             {!collections ? (
