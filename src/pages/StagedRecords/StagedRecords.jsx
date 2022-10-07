@@ -5,6 +5,7 @@ import { sendNotification } from '@/utils.js'
 import { Container, Loader } from 'semantic-ui-react'
 import { AppContext } from '@/AppContext.js'
 import { Storage } from '@/storage.js'
+import { Redirect } from 'react-router-dom'
 
 /**
  * This page is the staging area for archives.
@@ -23,6 +24,7 @@ export class StagedRecords extends React.Component {
       loading: true,
       page: 1,
       allTags: [],
+      redirectTo: null, // A field that is populated with the url of the created job. This field is initially null but when populated, it redirects to the URL passed
     }
     this.updateAll = this.updateAll.bind(this)
   }
@@ -84,6 +86,8 @@ export class StagedRecords extends React.Component {
     this.setState({ loading: false })
   }
 
+  setRedirect = (jobID) => this.setState({ redirectTo: jobID }) // function to populate the redirectURL field
+
   setLoading = () => this.setState({ loading: !this.state.loading })
 
   render() {
@@ -98,14 +102,21 @@ export class StagedRecords extends React.Component {
       loadingMessage = <p> No staged archives</p>
     }
 
+    let redirect
+    if (this.state.redirectTo !== null) {
+      redirect = <Redirect to={'job/' + this.state.redirectTo} />
+    }
+
     return (
       <React.Fragment>
         <h1>Staged Records</h1>
+
         <p>
           This page provides a temporary area to prepare your archives, allowing
           you to select the staged archives and apply tags on them.
         </p>
 
+        {redirect}
         {loading || totalStagedArchives == 0 ? (
           <> {loadingMessage} </>
         ) : (
@@ -113,6 +124,7 @@ export class StagedRecords extends React.Component {
             stagedArchives={stagedArchives}
             onArchiveUpdate={this.updateAll}
             totalStagedArchives={totalStagedArchives}
+            setRedirect={this.setRedirect}
             page={page}
             setLoading={this.setLoading}
             allTags={allTags}

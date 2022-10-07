@@ -4,7 +4,7 @@ import PropTypes, { arrayOf } from 'prop-types'
 import { archiveType, archiveTypeDetailed, collectionType } from '@/types.js'
 import React from 'react'
 import { Header, Table, Button, Icon, Grid, Popup } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { AddTagsToArchives } from '@/components/AddTagsToArchivesDropdown/AddTagsToArchives.jsx'
 import { AppContext } from '@/AppContext.js'
 import { PageControls } from '@/pages/StagedRecords/PageControls.jsx'
@@ -22,6 +22,7 @@ export class PaginatedRecordsList extends React.Component {
     page: PropTypes.number.isRequired,
     allTags: arrayOf(collectionType),
     updateTags: PropTypes.func,
+    setRedirect: PropTypes.func.isRequired, // function passed as prop used to populate the redirectURL field at the StagedRecords page
   }
 
   constructor(props) {
@@ -47,6 +48,7 @@ export class PaginatedRecordsList extends React.Component {
         'success'
       )
       this.props.onArchiveUpdate()
+      this.props.setRedirect(result.id) // passes the job id to the redirectURL field so a redirect to that job detail page can be triggered
     } catch (e) {
       sendNotification('Error while archiving', e.message, 'error')
     } finally {
