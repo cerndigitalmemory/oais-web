@@ -62,11 +62,16 @@ export class CreateCollection extends React.Component {
   createCollection = (title, description, archives) =>
     api.collectionCreate(title, description, archives)
 
-  handleSubmit = () => {
-    const { title, description, archives } = this.state
-    this.createCollection(title, description, archives)
-    this.props.onCollectionCreation()
-    this.setOpen(false)
+  handleSubmit = async () => {
+    try {
+      const { title, description, archives } = this.state
+      await this.createCollection(title, description, archives)
+      this.props.onCollectionCreation()
+    } catch (e) {
+      sendNotification('Error while creating tag', e.message, 'error')
+    } finally {
+      this.setOpen(false)
+    }
   }
 
   setOpen = (value) => {
