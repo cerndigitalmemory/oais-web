@@ -14,6 +14,7 @@ import {
 import PropTypes from 'prop-types'
 import { AppContext } from '@/AppContext.js'
 import { StatisticsGrid } from '@/pages/Home/HomeStatisticsGrid.jsx'
+import { SourceStatusList } from '@/pages/Home/HomeSourceStatus.jsx'
 import { Link } from 'react-router-dom'
 
 export class Home extends React.Component {
@@ -57,6 +58,11 @@ export class Home extends React.Component {
                 />
               </div>
             )}
+            <Header as="h2" icon textAlign="center">
+              <Icon name="line cog" circular />
+              <Header.Content>Configuration</Header.Content>
+            </Header>
+            <SourceStatusList />
             <Header as="h2" icon textAlign="center">
               <Icon name="line graph" circular />
               <Header.Content>Statistics</Header.Content>

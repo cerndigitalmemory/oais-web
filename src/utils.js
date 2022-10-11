@@ -45,6 +45,25 @@ export const StepNameLabel = {
   [StepName.EDIT_MANIFEST]: 'Edit Manifest',
 }
 
+export const SourceStatus = {
+  READY: 1,
+  NEEDS_CONFIG_PRIVATE: 2,
+  NEEDS_CONFIG: 3,
+}
+
+export const SourceStatusLabel = {
+  [SourceStatus.READY]: 'Source ready',
+  [SourceStatus.NEEDS_CONFIG_PRIVATE]:
+    'Only public records will be available. Configuration is needed for private records.',
+  [SourceStatus.NEEDS_CONFIG]: 'Source unavailable. Additional configuration is needed.',
+}
+
+export const SourceStatusColor = {
+  [SourceStatus.READY]: 'green',
+  [SourceStatus.NEEDS_CONFIG_PRIVATE]: 'yellow',
+  [SourceStatus.NEEDS_CONFIG]: 'red',
+}
+
 export const Permissions = {
   CAN_APPROVE_ARCHIVE: 'oais.can_approve_archive',
   CAN_REJECT_ARCHIVE: 'oais.can_reject_archive',

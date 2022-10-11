@@ -174,13 +174,13 @@ class API {
   // async upload(files, compressed_sip = False) {
   //   const { uploadJobId } = await this.createUploadJob()
   //   for (const file of files) await this.addFileToUploadJob(uploadJobId, file)
-  // 
+  //
   //   if (compressed_sip) {
-  // 
+  //
   //   } {
   //     await this._post(`upload/jobs/`)
   //   }
-  // 
+  //
   // }
 
   async archives(page = 1, filter = 'public') {
@@ -241,6 +241,10 @@ class API {
 
   async getAllTags() {
     return await this._get('/users/me/tags')
+  }
+
+  async getSourceStatus() {
+    return await this._get('/users/me/sources')
   }
 
   async getArchiveLabelInfo() {

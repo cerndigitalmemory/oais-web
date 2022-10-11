@@ -193,7 +193,6 @@ class SearchForm extends React.Component {
           <Grid.Column verticalAlign="bottom" width={5}>
             <Form.Select
               label="Source"
-              defaultValue={this.props.source}
               onChange={this.handleSourceChange}
               value={this.state.source}
               options={sourceOptions}

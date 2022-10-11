@@ -4,12 +4,6 @@ import { api } from '@/api.js'
 import { AppContext } from '@/AppContext.js'
 import { StepStatus, StepName } from '@/utils.js'
 
-/**
- * This page is the staging area for archives.
- * When the user selects a record, then on this page they can review the staged records.
- * They can add an archive to an existing collection or create a new one.
- *
- */
 export class StatisticsGrid extends React.Component {
   static contextType = AppContext.Context
 

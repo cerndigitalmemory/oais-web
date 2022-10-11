@@ -1,6 +1,6 @@
 import { api } from '@/api.js'
 import { RecordsList } from '@/pages/Harvest/RecordsList.jsx'
-import { sendNotification } from '@/utils.js'
+import { SourceStatus, SourceStatusLabel, sendNotification } from '@/utils.js'
 import _ from 'lodash'
 import React from 'react'
 import { SearchPagination } from '@/pages/Harvest/SearchPagination.jsx'
@@ -31,6 +31,7 @@ class Harvest extends React.Component {
     redirect: null, // When populated, triggers redirect to the page passed from props
     referrer: null,
     tokenMessageVisible: false,
+    sourceStatus: null,
   }
 
   // Changes the query state at the redux
@@ -41,6 +42,7 @@ class Harvest extends React.Component {
   // Changes the source state at redux
   handleSourceChange = (source) => {
     this.props.setSource(source)
+    this.handleSourceConfigurationMessage(source)
   }
 
   // Changes the search by ID state at redux
@@ -64,8 +66,36 @@ class Harvest extends React.Component {
     this.props.removeRecord(record)
   }
 
+  getSourceStatus = async () => {
+    try {
+      const sourceStatus = await api.getSourceStatus()
+      this.setState({ sourceStatus: sourceStatus })
+      this.handleSourceConfigurationMessage(this.props.source)
+    } catch (e) {
+      sendNotification(
+        'Could not get source configuration status',
+        e.message,
+        'warning'
+      )
+    }
+  }
+
+  handleSourceConfigurationMessage = (source) => {
+    const sourceStatus = this.state.sourceStatus
+    if (sourceStatus) {
+      if (sourceStatus[source] == SourceStatus.NEEDS_CONFIG) {
+        this.setState({ tokenMessageVisible: true })
+      } else if (sourceStatus[source] == SourceStatus.NEEDS_CONFIG_PRIVATE) {
+        this.setState({ tokenMessageVisible: true })
+      } else {
+        this.setState({ tokenMessageVisible: false })
+      }
+    }
+  }
+
   // Calls the handleSearch function when the component is mounted and there is an active state from redux
   componentDidMount() {
+    this.getSourceStatus()
     if (this.props.redirectURL) {
       if (this.props.source && this.props.query) {
         // Auto populate query and source with the redux values
@@ -76,9 +106,6 @@ class Harvest extends React.Component {
       if (this.props.location.state.referrer == '/add-resource') {
         this.handleSearch(this.props.source, this.props.query)
       }
-    }
-    if (this.props.source == 'indico' || this.props.source == 'codimd') {
-      this.setState({ tokenMessageVisible: true })
     }
   }
 
@@ -194,6 +221,7 @@ class Harvest extends React.Component {
       results,
       StagedArchivesList,
       redirect,
+      sourceStatus,
     } = this.state
 
     let addRemoveButton = (
@@ -228,17 +256,50 @@ class Harvest extends React.Component {
       </div>
     )
 
-    const showMessage = (
-      <Grid.Row>
-        <Grid.Column width={16}>
-          <Message onDismiss={this.handleDismiss}>
-            <Message.Header>{this.props.source} API token needed</Message.Header>
+    let messageHeader
+    let messageContent
+    let messageColor
+
+    if (sourceStatus) {
+      if (sourceStatus[this.props.source] == SourceStatus.NEEDS_CONFIG) {
+        messageHeader = 'Token configuration needed'
+        messageColor = 'red'
+        messageContent = (
+          <>
             <p>
-              To retrieve data from {this.props.source} you need to set the corresponding API token.
+              To retrieve data from {this.props.source} you need to set the
+              corresponding API token.
             </p>
             <p>
               <Link to="settings">-&gt; Go to Settings</Link>
             </p>
+          </>
+        )
+      } else if (
+        sourceStatus[this.props.source] == SourceStatus.NEEDS_CONFIG_PRIVATE
+      ) {
+        messageHeader = 'Token configuration recommended'
+        messageColor = 'yellow'
+        messageContent = (
+          <>
+            <p>
+              You can only retrieve public data from {this.props.source}. To get
+              private data you need to set the corresponding API token.
+            </p>
+            <p>
+              <Link to="settings">-&gt; Go to Settings</Link>
+            </p>
+          </>
+        )
+      }
+    }
+
+    const showMessage = (
+      <Grid.Row>
+        <Grid.Column width={16}>
+          <Message onDismiss={this.handleDismiss} color={messageColor}>
+            <Message.Header>{messageHeader}</Message.Header>
+            {messageContent}
           </Message>
         </Grid.Column>
       </Grid.Row>
