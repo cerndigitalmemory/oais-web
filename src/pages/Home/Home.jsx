@@ -159,28 +159,28 @@ export class HomeInstructions extends React.Component {
               title="Search"
               description="You can search for any records on Indico, CodiMD, CDS and Zenodo from the Search page. The platform will fetch the data for you."
               linkTo="/harvest/"
-              icon="add"
+              icon="search"
             />
             <HomeInstructionsColumn
               instructionNumber="2b"
               title="Upload a SIP"
               description="If you already have a Submission package, you can directly upload it."
               linkTo="/add-resource/"
-              icon="desktop"
+              icon="upload"
             />
             <HomeInstructionsColumn
               instructionNumber="3"
               title="Staging area"
               description="Once you selected your records, they will be waiting in the 'Staging Area', where you can organize them with custom tags."
               linkTo="/staged/"
-              icon="newspaper outline"
+              icon="list alternate outline"
             />
             <HomeInstructionsColumn
               instructionNumber="4"
               title="Monitor your archives"
-              description='Once you confirmed your selection from the staging area, the platform will start the preservation processes on everything you requested. Check after a while and you will get download links.'
+              description='Once you confirmed your selection from the staging area, the preservation process will start. Check after a while to get download links.'
               linkTo="/archives/"
-              icon="eye"
+              icon="archive"
             />
           </Grid.Row>
         </Grid>
