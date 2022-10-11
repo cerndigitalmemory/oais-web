@@ -68,11 +68,6 @@ export class Home extends React.Component {
               <Header.Content>Statistics</Header.Content>
             </Header>
             <StatisticsGrid />
-            <Header as="h2" icon textAlign="center">
-              <Icon name="mouse pointer" circular />
-              <Header.Content>Quick Actions</Header.Content>
-            </Header>
-            <QuickActions />
           </React.Fragment>
         ) : (
           <Loader />
@@ -178,7 +173,7 @@ export class HomeInstructions extends React.Component {
             <HomeInstructionsColumn
               instructionNumber="4"
               title="Monitor your archives"
-              description='Once you confirmed your selection from the staging area, the preservation process will start. Check after a while to get download links.'
+              description="Once you confirmed your selection from the staging area, the preservation process will start. Check after a while to get download links."
               linkTo="/archives/"
               icon="archive"
             />
