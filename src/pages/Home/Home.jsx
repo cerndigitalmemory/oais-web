@@ -140,39 +140,32 @@ export class HomeInstructions extends React.Component {
   render() {
     return (
       <Container>
-        <Grid columns={5} stackable>
+        <Grid columns={4} stackable>
           <Grid.Row>
             <HomeInstructionsColumn
               instructionNumber="1"
-              title="Initial configuration"
+              title="Configure"
               description="To be able to fetch your private records you'll need to set up some API tokens first."
               linkTo="/settings/"
               icon="settings"
             />
             <HomeInstructionsColumn
-              instructionNumber="2a"
+              instructionNumber="2"
               title="Search"
               description="You can search for any records on Indico, CodiMD, CDS and Zenodo from the Search page. The platform will fetch the data for you."
               linkTo="/harvest/"
               icon="search"
             />
             <HomeInstructionsColumn
-              instructionNumber="2b"
-              title="Upload a SIP"
-              description="If you already have a Submission package, you can directly upload it."
-              linkTo="/add-resource/"
-              icon="upload"
-            />
-            <HomeInstructionsColumn
               instructionNumber="3"
-              title="Staging area"
+              title="Organize"
               description="Once you selected your records, they will be waiting in the 'Staging Area', where you can organize them with custom tags."
               linkTo="/staged/"
               icon="list alternate outline"
             />
             <HomeInstructionsColumn
               instructionNumber="4"
-              title="Monitor your archives"
+              title="Download"
               description="Once you confirmed your selection from the staging area, the preservation process will start. Check after a while to get download links."
               linkTo="/archives/"
               icon="archive"
@@ -205,7 +198,7 @@ export class HomeInstructionsColumn extends React.Component {
             <Header as="h2">{this.props.instructionNumber}</Header>
           </Grid.Row>
           <hr />
-          <Grid.Row style={{ minHeight: 300 }}>
+          <Grid.Row style={{ minHeight: 250 }}>
             <h3>{this.props.title}</h3>
             <Icon name={this.props.icon} circular size="big" />
             <p>{this.props.description}</p>
