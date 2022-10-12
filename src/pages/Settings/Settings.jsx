@@ -11,6 +11,7 @@ import {
   Icon,
 } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import { SourceStatusList } from '@/pages/Home/HomeSourceStatus.jsx'
 
 import { sendNotification } from '@/utils.js'
 
@@ -29,9 +30,8 @@ export class Settings extends React.Component {
 
   loadSettings = async () => {
     try {
-      const settings = await this.getSettings()
       const userSettings = await this.getUserSettings()
-      this.setState({ settings: settings, userSettings: userSettings })
+      this.setState({ settings: {}, userSettings: userSettings })
     } catch (e) {
       sendNotification('Error while fetching settings', e.message, 'error')
     } finally {
@@ -54,41 +54,14 @@ export class Settings extends React.Component {
 
     return (
       <React.Fragment>
-        {loading || !settings ? (
-          <div> {loadingSpinner} </div>
-        ) : (
-          <div>
-            <h1>System Settings</h1>
-            Shows some parameters and diagnostics information on the running
-            instance of the platform {api.baseURL}
-            <Table celled>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Parameter</Table.HeaderCell>
-                  <Table.HeaderCell>Value</Table.HeaderCell>
-                </Table.Row>
-              </Table.Header>
-
-              <Table.Body>
-                {Object.entries(settings).map(([key, value]) => (
-                  <SettingItem
-                    editable={false}
-                    key={key}
-                    title={key}
-                    value={value}
-                    updateSettings={this.updateSettings.bind(this)}
-                  />
-                ))}
-              </Table.Body>
-            </Table>
-          </div>
-        )}
         {loading || !userSettings ? (
           <div> {loadingSpinner} </div>
         ) : (
           <div>
             <h1>User Settings</h1>
-            Shows some parameters of the user of the platform
+            Here you can set various values and authentication tokens needed to
+            allow the platform to access your private records. <br></br>Check
+            the help on each line to learn how to get those values.
             <Table celled>
               <Table.Header>
                 <Table.Row>
@@ -111,6 +84,9 @@ export class Settings extends React.Component {
             </Table>
           </div>
         )}
+        <h1>Sources availability</h1>
+        The following table shows the availability of the various sources.<br></br><br></br>
+        <SourceStatusList />
       </React.Fragment>
     )
   }
@@ -235,7 +211,7 @@ class SettingItem extends React.Component {
                 (info) =>
                   info.key == titleCell && (
                     <Modal
-                      trigger={<Icon link name="info circle" />}
+                      trigger={<Icon link name="help circle" />}
                       header={info.key}
                       content={info.value}
                       actions={['Back']}

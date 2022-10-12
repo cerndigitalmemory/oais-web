@@ -103,7 +103,6 @@ export class SourceStatusList extends React.Component {
                 ))}
               </Table.Body>
             </Table>
-            <Link to="settings"> <b>-&gt;Go to Settings</b></Link>
           </Container>
         )}
       </>
