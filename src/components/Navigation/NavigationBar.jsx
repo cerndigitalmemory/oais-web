@@ -77,7 +77,7 @@ export class NavigationBar extends React.Component {
         {
           key: 'add-resource',
           value: 'Add Resource',
-          to: '/add-resource',
+          to: '/harvest',
           always: false,
           loggedIn: true,
         },
@@ -106,13 +106,6 @@ export class NavigationBar extends React.Component {
           key: 'collections',
           value: 'Tags',
           to: '/collections',
-          always: false,
-          loggedIn: true,
-        },
-        {
-          key: 'logout',
-          value: 'Logout',
-          to: '/logout',
           always: false,
           loggedIn: true,
         },
@@ -350,6 +343,7 @@ class NavBarMobile extends React.Component {
                 <Menu.Item>
                   Hello,&nbsp;{' '}
                   <Link to={`/users/${user.id}`}>{user.username}</Link>
+                  (<Link to={`/logout`}>Logout</Link>)
                 </Menu.Item>
                 <Menu.Item
                   as={Link}
@@ -430,6 +424,7 @@ class NavBarDesktop extends React.Component {
               <Menu.Item>
                 Hello,&nbsp;{' '}
                 <Link to={`/users/${user.id}`}>{user.username}</Link>
+                &nbsp; (<Link to={`/logout`}>logout</Link>)
               </Menu.Item>
               <Menu.Item
                 as={Link}
