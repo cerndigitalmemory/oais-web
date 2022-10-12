@@ -148,20 +148,6 @@ export class StatisticsGrid extends React.Component {
         <Grid.Row>
           <Grid.Column>
             <Segment raised>
-              {loadingWaitingApproval ? (
-                <div>{loadingSegment}</div>
-              ) : (
-                <Statistic
-                  horizontal
-                  label="Archives Waiting for Approval"
-                  value={stepsWaitingApproval.length}
-                />
-              )}
-            </Segment>
-          </Grid.Column>
-
-          <Grid.Column>
-            <Segment raised>
               {loadingCompleted ? (
                 <div>{loadingSegment}</div>
               ) : (
