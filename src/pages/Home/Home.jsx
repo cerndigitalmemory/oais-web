@@ -60,9 +60,10 @@ export class Home extends React.Component {
             )}
             <Header as="h2" icon textAlign="center">
               <Icon name="line cog" circular />
-              <Header.Content>Configuration</Header.Content>
+              <Header.Content>Sources availability</Header.Content>
             </Header>
-            <SourceStatusList />
+            <Container textAlign="center"><Link to="settings">  <b>Go to Settings to configure the sources.</b></Link></Container>
+            <SourceStatusList /> 
             <Header as="h2" icon textAlign="center">
               <Icon name="line graph" circular />
               <Header.Content>Statistics</Header.Content>
@@ -161,14 +162,14 @@ export class HomeInstructions extends React.Component {
               title="Organize"
               description="Once you selected your records, they will be waiting in the 'Staging Area', where you can organize them with custom tags."
               linkTo="/staged/"
-              icon="list alternate outline"
+              icon="tags"
             />
             <HomeInstructionsColumn
               instructionNumber="4"
               title="Download"
               description="Once you confirmed your selection from the staging area, the preservation process will start. Check after a while to get download links."
               linkTo="/archives/"
-              icon="archive"
+              icon="download"
             />
           </Grid.Row>
         </Grid>
