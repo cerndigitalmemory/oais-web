@@ -260,7 +260,7 @@ class API {
   }
 
   async deleteArchive(id) {
-    return await this._get(`/archives/${id}/delete/`)
+    return await this._post(`/archives/${id}/delete/`)
   }
 
   async getCheckRecordsArchived(recordList) {
