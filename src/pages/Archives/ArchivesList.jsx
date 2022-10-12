@@ -26,15 +26,14 @@ export class ArchivesList extends React.Component {
   render() {
     const { archives, onArchiveUpdate } = this.props
     return (
-      <Table textAlign="center">
+      <Table>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>ID</Table.HeaderCell>
-            <Table.HeaderCell>Record</Table.HeaderCell>
-            <Table.HeaderCell>Creator</Table.HeaderCell>
             <Table.HeaderCell width={6}>Title</Table.HeaderCell>
+            <Table.HeaderCell>Original Record</Table.HeaderCell>
             <Table.HeaderCell>Creation Date</Table.HeaderCell>
-            <Table.HeaderCell>Details</Table.HeaderCell>
+            <Table.HeaderCell>Artifacts</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -92,18 +91,16 @@ class Archive extends React.Component {
       <Table.Row>
         <Table.Cell>{archive.id}</Table.Cell>
         <Table.Cell>
+          <Link to={`/archive/${archive.id}`}>{showTitle}</Link>{' '}
+        </Table.Cell>
+        <Table.Cell>
           {archive.recid} ({archive.source})
         </Table.Cell>
-        <Table.Cell>
-          <Link to={`/users/${archive.creator.id}`}>
-            {archive.creator.username}
-          </Link>
-        </Table.Cell>
-        <Table.Cell>{showTitle}</Table.Cell>
         <Table.Cell>{formatDateTime(archive.timestamp)}</Table.Cell>
-
         <Table.Cell>
-          <Link to={`/archive/${archive.id}`}>Details</Link>
+          {archive.path_to_sip.length > 0 && (
+            <a href={`/api/archives/${archive.id}/download/sip`}>SIP</a>
+          )}
         </Table.Cell>
       </Table.Row>
     )
