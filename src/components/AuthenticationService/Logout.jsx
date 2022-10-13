@@ -10,9 +10,13 @@ import { Redirect } from 'react-router-dom'
 export class Logout extends React.Component {
   static contextType = AppContext.Context
 
-  async componentDidMount() {
+  logout = async () => {
+    await api.logout()
+  }
+
+  componentDidMount() {
     try {
-      await api.logout()
+      this.logout()
     } catch (e) {
       sendNotification('Error while logging out', e.message, 'error')
     }
@@ -20,6 +24,6 @@ export class Logout extends React.Component {
   }
 
   render() {
-    return <Redirect to="/" />
+    return <>{<Redirect to="/" />}</>
   }
 }
