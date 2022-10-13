@@ -1,7 +1,7 @@
 import { api } from '@/api.js'
 import { AppContext } from '@/AppContext.js'
 import { stepType, archiveType } from '@/types.js'
-import { StepStatusLabel, StepNameLabel } from '@/utils.js'
+import { StepStatusLabel, StepNameLabel, hasPermission } from '@/utils.js'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {
@@ -66,9 +66,17 @@ class PipelineStatus extends React.Component {
     super(props)
   }
 
+  static contextType = AppContext.Context
+  
   render() {
     const { steps, archive, nextSteps } = this.props
+    const { user } = this.context
     const lastStep = steps.at(-1) // Gets the latest step
+
+    let canAccessArchive = false
+
+    if (hasPermission(user, Permissions.CAN_ACCESS_ARCHIVE)) { canAccessArchive =  true} // If user can access all archival requests
+    if (user.id == archive.creator.id) { canAccessArchive =  true} // If the user is the creator of the document
 
     // Creates the next step button if the next steps array length is greater than 0
     let nextStepButton
@@ -124,7 +132,8 @@ class PipelineStatus extends React.Component {
               .map((step) => (
                 <PipelineElement key={step.id} step={step} archive={archive} />
               ))}
-            <Grid.Column>{nextStepButton}</Grid.Column>
+            {canAccessArchive && <Grid.Column>{nextStepButton}</Grid.Column>}
+            
           </Grid.Row>
         </Grid>
       </React.Fragment>
@@ -158,7 +167,7 @@ class PipelineElement extends React.Component {
   }
 
   render() {
-    const { step } = this.props
+    const { step, archive } = this.props
     const { user } = this.context
     const { loading } = this.state
 
@@ -196,6 +205,12 @@ class PipelineElement extends React.Component {
       color = 'teal'
     }
 
+    let canAccessArchive = false
+
+    if (hasPermission(user, Permissions.CAN_ACCESS_ARCHIVE)) { canAccessArchive =  true} // If user can access all archival requests
+    if (user.id == archive.creator.id) { canAccessArchive =  true} // If the user is the creator of the document
+
+
     // const canApprove = hasPermission(user, Permissions.CAN_APPROVE_ARCHIVE);
     // const canReject = hasPermission(user, Permissions.CAN_REJECT_ARCHIVE);
 
@@ -205,7 +220,7 @@ class PipelineElement extends React.Component {
           <Header as="h5" textAlign="center">
             {StepNameLabel[step.name]}
             <Header.Subheader>{StepStatusLabel[step.status]}</Header.Subheader>
-            <Header.Subheader>{retryFailed}</Header.Subheader>
+            {canAccessArchive && <Header.Subheader>{retryFailed}</Header.Subheader> }
           </Header>
         </Segment>
       </Grid.Column>

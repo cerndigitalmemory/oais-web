@@ -67,6 +67,7 @@ export const SourceStatusColor = {
 export const Permissions = {
   CAN_APPROVE_ARCHIVE: 'oais.can_approve_archive',
   CAN_REJECT_ARCHIVE: 'oais.can_reject_archive',
+  CAN_ACCESS_ARCHIVE: 'oais.can_access_all_archives',
 }
 
 export function hasPermission(user, permission) {
