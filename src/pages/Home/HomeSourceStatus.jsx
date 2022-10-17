@@ -31,7 +31,7 @@ export class SourceStatusList extends React.Component {
     super(props)
     this.state = {
       loadingSources: true,
-      sourceStatus: null,
+      sourceStatusArray: null,
     }
   }
 
@@ -45,7 +45,20 @@ export class SourceStatusList extends React.Component {
   getSourceStatus = async () => {
     try {
       const sourceStatus = await api.getSourceStatus()
-      this.setState({ sourceStatus: sourceStatus })
+
+      // Gets the source status json in the following format:
+      // {source1 : value, source2 : value, ...}
+      // And transforms is it an array of objects with this format:
+      // [{source: source1, value: value}, {source: source2, value: value}, etc]
+      let sourceStatusArray = Object.keys(sourceStatus).map((v) => {
+        return { source: v, value: sourceStatus[v] }
+      })
+      // sorts the array of sources based on the source key,value
+      sourceStatusArray.sort((a, b) => {
+        return a.source < b.source ? -1 : 1
+      })
+
+      this.setState({ sourceStatusArray: sourceStatusArray })
     } catch (e) {
       sendNotification(
         'Could not get source configuration status',
@@ -58,7 +71,7 @@ export class SourceStatusList extends React.Component {
   }
 
   render() {
-    const { loadingSources, sourceStatus } = this.state
+    const { loadingSources, sourceStatusArray } = this.state
 
     const loadingSegment = (
       <Placeholder>
@@ -71,7 +84,7 @@ export class SourceStatusList extends React.Component {
 
     return (
       <>
-        {!sourceStatus ? (
+        {!sourceStatusArray ? (
           loadingSources ? (
             <div>{loadingSegment}</div>
           ) : (
@@ -88,16 +101,16 @@ export class SourceStatusList extends React.Component {
               </Table.Header>
 
               <Table.Body>
-                {Object.keys(sourceStatus).map((source, i) => (
-                  <Table.Row key={source}>
-                    <Table.Cell>{source}</Table.Cell>
+                {sourceStatusArray.map((sourceStatus) => (
+                  <Table.Row key={sourceStatus.source}>
+                    <Table.Cell>{sourceStatus.source}</Table.Cell>
                     <Table.Cell>
                       {' '}
                       <Icon
                         name="circle"
-                        color={SourceStatusColor[sourceStatus[source]]}
+                        color={SourceStatusColor[sourceStatus.value]}
                       />
-                      {SourceStatusLabel[sourceStatus[source]]}
+                      {SourceStatusLabel[sourceStatus.value]}
                     </Table.Cell>
                   </Table.Row>
                 ))}
