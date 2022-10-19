@@ -62,7 +62,7 @@ export class Home extends React.Component {
               <Icon name="line cog" circular />
               <Header.Content>Sources availability</Header.Content>
             </Header>
-            <Container textAlign="center"><Link to="settings">  <b>Go to Settings to configure the sources.</b></Link></Container>
+            <Container textAlign="center"><Link to="settings">  <b>Go to Settings to configure the sources.</b></Link> Support for additional repositories is work in progress.</Container>
             <SourceStatusList /> 
             <Header as="h2" icon textAlign="center">
               <Icon name="line graph" circular />
