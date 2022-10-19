@@ -203,6 +203,7 @@ class Step extends React.Component {
     If this value is true then archivematica details are rendered
     */
     let downloadButton
+    let downloadLink = "/api/steps/" + step.id + "/download-artifact"
     if (artifact && renderDownloadButton) {
       downloadButton = (
         <Button
@@ -210,7 +211,7 @@ class Step extends React.Component {
           basic
           color="black"
           as="a"
-          href={artifact.artifact_url}
+          href={downloadLink}
           target="_blank"
         >
           <Icon name="external alternate"></Icon>
