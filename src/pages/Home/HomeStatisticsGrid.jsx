@@ -3,6 +3,7 @@ import { Grid, Placeholder, Segment, Statistic } from 'semantic-ui-react'
 import { api } from '@/api.js'
 import { AppContext } from '@/AppContext.js'
 import { StepStatus, StepName } from '@/utils.js'
+import { Link } from 'react-router-dom'
 
 export class StatisticsGrid extends React.Component {
   static contextType = AppContext.Context
@@ -130,7 +131,13 @@ export class StatisticsGrid extends React.Component {
               {loadingArchives ? (
                 <div>{loadingSegment}</div>
               ) : (
-                <Statistic horizontal label="Archives" value={totalArchives} />
+                <Link to={`/archives/`}>
+                  <Statistic
+                    horizontal
+                    label="Archives"
+                    value={totalArchives}
+                  />
+                </Link>
               )}
             </Segment>
           </Grid.Column>
@@ -140,7 +147,9 @@ export class StatisticsGrid extends React.Component {
               {loadingCollections ? (
                 <div>{loadingSegment}</div>
               ) : (
-                <Statistic horizontal label="Tags" value={totalCollections} />
+                <Link to={`/tags/`}>
+                  <Statistic horizontal label="Tags" value={totalCollections} />
+                </Link>
               )}
             </Segment>
           </Grid.Column>
@@ -151,11 +160,13 @@ export class StatisticsGrid extends React.Component {
               {loadingCompleted ? (
                 <div>{loadingSegment}</div>
               ) : (
-                <Statistic
-                  horizontal
-                  label="Archives (SIP) are Completed"
-                  value={stepsCompleted.length}
-                />
+                <Link to={`/archives/`}>
+                  <Statistic
+                    horizontal
+                    label="Archives (SIP) are Completed"
+                    value={stepsCompleted.length}
+                  />
+                </Link>
               )}
             </Segment>
           </Grid.Column>
