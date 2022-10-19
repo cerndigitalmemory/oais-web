@@ -41,7 +41,7 @@ export class StepsPipeline extends React.Component {
     return (
       <Segment raised>
         <Label color="blue" ribbon>
-          Pipeline
+          Pipeline overview
         </Label>
         <PipelineStatus steps={steps} archive={archive} nextSteps={nextSteps} />
       </Segment>
@@ -90,7 +90,7 @@ class PipelineStatus extends React.Component {
             trigger={
               <Segment
                 circular
-                style={{ width: 120, height: 120 }}
+                style={{ width: 120, height: 120}}
                 textAlign="center"
               >
                 <Icon name="plus" />
