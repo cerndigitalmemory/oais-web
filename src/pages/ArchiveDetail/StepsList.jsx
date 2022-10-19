@@ -208,13 +208,12 @@ class Step extends React.Component {
       downloadButton = (
         <Button
           size="tiny"
-          basic
-          color="black"
+          color="blue"
           as="a"
           href={downloadLink}
           target="_blank"
         >
-          <Icon name="external alternate"></Icon>
+          <Icon name="download alternate"></Icon>
           {artifact.artifact_name}
         </Button>
       )
@@ -275,7 +274,7 @@ class Step extends React.Component {
             onClick={this.handleClick}
           >
             <Icon name="dropdown" />
-            Task Details
+            Celery Task Details
           </Accordion.Title>
           <Accordion.Content active={activeIndex === 1}>
             <Grid>
