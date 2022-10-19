@@ -147,7 +147,7 @@ export class StatisticsGrid extends React.Component {
               {loadingCollections ? (
                 <div>{loadingSegment}</div>
               ) : (
-                <Link to={`/tags/`}>
+                <Link to={`/collections/`}>
                   <Statistic horizontal label="Tags" value={totalCollections} />
                 </Link>
               )}
