@@ -33,7 +33,6 @@ export class ArchivesList extends React.Component {
             <Table.HeaderCell width={6}>Title</Table.HeaderCell>
             <Table.HeaderCell>Original Record</Table.HeaderCell>
             <Table.HeaderCell>Creation Date</Table.HeaderCell>
-            <Table.HeaderCell>Artifacts</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -97,11 +96,6 @@ class Archive extends React.Component {
           {archive.recid} ({archive.source})
         </Table.Cell>
         <Table.Cell>{formatDateTime(archive.timestamp)}</Table.Cell>
-        <Table.Cell>
-          {archive.path_to_sip.length > 0 && (
-            <a href={`/api/archives/${archive.id}/download/sip`}>SIP</a>
-          )}
-        </Table.Cell>
       </Table.Row>
     )
   }
