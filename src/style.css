@@ -9,10 +9,19 @@
   background-color: white;
 }
 
+body {
+  font-family: 'Inter';
+  font-weight: 500;
+}
+
 h1 {
   font-family: 'Barlow';
   font-weight: 900;
   font-size: 2.25rem;
+}
+
+code{
+  font-family: 'JetBrains Mono';
 }
 
 .ui.button {

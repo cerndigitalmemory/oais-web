@@ -22,13 +22,13 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.2.0",
+    "react-scripts": "^5.0.1",
     "react-toastify": "^9.0.0",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "regenerator-runtime": "^0.13.7",
     "semantic-ui-less": "^2.4.1",
-    "semantic-ui-react": "^2.0.4",
-    "react-scripts": "^5.0.1"
+    "semantic-ui-react": "^2.0.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
@@ -39,8 +39,9 @@
     "@craco/craco": "^6.4.3",
     "@fontsource/barlow": "^4.5.2",
     "@fontsource/inter": "^4.5.4",
-    "@semantic-ui-react/css-patch": "^1.0.0",
+    "@fontsource/jetbrains-mono": "^4.5.11",
     "@semantic-ui-react/craco-less": "^2.0.2",
+    "@semantic-ui-react/css-patch": "^1.0.0",
     "css-loader": "^5.2.6",
     "eslint": "^7.31.0",
     "eslint-plugin-react": "^7.24.0",
