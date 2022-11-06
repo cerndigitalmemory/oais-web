@@ -81,19 +81,22 @@ export class ArchiveInfo extends React.Component {
     return (
       <Segment raised>
         <Label color="blue" ribbon>
-          General Archive Information
+          General information
         </Label>
         <Grid>
           <Grid.Row>
-            <Grid.Column floated="left" width={6}>
-              <h1>Record {id}</h1>
+            <Grid.Column floated="left" width={8}>
+              <h2>{archive.title}</h2>
             </Grid.Column>
-            <Grid.Column floated="right" width={6} textAlign="right">
+            <Grid.Column floated="right" width={3} textAlign="right">
               {submitButton}
             </Grid.Column>
           </Grid.Row>
         </Grid>
         <List>
+        <List.Item>
+        <b>Record ID: </b> {id}
+        </List.Item>
           <List.Item>
             <b>Source: </b> {archive.source}
           </List.Item>
