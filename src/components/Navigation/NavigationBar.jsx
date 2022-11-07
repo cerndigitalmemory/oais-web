@@ -382,7 +382,7 @@ class NavBarDesktop extends React.Component {
     const { staged } = this.context
 
     return (
-      <div style={{ margin: '10px' }}>
+      <div className="navbar" style={{ padding: '10px'}}>
         <Menu secondary>
           {leftItems
             .filter((link) => link.always || link.loggedIn === isLoggedIn)
@@ -422,9 +422,16 @@ class NavBarDesktop extends React.Component {
           {isLoggedIn && (
             <Menu.Menu position="right">
               <Menu.Item>
-                Hello,&nbsp;{' '}
-                <Link to={`/users/${user.id}`}>{user.username}</Link>
-                &nbsp; (<Link to={`/logout`}>logout</Link>)
+                <Icon name="user"></Icon>{' '}
+                {user.username}
+                
+              </Menu.Item>
+              <Menu.Item
+                as={Link}
+                onClick={onItemClick}
+                to="/logout"
+              >
+                <Icon name="sign out" />
               </Menu.Item>
               <Menu.Item
                 as={Link}
@@ -464,6 +471,7 @@ class NavBarChildren extends React.Component {
         <Notifications notifications={notifications ?? []} />
         <Container
           style={{
+            paddingTop: '25px',
             paddingBottom: '100px',
             minHeight: '93vh',
             z_index: 'auto',
