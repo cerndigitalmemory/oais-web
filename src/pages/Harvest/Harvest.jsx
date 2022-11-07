@@ -317,8 +317,7 @@ class Harvest extends React.Component {
           />
         )}
         <p>
-          Create SIP packages from the supported digital repositories (uses
-          Bagit Create tool)
+          In this page you can search for records and documents from various CERN digital repositories (e.g. CDS, Invenio, Indico).
         </p>
         <SearchForm
           sources={['cds', 'zenodo', 'inveniordm', 'cod', 'indico', 'codimd']}

@@ -130,19 +130,6 @@ class SearchForm extends React.Component {
               labelPosition="left"
               size="mini"
               fluid
-              value="inveniordm"
-              onClick={this.handleSourceButton}
-            >
-              <Icon name="plus" />
-              Find all your records on InvenioRDM
-            </Button>
-          </Grid.Column>
-          <Grid.Column>
-            <Button
-              icon
-              labelPosition="left"
-              size="mini"
-              fluid
               value="indico"
               onClick={this.handleSourceButton}
             >
@@ -163,7 +150,8 @@ class SearchForm extends React.Component {
       )
     } else {
       submitButton = (
-        <Button primary className="standard_button">
+        <Button primary>
+          <Icon name='search' />
           Search
         </Button>
       )
