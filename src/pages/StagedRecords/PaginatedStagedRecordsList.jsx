@@ -86,8 +86,8 @@ export class PaginatedRecordsList extends React.Component {
           </Grid.Column>
 
           <Grid.Column floated="right" textAlign="right">
-            <Button primary onClick={this.handleArchiving}>
-              Archive All
+            <Button positive onClick={this.handleArchiving}>
+              Confirm
             </Button>
           </Grid.Column>
         </Grid>
