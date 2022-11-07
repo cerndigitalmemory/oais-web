@@ -226,10 +226,21 @@ class Harvest extends React.Component {
 
     let addRemoveButton = (
       <Button onClick={this.handleCheckAll}>Select all</Button>
+      
+    )
+    let archiveAllButton = (
+      <Button disabled positive onClick={this.handleArchiveButtonClick}>
+              Archive Selected
+            </Button>
     )
     if (this.props.checkedRecords.length > 0) {
       addRemoveButton = (
         <Button onClick={this.handleRemoveAll}>Clear selection</Button>
+      )
+      archiveAllButton = (
+        <Button positive onClick={this.handleArchiveButtonClick}>
+                Archive Selected
+              </Button>
       )
     }
 
@@ -248,9 +259,7 @@ class Harvest extends React.Component {
           </Grid.Column>
           <Grid.Column floated="right" textAlign="right">
             {' '}
-            <Button primary onClick={this.handleArchiveButtonClick}>
-              Archive Selected
-            </Button>
+            {archiveAllButton}
           </Grid.Column>
         </Grid>
       </div>
@@ -363,7 +372,7 @@ class Harvest extends React.Component {
           </Grid.Row>
           {this.state.tokenMessageVisible && showMessage}
         </Grid>
-
+        
         {this.state.detailedResults == null ? null : this.state.detailedResults
             .length > 0 ? (
           <React.Fragment>
