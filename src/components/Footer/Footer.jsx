@@ -34,7 +34,7 @@ export class Footer extends React.Component {
               <Grid.Column textAlign="left" verticalAlign="middle" width={7}>
                 <List horizontal inverted link size="small">
                   <List.Item as="a" href="https://copyright.web.cern.ch">
-                    Copyright © 2022 CERN
+                    All material produced and exported by CERN employees is <br></br> Copyright © CERN.
                   </List.Item>
                 </List>
               </Grid.Column>
