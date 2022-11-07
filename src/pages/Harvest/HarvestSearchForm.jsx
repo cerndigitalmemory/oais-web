@@ -150,7 +150,7 @@ class SearchForm extends React.Component {
       )
     } else {
       submitButton = (
-        <Button primary>
+        <Button primary fluid>
           <Icon name='search' />
           Search
         </Button>
@@ -166,7 +166,7 @@ class SearchForm extends React.Component {
               value={this.state.query}
               onChange={this.handleQueryChange}
               label="Query"
-              placeholder="Query"
+              placeholder="E.g. ''REANA data analyses''"
             />
           </Grid.Column>
           <Grid.Column verticalAlign="bottom" width={2}>
