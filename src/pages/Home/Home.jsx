@@ -44,6 +44,25 @@ export class Home extends React.Component {
           {' '}
           <center>Welcome to the CERN Digital Memory Platform </center>
         </h1>
+        <Container textAlign="center">
+          {' '}
+          <span className="frontText">
+            This service allows to conveniently request the archival of digital
+            artifacts from CERN digital repositories, according to the OAIS
+            specifications. <br></br>
+            <br></br>
+            <Grid.Row>
+              <Grid.Column width={16}>
+                {!isLoggedIn && (
+                  <Message color="red">
+                    <Message.Header>Warning</Message.Header>
+                    The access is currently limited to DROs.
+                  </Message>
+                )}
+              </Grid.Column>
+            </Grid.Row>
+          </span>
+        </Container>
         {isLoggedIn ? (
           <React.Fragment>
             {this.state.showInstructionsMessage && (
@@ -62,13 +81,15 @@ export class Home extends React.Component {
               <Icon name="line cog" circular />
               <Header.Content>Sources availability</Header.Content>
             </Header>
-            <Container textAlign="center"><Link to="settings">  <b>Go to Settings to configure the sources.</b></Link> Support for additional repositories is work in progress.</Container>
-            <SourceStatusList /> 
-            <Header as="h2" icon textAlign="center">
-              <Icon name="line graph" circular />
-              <Header.Content>Statistics</Header.Content>
-            </Header>
-            <StatisticsGrid />
+            <Container textAlign="center">
+              <Link to="settings">
+                {' '}
+                <b>Go to Settings to configure the sources.</b>
+              </Link>{' '}
+              Support for additional repositories is work in progress.
+            </Container>
+            <SourceStatusList />
+            <br></br>
           </React.Fragment>
         ) : (
           <Loader />
