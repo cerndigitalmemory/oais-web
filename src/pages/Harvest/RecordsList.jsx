@@ -35,12 +35,12 @@ export class RecordsList extends React.Component {
           {this.props.records.length > 0 || !this.props.isLoading ? (
             <Table.Header>
               <Table.Row>
+                <Table.HeaderCell width="1" textAlign="center">
+                  Select
+                </Table.HeaderCell>
                 <Table.HeaderCell width="12">Title</Table.HeaderCell>
                 <Table.HeaderCell width="2" textAlign="right">
-                  Record ID
-                </Table.HeaderCell>
-                <Table.HeaderCell width="2" textAlign="center">
-                  Actions
+                  Original record
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -190,10 +190,6 @@ class Record extends React.Component {
 
     return (
       <Table.Row>
-        <Table.Cell textAlign="left">
-          {record.title} {archivedRecord}
-        </Table.Cell>
-        <Table.Cell textAlign="right">{record.recid}</Table.Cell>
         <Table.Cell textAlign="right">
           {!loading && (
             <RecordActions
@@ -202,6 +198,15 @@ class Record extends React.Component {
               toggleChecked={this.toggleChecked}
             />
           )}
+        </Table.Cell>
+        <Table.Cell textAlign="left">
+          <span onClick={this.toggleChecked}> {record.title} </span>{' '}
+          {archivedRecord}
+        </Table.Cell>
+        <Table.Cell textAlign="right">
+          <a href={record.source_url} target="_blank" rel="noreferrer">
+            <Button className="select_button" basic icon="external" />
+          </a>
         </Table.Cell>
       </Table.Row>
     )
@@ -227,14 +232,21 @@ class RecordActions extends React.Component {
     if (archived == false) {
       if (checkedRecord[0]) {
         checkButton = (
-          <Button circular basic icon="circle" onClick={toggleChecked} />
+          <Button
+            className="select_button"
+            circular
+            basic
+            icon="square"
+            onClick={toggleChecked}
+          />
         )
       } else {
         checkButton = (
           <Button
+            className="select_button"
             circular
             basic
-            icon="circle outline"
+            icon="square outline"
             onClick={toggleChecked}
           />
         )
@@ -246,7 +258,13 @@ class RecordActions extends React.Component {
           content="This record is already in the Staging Area"
           trigger={
             <span>
-              <Button circular basic icon="circle" disabled />{' '}
+              <Button
+                className="select_button"
+                circular
+                basic
+                icon="square"
+                disabled
+              />{' '}
             </span>
           }
         />
@@ -262,14 +280,7 @@ class RecordActions extends React.Component {
       />
     )
 
-    return (
-      <div>
-        <Button.Group basic size="small">
-          {sourceURLButton}
-          {checkButton}
-        </Button.Group>
-      </div>
-    )
+    return <div>{checkButton}</div>
   }
 }
 
