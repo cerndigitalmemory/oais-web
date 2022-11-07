@@ -45,7 +45,7 @@ export class Footer extends React.Component {
                 />
               </Grid.Column>
               <Grid.Column textAlign="right" verticalAlign="middle" width={7}>
-                <div className="branded-title">CERN Digital Memory Project</div>
+                <div className="branded-title"><a href="https://digital-memory-project.web.cern.ch/preserving" target="_blank" rel="noreferrer">CERN Digital Memory Project</a></div>
               </Grid.Column>
             </Grid>
           </Container>
