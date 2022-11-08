@@ -48,7 +48,7 @@ export class Home extends React.Component {
           {' '}
           <span className="frontText">
             This service allows to conveniently request the archival of digital
-            artifacts from CERN digital repositories, according to the OAIS
+            assets from CERN digital repositories, according to the OAIS
             specifications. <br></br>
             <br></br>
             <Grid.Row>
@@ -56,7 +56,20 @@ export class Home extends React.Component {
                 {!isLoggedIn && (
                   <Message color="red">
                     <Message.Header>Warning</Message.Header>
-                    The access is currently limited to DROs.
+                    The access is currently limited to CERN Record Officers.{' '}
+                    <br></br>
+                    <small>
+                      Contact us at digital.memory (at) cern.ch or open a{' '}
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href="https://cern.service-now.com/service-portal?id=functional_element&name=Open-Archival-Information"
+                      >
+                        {' '}
+                        ticket
+                      </a>
+                      .
+                    </small>
                   </Message>
                 )}
               </Grid.Column>
