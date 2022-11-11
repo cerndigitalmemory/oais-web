@@ -227,8 +227,8 @@ export class HomeInstructionsColumn extends React.Component {
 
   render() {
     return (
-      <Grid.Column textAlign="center">
-        <Segment raised>
+      <Grid.Column textAlign="center" className='incolumn'>
+        <Segment className='instructionBox'>
           <Grid.Row>
             <Header as="h2">{this.props.instructionNumber}</Header>
           </Grid.Row>
