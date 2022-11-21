@@ -31,7 +31,6 @@ export class CollectionsList extends React.Component {
       <Table textAlign="center">
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>ID</Table.HeaderCell>
             <Table.HeaderCell>Creator</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Description</Table.HeaderCell>
@@ -93,16 +92,16 @@ class Collection extends React.Component {
         onClose={() => this.setOpen(false)}
         onOpen={() => this.setOpen(true)}
       >
-        <Header icon="archive" content="Delete a collection" />
+        <Header icon="archive" content="Delete tag" />
         <Modal.Content>
-          <p>Are you sure you want to delete this collection?</p>
+          <p>Are you sure you want to delete this tag? It will be removed from any archive it was previously applied to.</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button color="red" onClick={() => this.setOpen(false)}>
+          <Button onClick={() => this.setOpen(false)}>
             <Icon name="remove" /> No
           </Button>
           <Button
-            color="green"
+            color="red"
             onClick={() => this.handleDelete(collection.id)}
           >
             <Icon name="checkmark" /> Yes
@@ -113,7 +112,6 @@ class Collection extends React.Component {
 
     return (
       <Table.Row>
-        <Table.Cell>{collection.id}</Table.Cell>
         <Table.Cell>
           <Link to={`/users/${collection.creator.id}`}>
             {collection.creator.username}

@@ -151,7 +151,7 @@ export class CreateCollection extends React.Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          <Button color="black" onClick={() => this.setOpen(false)}>
+          <Button onClick={() => this.setOpen(false)}>
             Cancel
           </Button>
           <Button
