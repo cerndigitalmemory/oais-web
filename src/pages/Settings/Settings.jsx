@@ -211,6 +211,7 @@ class SettingItem extends React.Component {
                 (info) =>
                   info.key == titleCell && (
                     <Modal
+                      key={info.key}
                       trigger={<Icon link name="help circle" />}
                       header={info.key}
                       content={info.value}
