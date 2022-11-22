@@ -42,14 +42,15 @@ export class Home extends React.Component {
       <React.Fragment>
         <h1>
           {' '}
-          <center>Welcome to the CERN Digital Memory Platform </center>
+          <center>Welcome to Preserve, the CERN Digital Memory Platform </center>
         </h1>
         <Container textAlign="center">
           {' '}
           <span className="frontText">
-            This service allows to conveniently request the archival of digital
-            assets from CERN digital repositories, according to the OAIS
-            specifications. <br></br>
+            This service allows to retrieve your digital
+            assets from CERN digital repositories and request
+            their archival preparing them for the long term preservation, following the <a href="https://public.ccsds.org/Pubs/650x0m2.pdf">OAIS specifications</a>.
+            <br></br>
             <br></br>
             <Grid.Row>
               <Grid.Column width={16}>
@@ -81,7 +82,6 @@ export class Home extends React.Component {
             {this.state.showInstructionsMessage && (
               <div>
                 <Header as="h2" icon textAlign="center">
-                  <Icon name="info" circular />
                   <Header.Content>Getting Started</Header.Content>
                 </Header>
                 <HomeInstructions
@@ -91,17 +91,21 @@ export class Home extends React.Component {
               </div>
             )}
             <Header as="h2" icon textAlign="center">
-              <Icon name="line cog" circular />
               <Header.Content>Sources availability</Header.Content>
             </Header>
             <Container textAlign="center">
+              Here&#39;s an overview of the available repositories to search form.
+              Some of them may need additional
               <Link to="settings">
                 {' '}
-                <b>Go to Settings to configure the sources.</b>
-              </Link>{' '}
-              Support for additional repositories is work in progress.
+                 <b>configuration</b>
+              </Link>{' '}.
+              
+            <div style={{marginTop: 10 + 'px'}}>
+            <SourceStatusList/>
+            </div>
+            <small>Support for additional repositories is work in progress</small>.
             </Container>
-            <SourceStatusList />
             <br></br>
           </React.Fragment>
         ) : (
@@ -240,7 +244,7 @@ export class HomeInstructionsColumn extends React.Component {
           </Grid.Row>
           <Grid.Row>
             <Link to={this.props.linkTo}>
-              <Icon name="arrow circle right" size="large" />
+            <Button content={this.props.title} icon={this.props.icon} labelPosition='right' />
             </Link>
           </Grid.Row>
         </Segment>

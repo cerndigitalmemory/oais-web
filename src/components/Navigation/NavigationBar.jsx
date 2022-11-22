@@ -324,7 +324,7 @@ class NavBarMobile extends React.Component {
                   >
                     <>
                       {link.value}
-                      <Label circular color="red">
+                      <Label color="red">
                         {staged}
                       </Label>
                     </>
@@ -410,7 +410,7 @@ class NavBarDesktop extends React.Component {
                   >
                     <>
                       {link.value}
-                      <Label floating size="mini" circular color="red">
+                      <Label size="mini" circular color="red">
                         {staged}
                       </Label>
                     </>

@@ -76,17 +76,20 @@ code {
 }
 
 .navbar {
-  background-color: #dddedf;
-  box-shadow: 0px 2px 4px 0px rgba(34, 36, 38, 0.08), 0px 2px 10px 0px rgba(34, 36, 38, 0.15);
+  background-color: #F9FAFB;
+  box-shadow: 0px 1px 2px 0px rgba(34, 36, 38, 0.08), 0px 1px 5px 0px rgba(34, 36, 38, 0.15);
 }
 
 .ui.segment.instructionBox {
-  border: 2px solid rgba(34, 36, 38, 0.55);
+  border: 1px solid rgba(34, 36, 38, 0.1);
   border-radius: 0.75rem;
-  box-shadow: 0px 2px 2px 0px rgba(34, 36, 38, 0.08), 0px 2px 10px 0px rgba(34, 36, 38, 0.15);
-  
+  box-shadow: 1px 2px 2px 0px rgba(34, 36, 38, 0.08), 3px 2px 10px 0px rgba(34, 36, 38, 0.15);
 }
 
 .center.aligned.column.incolumn {
   padding: 1%
+}
+
+a {
+  color: #0058AF;
 }
