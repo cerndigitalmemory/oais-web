@@ -226,12 +226,11 @@ class Harvest extends React.Component {
 
     let addRemoveButton = (
       <Button onClick={this.handleCheckAll}>Select all</Button>
-      
     )
     let archiveAllButton = (
       <Button disabled positive onClick={this.handleArchiveButtonClick}>
-              Archive Selected
-            </Button>
+        Archive Selected
+      </Button>
     )
     if (this.props.checkedRecords.length > 0) {
       addRemoveButton = (
@@ -239,8 +238,8 @@ class Harvest extends React.Component {
       )
       archiveAllButton = (
         <Button positive onClick={this.handleArchiveButtonClick}>
-                Archive Selected
-              </Button>
+          Archive Selected
+        </Button>
       )
     }
 
@@ -326,10 +325,11 @@ class Harvest extends React.Component {
           />
         )}
         <p>
-          In this page you can search for records and documents from various CERN digital repositories (e.g. CDS, Invenio, Indico).
+          In this page you can search for records and documents from various
+          CERN digital repositories (e.g. CDS, Invenio, Indico).
         </p>
         <SearchForm
-          sources={['cds', 'zenodo', 'inveniordm', 'cod', 'indico', 'codimd']}
+          sources={['cds', 'indico', 'codimd', 'zenodo']}
           activeSource={this.props.source}
           onSearch={this.handleSearch}
           isLoading={isLoading}
@@ -372,7 +372,14 @@ class Harvest extends React.Component {
           </Grid.Row>
           {this.state.tokenMessageVisible && showMessage}
         </Grid>
-        
+
+        {this.state.detailedResults == null ? null : this.state.detailedResults
+            .length > 10 ? (
+          <React.Fragment>{archiveButton}</React.Fragment>
+        ) : (
+          ' '
+        )}
+
         {this.state.detailedResults == null ? null : this.state.detailedResults
             .length > 0 ? (
           <React.Fragment>
