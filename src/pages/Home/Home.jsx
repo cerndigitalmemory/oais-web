@@ -55,9 +55,9 @@ export class Home extends React.Component {
             <Grid.Row>
               <Grid.Column width={16}>
                 {!isLoggedIn && (
-                  <Message color="red">
+                  <Message color="yellow">
                     <Message.Header>Warning</Message.Header>
-                    The access is currently limited to CERN Record Officers.{' '}
+                    The platform is in pre-production state. <br></br>Requesting new archives is currently limited to CERN Record Officers.{' '}
                     <br></br>
                     <small>
                       Contact us at digital.memory (at) cern.ch or open a{' '}
