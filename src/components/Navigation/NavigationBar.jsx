@@ -38,10 +38,7 @@ import { api } from '@/api.js'
  * Renders the Navigation Bar, keeping track of the active page and
  * showing some links only to authenticated users.
  */
-/**
- * Renders the Navigation Bar, keeping track of the active page and
- * showing some links only to authenticated users.
- */
+
 const AppMedia = createMedia({
   breakpoints: {
     mobile: 320,
@@ -324,9 +321,7 @@ class NavBarMobile extends React.Component {
                   >
                     <>
                       {link.value}
-                      <Label color="red">
-                        {staged}
-                      </Label>
+                      <Label color="red">{staged}</Label>
                     </>
                   </Menu.Item>
                 )
@@ -342,8 +337,8 @@ class NavBarMobile extends React.Component {
               <Menu.Menu position="right">
                 <Menu.Item>
                   Hello,&nbsp;{' '}
-                  <Link to={`/users/${user.id}`}>{user.username}</Link>
-                  (<Link to={`/logout`}>Logout</Link>)
+                  <Link to={`/users/${user.id}`}>{user.username}</Link>(
+                  <Link to={`/logout`}>Logout</Link>)
                 </Menu.Item>
                 <Menu.Item
                   as={Link}
@@ -382,7 +377,7 @@ class NavBarDesktop extends React.Component {
     const { staged } = this.context
 
     return (
-      <div className="navbar" style={{ padding: '10px'}}>
+      <div className="navbar" style={{ padding: '10px' }}>
         <Menu secondary>
           {leftItems
             .filter((link) => link.always || link.loggedIn === isLoggedIn)
@@ -422,15 +417,9 @@ class NavBarDesktop extends React.Component {
           {isLoggedIn && (
             <Menu.Menu position="right">
               <Menu.Item>
-                <Icon name="user"></Icon>{' '}
-                {user.username}
-                
+                <Icon name="user"></Icon> {user.username}
               </Menu.Item>
-              <Menu.Item
-                as={Link}
-                onClick={onItemClick}
-                to="/logout"
-              >
+              <Menu.Item as={Link} onClick={onItemClick} to="/logout">
                 <Icon name="sign out" />
               </Menu.Item>
               <Menu.Item
@@ -529,7 +518,7 @@ class NavBarLoggedOut extends React.Component {
 
   render() {
     const { leftItems, activeItem, notifications, onItemClick } = this.props
-
+    /* TODO: Return a different kind of navbar depending on the media query (as with the logged in one) */
     return (
       <div>
         <NavBarDesktop
@@ -538,7 +527,7 @@ class NavBarLoggedOut extends React.Component {
           isLoggedIn={false}
           onItemClick={onItemClick}
         />
-        <NavBarChildren notifications={notifications} />
+        <NavBarChildren notifications={notifications} size={'computer'} />
       </div>
     )
   }
