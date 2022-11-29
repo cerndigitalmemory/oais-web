@@ -182,28 +182,28 @@ export class HomeInstructions extends React.Component {
         <Grid columns={4} stackable>
           <Grid.Row>
             <HomeInstructionsColumn
-              instructionNumber="1"
+              instructionNumber={1}
               title="Configure"
               description="To be able to fetch your private records you'll need to set up some API tokens first."
               linkTo="/settings/"
               icon="settings"
             />
             <HomeInstructionsColumn
-              instructionNumber="2"
+              instructionNumber={2}
               title="Search"
               description="You can search for any records on Indico, CodiMD, CDS and Zenodo from the Search page. The platform will fetch the data for you."
               linkTo="/harvest/"
               icon="search"
             />
             <HomeInstructionsColumn
-              instructionNumber="3"
+              instructionNumber={3}
               title="Organize"
               description="Once you selected your records, they will be waiting in the 'Staging Area', where you can organize them with custom tags."
               linkTo="/staged/"
               icon="tags"
             />
             <HomeInstructionsColumn
-              instructionNumber="4"
+              instructionNumber={4}
               title="Download"
               description="Once you confirmed your selection from the staging area, the preservation process will start. Check after a while to get download links."
               linkTo="/archives/"
