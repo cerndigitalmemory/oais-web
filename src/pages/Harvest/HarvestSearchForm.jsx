@@ -36,7 +36,7 @@ class SearchForm extends React.Component {
     }
   }
 
-  // When the component first mounts, we need the state as a placeholder at the query form and the source
+  // When the component first mounts, we need the state as a  placeholder at the query form and the source
   componentDidMount() {
     if (this.props.source && this.props.query) {
       this.setState({
@@ -81,7 +81,7 @@ class SearchForm extends React.Component {
     const user = Storage.getUser()
     let query
     if (event.target.value == 'indico') {
-      query = 'person:' + user.first_name + ' ' + user.last_name
+      query = "person:'" + user.first_name + ' ' + user.last_name + "'"
     } else {
       query = user.first_name + ' ' + user.last_name
     }
