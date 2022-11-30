@@ -231,7 +231,7 @@ class JSONEditForm extends React.Component {
               <h1>Edit manifest file for Record {id}</h1>
             </Grid.Column>
             <Grid.Column floated="right" width={3} textAlign="right">
-              {backButtonModal}
+            {backButtonModal}
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -240,8 +240,7 @@ class JSONEditForm extends React.Component {
             <div> Error while parsing manifest file </div>
           ) : (
             <>
-              <Header>Manifest editor form</Header>
-
+              This form allows you to change some metadata. Changes are tracked in the audit trail of the Archive.
               {Object.entries(manifest).map(([key, value]) => (
                 <FormField
                   key={key}
