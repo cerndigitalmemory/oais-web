@@ -51,7 +51,11 @@ export class SourceStatusList extends React.Component {
       // And transforms is it an array of objects with this format:
       // [{source: source1, value: value}, {source: source2, value: value}, etc]
       let sourceStatusArray = Object.keys(sourceStatus).map((v) => {
-        return { source: v, value: sourceStatus[v]["status"], fullName: sourceStatus[v]["name"] }
+        return {
+          source: v,
+          value: sourceStatus[v]['status'],
+          fullName: sourceStatus[v]['name'],
+        }
       })
       // sorts the array of sources based on the source key,value
       sourceStatusArray.sort((a, b) => {
