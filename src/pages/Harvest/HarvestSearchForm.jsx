@@ -115,12 +115,12 @@ class SearchForm extends React.Component {
             <Button
               icon
               labelPosition="left"
-              size="mini"
-              fluid
+              
+              
               value="cds"
               onClick={this.handleSourceButton}
             >
-              <Icon name="plus" />
+              <Icon name="search" />
               Find all your records on CDS
             </Button>
           </Grid.Column>
@@ -128,13 +128,13 @@ class SearchForm extends React.Component {
             <Button
               icon
               labelPosition="left"
-              size="mini"
-              fluid
+    
+              
               value="indico"
               onClick={this.handleSourceButton}
             >
-              <Icon name="plus" />
-              Find all your events on Indico
+              <Icon name="search" />
+              Find all your events and contributions on Indico
             </Button>
           </Grid.Column>
         </Grid.Row>
