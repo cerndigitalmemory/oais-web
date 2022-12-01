@@ -13,7 +13,7 @@ import {
 } from '@/utils.js'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button, Table, Loader, Dropdown, Menu } from 'semantic-ui-react'
+import { Button, Table, Loader, Dropdown, Menu, Label } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
@@ -91,6 +91,10 @@ class Archive extends React.Component {
         <Table.Cell>{archive.id}</Table.Cell>
         <Table.Cell>
           <Link to={`/archive/${archive.id}`}>{showTitle}</Link>{' '}
+          { !archive.restricted &&
+          <Label size="mini" circular color="blue">
+                        PUBLIC
+                      </Label>}
         </Table.Cell>
         <Table.Cell>
           <code>{archive.recid}</code> ({archive.source})
