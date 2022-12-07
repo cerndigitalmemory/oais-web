@@ -73,7 +73,7 @@ export class ArchiveInfo extends React.Component {
     if (archive.resource.invenio_parent_id != null)
       invenioParentID = (
         <List.Item >
-          <b>Invenio Parent ID: </b> <a href={archive.resource.invenio_parent_url} target="_blank" rel="noopener noreferrer">{archive.resource.invenio_parent_id}</a>
+          <b>Registry Parent ID: </b> <a href={archive.resource.invenio_parent_url} target="_blank" rel="noopener noreferrer">{archive.resource.invenio_parent_id}</a>
         </List.Item >
       )
 
