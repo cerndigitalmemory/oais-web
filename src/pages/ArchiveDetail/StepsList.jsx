@@ -203,8 +203,13 @@ class Step extends React.Component {
     If this value is true then archivematica details are rendered
     */
     let downloadButton
-    let downloadLink = "/api/steps/" + step.id + "/download-artifact"
     if (artifact && renderDownloadButton) {
+      let downloadLink = ''
+      if (artifact.artifact_name != 'Invenio Link') {
+        downloadLink = '/api/steps/' + step.id + '/download-artifact'
+      } else {
+        downloadLink = artifact.artifact_url
+      }
       downloadButton = (
         <Button
           size="tiny"
@@ -258,7 +263,8 @@ class Step extends React.Component {
                   <b>Start Date: </b> {formatDateTime(step.start_date)}
                 </Grid.Column>
                 <Grid.Column>
-                  <b>End Date: </b> {step.finish_date != null && formatDateTime(step.finish_date)}
+                  <b>End Date: </b>{' '}
+                  {step.finish_date != null && formatDateTime(step.finish_date)}
                 </Grid.Column>
                 <Grid.Column>
                   <b>Status: </b> {StepStatusLabel[step.status]}{' '}
