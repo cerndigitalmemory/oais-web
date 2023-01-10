@@ -7,8 +7,8 @@ import { sendNotification } from '@/utils.js'
 export class Announce extends React.Component {
   /**
    * URL parse component contains a form field where the
-   * user can enter a url from the supported libraries and
-   * create an archive
+   * user can enter a path where an SIP was already uploaded 
+   * and announce it to the system
    */
   state = {
     announcePath: '', // Stores the url to be parsed
@@ -70,10 +70,11 @@ export class Announce extends React.Component {
 
     return (
       <React.Fragment>
-        <h1>Announce an SIP</h1>
+        <h1>Announce</h1>
         <p>
-          Enter the path from an already created an SIP from eos. Make sure you
-          have granted the necessary permissions to this folder.
+          If you already uploaded your SIP on EOS, you can add it to the platform 
+          by entering its absolute path here. Make sure you have granted the necessary permissions (give the &quot;oais&quot; user read access if the folder is private)
+          and that the path directly points to the SIP folder (i.e. it contains the sip.json).
         </p>
         <Form onSubmit={this.handleSubmit}>
           <Grid columns={2} stackable>
@@ -82,7 +83,7 @@ export class Announce extends React.Component {
                 control={Input}
                 value={this.state.announcePath}
                 onChange={this.handlePathChange}
-                label="eos path"
+                label="EOS Path"
                 placeholder="/eos/home-u/user/sip_folder"
               />
             </Grid.Column>
