@@ -74,7 +74,7 @@ export class Announce extends React.Component {
         <p>
           If you already uploaded your SIP on EOS, you can add it to the platform 
           by entering its absolute path here. Make sure you have granted the necessary permissions (give the &quot;oais&quot; user read access if the folder is private)
-          and that the path directly points to the SIP folder (i.e. it contains the sip.json).
+          and that the path directly points to the SIP folder (i.e. it contains data/meta/sip.json).
         </p>
         <Form onSubmit={this.handleSubmit}>
           <Grid columns={2} stackable>
