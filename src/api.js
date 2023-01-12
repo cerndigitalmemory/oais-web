@@ -320,6 +320,12 @@ class API {
   async getUserSettings() {
     return await this._get('/users/me/')
   }
+
+  async announce(path) {
+    return await this._post(`/upload/announce/`, {
+      announce_path: path,
+    })
+  }
 }
 
 export const api = new API({

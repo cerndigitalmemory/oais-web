@@ -33,6 +33,7 @@ export const StepName = {
   INVENIO_RDM: 7,
   ARCHIVE: 5,
   EDIT_MANIFEST: 6,
+  ANNOUNCE: 8,
 }
 
 export const StepNameLabel = {
@@ -43,6 +44,7 @@ export const StepNameLabel = {
   [StepName.INVENIO_RDM]: 'Invenio RDM',
   [StepName.ARCHIVE]: 'Upload to AM',
   [StepName.EDIT_MANIFEST]: 'Edit Manifest',
+  [StepName.ANNOUNCE]: 'Announce',
 }
 
 export const SourceStatus = {
