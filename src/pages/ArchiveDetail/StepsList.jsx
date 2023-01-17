@@ -121,9 +121,7 @@ class Step extends React.Component {
     const step = this.props.step
     if (step.output_data !== null) {
       try {
-        var output = JSON.parse(
-          step.output_data.replaceAll("'", '"').replaceAll('None', '"null"')
-        )
+        var output = JSON.parse(step.output_data.replaceAll('None', '"null"'))
         if (output.artifact) {
           this.setState({
             artifact: output.artifact,
@@ -182,14 +180,13 @@ class Step extends React.Component {
 
     let showFailedDetails = null
     if (step.status === 3 && step.output_data) {
-      var msg = JSON.parse(
-        step.output_data.replaceAll("'", '"').replaceAll('None', '"null"')
-      )
+      console.log(step.output_data)
+      var msg = JSON.parse(step.output_data.replaceAll('None', '"null"'))
       if (msg.errormsg) {
         showFailedDetails = (
           <Grid.Row>
             <Grid.Column>
-              <b>Details: </b> {msg.errormsg}
+              <b>Error message: </b> {msg.errormsg}
             </Grid.Column>
           </Grid.Row>
         )
@@ -290,6 +287,17 @@ class Step extends React.Component {
                 </Grid.Column>
               </Grid.Row>
             </Grid>
+          </Accordion.Content>
+          <Accordion.Title
+            active={activeIndex === 3}
+            index={3}
+            onClick={this.handleClick}
+          >
+            <Icon name="dropdown" />
+            Output data
+          </Accordion.Title>
+          <Accordion.Content active={activeIndex === 3}>
+            <pre>{JSON.stringify(JSON.parse(step.output_data), 'null', 3)}</pre>
           </Accordion.Content>
           {renderArchivematicaDetails && (
             <React.Fragment>
