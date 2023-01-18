@@ -315,7 +315,7 @@ class Harvest extends React.Component {
 
     return (
       <React.Fragment>
-        <h1>Harvest</h1>
+        <h1>Search and harvest</h1>
         {redirect && (
           <Redirect
             to={{
@@ -325,8 +325,9 @@ class Harvest extends React.Component {
           />
         )}
         <p>
-          In this page you can search for records and documents from various
-          CERN digital repositories (e.g. CDS, Invenio, Indico).
+          Here you can search for records and documents from various CERN
+          digital repositories (e.g. CDS, Invenio, Indico) and let the platform
+          harvest the record for you
         </p>
         <SearchForm
           sources={['cds', 'indico', 'codimd', 'zenodo']}

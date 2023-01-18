@@ -1,13 +1,13 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { api } from '@/api.js'
-import { Button, Grid, Form, Input } from 'semantic-ui-react'
+import { Button, Grid, Form, Input, Icon } from 'semantic-ui-react'
 import { sendNotification } from '@/utils.js'
 
 export class Announce extends React.Component {
   /**
    * URL parse component contains a form field where the
-   * user can enter a path where an SIP was already uploaded 
+   * user can enter a path where an SIP was already uploaded
    * and announce it to the system
    */
   state = {
@@ -62,8 +62,9 @@ export class Announce extends React.Component {
       submitButton = <Redirect to={'/archive/' + redirectToArchive} />
     } else {
       submitButton = (
-        <Button primary type="submit">
-          Submit
+        <Button primary fluid type="submit">
+          <Icon name="rss" />
+          Announce
         </Button>
       )
     }
@@ -72,13 +73,15 @@ export class Announce extends React.Component {
       <React.Fragment>
         <h1>Announce</h1>
         <p>
-          If you already uploaded your SIP on EOS, you can add it to the platform 
-          by entering its absolute path here. Make sure you have granted the necessary permissions (give the &quot;oais&quot; user read access if the folder is private)
-          and that the path directly points to the SIP folder (i.e. it contains data/meta/sip.json).
+          If you already uploaded your SIP on EOS, you can add it to the
+          platform by entering its absolute path here. Make sure you have
+          granted the necessary permissions (give the &quot;oais&quot; user read
+          access if the folder is private) and that the path directly points to
+          the SIP folder (i.e. it contains <code>data/meta/sip.json</code>).
         </p>
         <Form onSubmit={this.handleSubmit}>
-          <Grid columns={2} stackable>
-            <Grid.Column width={12} verticalAlign="middle">
+          <Grid columns={3} stackable>
+            <Grid.Column width={13} verticalAlign="middle">
               <Form.Field
                 control={Input}
                 value={this.state.announcePath}
@@ -87,7 +90,7 @@ export class Announce extends React.Component {
                 placeholder="/eos/home-u/user/sip_folder"
               />
             </Grid.Column>
-            <Grid.Column verticalAlign="bottom" width={4}>
+            <Grid.Column verticalAlign="bottom" width={3}>
               {submitButton}
             </Grid.Column>
           </Grid>

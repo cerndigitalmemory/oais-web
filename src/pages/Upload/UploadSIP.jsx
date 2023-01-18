@@ -1,6 +1,6 @@
 import React from 'react'
 import { api } from '@/api.js'
-import { Button, Grid, Form } from 'semantic-ui-react'
+import { Button, Grid, Form, Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { sendNotification } from '@/utils.js'
 
@@ -42,7 +42,7 @@ export class UploadSIP extends React.Component {
             <Grid.Column width={4} verticalAlign="middle">
               <h5>Select compressed SIP:</h5>
             </Grid.Column>
-            <Grid.Column width={8}>
+            <Grid.Column width={9}>
               <input
                 ref={this.fileInputRef}
                 type="file"
@@ -50,8 +50,10 @@ export class UploadSIP extends React.Component {
                 onChange={this.handleFileUpload}
               />
             </Grid.Column>
-            <Grid.Column width={1}>
-              <Button primary content="Submit" type="submit" />
+            <Grid.Column width={3}>
+              <Button primary fluid type="submit">
+                <Icon name="upload" /> Upload{' '}
+              </Button>
             </Grid.Column>
           </Grid>
         </Form>

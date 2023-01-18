@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { api } from '@/api.js'
-import { Button, Grid, Form, Input } from 'semantic-ui-react'
+import { Button, Grid, Form, Input, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { sendNotification } from '@/utils.js'
 
@@ -82,7 +82,8 @@ class URLParse extends React.Component {
       submitButton = <Redirect to="/harvest" />
     } else {
       submitButton = (
-        <Button primary type="submit">
+        <Button primary fluid type="submit">
+          <Icon name="world" />
           Parse URL
         </Button>
       )
@@ -96,8 +97,8 @@ class URLParse extends React.Component {
           CERN opendata) and we&apos;ll try to find the record for you.
         </p>
         <Form onSubmit={this.handleSubmit}>
-          <Grid columns={2} stackable>
-            <Grid.Column width={12} verticalAlign="middle">
+          <Grid columns={3} stackable>
+            <Grid.Column width={13} verticalAlign="middle">
               <Form.Field
                 control={Input}
                 value={this.state.url}
@@ -106,7 +107,7 @@ class URLParse extends React.Component {
                 placeholder="https://cds.cern.ch/record/2798105/"
               />
             </Grid.Column>
-            <Grid.Column verticalAlign="bottom" width={4}>
+            <Grid.Column verticalAlign="bottom" width={3}>
               {submitButton}
             </Grid.Column>
           </Grid>
