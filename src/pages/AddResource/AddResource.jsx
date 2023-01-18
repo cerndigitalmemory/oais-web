@@ -24,16 +24,24 @@ export class AddResource extends React.Component {
           <Grid.Column>
             <h1>Add Resource</h1>
             <p>
-              This page allows you to create a new Archive by uploading (or
-              searching for) the source record from a number of supported
-              digital repositories.
+              Here you can find different ways to import data into the platform
+              to start its long term preservation process.
             </p>
           </Grid.Column>
         </Grid.Row>
+        
         <Grid.Row>
           <Grid.Column>
             <Segment>
               <Harvest redirectURL="/harvest" />
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row>
+          <Grid.Column>
+            <Segment>
+              <URLParse />
             </Segment>
           </Grid.Column>
         </Grid.Row>
@@ -48,13 +56,6 @@ export class AddResource extends React.Component {
           <Grid.Column>
             <Segment>
               <UploadFolder />
-            </Segment>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <Segment>
-              <URLParse />
             </Segment>
           </Grid.Column>
         </Grid.Row>

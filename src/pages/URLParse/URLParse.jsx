@@ -91,7 +91,7 @@ class URLParse extends React.Component {
 
     return (
       <React.Fragment>
-        <h1>URL Harvest</h1>
+        <h1>Harvest from URL</h1>
         <p>
           Enter a URL from the supported digital repositories (CDS, Invenio,
           CERN opendata) and we&apos;ll try to find the record for you.

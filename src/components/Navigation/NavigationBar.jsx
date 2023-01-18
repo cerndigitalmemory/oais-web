@@ -461,7 +461,7 @@ class NavBarChildren extends React.Component {
         <Container
           style={{
             paddingTop: '25px',
-            paddingBottom: '100px',
+            paddingBottom: '150px',
             minHeight: '93vh',
             z_index: 'auto',
             width: width,
