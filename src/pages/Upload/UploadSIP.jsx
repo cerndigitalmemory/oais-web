@@ -35,8 +35,27 @@ export class UploadSIP extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Upload SIP</h1>
-        <p>Upload a SIP from your local machine (as ZIP file) </p>
+        <h1>Upload Submission Bag</h1>
+        <p>
+          Upload a Submission Bag from your local machine (as a ZIP file). To
+          create such bags you can use the{' '}
+          <a
+            href="https://gitlab.cern.ch/digitalmemory/bagit-create"
+            target="_blank"
+            rel="noreferrer"
+          >
+            BagIt Create tool
+          </a>{' '}
+          or check the{' '}
+          <a
+            href="https://gitlab.cern.ch/digitalmemory/sip-spec"
+            target="_blank"
+            rel="noreferrer"
+          >
+            format specification
+          </a>
+          .
+        </p>
         <Form onSubmit={this.handleSubmit}>
           <Grid stackable columns={3}>
             <Grid.Column width={4} verticalAlign="middle">
