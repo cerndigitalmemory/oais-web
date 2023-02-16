@@ -42,22 +42,32 @@ export class Home extends React.Component {
       <React.Fragment>
         <h1>
           {' '}
-          <center>Welcome to Preserve, the CERN Digital Memory Platform </center>
+          <center>
+            Welcome to Preserve, the CERN Digital Memory Platform{' '}
+          </center>
         </h1>
         <Container textAlign="center">
           {' '}
           <span className="frontText">
-            This service allows to retrieve your digital
-            assets from CERN digital repositories and request
-            their archival preparing them for the long term preservation, following the <a href="https://public.ccsds.org/Pubs/650x0m2.pdf">OAIS specifications</a>.
-            <br></br>
+            This service allows to retrieve your digital assets from CERN
+            digital repositories, request their archival and prepare them for
+            long term preservation, complying to the{' '}
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://public.ccsds.org/Pubs/650x0m2.pdf"
+            >
+              OAIS specifications
+            </a>
+            .<br></br>
             <br></br>
             <Grid.Row>
               <Grid.Column width={16}>
                 {!isLoggedIn && (
                   <Message color="yellow">
                     <Message.Header>Warning</Message.Header>
-                    The platform is in pre-production state. <br></br>Requesting new archives is currently limited to CERN Record Officers.{' '}
+                    The platform is in pre-production state. <br></br>Requesting
+                    new archives is currently limited to CERN Record Officers.{' '}
                     <br></br>
                     <small>
                       Contact us at digital.memory (at) cern.ch or open a{' '}
@@ -81,30 +91,46 @@ export class Home extends React.Component {
           <React.Fragment>
             {this.state.showInstructionsMessage && (
               <div>
-                <Header as="h2" icon textAlign="center">
-                  <Header.Content>Getting Started</Header.Content>
-                </Header>
-                <HomeInstructions
-                  showInstructionsMessage={this.state.showInstructionsMessage}
-                  handleInstructionMessage={this.closeMessage}
-                />
+                <div>
+                  <Header as="h2" icon textAlign="center">
+                    <Header.Content>Features overview</Header.Content>
+                  </Header>
+                  <OverviewPanels
+                    showInstructionsMessage={this.state.showInstructionsMessage}
+                    handleInstructionMessage={this.closeMessage}
+                  />
+                </div>
+                <br></br>
+                <br></br>
+                <div>
+                  <Header as="h2" icon textAlign="center">
+                    <Header.Content>Harvest Data</Header.Content>
+                  </Header>
+                  <HomeInstructions
+                    showInstructionsMessage={this.state.showInstructionsMessage}
+                    handleInstructionMessage={this.closeMessage}
+                  />
+                </div>
               </div>
             )}
             <Header as="h2" icon textAlign="center">
               <Header.Content>Sources availability</Header.Content>
             </Header>
             <Container textAlign="center">
-              Here&#39;s an overview of the available repositories to search form.
-              Some of them may need additional
+              Here&#39;s an overview of the available repositories to harvest
+              from. Some of them may need additional
               <Link to="settings">
                 {' '}
-                 <b>configuration</b>
-              </Link>{' '}.
-              
-            <div style={{marginTop: 10 + 'px'}}>
-            <SourceStatusList/>
-            </div>
-            <small>Support for additional repositories is work in progress</small>.
+                <b>configuration</b>
+              </Link>{' '}
+              .
+              <div style={{ marginTop: 10 + 'px' }}>
+                <SourceStatusList />
+              </div>
+              <small>
+                Support for additional repositories is work in progress
+              </small>
+              .
             </Container>
             <br></br>
           </React.Fragment>
@@ -216,11 +242,55 @@ export class HomeInstructions extends React.Component {
   }
 }
 
+export class OverviewPanels extends React.Component {
+  static propTypes = {
+    showInstructionsMessage: PropTypes.bool.isRequired,
+    handleInstructionMessage: PropTypes.func.isRequired,
+  }
+
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <Container>
+        <Grid columns={3} stackable>
+          <Grid.Row>
+            <HomeInstructionsColumn
+              instructionNumber={1}
+              title="Submit"
+              description="Users, systems and repositories can add data to the platform by depositing packages to the platform or harvesting records from supported CERN digital repositories."
+              linkTo="/add-resource/"
+              icon="plus"
+            />
+            <HomeInstructionsColumn
+              instructionNumber={2}
+              title="Preserve"
+              description="The platform will prepare the data for long term preservation, creating Archival and Dissemination packages and saving them on the CERN Tape Archive."
+              linkTo="/archives/"
+              icon="archive"
+            />
+            <HomeInstructionsColumn
+              instructionNumber={3}
+              title="Access"
+              description="Preserved data is finally published on our public Registry, where it can be discovered and browsed by everyone."
+              extLink="https://oais-registry.web.cern.ch/"
+              icon="world"
+            />
+          </Grid.Row>
+        </Grid>
+      </Container>
+    )
+  }
+}
+
 export class HomeInstructionsColumn extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    linkTo: PropTypes.string.isRequired,
+    linkTo: PropTypes.string.isOptional,
+    extLink: PropTypes.string.isOptional,
     icon: PropTypes.string.isRequired,
     instructionNumber: PropTypes.number.isRequired,
   }
@@ -231,8 +301,8 @@ export class HomeInstructionsColumn extends React.Component {
 
   render() {
     return (
-      <Grid.Column textAlign="center" className='incolumn'>
-        <Segment className='instructionBox'>
+      <Grid.Column textAlign="center" className="incolumn">
+        <Segment className="instructionBox">
           <Grid.Row>
             <Header as="h2">{this.props.instructionNumber}</Header>
           </Grid.Row>
@@ -243,9 +313,28 @@ export class HomeInstructionsColumn extends React.Component {
             <p>{this.props.description}</p>
           </Grid.Row>
           <Grid.Row>
-            <Link to={this.props.linkTo}>
-            <Button content={this.props.title} icon={this.props.icon} labelPosition='right' />
-            </Link>
+            {this.props.extLink ? (
+              <React.Fragment>
+                <a href={this.props.extLink} target="_blank" rel="noreferrer">
+                  <Button
+                    content={this.props.title}
+                    icon={this.props.icon}
+                    labelPosition="right"
+                  />
+                </a>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Link to={this.props.linkTo}>
+                  <Button
+                    content={this.props.title}
+                    icon={this.props.icon}
+                    labelPosition="right"
+                    href={this.props.extLink}
+                  />
+                </Link>
+              </React.Fragment>
+            )}
           </Grid.Row>
         </Segment>
       </Grid.Column>
