@@ -3,6 +3,7 @@ import { PageControls } from '@/pages/Archives/PageControls.jsx'
 import { sendNotification } from '@/utils.js'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Loader } from 'semantic-ui-react'
 
 /**
@@ -75,6 +76,21 @@ export class PaginatedArchivesList extends React.Component {
             archives={archives}
             onArchiveUpdate={this.handleArchiveUpdate}
           />
+        )}
+        {totalArchives == 0 && (
+          <div>
+            {' '}
+            No archives found. <Link to="add-resource">Add some</Link> or browse
+            the public ones on the{' '}
+            <a
+              href="https://oais-registry.web.cern.ch/"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Digital Memory registry
+            </a>
+            .
+          </div>
         )}
         {totalArchives > archivesPerPage && (
           <div>
