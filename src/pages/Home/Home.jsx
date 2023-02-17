@@ -264,7 +264,7 @@ export class OverviewPanels extends React.Component {
             <HomeInstructionsColumn
               instructionNumber={1}
               title="Submit"
-              description="Users, systems and repositories can add data to the platform by depositing packages to the platform or harvesting records from supported CERN digital repositories."
+              description="Users can trigger harvesting of records from supported CERN digital repositories."
               linkTo="/add-resource/"
               icon="plus"
             />
@@ -278,7 +278,7 @@ export class OverviewPanels extends React.Component {
             <HomeInstructionsColumn
               instructionNumber={3}
               title="Access"
-              description="Preserved data is finally published on our public Registry, where it can be discovered and browsed by everyone."
+              description="Processed data is finally recorded in our Preservation Registry, where it is available to the authorized people."
               extLink="https://oais-registry.web.cern.ch/"
               icon="world"
             />
