@@ -95,6 +95,7 @@ export class Home extends React.Component {
                   <Header as="h2" icon textAlign="center">
                     <Header.Content>Features overview</Header.Content>
                   </Header>
+
                   <OverviewPanels
                     showInstructionsMessage={this.state.showInstructionsMessage}
                     handleInstructionMessage={this.closeMessage}
@@ -106,6 +107,13 @@ export class Home extends React.Component {
                   <Header as="h2" icon textAlign="center">
                     <Header.Content>Harvest Data</Header.Content>
                   </Header>
+                  <Container textAlign="center">
+                    {' '}
+                    <span>
+                      Here&#39;s how to get started and make the platform
+                      retrieve records from CERN supported repositories for you.
+                    </span>
+                  </Container>
                   <HomeInstructions
                     showInstructionsMessage={this.state.showInstructionsMessage}
                     handleInstructionMessage={this.closeMessage}
@@ -119,11 +127,7 @@ export class Home extends React.Component {
             <Container textAlign="center">
               Here&#39;s an overview of the available repositories to harvest
               from. Some of them may need additional
-              <Link to="settings">
-                {' '}
-                <b>configuration</b>
-              </Link>{' '}
-              .
+              <Link to="settings"> configuration</Link>.
               <div style={{ marginTop: 10 + 'px' }}>
                 <SourceStatusList />
               </div>

@@ -115,8 +115,6 @@ class SearchForm extends React.Component {
             <Button
               icon
               labelPosition="left"
-              
-              
               value="cds"
               onClick={this.handleSourceButton}
             >
@@ -128,8 +126,6 @@ class SearchForm extends React.Component {
             <Button
               icon
               labelPosition="left"
-    
-              
               value="indico"
               onClick={this.handleSourceButton}
             >
@@ -151,7 +147,7 @@ class SearchForm extends React.Component {
     } else {
       submitButton = (
         <Button primary fluid>
-          <Icon name='search' />
+          <Icon name="search" />
           Search
         </Button>
       )
