@@ -34,6 +34,7 @@ export const StepName = {
   ARCHIVE: 5,
   EDIT_MANIFEST: 6,
   ANNOUNCE: 8,
+  PUSH_SIP_TO_CTA: 9,
 }
 
 export const StepNameLabel = {
@@ -45,6 +46,7 @@ export const StepNameLabel = {
   [StepName.ARCHIVE]: 'Upload to AM',
   [StepName.EDIT_MANIFEST]: 'Edit Manifest',
   [StepName.ANNOUNCE]: 'Announce',
+  [StepName.PUSH_SIP_TO_CTA]: 'Push SIP to CTA',
 }
 
 export const SourceStatus = {

@@ -202,10 +202,10 @@ class Step extends React.Component {
     let downloadButton
     if (artifact && renderDownloadButton) {
       let downloadLink = ''
-      if (artifact.artifact_name != 'Invenio Link') {
-        downloadLink = '/api/steps/' + step.id + '/download-artifact'
-      } else {
+      if (artifact.artifact_name == 'Invenio Link' || artifact.artifact_name == 'FTS Job') {
         downloadLink = artifact.artifact_url
+      } else {
+        downloadLink = '/api/steps/' + step.id + '/download-artifact'
       }
       downloadButton = (
         <Button
