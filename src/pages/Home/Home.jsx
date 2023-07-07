@@ -265,7 +265,7 @@ export class OverviewPanels extends React.Component {
               instructionNumber={1}
               title="Submit"
               description="Users can trigger harvesting of records from supported CERN digital repositories."
-              linkTo="/add-resource/"
+              linkTo="/add-resource"
               icon="plus"
             />
             <HomeInstructionsColumn

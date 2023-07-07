@@ -17,7 +17,10 @@ import { Link, Redirect } from 'react-router-dom'
 class Harvest extends React.Component {
   static contextType = AppContext.Context
   static propTypes = {
-    redirectURL: PropTypes.string, // a url to a page to redirect after the search is made
+    // This allows the search to (optionally) "land" on another page 
+    // (useful for example when the search is executed from a widget clicking 
+    // the Search button should bring the user to a dedicated Harvest/Search page)
+    redirectURL: PropTypes.string,
   }
 
   state = {
@@ -101,10 +104,13 @@ class Harvest extends React.Component {
         // Auto populate query and source with the redux values
         this.handleQueryChange(this.props.query)
         this.handleSourceChange(this.props.source)
-      }
-    } else if (this.props.location.state) {
-      if (this.props.location.state.referrer == '/add-resource') {
-        this.handleSearch(this.props.source, this.props.query)
+      } 
+    }
+    if (typeof this.props.location !== 'undefined' && this.props.location.state) {
+        // If we're coming from the "add resource" execute the search immediatly so
+        //  we avoid making the user clicking again
+        if (this.props.location.state.referrer == '/add-resource') {
+          this.handleSearch(this.props.source, this.props.query)
       }
     }
   }
