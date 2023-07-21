@@ -94,7 +94,7 @@ class Collection extends React.Component {
       >
         <Header icon="archive" content="Delete tag" />
         <Modal.Content>
-          <p>Are you sure you want to delete this tag? It will be removed from any archive it was previously applied to.</p>
+          <p>Are you sure you want to delete this tag? It will be removed from any archive it is currently applied to.</p>
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={() => this.setOpen(false)}>
