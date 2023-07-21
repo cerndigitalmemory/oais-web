@@ -247,10 +247,6 @@ class API {
     return await this._get('/users/me/sources')
   }
 
-  async getArchiveLabelInfo() {
-    return await this._get('/get-archive-information-labels/')
-  }
-
   async unstageArchive(id) {
     return await this._get(`/archives/${id}/unstage`)
   }

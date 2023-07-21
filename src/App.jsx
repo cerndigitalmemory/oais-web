@@ -15,11 +15,14 @@ export class App extends React.Component {
   }
 
   getNavbarLabels = async () => {
-    // Gets the staged records and populates the label above the staged records menu when the page is loaded
-    const archiveLables = await api.getArchiveLabelInfo()
+    /*
+    Let's fetch the staged archives for the user so we can (optionally)
+    show the "Staged Archive" menu entry with the number
+    */
+    const StagedArchivesList = await api.stagedArchives()
 
-    if (archiveLables) {
-      AppContext.setStaged(archiveLables.staged)
+    if (StagedArchivesList) {
+      AppContext.setStaged(StagedArchivesList.length)
     } else {
       AppContext.setStaged(0)
     }
