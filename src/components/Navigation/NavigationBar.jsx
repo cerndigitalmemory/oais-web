@@ -494,6 +494,7 @@ class NavBarChildren extends React.Component {
             <Route path="/login/callback" component={LoginCallback} />
             <Route path="/logout" component={Logout} />
             <Route path="/login" component={Login} />
+            <Route path="/extended-login" component={Login} />
             <Route path="/">
               <Home />
             </Route>
