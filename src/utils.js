@@ -106,8 +106,12 @@ export function getCookie(name) {
 
 export async function getNavbarLabels() {
   /*
-  Let's fetch the staged archives for the user so we can (optionally)
+  Fetch the staged archives for the user so we can (optionally)
   show the "Staged Archive" menu entry with the number
+
+  This is wrapped in a try catch block because we may call this
+  when we still don't know if we're authenticated or not
+  (e.g. in the App wrapper before logging in)
   */
   try {
     const StagedArchivesList = await api.stagedArchives()
