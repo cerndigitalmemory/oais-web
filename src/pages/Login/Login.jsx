@@ -13,6 +13,7 @@ import {
   Header,
 } from 'semantic-ui-react'
 import { Redirect } from 'react-router'
+import { getNavbarLabels } from '@/utils.js'
 
 export class Login extends React.Component {
   static propTypes = {
@@ -46,6 +47,9 @@ export class Login extends React.Component {
     try {
       const user = await api.login(this.state.username, this.state.password)
       AppContext.setUser(user)
+      // This will get the navbar labels ready for after the redirection
+      getNavbarLabels()
+      
     } catch (e) {
       sendNotification('Error while logging in', e.message, 'error')
     } finally {
