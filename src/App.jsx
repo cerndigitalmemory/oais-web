@@ -1,6 +1,7 @@
 import { AppContext } from '@/AppContext.js'
 import { NavigationBar } from '@/components/Navigation/NavigationBar.jsx'
 import { api } from '@/api.js'
+import { getNavbarLabels } from '@/utils.js'
 import React from 'react'
 
 export class App extends React.Component {
@@ -11,26 +12,16 @@ export class App extends React.Component {
 
   componentDidMount() {
     AppContext.init(this.setState.bind(this))
-    this.getNavbarLabels()
+    // This gets the navbar labels after a full refresh (or a new instance)
+    // while the user is authenticated (not going through the)
+    getNavbarLabels()
   }
 
-  getNavbarLabels = async () => {
-    /*
-    Let's fetch the staged archives for the user so we can (optionally)
-    show the "Staged Archive" menu entry with the number
-    */
-    const StagedArchivesList = await api.stagedArchives()
 
-    if (StagedArchivesList) {
-      AppContext.setStaged(StagedArchivesList.length)
-    } else {
-      AppContext.setStaged(0)
-    }
-  }
 
   render() {
     const { notifications } = this.state
-
+    console.log(this.state)
     return (
       <AppContext.Context.Provider value={this.state}>
         <div id="app">

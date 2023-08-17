@@ -1,5 +1,6 @@
 import { AppContext } from '@/AppContext.js'
 import moment from 'moment'
+import { api } from '@/api.js'
 
 /**
  * General purpose utility functions, used across the application.
@@ -101,4 +102,21 @@ export function getCookie(name) {
     }
   }
   return cookieValue
+}
+
+export async function getNavbarLabels() {
+  /*
+  Let's fetch the staged archives for the user so we can (optionally)
+  show the "Staged Archive" menu entry with the number
+  */
+  try {
+    const StagedArchivesList = await api.stagedArchives()
+    if (StagedArchivesList) {
+      AppContext.setStaged(StagedArchivesList.length)
+    } else {
+      AppContext.setStaged(0)
+    }
+  } catch (err) {
+    AppContext.setStaged(0)
+  }
 }
