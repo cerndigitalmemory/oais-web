@@ -113,3 +113,7 @@ code {
 a {
   color: #0058af;
 }
+
+.ui.segments .segment, .ui.segment {
+  font-size: 1.15rem;
+}

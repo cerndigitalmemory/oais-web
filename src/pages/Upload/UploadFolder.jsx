@@ -46,7 +46,7 @@ export class UploadFolder extends React.Component {
     return (
       <React.Fragment>
         <h1>Upload folder</h1>
-        <p>Upload files and folders from your local machine </p>
+        <p>Upload files and folders from your local machine.</p>
         <Form onSubmit={this.handleSubmit}>
           <Grid stackable columns={3}>
             <Grid.Column width={4} verticalAlign="middle">

@@ -333,7 +333,7 @@ class Harvest extends React.Component {
         <p>
           Search for records and documents from various CERN digital
           repositories (e.g. CDS, Invenio, Indico) and let the platform harvest
-          the record for you
+          the record for you.
         </p>
         <SearchForm
           sources={['cds', 'indico', 'codimd', 'zenodo']}
