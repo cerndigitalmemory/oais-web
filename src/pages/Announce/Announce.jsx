@@ -71,7 +71,7 @@ export class Announce extends React.Component {
 
     return (
       <React.Fragment>
-        <h1>Announce</h1>
+        <h1>Announce Submission Bag</h1>
         <p>
           If you already uploaded your SIP on EOS, you can add it to the
           platform by entering its absolute path here. Make sure you have

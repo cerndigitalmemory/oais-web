@@ -22,14 +22,14 @@ export class AddResource extends React.Component {
       <Grid>
         <Grid.Row>
           <Grid.Column>
-            <h1>Add Resource</h1>
+            <h1>Add resource</h1>
             <p>
               Here you can find different ways to import data into the platform
               to start its long term preservation process.
             </p>
           </Grid.Column>
         </Grid.Row>
-        
+
         <Grid.Row>
           <Grid.Column>
             <Segment>
@@ -45,17 +45,24 @@ export class AddResource extends React.Component {
             </Segment>
           </Grid.Column>
         </Grid.Row>
+
         <Grid.Row>
           <Grid.Column>
             <Segment>
-              <UploadSIP />
+              <UploadFolder />
             </Segment>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
+            <h1>Advanced features</h1>
+            <p>Here are some more advanced workflows to submit your data.</p>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
             <Segment>
-              <UploadFolder />
+              <UploadSIP />
             </Segment>
           </Grid.Column>
         </Grid.Row>
